@@ -1,29 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web App</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>โรงพยาบาลค่ายจิรประวัติ</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .fill-height {
+      height: 100vh;
+    }
+    .patient-type {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .mdi-icon {
+      font-size: 2rem;
+    }
+    .button {
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>My Web App</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <!-- ลิงค์เมนูอื่น ๆ -->
-        </nav>
-    </header>
+  <div class="container-fluid fill-height">
+    <div class="row">
+      <div class="col-12">
+        <h1>หน้าสรุปผล</h1>
+      </div>
+    </div>
 
-    <main>
-        <h1>Welcome to My Web App</h1>
-        <p>This is the home page of my web application.</p>
-    </main>
+    <div class="row">
+      <div class="col-12 col-md-9">
+        <div class="card ca1">
+          <div class="card-body">
+            <h4>ประเภทผู้ป่วย</h4>
+            <div class="row">
+              <!-- Example patient type card -->
+              <div class="col-6 col-md-4 mb-3">
+                <div class="card patient-type text-center">
+                  <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <div class="mdi-icon">📊</div>
+                    <h5 class="card-title">Type Title</h5>
+                    <p class="card-text">
+                      <div>ประชาชน: 10</div>
+                      <div>ครอบครัว: 5</div>
+                      <div>กำลังพล: 3</div>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- Add more patient type cards as needed -->
+            </div>
+            <div class="row">
+              <div class="col-12 text-right">
+                <button class="btn btn-primary button">ดูเพิ่มเติม</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">การแจ้งเตือน</h4>
+            <ul class="list-group">
+              <!-- Example notification -->
+              <li class="list-group-item">
+                <div class="d-flex">
+                  <img src="https://randomuser.me/api/portraits/women/81.jpg" class="rounded-circle mr-3" alt="User" style="width: 50px;">
+                  <div>
+                    <h5 class="mb-1">User Name</h5>
+                    <p class="mb-1">Notification Message</p>
+                  </div>
+                </div>
+              </li>
+              <!-- Add more notifications as needed -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <footer>
-        <p>&copy; 2024 My Web App. All rights reserved.</p>
-    </footer>
-    
-    <script src="script.js"></script>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">สถิติของประเภทผู้ป่วย</h4>
+            <div class="card-text">
+              <!-- Chart Component Placeholder -->
+              <div>Chart Placeholder</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">กราฟแสดงสถิติของกลุ่มผู้ป่วย</h4>
+            <div class="card-text">
+              <!-- Chart Component Placeholder -->
+              <div>Chart Placeholder</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">อันดับสาเหตุของการขาดนัด</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>อันดับ</th>
+                  <th>สาเหตุที่ผู้ป่วยไม่มา</th>
+                  <th>ความถี่</th>
+                  <th>เปอร์เซ็นต์</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Example reason row -->
+                <tr>
+                  <td>1</td>
+                  <td>Reason Text</td>
+                  <td>
+                    <div class="progress">
+                      <div class="progress-bar bg-blue" style="width: 70%; height: 10px;"></div>
+                    </div>
+                  </td>
+                  <td>70%</td>
+                </tr>
+                <!-- Add more reason rows as needed -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">สถานะการติดตามล่าสุด</h4>
+            <div class="card-text">
+              <!-- Example status progress -->
+              <div class="mb-2">
+                <div class="progress">
+                  <div class="progress-bar bg-success" style="width: 60%; height: 20px;">
+                    <strong>ติดตาม: 60%</strong>
+                  </div>
+                </div>
+              </div>
+              <div>150 คน</div>
+              <div>19 - 25 กุมภาพันธ์ 2567</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">สถานะการรักษาล่าสุด</h4>
+            <div class="card-text">
+              <!-- Example treatment status progress -->
+              <div class="mb-2">
+                <div class="progress">
+                  <div class="progress-bar bg-warning" style="width: 40%; height: 20px;">
+                    <strong>รักษา: 40%</strong>
+                  </div>
+                </div>
+              </div>
+              <div>60 คน</div>
+              <div>19 - 25 กุมภาพันธ์ 2567</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
