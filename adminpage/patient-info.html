@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <nav class="main-menu">
+        <div class="logo-container">
+            <a href="#">
+                <img src="assets/images/logo.jpg" alt="logo.jpg">
+            </a>
+        </div>
+        <ul>
+            <li>
+                <a href="adminpage/dasboard.html">
+                    <i class="fa fa-home fa-2x"></i>
+                    <span class="nav-text">หน้าหลัก</span>
+                </a>
+            </li>
+            <li class="has-subnav">
+                <a href="adminpage/patient-info.html">
+                    <i class="fa fa-info-circle "></i>
+                    <span class="nav-text">จัดการข้อมูลผู้ป่วย</span>
+                </a>
+            </li>
+            <li class="has-subnav">
+                <a href="adminpage/staff-info.html">
+                    <i class="fa fa-chart-line "></i>
+                    <span class="nav-text">สถานะและการติดตาม</span>
+                </a>
+            </li>
+            <li class="has-subnav">
+                <a href="adminpage/staff-info.html">
+                    <i class="fa fa-users "></i>
+                    <span class="nav-text">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
+                </a>
+            </li>
+            <ul class="has-subnav">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-sign-out-alt fa-2x"></i>
+                        <span class="nav-text">ออกจากระบบ</span>
+                    </a>
+                </li> 
+            </ul>
+        </ul>
+    </nav>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Information</title>
+</head>
+<body>
+
+    <div class="search-bar">
+        <input type="search" placeholder="ค้นหาชื่อ...">
+        <input type="search" placeholder="เบอร์โทรศัพท์...">
+        <input type="search" placeholder="เลขบัตรประชาชน...">
+        <input type="search" placeholder="เบอร์โทรศัพท์ญาติ...">
+        <select>
+            <option>สถานะผู้ป่วย</option>
+            <option>รักษาพยาบาล</option>
+            <option>รอการรักษา</option>
+        </select>
+        <button>ค้นหา</button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ชื่อ - นามสกุล</th>
+                    <th>วันเกิด</th>
+                    <th>เลขบัตรประชาชน</th>
+                    <th>เบอร์โทรศัพท์</th>
+                    <th>เบอร์โทรศัพท์ญาติ</th>
+                    <th>สถานะการรักษา</th>
+                    <th>การกระทำ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="profile-icon.png" alt="Profile Image"> นางสาวสิมนว ช่างทอง</td>
+                    <td>06-06-1989</td>
+                    <td>1666666666666</td>
+                    <td>0600005222</td>
+                    <td>0600005222</td>
+                    <td><span style="color: #ff5e5e;">นัดหมายเพื่อรักษา</span></td>
+                    <td class="table-actions">
+                        <button class="edit-btn">แก้ไข</button>
+                        <button class="delete-btn">ลบ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><img src="profile-icon.png" alt="Profile Image"> นางสุมาลี มากมีสุข</td>
+                    <td>06-06-1989</td>
+                    <td>1666666666666</td>
+                    <td>0600005222</td>
+                    <td>0600005222</td>
+                    <td><span style="color: #008cba;">รักษาเสร็จสิ้น</span></td>
+                    <td class="table-actions">
+                        <button class="edit-btn">แก้ไข</button>
+                        <button class="delete-btn">ลบ</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f8fc;
+            margin: 0;
+            padding: 20px;
+        }
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-bar input, .search-bar select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            width: 100%;
+        }
+        .search-bar input[type="search"] {
+            width: calc(100% - 50px);
+        }
+        .search-bar button {
+            background-color: #008cba;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .table-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background-color: #f1f3f6;
+        }
+        .table-actions button {
+            background-color: #ff5e5e;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .edit-btn {
+            background-color: #ffc107;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+        }
+    </style>
+</body>
+</html>

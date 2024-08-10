@@ -1,190 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>โรงพยาบาลค่ายจิรประวัติ</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .fill-height {
-      height: 100vh;
-    }
-    .patient-type {
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-    .mdi-icon {
-      font-size: 2rem;
-    }
-    .button {
-      margin-top: 1rem;
-    }
-  </style>
-</head>
-<body>
-  <div class="container-fluid fill-height">
-    <div class="row">
-      <div class="col-12">
-        <h1>หน้าสรุปผล</h1>
-      </div>
+<!-- Created by CodingLab |www.youtube.com/CodingLabYT-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title> โรงพยาบาลค่ายจิรประวัติ </title>
+    <link rel="stylesheet" href="css/menu.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body style="background-color:rgb(255, 255, 255);">
+  <div class="sidebar">
+    <div class="logo-details">
+      <!-- <i class='bx bxl-c-plus-plus icon'></i> -->
+      <!-- assent logo -->
+      <img src="assets/images/chiralogo.jpg" alt="chiralogo.jpg" class="logo-image" >
+        <div class="logo_name">โรงพยาบาลค่ายจิรประวัติ</div>
+        <i class='bx bx-menu' id="btn" ></i>
     </div>
-
-    <div class="row">
-      <div class="col-12 col-md-9">
-        <div class="card ca1">
-          <div class="card-body">
-            <h4>ประเภทผู้ป่วย</h4>
-            <div class="row">
-              <!-- Example patient type card -->
-              <div class="col-6 col-md-4 mb-3">
-                <div class="card patient-type text-center">
-                  <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                    <div class="mdi-icon">📊</div>
-                    <h5 class="card-title">Type Title</h5>
-                    <p class="card-text">
-                      <div>ประชาชน: 10</div>
-                      <div>ครอบครัว: 5</div>
-                      <div>กำลังพล: 3</div>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <!-- Add more patient type cards as needed -->
-            </div>
-            <div class="row">
-              <div class="col-12 text-right">
-                <button class="btn btn-primary button">ดูเพิ่มเติม</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">การแจ้งเตือน</h4>
-            <ul class="list-group">
-              <!-- Example notification -->
-              <li class="list-group-item">
-                <div class="d-flex">
-                  <img src="https://randomuser.me/api/portraits/women/81.jpg" class="rounded-circle mr-3" alt="User" style="width: 50px;">
-                  <div>
-                    <h5 class="mb-1">User Name</h5>
-                    <p class="mb-1">Notification Message</p>
-                  </div>
-                </div>
-              </li>
-              <!-- Add more notifications as needed -->
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12 col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">สถิติของประเภทผู้ป่วย</h4>
-            <div class="card-text">
-              <!-- Chart Component Placeholder -->
-              <div>Chart Placeholder</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">กราฟแสดงสถิติของกลุ่มผู้ป่วย</h4>
-            <div class="card-text">
-              <!-- Chart Component Placeholder -->
-              <div>Chart Placeholder</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12 col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">อันดับสาเหตุของการขาดนัด</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>อันดับ</th>
-                  <th>สาเหตุที่ผู้ป่วยไม่มา</th>
-                  <th>ความถี่</th>
-                  <th>เปอร์เซ็นต์</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Example reason row -->
-                <tr>
-                  <td>1</td>
-                  <td>Reason Text</td>
-                  <td>
-                    <div class="progress">
-                      <div class="progress-bar bg-blue" style="width: 70%; height: 10px;"></div>
-                    </div>
-                  </td>
-                  <td>70%</td>
-                </tr>
-                <!-- Add more reason rows as needed -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-3">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">สถานะการติดตามล่าสุด</h4>
-            <div class="card-text">
-              <!-- Example status progress -->
-              <div class="mb-2">
-                <div class="progress">
-                  <div class="progress-bar bg-success" style="width: 60%; height: 20px;">
-                    <strong>ติดตาม: 60%</strong>
-                  </div>
-                </div>
-              </div>
-              <div>150 คน</div>
-              <div>19 - 25 กุมภาพันธ์ 2567</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-3">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">สถานะการรักษาล่าสุด</h4>
-            <div class="card-text">
-              <!-- Example treatment status progress -->
-              <div class="mb-2">
-                <div class="progress">
-                  <div class="progress-bar bg-warning" style="width: 40%; height: 20px;">
-                    <strong>รักษา: 40%</strong>
-                  </div>
-                </div>
-              </div>
-              <div>60 คน</div>
-              <div>19 - 25 กุมภาพันธ์ 2567</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ul class="nav-list">
+      <!--main menu -->
+      <li>
+        <a href="adminpage/dasboard.html">
+          <i class='bx bx-home' ></i>
+          <span class="links_name">หน้าหลัก</span>
+        </a>
+         <span class="tooltip">หน้าหลัก</span>
+      </li>
+      <!-- patient-info menu -->
+      <li>
+       <a href="adminpage/patient-info.html">
+        <i class='bx bx-error-circle'></i>
+         <span class="links_name">จัดการข้อมูลผู้ป่วย</span>
+       </a>
+       <span class="tooltip">จัดการข้อมูลผู้ป่วย</span>
+     </li>
+     <!-- statustracking menu -->
+     <li>
+      <a href="adminpage/statustracking.html">
+        <i class='bx bx-line-chart'></i>
+        <span class="links_name">สถานะและการติดตาม</span>
+      </a>
+      <span class="tooltip">สถานะและการติดตาม</span>
+    </li>
+     <!-- staff-info -->
+     <li>
+      <a href="adminpage/staff-info.html">
+        <i class='bx bx-group' ></i>
+        <span class="links_name">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
+      </a>
+      <span class="tooltip">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
+    </li>
+     <!-- log out menu -->
+     <li>
+      <a href="adminpage/login.html">
+          <i class='bx bx-log-out' ></i>
+        <span class="links_name">ออกจากระบบ</span>
+      </a>
+       <span class="tooltip">ออกจากระบบ</span>
+    </li>
+    </ul>
   </div>
 
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <section class="home-section"> 
+      <nav>
+          <div class="sidebar-button">
+          <span class="text">หน้าหลัก</span>
+        </div>
+        <div class="profile-details">
+          <img src="assets/images/cat.jpg" alt="profile-details">
+          <span class="admin_name">Admin</span>
+          <i class='bx bx-chevron-down' ></i>
+        </div>
+      </nav>
+  </section>
+   
+  <script>
+  let sidebar = document.querySelector(".sidebar");
+  let closeBtn = document.querySelector("#btn");
+  let searchBtn = document.querySelector(".bx-search");
+
+  closeBtn.addEventListener("click", ()=>{
+    sidebar.classList.toggle("open");
+    menuBtnChange();//calling the function(optional)
+  });
+
+  searchBtn.addEventListener("click", ()=>{ // Sidebar open when you click on the search iocn
+    sidebar.classList.toggle("open");
+    menuBtnChange(); //calling the function(optional)
+  });
+
+  // following are the code to change sidebar button(optional)
+  function menuBtnChange() {
+   if(sidebar.classList.contains("open")){
+     closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+   }else {
+     closeBtn.classList.replace("bx-menu-alt-right","bx-menu");//replacing the iocns class
+   }
+  }
+  </script>
 </body>
 </html>
