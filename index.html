@@ -21,15 +21,23 @@
     <ul class="nav-list">
       <!--main menu -->
       <li>
-        <a href="adminpage/dasboard.html">
+        <a href="frontend/adminpage/dasboard.html">
           <i class='bx bx-home' ></i>
           <span class="links_name">หน้าหลัก</span>
         </a>
          <span class="tooltip">หน้าหลัก</span>
       </li>
+      <!--ทดสอบ menu -->
+      <li>
+        <a href="frontend/adminpage/testdatabase.html">
+          <i class='bx bx-home' ></i>
+          <span class="links_name">ทดสอบ</span>
+        </a>
+         <span class="tooltip">ทดสอบ</span>
+      </li>
       <!-- patient-info menu -->
       <li>
-       <a href="adminpage/patient-info.html">
+       <a href="frontend/adminpage/patient-info.html">
         <i class='bx bx-error-circle'></i>
          <span class="links_name">จัดการข้อมูลผู้ป่วย</span>
        </a>
@@ -37,7 +45,7 @@
      </li>
      <!-- statustracking menu -->
      <li>
-      <a href="adminpage/statustracking.html">
+      <a href="frontend/adminpage/statustracking.html">
         <i class='bx bx-line-chart'></i>
         <span class="links_name">สถานะและการติดตาม</span>
       </a>
@@ -45,7 +53,7 @@
     </li>
      <!-- staff-info -->
      <li>
-      <a href="adminpage/staff-info.html">
+      <a href="frontend/adminpage/staff-info.html">
         <i class='bx bx-group' ></i>
         <span class="links_name">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
       </a>
@@ -53,7 +61,7 @@
     </li>
      <!-- log out menu -->
      <li>
-      <a href="adminpage/login.html">
+      <a href="frontend/adminpage/login.html">
           <i class='bx bx-log-out' ></i>
         <span class="links_name">ออกจากระบบ</span>
       </a>
@@ -61,20 +69,19 @@
     </li>
     </ul>
   </div>
-
   <section class="home-section"> 
-      <nav>
-          <div class="sidebar-button">
-          <span class="text">หน้าหลัก</span>
-        </div>
-        <div class="profile-details">
-          <img src="assets/images/cat.jpg" alt="profile-details">
-          <span class="admin_name">Admin</span>
-          <i class='bx bx-chevron-down' ></i>
-        </div>
-      </nav>
-  </section>
-   
+    <nav>
+        <div class="sidebar-button">
+        <span class="text">หน้าหลัก</span>
+      </div>
+      <div class="profile-details">
+        <img src="assets/images/cat.jpg" alt="profile-details">
+        <span class="admin_name">Admin</span>
+        <i class='bx bx-chevron-down' ></i>
+      </div>
+    </nav>
+</section>
+  
   <script>
   let sidebar = document.querySelector(".sidebar");
   let closeBtn = document.querySelector("#btn");

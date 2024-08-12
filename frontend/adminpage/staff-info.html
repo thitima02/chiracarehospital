@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef1f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #e0e5ec;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input, .search-bar select, .search-bar button {
+    flex: 1 1 calc(20% - 10px);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.search-bar button {
+    flex: 1 1 calc(15% - 10px);
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+.search-bar select {
+    flex: 1 1 calc(25% - 10px);
+}
+
+        .table-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        table th {
+            background-color: #f9fbfc;
+            color: #333;
+            font-weight: 600;
+        }
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+        table img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .table-actions button {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .edit-btn {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .edit-btn:hover {
+            background-color: #e0a800;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        @media (max-width: 768px) {
+            .search-bar input, .search-bar select {
+                width: 100%;
+            }
+            .search-bar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="search-bar">
+        <input type="search" placeholder="ค้นหาชื่อ...">
+        <input type="search" placeholder="เขตรับผิดชอบ...">
+        <input type="search" placeholder="เลขบัตรประชาชน...">
+        <input type="search" placeholder="เบอร์โทรศัพท์...">
+        <input type="search" placeholder="สถานะ...">
+        <select>
+            <option>สถานะ</option>
+            <option>อาสาสมัครสาธารณสุข</option>
+            <option>เสนารักษา</option>
+        </select>
+        <button>ค้นหา</button>
+        <button>เพิ่ม</button>   
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ชื่อ - นามสกุล</th>
+                    <th>สถานะ</th>
+                    <th>เขตที่รับผิดชอบ</th>
+                    <th>ไลน์ไอดี(LINE ID)</th>
+                    <th>เลขบัตรประชาชน</th>
+                    <th>เบอร์โทรศัพท์</th>
+                    <th>แก้ไขเพิ่มเติม</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="assets/images/cat.jpg" alt="Profile Image"> นายนิรนาม มือที่สาม</td>
+                    <td>อาสาสมัครสาธารณสุข</td>
+                    <td>9</td>
+                    <td>niranam</td>
+                    <td>9999999999999</td>
+                    <td>0999999999</td>
+                    <td class="table-actions">
+                        <button class="edit-btn">แก้ไข</button>
+                        <button class="delete-btn">ลบ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><img src="assets/images/cat.jpg" alt="Profile Image"> นายส้ม สามสี</td>
+                    <td>อาสาสมัครสาธารณสุข</td>
+                    <td>5</td>
+                    <td>som</td>
+                    <td>9999999999999</td>
+                    <td>0999999999</td>
+                    <td class="table-actions">
+                        <button class="edit-btn">แก้ไข</button>
+                        <button class="delete-btn">ลบ</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

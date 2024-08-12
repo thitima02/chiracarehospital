@@ -1,0 +1,61 @@
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html">My Website</a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<style>
+    .site-header {
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .logo a {
+        color: white;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .main-nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    .main-nav ul li {
+        margin-left: 20px;
+    }
+
+    .main-nav ul li a {
+        color: white;
+        text-decoration: none;
+        padding: 5px 10px;
+        transition: background-color 0.3s;
+    }
+
+    .main-nav ul li a:hover {
+        background-color: #575757;
+    }
+</style>

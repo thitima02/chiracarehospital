@@ -1,46 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    <nav class="main-menu">
-        <div class="logo-container">
-            <a href="#">
-                <img src="assets/images/logo.jpg" alt="logo.jpg">
-            </a>
-        </div>
-        <ul>
-            <li>
-                <a href="adminpage/dasboard.html">
-                    <i class="fa fa-home fa-2x"></i>
-                    <span class="nav-text">หน้าหลัก</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="adminpage/patient-info.html">
-                    <i class="fa fa-info-circle "></i>
-                    <span class="nav-text">จัดการข้อมูลผู้ป่วย</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="adminpage/staff-info.html">
-                    <i class="fa fa-chart-line "></i>
-                    <span class="nav-text">สถานะและการติดตาม</span>
-                </a>
-            </li>
-            <li class="has-subnav">
-                <a href="adminpage/staff-info.html">
-                    <i class="fa fa-users "></i>
-                    <span class="nav-text">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
-                </a>
-            </li>
-            <ul class="has-subnav">
-                <li>
-                    <a href="#">
-                        <i class="fa fa-sign-out-alt fa-2x"></i>
-                        <span class="nav-text">ออกจากระบบ</span>
-                    </a>
-                </li> 
-            </ul>
-        </ul>
-    </nav>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,8 +14,8 @@
         <input type="search" placeholder="เบอร์โทรศัพท์ญาติ...">
         <select>
             <option>สถานะผู้ป่วย</option>
-            <option>รักษาพยาบาล</option>
-            <option>รอการรักษา</option>
+            <option>นัดติดตามต่อเนื่อง</option>
+            <option>รักษาเสร็จสิ้น</option>
         </select>
         <button>ค้นหา</button>
     </div>
@@ -71,7 +30,7 @@
                     <th>เบอร์โทรศัพท์</th>
                     <th>เบอร์โทรศัพท์ญาติ</th>
                     <th>สถานะการรักษา</th>
-                    <th>การกระทำ</th>
+                    <th>ค้นหา</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,7 +40,7 @@
                     <td>1666666666666</td>
                     <td>0600005222</td>
                     <td>0600005222</td>
-                    <td><span style="color: #ff5e5e;">นัดหมายเพื่อรักษา</span></td>
+                    <td><span style="color: #ff5e5e;">นัดติดตามต่อเนื่อง</span></td>
                     <td class="table-actions">
                         <button class="edit-btn">แก้ไข</button>
                         <button class="delete-btn">ลบ</button>
