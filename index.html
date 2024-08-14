@@ -1,73 +1,40 @@
 <!DOCTYPE html>
-<!-- Created by CodingLab |www.youtube.com/CodingLabYT-->
 <html lang="en" dir="ltr">
 
 <head>
   <meta charset="UTF-8">
-  <title> โรงพยาบาลค่ายจิรประวัติ </title>
+  <title>โรงพยาบาลค่ายจิรประวัติ</title>
   <link rel="stylesheet" href="css/menu.css">
   <!-- Boxicons CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Additional styles for the new content */
+    .search-container {
+      margin: 20px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .greeting {
+      margin: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+  </style>
 </head>
 
 <body style="background-color:rgb(255, 255, 255);">
-  <div class="sidebar">
-    <div class="logo-details" id="btn">
-      <img src="assets/images/chiralogo.jpg" alt="chiralogo.jpg" class="logo-image">
-      <div class="logo_name"> โรงพยาบาลค่ายจิรประวัติ</div>
-    </div>
-    <ul class="nav-list">
-      <!--main menu -->
-      <li>
-        <a href="frontend/adminpage/dasboard.html">
-          <i class='bx bx-home'></i>
-          <span class="links_name">หน้าหลัก</span>
-        </a>
-        <span class="tooltip">หน้าหลัก</span>
-      </li>
-      <!--ทดสอบ menu -->
-      <li>
-        <a href="frontend/adminpage/testdatabase.html">
-          <i class='bx bx-home'></i>
-          <span class="links_name">ทดสอบ</span>
-        </a>
-        <span class="tooltip">ทดสอบ</span>
-      </li>
-      <!-- patient-info menu -->
-      <li>
-        <a href="frontend/adminpage/patient-info.html">
-          <i class='bx bx-error-circle'></i>
-          <span class="links_name">จัดการข้อมูลผู้ป่วย</span>
-        </a>
-        <span class="tooltip">จัดการข้อมูลผู้ป่วย</span>
-      </li>
-      <!-- statustracking menu -->
-      <li>
-        <a href="frontend/adminpage/statustracking.html">
-          <i class='bx bx-line-chart'></i>
-          <span class="links_name">สถานะและการติดตาม</span>
-        </a>
-        <span class="tooltip">สถานะและการติดตาม</span>
-      </li>
-      <!-- staff-info -->
-      <li>
-        <a href="frontend/adminpage/staff-info.html">
-          <i class='bx bx-group'></i>
-          <span class="links_name">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
-        </a>
-        <span class="tooltip">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
-      </li>
-      <!-- log out menu -->
-      <li>
-        <a href="frontend/adminpage/login.html">
-          <i class='bx bx-log-out'></i>
-          <span class="links_name">ออกจากระบบ</span>
-        </a>
-        <span class="tooltip">ออกจากระบบ</span>
-      </li>
-    </ul>
-  </div>
+
+  <!-- ที่นี่เราจะโหลด sidebar จาก frontend/adminpage/sidebar.html -->
+  <div id="sidebar"></div>
+
   <section class="home-section">
     <nav>
       <div class="sidebar-button">
@@ -79,32 +46,44 @@
         <i class='bx bx-chevron-down'></i>
       </div>
     </nav>
+    
+   
+    <!-- ใส่เนื้อหา อะไรก็"ด้ แต่ไปจัด CSS เอาเองน่ะ อิอิ -->
   </section>
 
+  <!-- Script สำหรับการดึงและแสดง sidebar -->
   <script>
-    let sidebar = document.querySelector(".sidebar");
-    let closeBtn = document.querySelector("#btn");
-    let searchBtn = document.querySelector(".bx-search");
+    fetch('frontend/sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar').innerHTML = data;
 
-    closeBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("open");
-      menuBtnChange();//calling the function(optional)
-    });
+        // Move the script from sidebar.html to here
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+        let searchBtn = document.querySelector(".bx-search");
 
-    searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
-      sidebar.classList.toggle("open");
-      menuBtnChange(); //calling the function(optional)
-    });
+        closeBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("open");
+          menuBtnChange(); // calling the function(optional)
+        });
 
-    // following are the code to change sidebar button(optional)
-    function menuBtnChange() {
-      if (sidebar.classList.contains("open")) {
-        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
-      } else {
-        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
-      }
-    }
+        searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search icon
+          sidebar.classList.toggle("open");
+          menuBtnChange(); // calling the function(optional)
+        });
+
+        // following are the code to change sidebar button(optional)
+        function menuBtnChange() {
+          if (sidebar.classList.contains("open")) {
+            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right"); // replacing the icons class
+          } else {
+            closeBtn.classList.replace("bx-menu-alt-right", "bx-menu"); // replacing the icons class
+          }
+        }
+      });
   </script>
+
 </body>
 
 </html>
