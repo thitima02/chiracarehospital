@@ -1,11 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Created by CodingLab |www.youtube.com/CodingLabYT-->
+<html lang="en" dir="ltr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title> Responsive Sidebar Menu | CodingLab </title>
+  <link rel="stylesheet" href="/css/menu.css">
+  <!-- Boxicons CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
-    <h1>Hello World</h1>
+  <div class="sidebar">
+    <div class="logo-details">
+      <!-- assent logo -->
+      <img class="picmenu" src="/picture/logochiracare.png" alt="" width="40px">
+      <i class='bx bx-menu' id="btn"></i>
+    </div>
+    <ul class="nav-list">
+      <li>
+        <a href="#">
+          <i class='bx bxs-report'></i>
+          <span class="links_name">หน้าหลัก</span>
+        </a>
+        <span class="tooltip">หน้าหลัก</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-history'></i>
+          <span class="links_name">ประวัติการรักษา</span>
+        </a>
+        <span class="tooltip">ประวัติการรักษา</span>
+      </li>
+      <!-- end of opd menu -->
+
+      <li>
+        <a href="#">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span class="links_name">ออกจากระบบ</span>
+        </a>
+        <span class="tooltip">ออกจากระบบ</span>
+      </li>
+    </ul>
+    <!-- end navbar menu -->
+  </div>
+  
+  <script>
+    let sidebar = document.querySelector(".sidebar");
+    let closeBtn = document.querySelector("#btn");
+    let pictureMenu = document.querySelector(".picmenu");
+
+    closeBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      menuBtnChange();
+    });
+
+    function menuBtnChange() {
+      if (sidebar.classList.contains("open")) {
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+        pictureMenu.style.display = "block"; // Show the image when the sidebar is open
+      } else {
+        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+        pictureMenu.style.display = "none"; // Hide the image when the sidebar is closed
+      }
+    }
+  </script>
 </body>
+
 </html>
