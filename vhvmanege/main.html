@@ -4,12 +4,13 @@
 
 <head>
   <meta charset="UTF-8">
-  <title> Responsive Sidebar Menu | CodingLab </title>
+  <title> Chiracare Hospital </title>
   <link rel="stylesheet" href="/css/menu.css">
   <!-- Boxicons CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -46,27 +47,130 @@
     </ul>
     <!-- end navbar menu -->
   </div>
-  
-  <script>
-    let sidebar = document.querySelector(".sidebar");
-    let closeBtn = document.querySelector("#btn");
-    let pictureMenu = document.querySelector(".picmenu");
+  <div class="container">
+    <div class="col-md-12">
+      <div class="header py-3 d-flex justify-content-between align-items-center">
+        <h1 class="m-0">หน้าหลัก</h1>
+        <div class="profile d-flex align-items-center">
+          <img src="/picture/small 1.png" alt="User Avatar" class="rounded-circle me-2" width="50">
+          <div>
+            <strong>นิธนาม มือที่สาม</strong><br>
+            <span class="text-muted">อาสาสมัครสาธารณะสุข</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card name vhv -->
+      <div class="card mt-4">
+        <div class="card-body" style="display: flex; justify-content: space-around; align-items: center; ">
+          <img src="/picture/small 1.png" alt="" width="50px">
+          <span>นิรนาม มือที่สาม</span>
+          <span> สถานะ </span>
+          <span>เขตที่รับผิดชอบ </span>
+          <span>ไอดีไลน์ (LINE ID) </span>
+          <span>เลขบัตรประชาชน </span>
+          <span>เบอร์โทรศัพท์ </span>
+        </div>
 
-    closeBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("open");
-      menuBtnChange();
-    });
+      </div>
+      <!-- Search bar -->
+      <div class="title-info">
+        <p style="display: flex; justify-content: end; margin-top: 20px;">รายชื่อผู้ป่วยที่ต้องติดตามของวันที่</p>
+      </div>
 
-    function menuBtnChange() {
-      if (sidebar.classList.contains("open")) {
-        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        pictureMenu.style.display = "block"; // Show the image when the sidebar is open
-      } else {
-        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        pictureMenu.style.display = "none"; // Hide the image when the sidebar is closed
+      <div class="container text-center mt-3 mb-3">
+        <div class="row align-items-center">
+          <div class="col-md-5 mx-auto">
+            <div class="input-group">
+              <input class="form-control border-end-0 border rounded-pill" type="search" value="ค้นหาที่นี่...."
+                id="example-search-input">
+              <span class="input-group-append">
+                <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5"
+                  type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+
+          <div class="col">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>ครั้งที่ติดตาม</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+
+          <div class="col">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>ครั้งที่ติดตาม</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>รายชื่อผู้ป่วย</th>
+              <th>วันที่เริ่มติดตาม</th>
+              <th>วันที่สิ้นสุด</th>
+              <th>ที่อยู่</th>
+              <th>ครั้งที่ติดตาม</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><img src="/picture/small 1.png" alt="Profile Image"> นายนิรนาม มือที่สาม</td>
+              <td>22/05/2022</td>
+              <td>29/05/2022</td>
+              <td>161 หมู่ 1 ซอย - ตำบล/แขวน นครสวรรค์ออก อำเภอ/เขต เมือง จังหวัด นครสวรรค์ เลขไปรษณีย์ 60000</td>
+              <td>2</td>
+              <td class="table-actions">
+                <button class="edit-btn">คลิกเพื่อกรอกฟอร์ม</button>
+              </td>
+            </tr>
+            <tr>
+              <td><img src="/picture/small 1.png" alt="Profile Image"> นายรู้มากความ สาระสำคัญ</td>
+              <td>10/05/2022</td>
+              <td>17/05/2022</td>
+              <td>1330/3 หมู่ 8 ซอย - ตำบล/แขวน นครสวรรค์ออก อำเภอ/เขต เมือง จังหวัด นครสวรรค์ เลขไปรษณีย์ 60000</td>
+              <td>1</td>
+              <td class="table-actions">
+                <button class="edit-btn">คลิกเพื่อกรอกฟอร์ม</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      let sidebar = document.querySelector(".sidebar");
+      let closeBtn = document.querySelector("#btn");
+      let pictureMenu = document.querySelector(".picmenu");
+
+      closeBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        menuBtnChange();
+      });
+
+      function menuBtnChange() {
+        if (sidebar.classList.contains("open")) {
+          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+          pictureMenu.style.display = "block"; // Show the image when the sidebar is open
+        } else {
+          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+          pictureMenu.style.display = "none"; // Hide the image when the sidebar is closed
+        }
       }
-    }
-  </script>
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

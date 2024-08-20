@@ -13,7 +13,6 @@
   height: 100%;
   width: 78px;
   background: #ffffff;
-  padding: 6px 14px;
   z-index: 99;
   transition: all 0.5s ease;
 }
@@ -320,9 +319,8 @@ nav .profile-details i {
 }
 
 .container {
-  max-width: 1140px;
+  max-width: 1300px;
   margin: 0 120px;
-  /* border: solid 4px blue ; */
   width: 100%;
 }
 
@@ -362,6 +360,85 @@ h3 {
 .profile-item .value {
   font-size: 16px;
 }
+
+.profile img {
+  border: 2px solid #f8f9fa;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.table-container {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #555;
+}
+table th, table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+table th {
+  background-color: #f9fbfc;
+  color: #333;
+  font-weight: 600;
+  
+}
+
+.form-select {
+  display: flex;
+
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+table img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.edit-btn {
+  background-color: #5D97EF;
+  color: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.table-actions button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.table th {
+  background-color: #f9fbfc;
+  color: #333;
+  font-weight: 600;
+}
+.table tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+
 
 
 
