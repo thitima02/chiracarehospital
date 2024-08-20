@@ -4,7 +4,8 @@
   <head>
     <meta charset="UTF-8">
     <title> Responsive Sidebar Menu  | CodingLab </title>
-    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/topbar.css">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,12 +63,21 @@
 
   <section class="home-section"> 
       <nav>
+        <!--name page on top bar-->
           <div class="sidebar-button">
           <span class="text">หน้าหลัก</span>
-        </div>
+          </div>
+        <!--user notification on top bar-->
+          <button class="icon-button">
+            <i class='bx bx-bell' ></i>
+            </button>
+        <!--user profile on top bar-->
         <div class="profile-details">
           <img src="images/amuro.jpg" alt="profile-details">
-          <span class="admin_name">Amuro Tooru</span>
+          <div class="admin_name">
+            <div class="name">Riranam</div>
+            <div class="job">OPD</div>
+          </div>
           <i class='bx bx-chevron-down' ></i>
         </div>
       </nav>

@@ -281,10 +281,10 @@ nav .profile-details img{
   object-fit: cover;
 }
 nav .profile-details .admin_name{
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   color: #333;
-  margin: 0 10px;
+  margin: 0 25px;
   white-space: nowrap;
 }
 nav .profile-details i{
