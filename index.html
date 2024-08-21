@@ -6,6 +6,8 @@
     <title> Responsive Sidebar Menu  | CodingLab </title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/topbar.css">
+    <link rel="stylesheet" href="css/datatable.css">
+    <link rel="stylesheet" href="css/logo.css">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +15,11 @@
 <body style="background-color:rgb(255, 255, 255);">
   <div class="sidebar">
     <div class="logo-details">
-      <i class='bx bxl-c-plus-plus icon'></i>
       <!-- assent logo -->
+      <div class="logo_img">
+        <img src="/chiracarehospital/images/logo.png" alt="logo.png" class="logo-image">
+      </div>      
+      <!-- assent aapp name -->
         <div class="logo_name">โรงพยาบาลค่ายจิรประวัติ</div>
         <i class='bx bx-menu' id="btn" ></i>
     </div>
@@ -43,21 +48,6 @@
       </a>
        <span class="tooltip">ออกจากระบบ</span>
     </li>
-      
-    <!-- profile note-->
-     <!-- 
-    <li class="profile">
-         <div class="profile-details">
-           <img src="/images/amuro.jpg" alt="profileImg">
-           <div class="name_job">
-             <div class="name">Amuro Tooru</div>
-             <div class="job">OPD</div>
-           </div>
-         </div>
-         <i class='bx bx-log-out' id="log_out" ></i>
-     </li> 
-     -->
-     
     </ul>
   </div>
 
@@ -81,8 +71,9 @@
           <i class='bx bx-chevron-down' ></i>
         </div>
       </nav>
+      
   </section>
-   
+
   <script>
   let sidebar = document.querySelector(".sidebar");
   let closeBtn = document.querySelector("#btn");

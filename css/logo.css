@@ -1,0 +1,27 @@
+/* css logo */
+.sidebar.logo-details.logo-image {
+    align-items: center;
+    padding: 5px; /* Adjust padding as needed */
+    padding-left: 10px; /* Increase padding from the left to move it inward */
+  }
+  
+  .logo-image {
+    width: 30px; /* Adjust width and height as needed */
+    height: 40px;
+    margin-bottom: 5px; /* Space between the logo and the text */
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+  .sidebar .logo-details .logo_name{
+    color: #000000;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+  .sidebar.open .logo-details .logo_name{
+    opacity: 1;
+  }
+  .sidebar.open .logo-details .logo-image{
+    opacity: 1;
+  }
