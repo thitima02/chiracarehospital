@@ -1,12 +1,26 @@
+/* main.css */
+
 /* Google Font Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins" , sans-serif;
+  font-family: "Poppins", sans-serif;
 }
-.sidebar{
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f8fc;
+  margin: 0;
+  display: flex;
+  flex-direction: row; /* ทำให้ layout เป็นแถวเดียวกัน */
+}
+
+
+/* Sidebar Styles */
+.sidebar {
   position: fixed;
   left: 0;
   top: 0;
@@ -14,49 +28,45 @@
   width: 78px;
   background: #ffffff;
   padding: 6px 14px;
-  z-index: 99;
+  z-index: 99; /* Ensure it is above other content */
   transition: all 0.5s ease;
 }
-.sidebar.open{
+
+.sidebar.open {
   width: 250px;
 }
-.sidebar .logo-details{
+
+.sidebar .logo-details {
   height: 60px;
   display: flex;
   align-items: center;
   position: relative;
 }
-.sidebar .logo-details .icon{
-  opacity: 0;
-  transition: all 0.5s ease;
-}
-.sidebar .logo-details .logo_name{
+
+.sidebar .logo-details .logo_name {
   color: #000000;
   font-size: 12px;
   font-weight: 700;
   opacity: 0;
   transition: all 0.5s ease;
 }
-.sidebar.open .logo-details .icon,
-.sidebar.open .logo-details .logo_name{
+
+.sidebar.open .logo-details .logo_name {
   opacity: 1;
 }
-.sidebar .logo-details #btn{
+
+.sidebar .logo-details #btn {
   position: absolute;
   top: 50%;
   right: 0;
   transform: translateY(-50%);
-  font-size: 22px;
-  transition: all 0.4s ease;
   font-size: 23px;
   text-align: center;
   cursor: pointer;
   transition: all 0.5s ease;
 }
-.sidebar.open .logo-details #btn{
-  text-align: right;
-}
-.sidebar i{
+
+.sidebar i {
   color: #3d4369;
   height: 60px;
   min-width: 50px;
@@ -64,16 +74,19 @@
   text-align: center;
   line-height: 60px;
 }
-.sidebar .nav-list{
+
+.sidebar .nav-list {
   margin-top: 20px;
-  height: 100%;
+  height: calc(100% - 60px); /* Adjust height to fit content */
 }
-.sidebar li{
+
+.sidebar li {
   position: relative;
   margin: 8px 0;
   list-style: none;
 }
-.sidebar li .tooltip{
+
+.sidebar li .tooltip {
   position: absolute;
   top: -20px;
   left: calc(100% + 15px);
@@ -89,34 +102,38 @@
   pointer-events: none;
   transition: 0s;
 }
-.sidebar li:hover .tooltip{
+
+.sidebar li:hover .tooltip {
   opacity: 1;
   pointer-events: auto;
   transition: all 0.4s ease;
   top: 50%;
   transform: translateY(-50%);
 }
-.sidebar.open li .tooltip{
+
+.sidebar.open li .tooltip {
   display: none;
 }
-.sidebar input{
+
+.sidebar input {
   font-size: 15px;
   color: #FFF;
   font-weight: 400;
   outline: none;
   height: 50px;
-  width: 100%;
   width: 50px;
   border: none;
   border-radius: 12px;
   transition: all 0.5s ease;
   background: #1d1b31;
 }
-.sidebar.open input{
+
+.sidebar.open input {
   padding: 0 20px 0 50px;
   width: 100%;
 }
-.sidebar .bx-search{
+
+.sidebar .bx-search {
   position: absolute;
   top: 50%;
   left: 0;
@@ -125,15 +142,18 @@
   background: #1d1b31;
   color: #FFF;
 }
-.sidebar.open .bx-search:hover{
+
+.sidebar.open .bx-search:hover {
   background: #1d1b31;
   color: #FFF;
 }
-.sidebar .bx-search:hover{
+
+.sidebar .bx-search:hover {
   background: #FFF;
   color: #11101d;
 }
-.sidebar li a{
+
+.sidebar li a {
   display: flex;
   height: 100%;
   width: 100%;
@@ -143,10 +163,12 @@
   transition: all 0.4s ease;
   background: #ffffff;
 }
-.sidebar li a:hover{
+
+.sidebar li a:hover {
   background: #5D97EF;
 }
-.sidebar li a .links_name{
+
+.sidebar li a .links_name {
   color: #3d4369;
   font-size: 15px;
   font-weight: 400;
@@ -155,22 +177,26 @@
   pointer-events: none;
   transition: 0.4s;
 }
-.sidebar.open li a .links_name{
+
+.sidebar.open li a .links_name {
   opacity: 1;
   pointer-events: auto;
 }
+
 .sidebar li a:hover .links_name,
-.sidebar li a:hover i{
+.sidebar li a:hover i {
   transition: all 0.5s ease;
   color: #ffffff;
 }
-.sidebar li i{
+
+.sidebar li i {
   height: 50px;
   line-height: 50px;
   font-size: 18px;
   border-radius: 12px;
 }
-.sidebar li.profile{
+
+.sidebar li.profile {
   position: fixed;
   height: 60px;
   width: 78px;
@@ -181,75 +207,72 @@
   transition: all 0.5s ease;
   overflow: hidden;
 }
-.sidebar.open li.profile{
+
+.sidebar.open li.profile {
   width: 250px;
 }
-.sidebar li .profile-details{
+
+.sidebar li .profile-details {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
 }
-.sidebar li img{
+
+.sidebar li img {
   height: 45px;
   width: 45px;
   object-fit: cover;
   border-radius: 6px;
   margin-right: 10px;
 }
+
 .sidebar li.profile .name,
-.sidebar li.profile .job{
+.sidebar li.profile .job {
   font-size: 15px;
   font-weight: 500;
   color: #000000;
   white-space: nowrap;
 }
-.sidebar li.profile .job{
+
+.sidebar li.profile .job {
   font-size: 12px;
 }
-.sidebar .profile #log_out{
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  background: #ffffff;
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
-  border-radius: 0px;
-  transition: all 0.5s ease;
-}
-.sidebar.open .profile #log_out{
+
+.sidebar.open .profile #log_out {
   width: 50px;
   background: none;
 }
-.home-section{
+
+.home-section {
   position: relative;
   background: #edeff1;
   min-height: 100vh;
-  top: 0;
-  left: 78px;
-  width: calc(100% - 78px);
+  margin-left: 78px; /* Adjusted for sidebar width */
+  width: calc(100% - 78px); /* Adjusted for sidebar width */
   transition: all 0.5s ease;
   z-index: 2;
 }
-.sidebar.open ~ .home-section{
-  left: 250px;
+
+.sidebar.open ~ .home-section {
+  margin-left: 250px;
   width: calc(100% - 250px);
 }
-.home-section .text{
+
+.home-section .text {
   display: inline-block;
   color: #151D48;
   font-size: 25px;
   font-weight: 900;
   margin: 10px;
 }
+
 @media (max-width: 420px) {
-  .sidebar li .tooltip{
+  .sidebar li .tooltip {
     display: none;
   }
 }
 
-.home-section nav{
+.home-section nav {
   display: flex;
   justify-content: space-between;
   height: 80px;
@@ -264,7 +287,7 @@
   transition: all 0.5s ease;
 }
 
-.home-section nav .profile-details{
+.home-section nav .profile-details {
   display: flex;
   align-items: center;
   background: #F5F6FA;
@@ -274,70 +297,78 @@
   min-width: 190px;
   padding: 0 15px 0 2px;
 }
-nav .profile-details img{
+
+nav .profile-details img {
   height: 40px;
   width: 40px;
   border-radius: 6px;
   object-fit: cover;
 }
-nav .profile-details .admin_name{
-  font-size: 15px;
+
+nav .profile-details .admin_name {
+  font-size: 13px;
   font-weight: 500;
   color: #333;
-  margin: 0 10px;
+  margin: 0 25px;
   white-space: nowrap;
 }
-nav .profile-details i{
+
+nav .profile-details i {
   font-size: 25px;
   color: #333;
 }
+
 @media (max-width: 700px) {
   nav .sidebar-button .dashboard,
   nav .profile-details .admin_name,
-  nav .profile-details i{
+  nav .profile-details i {
     display: none;
   }
-  .home-section nav .profile-details{
+  .home-section nav .profile-details {
     height: 50px;
     min-width: 40px;
   }
-  .home-content .sales-boxes .sales-details{
+  .home-content .sales-boxes .sales-details {
     width: 560px;
   }
 }
+
 @media (max-width: 550px) {
-  .overview-boxes .box{
+  .overview-boxes .box {
     width: 100%;
     margin-bottom: 15px;
   }
-  .sidebar.active ~ .home-section nav .profile-details{
+  .sidebar.active ~ .home-section nav .profile-details {
     display: none;
   }
 }
-/* css logo */
-.logo-details {
-    display: flex;
-    align-items: center;
-    padding: 5px; /* Adjust padding as needed */
-    padding-left: 10px; /* Increase padding from the left to move it inward */
+
+.profile-notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.logo-image {
-    width: 30px; /* Adjust width and height as needed */
-    height: 40px;
-    margin-bottom: 5px; /* Space between the logo and the text */
+.button-notification {
+  margin-right: 10px;
 }
 
-.logo_name {
-    font-size: 22px;
-    font-weight: 600;
-    color: #000; /* Ensure the color contrasts well with the background */
+.profile-details {
+  display: flex;
+  align-items: center;
 }
-/* #btn {
-    font-size: 22px;
-    color: #000;
-    margin-left: auto;
-} */
 
+.admin_name {
+  margin-left: 10px;
+}
 
+.icon-button i {
+  font-size: 24px;
+}
 
+.profile-details img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}

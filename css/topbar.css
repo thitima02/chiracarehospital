@@ -1,0 +1,17 @@
+.icon-button {
+    position: relative;
+    color: #1d1b31;
+    border: none;
+    padding: 5px 10px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgb(234, 234, 234);
+    margin-left: 129px;
+    margin-right: -1300px;
+}
+
+.icon-button:hover {
+    background-color: #5D97EF;
+} 
+

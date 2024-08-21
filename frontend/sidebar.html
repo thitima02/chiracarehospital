@@ -1,4 +1,14 @@
-<div class="sidebar">
+<!-- frontend/sidebar.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/sidebar.css"> <!-- ลิงก์ไปยังไฟล์ CSS -->
+  <title>Sidebar</title>
+</head>
+<body>
+  <div class="sidebar">
     <div class="logo-details" id="btn">
       <img src="assets/images/chiralogo.jpg" alt="chiralogo.jpg" class="logo-image">
       <div class="logo_name">โรงพยาบาลค่ายจิรประวัติ</div>
@@ -54,29 +64,29 @@
       </li>
     </ul>
   </div>
-  
+
   <script>
     let sidebar = document.querySelector(".sidebar");
     let closeBtn = document.querySelector("#btn");
     let searchBtn = document.querySelector(".bx-search");
-  
+
     closeBtn.addEventListener("click", () => {
       sidebar.classList.toggle("open");
-      menuBtnChange(); // calling the function(optional)
+      menuBtnChange();
     });
-  
-    searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search icon
+
+    searchBtn.addEventListener("click", () => {
       sidebar.classList.toggle("open");
-      menuBtnChange(); // calling the function(optional)
+      menuBtnChange();
     });
-  
-    // following are the code to change sidebar button(optional)
+
     function menuBtnChange() {
       if (sidebar.classList.contains("open")) {
-        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right"); // replacing the icons class
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
       } else {
-        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu"); // replacing the icons class
+        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
       }
     }
   </script>
-  
+</body>
+</html>
