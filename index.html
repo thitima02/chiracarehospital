@@ -79,23 +79,22 @@
           <span class="text">หน้าหลัก</span>
           </div>
         <!--user notification on top bar-->
-          
-        <!--user profile on top bar-->
         <div class="profile-notification">
           <div class="button-notification">
-            <button class="icon-button">
-              <i class='bx bx-bell' ></i>
-              </button> 
-          </div>
+            <button class="icon-button" onclick="goToNotificationPage()">
+                <i class='bx bx-bell'></i>
+            </button> 
+        </div>
           <div class="profile-details">
-          <img src="assets/images/cat.jpg" alt="profile-details">
-          <div class="admin_name">
-            <div class="name">Riranam</div>
-            <div class="job">OPD</div>
+              <img src="assets/images/cat.jpg" alt="profile-details">
+              <div class="admin_name">
+                  <div class="name">Riranam</div>
+                  <div class="job">OPD</div>
+              </div>
+              <i class='bx bx-chevron-down'></i>
           </div>
-          <i class='bx bx-chevron-down' ></i>
-        </div>
-        </div>
+      </div>
+      
         
       </nav>
       
@@ -124,6 +123,9 @@
      closeBtn.classList.replace("bx-menu-alt-right","bx-menu");//replacing the iocns class
    }
   }
+  function goToNotificationPage() {
+        window.location.href = "frontend/adminpage/notification.html";  // เปลี่ยน URL ไปยัง notification.html
+    }
   </script>
 </body>
 </html>

@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Information</title>
-    <link rel="stylesheet" href="../../css/main.css"> 
-    <link rel="stylesheet" href="../../css/logo.css">  
-    <link rel="stylesheet" href="../../css/topbar.css">   
+    <title>Patient Information</title> 
     <link rel="stylesheet" href="../../css/patient-info.css">
-    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/sidebar.css"> 
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/topbar.css">
+    <link rel="stylesheet" href="../../css/logo.css">
     
 </head>
 <body>
     <!-- Sidebar will be inserted here -->
-    <div id="sidebar-container"></div>
+    <div id="sidebar-placeholder"></div>
 
     <div class="main-content">
         <div class="search-bar">
@@ -73,13 +73,13 @@
     </div>
 
     <script>
-        // Load sidebar.html into the #sidebar-container
-        fetch('../../sidebar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('sidebar-container').innerHTML = data;
-            })
-            .catch(error => console.error('Error loading sidebar:', error));
-    </script>
+        // Load sidebar content from the external file
+        fetch('../../index.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('sidebar-placeholder').innerHTML = data;
+          })
+          .catch(error => console.error('Error loading sidebar:', error));
+      </script>
 </body>
 </html>

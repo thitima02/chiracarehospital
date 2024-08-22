@@ -1,0 +1,162 @@
+body {
+    font-family: 'Titillium Web', sans-serif;
+    background-color: #f8f9fa;
+}
+
+h1 {
+    text-align: left;
+    margin-top: 20px;
+    color: #343a40;
+}
+
+.card {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card h4 {
+    font-size: 1.5rem;
+    color: #495057;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.patient-type {
+    background-color: #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.patient-type:hover {
+    transform: translateY(-5px);
+}
+
+.patient-type i,
+.patient-type .mdi-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.btn-primary.button {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary.button:hover {
+    background-color: #0056b3;
+}
+
+.list-group-item {
+    border: none;
+    padding: 15px 20px;
+}
+
+.list-group-item img {
+    border-radius: 50%;
+}
+
+.table thead th {
+    border-bottom: 2px solid #dee2e6;
+    color: #343a40;
+    font-weight: bold;
+}
+
+.table tbody td {
+    vertical-align: middle;
+}
+
+.progress {
+    height: 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    line-height: 20px;
+    font-size: 0.75rem;
+    color: #ffffff;
+}
+
+.progress-bar.bg-blue {
+    background-color: #007bff;
+}
+
+.progress-bar.bg-success {
+    background-color: #28a745;
+}
+
+.progress-bar.bg-warning {
+    background-color: #ffc107;
+}
+
+.text-right {
+    text-align: right;
+}
+
+@media (max-width: 767.98px) {
+    .card h4, .card-title {
+        text-align: center;
+    }
+
+    .card-body {
+        text-align: center;
+    }
+}
+/* css icon  */
+.mdi-human-child {
+  color: #FF947A;
+  font-size: 34px;
+} 
+.mdi-transfer-up {
+  color: #6eec33;
+  font-size: 34px;
+} 
+.mdi-medication-outline {
+  color: #FF7ACA;
+  font-size: 34px;
+} 
+.mdi-diabetes {
+  color: #83B5FF;
+  font-size: 34px;
+} 
+.mdi-heart-pulse {
+  color: #bf83ff; 
+  font-size: 34px;
+} 
+.mdi-water-circle {
+  color: #fa5a7d;
+  font-size: 34px;
+} 
+body {
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+}
+
+#sidebar-placeholder {
+    width: 250px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+}
+
+.container-fluid {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.card.ca1 {
+    margin-bottom: 20px;
+}
