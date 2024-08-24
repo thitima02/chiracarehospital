@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../../css/notification.css"> <!-- Link to CSS file -->
-  <link rel="stylesheet" href="../../css/sidebar.css"> <!-- Link to CSS file -->
+  <link rel="stylesheet" href="../../css/notification.css"> 
+  <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/main.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
@@ -22,7 +22,6 @@
     <input type="date">
     <div class="back-button">⟲</div>
   </div>
-
   <div class="file-list">
     <div class="file-item">
       <div class="file-info">
@@ -43,8 +42,11 @@
   </div>
 </div>
 
-<!-- Script to load Sidebar -->
+
+
 <script>
+  // Script to load sidebar
+  
   // Load sidebar content from the external file
   fetch('../../index.html')
     .then(response => response.text())
@@ -52,6 +54,7 @@
       document.getElementById('sidebar-placeholder').innerHTML = data;
     })
     .catch(error => console.error('Error loading sidebar:', error));
+  
     
 </script>
 

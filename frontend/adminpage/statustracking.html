@@ -1,41 +1,104 @@
-<!-- <nav class="main-menu">
-    <div class="logo-container">
-        <a href="#">
-            <img src="assets/images/logo.jpg" alt="logo.jpg">
-        </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>statustracking</title> 
+    <link rel="stylesheet" href="../../css/statustracking.css">
+    
+</head>
+<body>
+    <div class="main-content">
+        <div class="search-bar">
+            <input type="search" placeholder="ค้นหาชื่อ...">
+            <select>
+                <option>ประเภทโรค</option>
+                <option>ความดันโลหิตสูง</option>
+                <option>โรคอ้วน</option>
+                <option>ไขมันในเลือดสูง</option>
+                <option>โรคเบาหวาน</option>
+                <option>CVS Risk</option>
+                <option>โรคไต</option>
+            </select>
+            <select>
+                <option>สถานะผู้ป่วย</option>
+                <option>ปกติ</option>
+                <option>เสียชีวิต</option>
+            </select>
+            <select>
+                <option>สถานะการรักษา</option>
+                <option>นัดติดตามต่อเนื่อง</option>
+                <option>กำลังติดตาม</option>
+                <option>รักษาเสร็จสิ้น</option>
+            </select>
+            <select>
+                <option>สถานะการติดตาม</option>
+                <option>ติดตามแล้ว</option>
+                <option>กำลังติดตาม</option>
+                <option>ยังไม่ได้ติดตาม</option>
+            </select>
+            <button>ค้นหา</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ชื่อ - นามสกุล</th>
+                        <th>ประเภทโรค</th>
+                        <th>ประเภทผู้ป่วย</th>
+                        <th>กลุ่มผู้ป่วย</th>
+                        <th>สถานะผู้ป่วย</th>
+                        <th>ครั้งที่ติดตาม</th>
+                        <th>สถานะการรักษา</th>
+                        <th>สถานะการติดตาม</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td><input type="checkbox"> <img src="../../" alt="Profile Image"> นายปลาทู</td>
+                    <td>เบาหวาน</td>
+                    <td>ประชาชน</td>
+                    <td>กลุ่มสงสัยป่วย</td>
+                    <td>ปกติ</td>
+                    <td>1</td>
+                    <td><span style="color: #ff5e5e;">นัดติดตามต่อเนื่อง</span></td>
+                    <td><span style="color: #10b146a9;">กำลังติดตาม</span></td>
+                    <td class="table-actions">
+                        <button class="edit-btn">แก้ไข</button>
+                        <button class="delete-btn">ลบ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"> <img src="../../" alt="Profile Image"> นายส้ม </td>
+                    <td>เบาหวาน</td>
+                    <td>ประชาชน</td>
+                    <td>กลุ่มสงสัยป่วย</td>
+                    <td>ปกติ</td>
+                    <td>1</td>
+                    <td><span style="color: #ff5e5e;">นัดติดตามต่อเนื่อง</span></td>
+                    <td><span style="color: #10b146a9;">กำลังติดตาม</span></td>
+                    <td class="table-actions">
+                        <button class="edit-btn">แก้ไข</button>
+                        <button class="delete-btn">ลบ</button>
+                    </td>
+                </tr>
+                
+                </tbody>
+            </table>
+            <!-- <form action="/action_page.php">
+                <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+                <label for="vehicle1"> นายส้ม</label><br>
+                <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+                <label for="vehicle2"> I have a car</label><br>
+                <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+                <label for="vehicle3"> I have a boat</label><br><br>
+                <input type="submit" value="Submit">
+              </form> -->
+        </div>
     </div>
-    <ul>
-        <li>
-            <a href="adminpage/dasboard.html">
-                <i class="fa fa-home fa-2x"></i>
-                <span class="nav-text">หน้าหลัก</span>
-            </a>
-        </li>
-        <li class="has-subnav">
-            <a href="adminpage/patient-info.html">
-                <i class="fa fa-info-circle "></i>
-                <span class="nav-text">จัดการข้อมูลผู้ป่วย</span>
-            </a>
-        </li>
-        <li class="has-subnav">
-            <a href="adminpage/staff-info.html">
-                <i class="fa fa-chart-line "></i>
-                <span class="nav-text">สถานะและการติดตาม</span>
-            </a>
-        </li>
-        <li class="has-subnav">
-            <a href="adminpage/staff-info.html">
-                <i class="fa fa-users "></i>
-                <span class="nav-text">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
-            </a>
-        </li>
-        <ul class="has-subnav">
-            <li>
-                <a href="#">
-                    <i class="fa fa-sign-out-alt fa-2x"></i>
-                    <span class="nav-text">ออกจากระบบ</span>
-                </a>
-            </li> 
-        </ul>
-    </ul>
-</nav> -->
+
+    <script>
+
+    </script>
+</body>
+</html>
