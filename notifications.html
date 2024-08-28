@@ -2,17 +2,27 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <title> History Page | CodingLab </title>
   <link rel="stylesheet" href="/css/sidebar.css">
   <link rel="stylesheet" href="/css/topbar.css">
   <link rel="stylesheet" href="/css/logo.css">
+  <link rel="stylesheet" href="/css/mainpage/notification.css">
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="background-color:rgb(255, 255, 255);">
+<body style="background-color:#edeff1;">
+
   <!-- Sidebar will be loaded here -->
   <div id="sidebar-container"></div>
-  
+
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
+
+  <container>
+    <div class="notification">
+      <h1>not found</h1>
+    </div>
+  </container>
+
   <script>
     // Load sidebar
     fetch('sidebar.html')
@@ -22,7 +32,14 @@
         loadSidebarScript(); // Initialize sidebar toggle after loading
       });
 
-    // Sidebar toggle script
+    // Load topbar and set the page title
+    fetch('topbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('topbar-container').innerHTML = data;
+        document.getElementById('page-title').textContent = 'การแจ้งเตือน'; // Set page title for the main page
+      });
+
     function loadSidebarScript() {
       let sidebar = document.querySelector(".sidebar");
       let closeBtn = document.querySelector("#btn");

@@ -2,35 +2,137 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <title> Main Page | CodingLab </title>
   <link rel="stylesheet" href="/css/sidebar.css">
   <link rel="stylesheet" href="/css/topbar.css">
+  <link rel="stylesheet" href="/css/menubar.css">
   <link rel="stylesheet" href="/css/logo.css">
+  <link rel="stylesheet" href="/css/mainpage/result.css">
+  <link rel="stylesheet" href="/css/mainpage/datatable.css">
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="background-color:rgb(255, 255, 255);">
+<body style="background-color:#edeff1;">
+
   <!-- Sidebar will be loaded here -->
   <div id="sidebar-container"></div>
 
-  <section class="home-section">
-    <nav>
-      <div class="sidebar-button">
-        <span class="text">หน้าหลัก</span>
-      </div>
-      <button class="icon-button">
-        <i class='bx bx-bell'></i>
-      </button>
-      <div class="profile-details">
-        <img src="images/amuro.jpg" alt="profile-details">
-        <div class="admin_name">
-          <div class="name">Riranam</div>
-          <div class="job">OPD</div>
-        </div>
-        <i class='bx bx-chevron-down'></i>
-      </div>
-    </nav>
-  </section>
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
+
+  <!-- the resule of many patient -->
+  <container class="container">
+    <div class="box box1">
+      <div class="icon"><i class='bx bx-calendar-check'></i></div>
+      <h2>20</h2>
+      <p>รักษาเสร็จสิ้น</p>
+    </div>
+    <div class="box box2">
+      <div class="icon"><i class='bx bx-notepad'></i></div>
+      <h2>34</h2>
+      <p>นัดติดตามต่อเนื่อง</p>
+    </div>
+    <div class="box box3">
+      <div class="icon"><i class='bx bx-error-circle'></i></div>
+      <h2>25</h2>
+      <p>ยังไม่ได้รักษา</p>
+    </div>
+  </container>
+
+  <!-- the dropdrown  -->
+  <div class="filter-container">
+    <div class="filter-item search-bar">
+      <h5>ค้นหารายขื่อ</h5>
+      <input type="text" placeholder="ค้นหาที่นี่..." class="search-input">
+      <i class='bx bx-search search-icon'></i> <!-- Add your icon here -->
+  </div>
+    <div class="filter-item">
+      <h5>วันที่นัดหมาย</h5>
+        <input type="date" class="date-filter">
+    </div>
+    <div class="filter-item">
+      <h5>ครั้งที่รักษา</h5>
+        <select class="dropdown-filter">
+            <option value="ทั้งหมด">ทั้งหมด</option>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+            <!-- Add other options as needed -->
+        </select>
+    </div>
+    <div class="filter-item">
+      <h5>สถานะการติดตาม</h5>
+        <select class="dropdown-filter">
+            <option value="ทั้งหมด">ทั้งหมด</option>
+            <option value="">ยังไม่ได้ติดตาม</option>
+            <option value="">กำลังติดตาม</option>
+            <option value="">ติดตามแล้ว</option>
+            <!-- Add other options as needed -->
+        </select>
+    </div>
+    <div class="filter-item">
+      <h5>สถานะการรักษา</h5>
+        <select class="dropdown-filter">
+            <option value="ทั้งหมด">ทั้งหมด</option>
+            <option value="">ยังไม่ได้รักษา</option>
+            <option value="">นัดติดตามต่อเนื่อง</option>
+            <option value="">รักษาเสร็จสิ้น</option>
+            <!-- Add other options as needed -->
+        </select>
+    </div>
+</div>
+
+  <!-- the datatable  -->
+  <div class="table-container">
+    <table class="patient-table">
+      <thead>
+        <tr>
+          <th>รายชื่อผู้ป่วย</th>
+          <th>วันนัดหมาย</th>
+          <th>วันที่เข้ารักษา</th>
+          <th>วันที่นัดครั้งถัดไป</th>
+          <th>ครั้งที่รักษา</th>
+          <th>สถานะการติดตาม</th>
+          <th>สถานะการรักษา</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <img src="/images/amuro.jpg" alt="patient image">
+            นายเบชา สงกรานต์
+          </td>
+          <td>22/05/2022</td>
+          <td>29/05/2022</td>
+          <td>10/06/2022</td>
+          <td>2</td>
+          <td><span class="status completed">ติดตามแล้ว</span></td>
+          <td><span class="status success">รักษาเสร็จสิ้น</span></td>
+          <td>
+            <button class="action-btn"><i class='bx bxs-edit'></i></button>
+            <button class="action-btn"><i class='bx bx-check'></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img src="/images/amuro.jpg" alt="patient image">
+            นายรู้มากความ สาระสำคัญ
+          </td>
+          <td>10/05/2022</td>
+          <td>17/05/2022</td>
+          <td>26/05/2022</td>
+          <td>1</td>
+          <td><span class="status in-progress">กำลังติดตาม</span></td>
+          <td><span class="status follow-up">นัดติดตามต่อเนื่อง</span></td>
+          <td>
+            <button class="action-btn"><i class='bx bxs-edit'></i></button>
+            <button class="action-btn"><i class='bx bx-check'></i></button>
+          </td>
+        </tr>
+        <!-- Repeat similar <tr> for other patients -->
+      </tbody>
+    </table>
+  </div>  
 
   <script>
     // Load sidebar
@@ -41,7 +143,14 @@
         loadSidebarScript(); // Initialize sidebar toggle after loading
       });
 
-    // Sidebar toggle script
+    // Load topbar and set the page title
+    fetch('topbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('topbar-container').innerHTML = data;
+        document.getElementById('page-title').textContent = 'หน้าหลัก'; // Set page title for the main page
+      });
+
     function loadSidebarScript() {
       let sidebar = document.querySelector(".sidebar");
       let closeBtn = document.querySelector("#btn");

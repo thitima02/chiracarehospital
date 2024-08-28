@@ -1,0 +1,86 @@
+  .table-container {
+    width: 90.6%; /* Ensure the container takes full width */
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto; /* Center the container */
+    margin-left: 110px;
+  }
+  
+  .patient-table {
+    width: 100%; /* Ensure the table fits within the container */
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: left;
+    overflow-x: auto; /* Allows horizontal scrolling if needed */
+  }
+  
+  .patient-table thead tr {
+    background-color: #f4f4f4;
+    color: #5D97EF;
+  }
+  
+  .patient-table th, .patient-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #F4F4F4;
+  }
+  
+  .patient-table tbody tr {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .patient-table tbody tr:last-of-type {
+    border-bottom: 2px solid #f4f4f4;
+  }
+  
+  .patient-table img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  
+  .status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 12px;
+  }
+  
+  .status.pending {
+    background-color: #f31212;
+  }
+  
+  .status.in-progress {
+    background-color: #f1c40f;
+  }
+  
+  .status.follow-up {
+    background-color: #ff00e1;
+  }
+  
+  .status.completed {
+    background-color: #00933d;
+  }
+
+  .status.success {
+    background-color: #0080ff;
+  }
+  
+  .action-btn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 25px;
+    color: #8d8d8d;
+  }
+  
+  .action-btn:hover {
+    color: #2980b9;
+  }
+  

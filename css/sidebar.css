@@ -205,58 +205,6 @@
   width: 50px;
   background: none;
 }
-.home-section{
-  position: relative;
-  background: #edeff1;
-  min-height: 100vh;
-  top: 0;
-  left: 78px;
-  width: calc(100% - 78px);
-  transition: all 0.5s ease;
-  z-index: 2;
-}
-.sidebar.open ~ .home-section{
-  left: 250px;
-  width: calc(100% - 250px);
-}
-.home-section .text{
-  display: inline-block;
-  color: #151D48;
-  font-size: 25px;
-  font-weight: 900;
-  margin: 10px;
-}
-@media (max-width: 420px) {
-  .sidebar li .tooltip{
-    display: none;
-  }
-}
-
-.home-section nav{
-  display: flex;
-  justify-content: space-between;
-  height: 80px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  width: calc(100% - 80px);
-  z-index: 100;
-  padding: 0 20px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s ease;
-}
-
-.home-section nav .profile-details{
-  display: flex;
-  align-items: center;
-  background: #F5F6FA;
-  border: 2px solid #EFEEF1;
-  border-radius: 6px;
-  height: 50px;
-  min-width: 190px;
-  padding: 0 15px 0 2px;
-}
 nav .profile-details img{
   height: 40px;
   width: 40px;
@@ -273,20 +221,6 @@ nav .profile-details .admin_name{
 nav .profile-details i{
   font-size: 25px;
   color: #333;
-}
-@media (max-width: 700px) {
-  nav .sidebar-button .dashboard,
-  nav .profile-details .admin_name,
-  nav .profile-details i{
-    display: none;
-  }
-  .home-section nav .profile-details{
-    height: 50px;
-    min-width: 40px;
-  }
-  .home-content .sales-boxes .sales-details{
-    width: 560px;
-  }
 }
 @media (max-width: 550px) {
   .overview-boxes .box{
