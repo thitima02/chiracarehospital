@@ -1,113 +1,213 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f7f7f7;
-}
-
-.main-content {
-    width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+/* ปุ่มค้นหา */
+.search-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
     border-radius: 8px;
-}
-
-/* Search Bar */
-.search-bar {
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+  }
+  
+  .search-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* ปรับให้ฟอร์มค้นหาดูดีขึ้น */
+  .filter-bar {
     display: flex;
+    justify-content: space-between;
     gap: 10px;
     margin-bottom: 20px;
-}
-
-.search-bar input[type="search"], 
-.search-bar select {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 200px;
-}
-
-.search-bar button {
-    padding: 10px 20px;
-    background-color: #28a745; /* Changed from #007bff to green */
-    color: #fff;
-    border: none;
-    border-radius: 4px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-box {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-box:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  }
+  
+  .filter {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 14px;
     cursor: pointer;
-}
-
-.search-bar button:hover {
-    background-color: #218838; /* Darker green for hover */
-}
-
-/* Table Styles */
-.table-container {
-    overflow-x: auto;
-}
-
-table {
+    transition: all 0.3s ease;
+  }
+  
+  .filter:hover {
+    border-color: #007bff;
+  }
+  
+/* การตั้งค่าเริ่มต้น */
+body {
+    font-family: 'Prompt', sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  /* กล่องค้นหาและตัวกรอง */
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-box {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-box:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  }
+  
+  .filter {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .filter:hover {
+    border-color: #007bff;
+  }
+  
+  /* ตารางผู้ป่วย */
+  .patient-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-thead th {
-    background-color: #28a745; /* Changed from #007bff to green */
-    color: #fff;
-    text-align: left;
-    padding: 12px;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-td {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .patient-table th, .patient-table td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-td img {
-    width: 30px;
-    height: 30px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+  }
+  
+  .patient-table th {
+    background-color: #f4f7fa;
+    font-weight: 600;
+  }
+  
+  .patient-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .patient-table img {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 10px;
     vertical-align: middle;
-}
-
-td input[type="checkbox"] {
-    margin-right: 10px;
-    vertical-align: middle;
-}
-
-/* Action Buttons */
-.table-actions .edit-btn, 
-.table-actions .delete-btn {
+  }
+  
+  /* ป้ายสถานะ */
+  .status-label {
     padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: white;
+    display: inline-block;
+  }
+  
+  .status-label.red {
+    background-color: #BB4292;
+  }
+  
+  .status-label.gray {
+    background-color: #22bd44;
+  }
+  
+  .status-label.green {
+    background-color: #28a745;
+  }
+  
+  .status-label.blue {
+    background-color: #007bff;
+  }
+  
+  /* ปุ่มแก้ไขและรายละเอียด */
+  .edit-btn, .detail-btn {
+    padding: 8px 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-btn {
+    background-color: #6c757d;
+    color: white;
     margin-right: 5px;
-}
-
-.edit-btn {
-    background-color: #28a745; /* Green */
-    color: #fff;
-}
-
-.edit-btn:hover {
-    background-color: #218838; /* Darker green */
-}
-
-.delete-btn {
-    background-color: #dc3545; /* Red */
-    color: #fff;
-}
-
-.delete-btn:hover {
-    background-color: #c82333; /* Darker red */
-}
+  }
+  
+  .edit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .detail-btn {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .detail-btn:hover {
+    background-color: #5a6268;
+  }
+  
+  /* การตอบสนองของตาราง */
+  @media (max-width: 768px) {
+    .filter-bar {
+      flex-direction: column;
+    }
+  
+    .patient-table th, .patient-table td {
+      font-size: 12px;
+    }
+  
+    .search-box, .filter {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .edit-btn, .detail-btn {
+      font-size: 10px;
+    }
+  }
+  

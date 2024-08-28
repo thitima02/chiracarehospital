@@ -3,102 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>statustracking</title> 
+    <title>โรงพยาบาลค่ายจิรประวัติ</title> 
     <link rel="stylesheet" href="../../css/statustracking.css">
-    
 </head>
 <body>
-    <div class="main-content">
-        <div class="search-bar">
-            <input type="search" placeholder="ค้นหาชื่อ...">
-            <select>
-                <option>ประเภทโรค</option>
-                <option>ความดันโลหิตสูง</option>
-                <option>โรคอ้วน</option>
-                <option>ไขมันในเลือดสูง</option>
-                <option>โรคเบาหวาน</option>
-                <option>CVS Risk</option>
-                <option>โรคไต</option>
-            </select>
-            <select>
-                <option>สถานะผู้ป่วย</option>
-                <option>ปกติ</option>
-                <option>เสียชีวิต</option>
-            </select>
-            <select>
-                <option>สถานะการรักษา</option>
-                <option>นัดติดตามต่อเนื่อง</option>
-                <option>กำลังติดตาม</option>
-                <option>รักษาเสร็จสิ้น</option>
-            </select>
-            <select>
-                <option>สถานะการติดตาม</option>
-                <option>ติดตามแล้ว</option>
-                <option>กำลังติดตาม</option>
-                <option>ยังไม่ได้ติดตาม</option>
-            </select>
-            <button>ค้นหา</button>
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ชื่อ - นามสกุล</th>
-                        <th>ประเภทโรค</th>
-                        <th>ประเภทผู้ป่วย</th>
-                        <th>กลุ่มผู้ป่วย</th>
-                        <th>สถานะผู้ป่วย</th>
-                        <th>ครั้งที่ติดตาม</th>
-                        <th>สถานะการรักษา</th>
-                        <th>สถานะการติดตาม</th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox"> <img src="../../" alt="Profile Image"> นายปลาทู</td>
-                    <td>เบาหวาน</td>
-                    <td>ประชาชน</td>
-                    <td>กลุ่มสงสัยป่วย</td>
-                    <td>ปกติ</td>
-                    <td>1</td>
-                    <td><span style="color: #ff5e5e;">นัดติดตามต่อเนื่อง</span></td>
-                    <td><span style="color: #10b146a9;">กำลังติดตาม</span></td>
-                    <td class="table-actions">
-                        <button class="edit-btn">แก้ไข</button>
-                        <button class="delete-btn">ลบ</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"> <img src="../../" alt="Profile Image"> นายส้ม </td>
-                    <td>เบาหวาน</td>
-                    <td>ประชาชน</td>
-                    <td>กลุ่มสงสัยป่วย</td>
-                    <td>ปกติ</td>
-                    <td>1</td>
-                    <td><span style="color: #ff5e5e;">นัดติดตามต่อเนื่อง</span></td>
-                    <td><span style="color: #10b146a9;">กำลังติดตาม</span></td>
-                    <td class="table-actions">
-                        <button class="edit-btn">แก้ไข</button>
-                        <button class="delete-btn">ลบ</button>
-                    </td>
-                </tr>
-                
-                </tbody>
-            </table>
-            <!-- <form action="/action_page.php">
-                <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-                <label for="vehicle1"> นายส้ม</label><br>
-                <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-                <label for="vehicle2"> I have a car</label><br>
-                <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-                <label for="vehicle3"> I have a boat</label><br><br>
-                <input type="submit" value="Submit">
-              </form> -->
-        </div>
+    <div class="filter-bar">
+        <input type="text" class="search-box" placeholder="ค้นหา...">
+        <select class="filter">
+          <option>ประเภทโรค</option>
+          <option>ความดันโลหิตสูง</option>
+          <option>โรคอ้วน</option>
+          <option>ไขมันในเลือดสูง</option>
+          <option>โรคเบาหวาน</option>
+          <option>CVS Risk</option>
+          <option>โรคไต</option>
+        </select>
+        <select class="filter">
+          <option>สถานะผู้ป่วย</option>
+          <option>ปกติ</option>
+          <option>เสียชีวิต</option>
+        </select>
+        <select class="filter">
+          <option>สถานะการรักษา</option>
+          <option>รักษาเสร็จสิ้น</option>
+          <option>ยังไม่ได้รับการรักษา</option>
+        </select>
+        <select class="filter">
+          <option>สถานะการติดตาม</option>
+          <option>ติดตามแล้ว</option>
+          <option>ยังไม่ได้ติดตาม</option>
+        </select>
+        <button class="search-btn">ค้นหา</button>
     </div>
+    
+    <table class="patient-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>ชื่อ - นามสกุล</th>
+            <th>ประเภทโรค</th>
+            <th>ประเภทผู้ป่วย</th>
+            <th>กลุ่มผู้ป่วย</th>
+            <th>สถานะผู้ป่วย</th>
+            <th>ครั้งที่ติดตาม</th>
+            <th>สถานะการรักษา</th>
+            <th>สถานะการติดตาม</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
+            <td>เบาหวาน</td>
+            <td>ประชาชน</td>
+            <td>กลุ่มเสี่ยง</td>
+            <td>ปกติ</td>
+            <td>0</td>
+            <td><span class="status-label red">นัดติดตามต่อเนื่อง</span></td>
+            <td><span class="status-label gray">ติดตามแล้ว</span></td>
+            <td>
+              <button class="edit-btn">แก้ไข</button>
+              <button class="detail-btn">ดูเพิ่มเติม</button>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ก</td>
+            <td>เบาหวาน</td>
+            <td>ประชาชน</td>
+            <td>กลุ่มเสี่ยง</td>
+            <td>ปกติ</td>
+            <td>2</td>
+            <td><span class="status-label red">นัดติดตามต่อเนื่อง</span></td>
+            <td><span class="status-label blue">ยังไม่ได้ติดตาม</span></td>
+            <td>
+              <button class="edit-btn">แก้ไข</button>
+              <button class="detail-btn">ดูเพิ่มเติม</button>
+            </td>
+          </tr>
+        </tbody>
+    </table>
 
     <script>
-
+      document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          // เปลี่ยนเส้นทางไปที่หน้า edittracking.html
+          window.location.href = 'edittracking.html';
+        });
+      });
+      document.querySelectorAll('.detail-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const patientRow = this.closest('tr');
+          const patientId = patientRow.getAttribute('data-id');
+          // เปลี่ยนเส้นทางไปยังหน้า moreinfo.html พร้อมส่ง id ผู้ป่วย
+          window.location.href = `moreinfo.html?id=${patientId}`;
+        });
+      });
     </script>
 </body>
 </html>

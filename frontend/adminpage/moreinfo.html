@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลเพิ่มเติมผู้ป่วย</title>
+    <link rel="stylesheet" href="../css/moreinfo.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Section for Patient Profile -->
+        <div class="patient-profile">
+            <img src="../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
+            <h2>นายจริลเสง อ้างทอง</h2>
+            <p><strong>อายุ:</strong> 48</p>
+            <p><strong>สถานะปัจจุบัน:</strong> ปกติ</p>
+            <p><strong>ประเภทโรค:</strong> เบาหวาน</p>
+            <p><strong>กลุ่มผู้ป่วย:</strong> กลุ่มผู้ป่วย</p>
+            <p><strong>ประเภทผู้ป่วย:</strong> ประชาชน</p>
+            <p><strong>เลขบัตรประจำตัวประชาชน:</strong> 123-xxxxxxxxxxx</p>
+            <p><strong>วันเกิด:</strong> 20/03/1978</p>
+            <p><strong>เบอร์โทรศัพท์:</strong> 088-9999-xxx</p>
+            <p><strong>เบอร์ฉุกเฉิน:</strong> 098-0000-777</p>
+            <p><strong>ที่อยู่:</strong> 98 ตำบลเมือง ซอย หน้าวัว ถนน หน้าวัว อำเภอเมือง จังหวัดนครสวรรค์ 51999</p>
+            <p><strong>เพิ่มเติม:</strong> -</p>
+        </div>
+
+        <!-- Section for Follow-up and Treatment Information -->
+        <div class="patient-details">
+            <!-- Follow-up Information -->
+            <div class="follow-up-info">
+                <h3>ข้อมูลการติดตามล่าสุด</h3>
+                <p><strong>โรคของผู้ป่วยที่ติดตาม:</strong> เบาหวาน</p>
+                <p><strong>อาการทั่วไป:</strong> ปกติ</p>
+                <p><strong>ค่าสัญญาณชีพ:</strong> 150</p>
+                <p><strong>ค่าระดับน้ำตาลในเลือด:</strong> 70</p>
+                <p><strong>วันเริ่มติดตาม:</strong> สิ้นเดือนการรักษา</p>
+                <p><strong>ครั้งที่ติดตาม:</strong> 1</p>
+                <p><strong>สถานะการติดตาม:</strong> <span class="green-status">ติดตามแล้ว</span></p>
+            </div>
+
+            <!-- Treatment Information -->
+            <div class="treatment-info">
+                <h3>ข้อมูลการรักษาล่าสุด</h3>
+                <p><strong>โรคของผู้ป่วย:</strong> เบาหวาน</p>
+                <p><strong>อาการทั่วไป:</strong> ปกติ</p>
+                <p><strong>ประเภทการรักษา:</strong> ความดันสูง</p>
+                <p><strong>วันที่นัดหมาย:</strong> 25/05/2022</p>
+                <p><strong>วันที่เข้ารับการรักษา:</strong> 25/05/2022</p>
+                <p><strong>วันที่นัดครั้งต่อไป:</strong> 01/06/2022</p>
+                <p><strong>ครั้งที่รักษา:</strong> 1</p>
+                <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> นายเจ้าหน้าที่โพสต์</p>
+                <p><strong>สถานะการรักษา:</strong> <span class="blue-status">รักษาเสร็จสิ้น</span></p>
+            </div>
+        </div>
+
+        <!-- Follow-up History Section -->
+        <div class="follow-up-history">
+            <h3>ประวัติการติดตาม</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>เจ้าหน้าที่ที่รับผิดชอบ</th>
+                        <th>วันเริ่มติดตาม</th>
+                        <th>วันสิ้นสุด</th>
+                        <th>ครั้งที่ติดตาม</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>นางปลาร้า ไม่เหม็น</td>
+                        <td>25/12/2022</td>
+                        <td>25/12/2022</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    // JavaScript เพื่อดึง id ของผู้ป่วยจาก URL
+    function getQueryParameter(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const patientId = getQueryParameter('id');
+    
+    // สามารถใช้ patientId ในการดึงข้อมูลผู้ป่วยที่เหมาะสมจากฐานข้อมูลหรือ JSON
+    if (patientId === "1") {
+      document.getElementById('patient-name').innerText = 'นาย ข';
+    } else if (patientId === "2") {
+      document.getElementById('patient-name').innerText = 'นาย ก';
+    }
+  </script>
+</html>

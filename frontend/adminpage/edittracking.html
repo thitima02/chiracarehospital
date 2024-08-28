@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แก้ไขข้อมูลการติดตาม</title>
+    <link rel="stylesheet" href="../../css/edittracking.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
+            <div class="profile-name">นายจริลเสง อ้างทอง</div>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step active">1 ข้อมูลการติดตาม</div>
+            <div class="step">2 การติดตาม</div>
+            <div class="step">3 ข้อมูลการรักษา</div>
+            <div class="step">4 การรักษา</div>
+        </div>
+
+        <form class="follow-up-form">
+            <h2>ข้อมูลการติดตาม</h2>
+
+            <label for="reason">สาเหตุที่ไม่รับการรักษา</label>
+            <input type="text" id="reason" placeholder="กรุณากรอกสาเหตุที่ไม่รับการรักษา">
+
+            <label for="occupation">ค่าสัญญาณชีพ</label>
+            <input type="text" id="occupation" placeholder="กรุณากรอกค่าสัญญาณชีพ">
+
+            <label for="disease">โรคของผู้ป่วยที่ติดตาม</label>
+            <select id="disease">
+                <option>ความดันโลหิตสูง</option>
+                <option>โรคอ้วน</option>
+                <option>ไขมันในเลือดสูง</option>
+                <option>โรคเบาหวาน</option>
+                <option>CVS Risk</option>
+                <option>โรคไต</option>
+            </select>
+
+            <label for="symptoms">อาการทั่วไป</label>
+            <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+
+            <label for="blood-level">ค่าระดับน้ำตาลในเลือด</label>
+            <input type="text" id="blood-level" placeholder="กรุณากรอกค่าระดับน้ำตาลในเลือด">
+
+            <button type="submit" class="next-btn">ถัดไป</button>
+        </form>
+    </div>
+</body>
+<script>
+    document.querySelectorAll('.edit-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        // เปลี่ยนเส้นทางไปที่หน้า edittracking.html
+        window.location.href = 'edittracking.html';
+      });
+    });
+  </script>
+  
+</html>

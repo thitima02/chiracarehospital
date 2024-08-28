@@ -346,22 +346,24 @@ nav .profile-details i {
 .profile-notification {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .button-notification {
-  margin-right: 15px;
-}
-
-.icon-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
+  margin-right: 10px;
 }
 
 .profile-details {
   display: flex;
   align-items: center;
+}
+
+.admin_name {
+  margin-left: 10px;
+}
+
+.icon-button i {
+  font-size: 24px;
 }
 
 .profile-details img {
@@ -371,25 +373,5 @@ nav .profile-details i {
   margin-right: 10px;
 }
 
-.admin_name {
-  margin-left: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-.admin_name .name {
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.admin_name .job {
-  font-size: 12px;
-  color: #666;
-}
-
-.profile-details i {
-  font-size: 24px;
-  margin-left: 10px;
-}
 
 
