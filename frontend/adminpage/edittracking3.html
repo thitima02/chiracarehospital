@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลการรักษา</title>
+    <link rel="stylesheet" href="../../css/edittracking3.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="avatar-container">
+                <img src="../../assets/images/cat.jpg" alt="Avatar" class="avatar">
+            </div>
+            <div class="patient-info">
+                <h2>นายรัสแสง อ่างทอง</h2>
+            </div>
+        </div>
+        
+        <div class="steps">
+            <div class="step">1 ข้อมูลการติดตาม</div>
+            <div class="step">2 การติดตาม</div>
+            <div class="step active">3 ข้อมูลการรักษา</div>
+            <div class="step">4 การรักษา</div>
+        </div>
+
+        <div class="form-section">
+            <h3>ข้อมูลการรักษา</h3>
+            <form>
+                <label for="disease">โรคของผู้ป่วยที่รักษา</label>
+                <input type="text" id="disease" value="เบาหวาน" readonly>
+
+                <label for="symptoms">อาการทั่วไป</label>
+                <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+
+                <label for="treatmentIssues">ประเด็นการรักษา</label>
+                <input type="text" id="treatmentIssues" placeholder="กรุณากรอกประเด็นการรักษา">
+
+                <div class="buttons">
+                    <button type="button" class="btn back" id="backBtn">ย้อนกลับ</button>
+                    <button type="button" class="btn next" id="nextBtn">ถัดไป</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('backBtn').addEventListener('click', function() {
+            window.location.href = 'edittracking2.html';
+        });
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            window.location.href = 'edittracking4.html';
+        });
+
+    </script>
+</body>
+</html>

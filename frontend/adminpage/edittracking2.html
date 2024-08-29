@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การติดตาม</title>
+    <link rel="stylesheet" href="../../css/edittracking2.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../../assets/images/cat.jpg" alt="Avatar" class="avatar">
+            <div class="patient-info">
+                <h2>นายสามสี ดื้อมาก</h2>
+            </div>
+        </div>
+        
+        <div class="steps">
+            <div class="step">1 ข้อมูลการติดตาม</div>
+            <div class="step active">2 การติดตาม</div>
+            <div class="step">3 ข้อมูลการรักษา</div>
+            <div class="step">4 การรักษา</div>
+        </div>
+
+        <div class="form-section">
+            <h3>การติดตาม</h3>
+            <form>
+                <label for="patientName">เจ้าที่ที่รับผิดชอบ</label>
+                <input type="text" id="patientName" placeholder="เช่น นางสาว สมใจ">
+
+                <label for="followUpStart">วันที่เริ่มติดตาม</label>
+                <input type="date" id="followUpStart" placeholder="กรุณาใส่วันที่เริ่มติดตาม">
+
+                <label for="followUpCount">ครั้งที่ติดตาม</label>
+                <input type="number" id="followUpCount" value="1">
+
+                <label for="lastFollowUpDate">วันที่สิ้นสุด</label>
+                <input type="date" id="lastFollowUpDate" placeholder="กรุณาใส่วันที่ล่าสุด">
+
+                <label for="followUpStatus">สถานะการติดตาม</label>
+                <select id="followUpStatus">
+                    <option value="">ยังไม่ได้ติดตาม</option>
+                    <option value="following">กำลังติดตาม</option>
+                    <option value="followed">ติดตามแล้ว</option>
+                </select>
+
+                <div class="buttons">
+                    <button type="button" class="btn back" id="backBtn">ย้อนกลับ</button>
+                    <button type="button" class="btn next" id="nextBtn">ถัดไป</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript สำหรับการเปลี่ยนหน้า -->
+    <script>
+        // ฟังก์ชันสำหรับปุ่มย้อนกลับ
+        document.getElementById('backBtn').addEventListener('click', function() {
+            window.location.href = 'edittracking.html';
+        });
+
+        // ฟังก์ชันสำหรับปุ่มถัดไป
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html
+            window.location.href = 'edittracking3.html';
+        });
+    </script>
+</body>
+</html>

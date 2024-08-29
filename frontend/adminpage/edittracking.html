@@ -10,7 +10,7 @@
     <div class="container">
         <div class="profile-header">
             <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
-            <div class="profile-name">นายจริลเสง อ้างทอง</div>
+            <div class="profile-name">นายสามสี ดื้อมาก</div>
         </div>
 
         <div class="step-indicator">
@@ -23,12 +23,6 @@
         <form class="follow-up-form">
             <h2>ข้อมูลการติดตาม</h2>
 
-            <label for="reason">สาเหตุที่ไม่รับการรักษา</label>
-            <input type="text" id="reason" placeholder="กรุณากรอกสาเหตุที่ไม่รับการรักษา">
-
-            <label for="occupation">ค่าสัญญาณชีพ</label>
-            <input type="text" id="occupation" placeholder="กรุณากรอกค่าสัญญาณชีพ">
-
             <label for="disease">โรคของผู้ป่วยที่ติดตาม</label>
             <select id="disease">
                 <option>ความดันโลหิตสูง</option>
@@ -39,23 +33,31 @@
                 <option>โรคไต</option>
             </select>
 
-            <label for="symptoms">อาการทั่วไป</label>
-            <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+            <label for="reason">สาเหตุที่ไม่รับการรักษา</label>
+            <input type="text" id="reason" placeholder="กรุณากรอกสาเหตุที่ไม่รับการรักษา">
+
+            <label for="occupation">ค่าสัญญาณชีพ</label>
+            <input type="text" id="occupation" placeholder="กรุณากรอกค่าสัญญาณชีพ">
 
             <label for="blood-level">ค่าระดับน้ำตาลในเลือด</label>
             <input type="text" id="blood-level" placeholder="กรุณากรอกค่าระดับน้ำตาลในเลือด">
 
-            <button type="submit" class="next-btn">ถัดไป</button>
+            <label for="symptoms">อาการทั่วไป</label>
+            <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+
+            <!-- ปุ่มอยู่ใน div ที่มีคลาส .buttons -->
+            <div class="buttons">
+                <button type="button" class="next-btn" id="nextBtn">ถัดไป</button>
+            </div>
         </form>
     </div>
+
+    <!-- JavaScript สำหรับการเปลี่ยนหน้า -->
+    <script>
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            // เปลี่ยนเส้นทางไปที่หน้า edittracking2.html
+            window.location.href = 'edittracking2.html';
+        });
+    </script>
 </body>
-<script>
-    document.querySelectorAll('.edit-btn').forEach(button => {
-      button.addEventListener('click', function() {
-        // เปลี่ยนเส้นทางไปที่หน้า edittracking.html
-        window.location.href = 'edittracking.html';
-      });
-    });
-  </script>
-  
 </html>

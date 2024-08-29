@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การรักษา</title>
+    <link rel="stylesheet" href="../../css/edittracking4.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="avatar-container">
+                <img src="../../assets/images/cat.jpg" alt="Avatar" class="avatar">
+            </div>
+            <div class="patient-info">
+                <h2>นายรัสแสง อ่างทอง</h2>
+            </div>
+        </div>
+        
+        <div class="steps">
+            <div class="step">1 ข้อมูลการติดตาม</div>
+            <div class="step">2 การติดตาม</div>
+            <div class="step">3 ข้อมูลการรักษา</div>
+            <div class="step active">4 การรักษา</div>
+        </div>
+
+        <div class="form-section">
+            <h3>การรักษา</h3>
+            <form>
+                <label for="treatmentNo">ครั้งที่รักษา</label>
+                <input type="text" id="treatmentNo" value="1" readonly>
+
+                <label for="medicalStaff">เจ้าหน้าที่ที่รับผิดชอบ</label>
+                <input type="text" id="medicalStaff" value="ปลาร้า เก่งสุด">
+
+                <label for="appointmentDate">วันที่นัดหมาย</label>
+                <input type="date" id="appointmentDate" placeholder="กรุณาเลือกวันที่นัดหมาย">
+
+                <label for="treatmentDate">วันที่เข้ารับการรักษา</label>
+                <input type="date" id="treatmentDate" placeholder="กรุณาเลือกวันที่เข้ารับการรักษา">
+
+                <label for="nextAppointmentDate">วันนัดครั้งถัดไป</label>
+                <input type="date" id="nextAppointmentDate" placeholder="กรุณาเลือกวันที่นัดหมายครั้งถัดไป">
+
+                <label for="treatmentStatus">สถานะการรักษา</label>
+                <select id="treatmentStatus">
+                    <option value="ongoing">ยังดำเนินการอยู่</option>
+                    <option value="complete">เสร็จสิ้น</option>
+                </select>
+
+                <div class="buttons">
+                    <button type="button" class="btn back" id="backBtn">ย้อนกลับ</button>
+                    <button type="submit" class="btn save" id="saveBtn">บันทึก</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('backBtn').addEventListener('click', function() {
+            window.location.href = 'edittracking3.html';
+        });
+    
+        // เมื่อผู้ใช้กดปุ่มบันทึก จะเปลี่ยนเส้นทางไปที่หน้า statustracking.html
+        document.getElementById('saveBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // ป้องกันการส่งฟอร์ม
+        alert('บันทึกข้อมูลสำเร็จ!'); // แสดงข้อความเพื่อให้แน่ใจว่าโค้ดทำงาน
+        window.location.href = 'statustracking.html'; // ระบุเส้นทางที่ถูกต้อง
+});
+    </script>
+    
+</body>
+</html>
