@@ -12,7 +12,7 @@
   top: 0;
   height: 100%;
   width: 78px;
-  background: #ffffff;
+  background: #11101D;
   padding: 6px 14px;
   z-index: 99;
   transition: all 0.5s ease;
@@ -31,9 +31,9 @@
   transition: all 0.5s ease;
 }
 .sidebar .logo-details .logo_name{
-  color: #000000;
-  font-size: 12px;
-  font-weight: 700;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
   opacity: 0;
   transition: all 0.5s ease;
 }
@@ -57,7 +57,7 @@
   text-align: right;
 }
 .sidebar i{
-  color: #3d4369;
+  color: #fff;
   height: 60px;
   min-width: 50px;
   font-size: 28px;
@@ -79,7 +79,7 @@
   left: calc(100% + 15px);
   z-index: 3;
   background: #fff;
-  box-shadow: 0 5px 10px rgba(71, 37, 37, 0.3);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   padding: 6px 12px;
   border-radius: 4px;
   font-size: 15px;
@@ -141,13 +141,13 @@
   align-items: center;
   text-decoration: none;
   transition: all 0.4s ease;
-  background: #ffffff;
+  background: #11101D;
 }
 .sidebar li a:hover{
-  background: #5D97EF;
+  background: #FFF;
 }
 .sidebar li a .links_name{
-  color: #3d4369;
+  color: #fff;
   font-size: 15px;
   font-weight: 400;
   white-space: nowrap;
@@ -162,7 +162,7 @@
 .sidebar li a:hover .links_name,
 .sidebar li a:hover i{
   transition: all 0.5s ease;
-  color: #ffffff;
+  color: #11101D;
 }
 .sidebar li i{
   height: 50px;
@@ -177,7 +177,7 @@
   left: 0;
   bottom: -8px;
   padding: 10px 14px;
-  background: #ffffff;
+  background: #1d1b31;
   transition: all 0.5s ease;
   overflow: hidden;
 }
@@ -199,8 +199,8 @@
 .sidebar li.profile .name,
 .sidebar li.profile .job{
   font-size: 15px;
-  font-weight: 500;
-  color: #000000;
+  font-weight: 400;
+  color: #fff;
   white-space: nowrap;
 }
 .sidebar li.profile .job{
@@ -211,7 +211,7 @@
   top: 50%;
   right: 0;
   transform: translateY(-50%);
-  background: #ffffff;
+  background: #1d1b31;
   width: 100%;
   height: 60px;
   line-height: 60px;
@@ -224,7 +224,7 @@
 }
 .home-section{
   position: relative;
-  background: #edeff1;
+  background: #E4E9F7;
   min-height: 100vh;
   top: 0;
   left: 78px;
@@ -238,105 +238,13 @@
 }
 .home-section .text{
   display: inline-block;
-  color: #151D48;
+  color: #11101d;
   font-size: 25px;
-  font-weight: 900;
-  margin: 10px;
+  font-weight: 500;
+  margin: 18px
 }
 @media (max-width: 420px) {
   .sidebar li .tooltip{
     display: none;
   }
 }
-
-.home-section nav{
-  display: flex;
-  justify-content: space-between;
-  height: 80px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  width: calc(100% - 80px);
-  z-index: 100;
-  padding: 0 20px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s ease;
-}
-
-.home-section nav .profile-details{
-  display: flex;
-  align-items: center;
-  background: #F5F6FA;
-  border: 2px solid #EFEEF1;
-  border-radius: 6px;
-  height: 50px;
-  min-width: 190px;
-  padding: 0 15px 0 2px;
-}
-nav .profile-details img{
-  height: 40px;
-  width: 40px;
-  border-radius: 6px;
-  object-fit: cover;
-}
-nav .profile-details .admin_name{
-  font-size: 15px;
-  font-weight: 500;
-  color: #333;
-  margin: 0 10px;
-  white-space: nowrap;
-}
-nav .profile-details i{
-  font-size: 25px;
-  color: #333;
-}
-@media (max-width: 700px) {
-  nav .sidebar-button .dashboard,
-  nav .profile-details .admin_name,
-  nav .profile-details i{
-    display: none;
-  }
-  .home-section nav .profile-details{
-    height: 50px;
-    min-width: 40px;
-  }
-  .home-content .sales-boxes .sales-details{
-    width: 560px;
-  }
-}
-@media (max-width: 550px) {
-  .overview-boxes .box{
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  .sidebar.active ~ .home-section nav .profile-details{
-    display: none;
-  }
-}
-/* css logo */
-.logo-details {
-    display: flex;
-    align-items: center;
-    padding: 5px; /* Adjust padding as needed */
-    padding-left: 10px; /* Increase padding from the left to move it inward */
-}
-
-.logo-image {
-    width: 30px; /* Adjust width and height as needed */
-    height: 40px;
-    margin-bottom: 5px; /* Space between the logo and the text */
-}
-
-.logo_name {
-    font-size: 22px;
-    font-weight: 600;
-    color: #000; /* Ensure the color contrasts well with the background */
-}
-/* #btn {
-    font-size: 22px;
-    color: #000;
-    margin-left: auto;
-} */
-
-

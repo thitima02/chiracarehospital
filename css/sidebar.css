@@ -1,47 +1,42 @@
 /* Google Font Link */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-* {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins" , sans-serif;
 }
-.sidebar {
+.sidebar{
   position: fixed;
   left: 0;
   top: 0;
   height: 100%;
   width: 78px;
   background: #ffffff;
+  padding: 6px 14px;
   z-index: 99;
   transition: all 0.5s ease;
 }
-.sidebar.open {
+.sidebar.open{
   width: 250px;
 }
-.sidebar .logo-details {
+.sidebar .logo-details{
   height: 60px;
   display: flex;
   align-items: center;
-  justify-content: center;
   position: relative;
 }
-.sidebar .logo-details .icon {
-  opacity: 0;
-  transition: all 0.5s ease;
-}
-.sidebar .logo-details .logo_name {
+.sidebar .logo-details .logo_name{
   color: #000000;
   font-size: 12px;
   font-weight: 700;
   opacity: 0;
   transition: all 0.5s ease;
 }
-.sidebar.open .logo-details .icon,
-.sidebar.open .logo-details .logo_name {
+.sidebar.open .logo-details .logo_name{
   opacity: 1;
 }
-.sidebar .logo-details #btn {
+.sidebar .logo-details #btn{
   position: absolute;
   top: 50%;
   right: 0;
@@ -53,10 +48,10 @@
   cursor: pointer;
   transition: all 0.5s ease;
 }
-.sidebar.open .logo-details #btn {
+.sidebar.open .logo-details #btn{
   text-align: right;
 }
-.sidebar i {
+.sidebar i{
   color: #3d4369;
   height: 60px;
   min-width: 50px;
@@ -64,16 +59,16 @@
   text-align: center;
   line-height: 60px;
 }
-.sidebar .nav-list {
+.sidebar .nav-list{
   margin-top: 20px;
   height: 100%;
 }
-.sidebar li {
+.sidebar li{
   position: relative;
   margin: 8px 0;
   list-style: none;
 }
-.sidebar li .tooltip {
+.sidebar li .tooltip{
   position: absolute;
   top: -20px;
   left: calc(100% + 15px);
@@ -89,19 +84,19 @@
   pointer-events: none;
   transition: 0s;
 }
-.sidebar li:hover .tooltip {
+.sidebar li:hover .tooltip{
   opacity: 1;
   pointer-events: auto;
   transition: all 0.4s ease;
   top: 50%;
   transform: translateY(-50%);
 }
-.sidebar.open li .tooltip {
+.sidebar.open li .tooltip{
   display: none;
 }
-.sidebar input {
+.sidebar input{
   font-size: 15px;
-  color: #fff;
+  color: #FFF;
   font-weight: 400;
   outline: none;
   height: 50px;
@@ -112,28 +107,28 @@
   transition: all 0.5s ease;
   background: #1d1b31;
 }
-.sidebar.open input {
+.sidebar.open input{
   padding: 0 20px 0 50px;
   width: 100%;
 }
-.sidebar .bx-search {
+.sidebar .bx-search{
   position: absolute;
   top: 50%;
   left: 0;
   transform: translateY(-50%);
   font-size: 22px;
   background: #1d1b31;
-  color: #fff;
+  color: #FFF;
 }
-.sidebar.open .bx-search:hover {
+.sidebar.open .bx-search:hover{
   background: #1d1b31;
-  color: #fff;
+  color: #FFF;
 }
-.sidebar .bx-search:hover {
-  background: #fff;
+.sidebar .bx-search:hover{
+  background: #FFF;
   color: #11101d;
 }
-.sidebar li a {
+.sidebar li a{
   display: flex;
   height: 100%;
   width: 100%;
@@ -143,10 +138,10 @@
   transition: all 0.4s ease;
   background: #ffffff;
 }
-.sidebar li a:hover {
-  background: #5d97ef;
+.sidebar li a:hover{
+  background: #5D97EF;
 }
-.sidebar li a .links_name {
+.sidebar li a .links_name{
   color: #3d4369;
   font-size: 15px;
   font-weight: 400;
@@ -155,22 +150,22 @@
   pointer-events: none;
   transition: 0.4s;
 }
-.sidebar.open li a .links_name {
+.sidebar.open li a .links_name{
   opacity: 1;
   pointer-events: auto;
 }
 .sidebar li a:hover .links_name,
-.sidebar li a:hover i {
+.sidebar li a:hover i{
   transition: all 0.5s ease;
   color: #ffffff;
 }
-.sidebar li i {
+.sidebar li i{
   height: 50px;
   line-height: 50px;
   font-size: 18px;
   border-radius: 12px;
 }
-.sidebar li.profile {
+.sidebar li.profile{
   position: fixed;
   height: 60px;
   width: 78px;
@@ -181,15 +176,15 @@
   transition: all 0.5s ease;
   overflow: hidden;
 }
-.sidebar.open li.profile {
+.sidebar.open li.profile{
   width: 250px;
 }
-.sidebar li .profile-details {
+.sidebar li .profile-details{
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
 }
-.sidebar li img {
+.sidebar li img{
   height: 45px;
   width: 45px;
   object-fit: cover;
@@ -197,32 +192,20 @@
   margin-right: 10px;
 }
 .sidebar li.profile .name,
-.sidebar li.profile .job {
+.sidebar li.profile .job{
   font-size: 15px;
   font-weight: 500;
   color: #000000;
   white-space: nowrap;
 }
-.sidebar li.profile .job {
+.sidebar li.profile .job{
   font-size: 12px;
 }
-.sidebar .profile #log_out {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  background: #ffffff;
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
-  border-radius: 0px;
-  transition: all 0.5s ease;
-}
-.sidebar.open .profile #log_out {
+.sidebar.open .profile #log_out{
   width: 50px;
   background: none;
 }
-.home-section {
+.home-section{
   position: relative;
   background: #edeff1;
   min-height: 100vh;
@@ -232,23 +215,24 @@
   transition: all 0.5s ease;
   z-index: 2;
 }
-.sidebar.open ~ .home-section {
+.sidebar.open ~ .home-section{
   left: 250px;
   width: calc(100% - 250px);
 }
-.home-section .text {
+.home-section .text{
   display: inline-block;
-  color: #151d48;
+  color: #151D48;
   font-size: 25px;
   font-weight: 900;
+  margin: 10px;
 }
 @media (max-width: 420px) {
-  .sidebar li .tooltip {
+  .sidebar li .tooltip{
     display: none;
   }
 }
 
-.home-section nav {
+.home-section nav{
   display: flex;
   justify-content: space-between;
   height: 80px;
@@ -263,186 +247,53 @@
   transition: all 0.5s ease;
 }
 
-.home-section nav .profile-details {
+.home-section nav .profile-details{
   display: flex;
   align-items: center;
-  background: #f5f6fa;
-  border: 2px solid #efeef1;
+  background: #F5F6FA;
+  border: 2px solid #EFEEF1;
   border-radius: 6px;
   height: 50px;
   min-width: 190px;
   padding: 0 15px 0 2px;
 }
-nav .profile-details img {
+nav .profile-details img{
   height: 40px;
   width: 40px;
   border-radius: 6px;
   object-fit: cover;
 }
-nav .profile-details .admin_name {
-  font-size: 15px;
+nav .profile-details .admin_name{
+  font-size: 13px;
   font-weight: 500;
   color: #333;
-  margin: 0 10px;
+  margin: 0 25px;
   white-space: nowrap;
 }
-nav .profile-details i {
+nav .profile-details i{
   font-size: 25px;
   color: #333;
 }
 @media (max-width: 700px) {
   nav .sidebar-button .dashboard,
   nav .profile-details .admin_name,
-  nav .profile-details i {
+  nav .profile-details i{
     display: none;
   }
-  .home-section nav .profile-details {
+  .home-section nav .profile-details{
     height: 50px;
     min-width: 40px;
   }
-  .home-content .sales-boxes .sales-details {
+  .home-content .sales-boxes .sales-details{
     width: 560px;
   }
 }
 @media (max-width: 550px) {
-  .overview-boxes .box {
+  .overview-boxes .box{
     width: 100%;
     margin-bottom: 15px;
   }
-  .sidebar.active ~ .home-section nav .profile-details {
+  .sidebar.active ~ .home-section nav .profile-details{
     display: none;
   }
-}
-
-.picmenu {
-  display: none;
-}
-
-.container {
-  max-width: 1300px;
-  margin: 0 120px;
-  width: 100%;
-}
-
-h3 {
-  margin: 0 10px;
-}
-
-.profile-card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 100%;
-  max-width: 900px;
-  margin: 20px auto;
-}
-.profile-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.profile-image {
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin-right: 15px;
-}
-.profile-name {
-  font-size: 20px;
-  font-weight: bold;
-}
-.profile-item .label {
-  color: #007bff;
-  font-size: 14px;
-  display: flex;
-}
-.profile-item .value {
-  font-size: 16px;
-}
-
-.profile img {
-  border: 2px solid #f8f9fa;
-}
-
-.card {
-  border: none;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-
-.table-container {
-  background-color: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  font-size: 16px;
-  color: #555;
-}
-table th,
-table td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-table th {
-  background-color: #f9fbfc;
-  color: #333;
-  font-weight: 600;
-}
-
-.form-select {
-  display: flex;
-}
-
-table tr:hover {
-  background-color: #f1f1f1;
-}
-table img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  margin-right: 10px;
-  vertical-align: middle;
-}
-
-.edit-btn {
-  background-color: #5d97ef;
-  color: #fff;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-}
-
-.table-actions button {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.table th {
-  background-color: #f9fbfc;
-  color: #333;
-  font-weight: 600;
-}
-.table tr:hover {
-  background-color: #f1f1f1;
-}
-
-.form-group {
-  margin-left: 10px;
-}
-
-.btn-save {
-  color: #fff;
-  text-decoration: none;
-  display: flex;
-  
 }

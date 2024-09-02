@@ -17,7 +17,7 @@
   <div class="sidebar">
     <div class="logo-details">
       <!-- assent logo -->
-      <img class="picmenu" src="/picture/logochiracare.png" alt="" width="40px">
+      <img class="picmenu" src="/assets/images/chiralogo.jpg" alt="" width="40px">
       <i class='bx bx-menu' id="btn"></i>
     </div>
     <ul class="nav-list">
@@ -54,7 +54,7 @@
         <div class="profile d-flex align-items-center">
           <img src="/picture/small 1.png" alt="User Avatar" class="rounded-circle me-2" width="50">
           <div>
-            <strong>นิธนาม มือที่สาม</strong><br>
+            <strong>นิรนาม มือที่สาม</strong><br>
             <span class="text-muted">อาสาสมัครสาธารณะสุข</span>
           </div>
         </div>
@@ -62,57 +62,51 @@
       <!-- Card name vhv -->
       <div class="card mt-4">
         <div class="card-body" style="display: flex; justify-content: space-around; align-items: center; ">
-          <img src="/picture/small 1.png" alt="" width="50px">
-          <span>นิรนาม มือที่สาม</span>
-          <span> สถานะ </span>
-          <span>เขตที่รับผิดชอบ </span>
-          <span>ไอดีไลน์ (LINE ID) </span>
-          <span>เลขบัตรประชาชน </span>
-          <span>เบอร์โทรศัพท์ </span>
+         
         </div>
 
       </div>
       <!-- Search bar -->
       <div class="title-info">
-        <p style="display: flex; justify-content: end; margin-top: 20px;">รายชื่อผู้ป่วยที่ต้องติดตามของวันที่</p>
+        <p style="display: flex; justify-content: end; margin-top: 20px;">รายชื่อผู้ป่วยเขตที่1 ที่ต้องติดตามของวันที่
+          <i style="color: rgb(185, 185, 178);">21/12/2022</i>
+        </p>
+        
       </div>
-
-      <div class="container text-center mt-3 mb-3">
-        <div class="row align-items-center">
-          <div class="col-md-5 mx-auto">
-            <div class="input-group">
-              <input class="form-control border-end-0 border rounded-pill" type="search" value="ค้นหาที่นี่...."
-                id="example-search-input">
-              <span class="input-group-append">
-                <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5"
-                  type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
+      <div class="container mt-4">
+        <div class="row">
+            <!-- Search input -->
+            <div class="col-md-6">
+                <label for="searchInput" class="form-label custom-label">ค้นหารายชื่อ</label>
+                
+                <div class="input-group">
+                    <span class="input-group-text search-input">
+                      <i class="fa fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control search-input" id="searchInput" placeholder="ค้นหาที่นี่...">
+                    
+                </div>
             </div>
+            <!-- Dropdown input -->
+            <div class="col-md-3">
+              <label for="followUpCount" class="form-label custom-label">ครั้งที่ติดตาม</label>
+              <select class="form-select" id="followUpCount">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+              </select>
           </div>
 
-          <div class="col">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>ครั้งที่ติดตาม</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+          <!-- Date input -->
+          <div class="col-md-3">
+              <label for="followUpDate" class="form-label custom-label">วันที่อัปเดตการติดตาม</label>
+              <input type="date" class="form-control" id="followUpDate">
           </div>
-
-          <div class="col">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>วันที่อัปเดตการติดตาม</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </div>
-        </div>
+      </div>
+  </div>
       </div>
       <!--  -->
-      <div class="table-container">
+      <div class="table-container mt-4">
         <table>
           <thead>
             <tr>
@@ -132,7 +126,9 @@
               <td>161 หมู่ 1 ซอย - ตำบล/แขวน นครสวรรค์ออก อำเภอ/เขต เมือง จังหวัด นครสวรรค์ เลขไปรษณีย์ 60000</td>
               <td>2</td>
               <td class="table-actions">
-                <button class="edit-btn">คลิกเพื่อกรอกฟอร์ม</button>
+                <a href="/vhvmanege/Tracking information.html">
+                  <button class="edit-btn">คลิกเพื่อกรอกฟอร์ม</button>
+                </a>
               </td>
             </tr>
             <tr>
@@ -142,7 +138,7 @@
               <td>1330/3 หมู่ 8 ซอย - ตำบล/แขวน นครสวรรค์ออก อำเภอ/เขต เมือง จังหวัด นครสวรรค์ เลขไปรษณีย์ 60000</td>
               <td>1</td>
               <td class="table-actions">
-                <button class="edit-btn">คลิกเพื่อกรอกฟอร์ม</button>
+                <a href="/vhvmanege/Tracking information.html"><button class="edit-btn">คลิกเพื่อกรอกฟอร์ม</button></a>
               </td>
             </tr>
           </tbody>
