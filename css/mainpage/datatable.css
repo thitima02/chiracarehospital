@@ -1,41 +1,52 @@
   .table-container {
-    width: 90.6%; /* Ensure the container takes full width */
+    display: flex;
+    justify-content: center;
+    /* Horizontally center the table */
+    align-items: center;
+    /* Vertically center the table if needed */
+    width: 90.6%;
+    /* Ensure the container takes full width */
     padding: 20px;
     box-sizing: border-box;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto; /* Center the container */
+    margin: 20px auto;
+    /* Center the container */
     margin-left: 110px;
   }
-  
+
   .patient-table {
-    width: 100%; /* Ensure the table fits within the container */
+    width: 100%;
+    /* Ensure the table fits within the container */
     border-collapse: collapse;
     font-size: 14px;
-    text-align: left;
-    overflow-x: auto; /* Allows horizontal scrolling if needed */
+    text-align: center;
+    overflow-x: auto;
   }
-  
+
   .patient-table thead tr {
     background-color: #f4f4f4;
     color: #5D97EF;
   }
-  
-  .patient-table th, .patient-table td {
-    padding: 12px 15px;
+
+  .patient-table th,
+  .patient-table td {
+    padding: 15px;
+    padding-right: 33px;
     border-bottom: 1px solid #F4F4F4;
+
   }
-  
+
   .patient-table tbody tr {
     background-color: #fff;
     border-bottom: 1px solid #ddd;
   }
-  
+
   .patient-table tbody tr:last-of-type {
     border-bottom: 2px solid #f4f4f4;
   }
-  
+
   .patient-table img {
     width: 30px;
     height: 30px;
@@ -43,44 +54,66 @@
     margin-right: 10px;
     vertical-align: middle;
   }
-  
+
   .status {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 5px;
-    color: #fff;
     font-size: 12px;
+    font-weight: bold;
   }
-  
+
   .status.pending {
-    background-color: #f31212;
+    background-color: #F4E1E1;
+    color: #BB4242;
   }
-  
+
   .status.in-progress {
-    background-color: #f1c40f;
+    background-color: #FFF5C2;
+    color: #E99050;
   }
-  
+
   .status.follow-up {
-    background-color: #ff00e1;
+    background-color: #F4E1ED;
+    color: #BB4292;
   }
-  
+
   .status.completed {
-    background-color: #00933d;
+    background-color: #E1F4E1;
+    color: #5F8D4E;
   }
 
   .status.success {
-    background-color: #0080ff;
+    background-color: #E3F5FF;
+    color: #5D97EF;
   }
-  
-  .action-btn {
+
+  .status.failed {
+    background-color: #dddddd;
+    color: #626262;
+  }
+
+  /* .action-btn {
     border: none;
     background-color: transparent;
     cursor: pointer;
     font-size: 25px;
     color: #8d8d8d;
+  } */
+
+  .action-btn {
+    position: relative;
+    color: #1d1b31;
+    border: none;
+    padding: 3px 8px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgb(241, 241, 241);
+    margin-left: 15px;
   }
-  
+
   .action-btn:hover {
-    color: #2980b9;
+    background-color: #5D97EF;
+    color: #F4F4F4;
   }
-  

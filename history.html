@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="UTF-8">
   <title>History Page</title>
-  <link rel="stylesheet" href="/css/sidebar.css">
-  <link rel="stylesheet" href="/css/topbar.css">
-  <link rel="stylesheet" href="/css/menubar.css">
-  <link rel="stylesheet" href="/css/logo.css">
-  <link rel="stylesheet" href="/css/mainpage/datatable.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/topbar.css">
+  <link rel="stylesheet" href="css/menubar.css">
+  <link rel="stylesheet" href="css/logo.css">
+  <link rel="stylesheet" href="css/historypage/moredetail.css">
+
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body style="background-color:#edeff1;">
 
   <!-- Sidebar will be loaded here -->
@@ -25,97 +28,88 @@
       <h5>ค้นหารายขื่อ</h5>
       <input type="text" placeholder="ค้นหาที่นี่..." class="search-input">
       <i class='bx bx-search search-icon'></i> <!-- Add your icon here -->
-  </div>
+    </div>
     <div class="filter-item">
       <h5>วันที่นัดหมาย</h5>
-        <input type="date" class="date-filter">
+      <input type="date" class="date-filter">
     </div>
     <div class="filter-item">
       <h5>ครั้งที่รักษา</h5>
-        <select class="dropdown-filter">
-            <option value="ทั้งหมด">ทั้งหมด</option>
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <!-- Add other options as needed -->
-        </select>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
     </div>
     <div class="filter-item">
       <h5>สถานะการติดตาม</h5>
-        <select class="dropdown-filter">
-            <option value="ทั้งหมด">ทั้งหมด</option>
-            <option value="">ยังไม่ได้ติดตาม</option>
-            <option value="">กำลังติดตาม</option>
-            <option value="">ติดตามแล้ว</option>
-            <!-- Add other options as needed -->
-        </select>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">ยังไม่ได้ติดตาม</option>
+        <option value="">กำลังติดตาม</option>
+        <option value="">ติดตามแล้ว</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
     </div>
     <div class="filter-item">
       <h5>สถานะการรักษา</h5>
-        <select class="dropdown-filter">
-            <option value="ทั้งหมด">ทั้งหมด</option>
-            <option value="">ยังไม่ได้รักษา</option>
-            <option value="">นัดติดตามต่อเนื่อง</option>
-            <option value="">รักษาเสร็จสิ้น</option>
-            <!-- Add other options as needed -->
-        </select>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">ยังไม่ได้รักษา</option>
+        <option value="">นัดติดตามต่อเนื่อง</option>
+        <option value="">รักษาเสร็จสิ้น</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
     </div>
-</div>
+  </div>
 
-  <!-- the datatable  -->
-  <div class="table-container">
-    <table class="patient-table">
-      <thead>
-        <tr>
-          <th>รายชื่อผู้ป่วย</th>
-          <th>วันนัดหมาย</th>
-          <th>วันที่เข้ารักษา</th>
-          <th>วันที่นัดครั้งถัดไป</th>
-          <th>ครั้งที่รักษา</th>
-          <th>สถานะการติดตาม</th>
-          <th>สถานะการรักษา</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <img src="/images/amuro.jpg" alt="patient image">
-            นายเบชา สงกรานต์
-          </td>
-          <td>22/05/2022</td>
-          <td>29/05/2022</td>
-          <td>10/06/2022</td>
-          <td>2</td>
-          <td><span class="status completed">ติดตามแล้ว</span></td>
-          <td><span class="status success">รักษาเสร็จสิ้น</span></td>
-          <td>
-            <button class="action-btn">
-              <i class='bx bx-chevrons-right' ></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img src="/images/amuro.jpg" alt="patient image">
-            นายรู้มากความ สาระสำคัญ
-          </td>
-          <td>10/05/2022</td>
-          <td>17/05/2022</td>
-          <td>26/05/2022</td>
-          <td>1</td>
-          <td><span class="status in-progress">กำลังติดตาม</span></td>
-          <td><span class="status follow-up">นัดติดตามต่อเนื่อง</span></td>
-          <td>
-            <button class="action-btn">
-              <i class='bx bx-chevrons-right' ></i>
-            </button>
-          </td>
-        </tr>
-        <!-- Repeat similar <tr> for other patients -->
-      </tbody>
-    </table>
-  </div>  
+  <!-- the historytable  -->
+  <body>
+    <div class="history-container">
+        <div class="history">
+            <div class="activity">
+                <div class="left">
+                    <img src="/images/amuro.jpg" alt="icon" class="activity-icon">
+                    <div class="details">
+                        <p class="title">บันทึกไฟล์ PDF</p>
+                        <p class="subtitle">อัปโหลดไฟล์ลงเครื่องของคุณสำเร็จแล้ว</p>
+                    </div>
+                </div>
+                <div class="right">
+                    <p class="date">21/12/2022</p>
+                    <p class="time">10:40 AM</p>
+                </div>
+                <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                <div class="more-details">
+                    <p class="detail">PDF file was successfully uploaded on 21/12/2022 at 10:40 AM. Click to view the file or download
+                        it.</p>
+                </div>
+            </div>
+            <div class="activity">
+              <div class="left">
+                  <img src="/images/amuro.jpg" alt="icon" class="activity-icon">
+                  <div class="details">
+                      <p class="title">บันทึกไฟล์ PDF</p>
+                      <p class="subtitle">อัปโหลดไฟล์ลงเครื่องของคุณสำเร็จแล้ว</p>
+                  </div>
+              </div>
+              <div class="right">
+                  <p class="date">21/12/2022</p>
+                  <p class="time">10:40 AM</p>
+              </div>
+              <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+              <div class="more-details">
+                  <p class="detail">PDF file was successfully uploaded on 21/12/2022 at 10:40 AM. Click to view the file or download
+                      it.</p>
+              </div>
+          </div>
+        </div>
+    </div>
 
   <script>
     // Load sidebar
@@ -134,6 +128,17 @@
         document.getElementById('page-title').textContent = 'ประวัติการรักษา'; // Set page title for the history page
       });
 
+    function toggleDetails(button) {
+      const details = button.nextElementSibling;
+      if (details.style.display === "block") {
+        details.style.display = "none";
+        button.textContent = "เพิ่มเติม";
+      } else {
+        details.style.display = "block";
+        button.textContent = "ซ้อนข้อมูล";
+      }
+    }
+
     function loadSidebarScript() {
       let sidebar = document.querySelector(".sidebar");
       let closeBtn = document.querySelector("#btn");
@@ -150,7 +155,11 @@
           closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
         }
       }
+      document.getElementById('edit-button').addEventListener('click', function () {
+        window.location.href = 'listhistoty.html';
+      });
     }
   </script>
 </body>
+
 </html>

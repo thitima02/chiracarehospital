@@ -4,7 +4,6 @@
     align-items: center;
     padding: 20px;
     border-radius: 8px;
-    margin-bottom: 20px;
     margin-left: 90px;
 }
 
@@ -59,3 +58,14 @@
     font-size: 20px;
     color: #5D97EF;
 }
+
+/* Dropdown icon */
+.dropdown-icon {
+    position: absolute;
+    right: 30px;
+    top: 67%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #5D97EF;
+    pointer-events: none; /* Prevent clicking the icon */
+  }
