@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>History Page</title>
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="css/sidebar.css">
   <link rel="stylesheet" href="css/topbar.css">
   <link rel="stylesheet" href="css/menubar.css">
@@ -74,10 +75,10 @@
         <div class="history">
             <div class="activity">
                 <div class="left">
-                    <img src="/images/amuro.jpg" alt="icon" class="activity-icon">
+                    <img src="images/amuro.jpg" alt="icon" class="activity-icon">
                     <div class="details">
-                        <p class="title">บันทึกไฟล์ PDF</p>
-                        <p class="subtitle">อัปโหลดไฟล์ลงเครื่องของคุณสำเร็จแล้ว</p>
+                        <p class="title">เพิ่มนัดการรักษา</p>
+                        <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
                     </div>
                 </div>
                 <div class="right">
@@ -86,16 +87,23 @@
                 </div>
                 <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
                 <div class="more-details">
-                    <p class="detail">PDF file was successfully uploaded on 21/12/2022 at 10:40 AM. Click to view the file or download
-                        it.</p>
+                    <div class="detail">
+                      <p>ชื่อ - นามสกุล : นายรู้มากความ สาระสำคัญ</p>
+                      <p>โรคของผู้ป่วยที่รักษา : โรคเบาหวาน</p>
+                      <p>อาการทั่วไป : ปกติ</p>
+                      <p>ประเด็นการรักษา :  -</p>
+                      <p>วันที่เข้ารับการรักษา : 17/05/2022</p>
+                      <p>วันที่นัดครั้งถัดไป : 26/05/2022</p>
+                      <p>หมายเหตุ :  -</p>
+                    </div>
                 </div>
             </div>
             <div class="activity">
               <div class="left">
-                  <img src="/images/amuro.jpg" alt="icon" class="activity-icon">
+                  <img src="images/amuro.jpg" alt="icon" class="activity-icon">
                   <div class="details">
-                      <p class="title">บันทึกไฟล์ PDF</p>
-                      <p class="subtitle">อัปโหลดไฟล์ลงเครื่องของคุณสำเร็จแล้ว</p>
+                      <p class="title">เพิ่มนัดการรักษา</p>
+                      <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
                   </div>
               </div>
               <div class="right">
@@ -104,8 +112,14 @@
               </div>
               <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
               <div class="more-details">
-                  <p class="detail">PDF file was successfully uploaded on 21/12/2022 at 10:40 AM. Click to view the file or download
-                      it.</p>
+                  <p class="detail">ชื่อ - นามสกุล : นายรู้มากความ สาระสำคัญ
+                    โรคของผู้ป่วยที่รักษา : โรคเบาหวาน
+                    อาการทั่วไป : ปกติ
+                    ประเด็นการรักษา :  -
+                    วันที่เข้ารับการรักษา : 17/05/2022
+                    วันที่นัดครั้งถัดไป : 26/05/2022
+                    หมายเหตุ :  -
+                  </p>
               </div>
           </div>
         </div>
@@ -125,7 +139,7 @@
       .then(response => response.text())
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'ประวัติการรักษา'; // Set page title for the history page
+        document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา'; // Set page title for the history page
       });
 
     function toggleDetails(button) {

@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <title>Add Appointment</title>
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="css/sidebar.css">
   <link rel="stylesheet" href="css/topbar.css">
   <link rel="stylesheet" href="css/logo.css">
@@ -33,9 +35,13 @@
 
         <label for="disease">โรคของผู้ป่วยที่รักษา</label>
         <select id="disease">
-          <option value="">เบาหวาน</option>
-          <option value="โรคหัวใจ">โรคหัวใจ</option>
+          <option value="">ความดันโลหิตสูง</option>
+          <option value="โรคหัวใจ">โรคอ้วน</option>
           <option value="มะเร็ง">มะเร็ง</option>
+          <option value="">ไขมันในเลือดสูง</option>
+          <option value="โรคหัวใจ">โรคเบาหวาน</option>
+          <option value="มะเร็ง">CVS Risk</option>
+          <option value="มะเร็ง">โรคไต</option>
         </select>
 
         <label for="symptoms">อาการทั่วไป</label>
@@ -43,9 +49,9 @@
 
         <label for="treatment-plan">ประเด็นการรักษา</label>
         <select id="treatment-plan">
-          <option value="">กรุณากรอกประเด็นการรักษา</option>
-          <option value="ยา">ยา</option>
-          <option value="ผ่าตัด">ผ่าตัด</option>
+          <option value="">กรุณากรอกอาการทั่วไป</option>
+          <!-- <option value="ยา">ยา</option>
+          <option value="ผ่าตัด">ผ่าตัด</option> -->
         </select>
 
         <label for="start-date">วันที่เข้ารับการรักษา</label>
@@ -60,11 +66,21 @@
 
       <!-- Submit Button -->
       <div class="button-group">
-        <button type="submit">บันทึก</button>
+        <button type="submit" onclick="confirmSubmission()">บันทึก</button>
         <button type="back" id="back">ย้อนกลับ</button>
       </div>
+    </form>
   </div>
-  </form>
+
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <h3>คุณแน่ใจหรือไม่ว่าจะส่งแบบฟอร์มนี้?</h3>
+      <p>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้องก่อนส่ง</p>
+      <div class="button-popup">
+        <button type="Yes" onclick="submitForm()">ใช่</button>
+        <button type="No" onclick="closePopup()">ไม่</button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -101,10 +117,66 @@
         }
       }
       document.getElementById('back').addEventListener('click', function () {
-        window.location.href = 'index.html';
+        window.location.href = 'main.html';
       });
     }
   </script>
+
+  <script>
+    // Show the confirmation pop-up
+    function confirmSubmission() {
+      document.getElementById("popup").style.display = "flex";
+    }
+
+    // Close the pop-up
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    // Submit the form and go back to the previous page
+    function submitForm() {
+      // You can add form validation logic here if needed
+      closePopup();
+
+      // Simulate form submission or redirect to the previous page
+      alert('Form submitted successfully!');
+      window.history.back();  // Go back to the previous page
+    }
+
+  </script>
+
 </body>
 
 </html>
+
+<style>
+  .popup {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .popup-content p {
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .button-popup{
+    margin-left: 20px;
+  }
+</style>

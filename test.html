@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>The Main Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/topbar.css">
+    <link rel="stylesheet" href="css/menubar.css">
+    <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/mainpage/result.css">
+    <link rel="stylesheet" href="css/mainpage/datatable.css">
+    <!-- Import icon -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <!-- Sidebar will be loaded here -->
+    <div id="sidebar-container"></div>
+
+    <!-- Topbar will be loaded here -->
+    <div id="topbar-container"></div>
+
+    <!-- the datatable -->
+    <div class="table-container">
+        <table class="patient-table">
+            <thead>
+                <tr>
+                    <th>รายชื่อผู้ป่วย</th>
+                    <th>วันนัดหมาย</th>
+                    <th>วันที่เข้ารักษา</th>
+                    <th>วันที่นัดครั้งถัดไป</th>
+                    <th>ครั้งที่รักษา</th>
+                    <th>สถานะการติดตาม</th>
+                    <th>สถานะการรักษา</th>
+                    <th>จัดการ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="images/amuro.jpg" alt="patient image">
+                        นายเบชา สงกรานต์
+                    </td>
+                    <td>22/05/2022</td>
+                    <td>29/05/2022</td>
+                    <td>10/06/2022</td>
+                    <td>2</td>
+                    <td><span class="status completed">ติดตามแล้ว</span></td>
+                    <td><span class="status follow-up" id="status-1">นัดติดตามต่อเนื่อง</span></td>
+                    <td>
+                        <div class="Actionbutton" id="actionButtons-1">
+                            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" id="add-button-1">
+                                <i class='bx bxs-edit'></i>
+                            </button>
+                            <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmAction(1)">
+                                <i class='bx bx-check'></i>
+                            </button>
+                        </div>
+                        <button id="greenButton-1" class="green-button" style="display: none;"
+                            onclick="confirmRestore(1)">เสร็จสิ้น ✔️
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <!-- pop up -->
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <p>Are you sure you want to proceed?</p>
+                <button onclick="confirmProceed()">Yes</button>
+                <button onclick="closePopup()">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let previousStatus = {}; // Stores previous status for each row
+
+        // Show the confirmation pop-up for hiding action buttons
+        function confirmAction(row) {
+            document.getElementById("popup").style.display = "flex";
+
+            // Set the confirmation behavior for the first action (hiding buttons)
+            document.getElementById("popup").setAttribute("data-action", "hide-buttons");
+            document.getElementById("popup").setAttribute("data-row", row);
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        // Handle what happens after confirming the pop-up
+        function confirmProceed() {
+            const actionType = document.getElementById("popup").getAttribute("data-action");
+            const row = document.getElementById("popup").getAttribute("data-row");
+            const statusElement = document.getElementById(`status-${row}`);
+
+            if (actionType === "hide-buttons") {
+                // Store the current status before switching
+                previousStatus[row] = statusElement.innerText;
+
+                // Hide action buttons and show the green button
+                document.getElementById(`actionButtons-${row}`).style.display = "none";
+                document.getElementById(`greenButton-${row}`).style.display = "flex"; // Change from block to flex
+
+                // Change the status to "รักษาเสร็จสิ้น" and apply green color
+                statusElement.innerText = "รักษาเสร็จสิ้น";
+                statusElement.className = "status success"; // Apply green style
+            } else if (actionType === "restore-buttons") {
+                // Show action buttons and hide the green button
+                document.getElementById(`actionButtons-${row}`).style.display = "flex";
+                document.getElementById(`greenButton-${row}`).style.display = "none";
+
+                // Restore the previous status and apply the correct class
+                statusElement.innerText = previousStatus[row];
+                if (previousStatus[row] === "นัดติดตามต่อเนื่อง") {
+                    statusElement.className = "status follow-up"; // Apply blue style
+                } else if (previousStatus[row] === "รักษาเสร็จสิ้น") {
+                    statusElement.className = "status success"; // Apply green style
+                } else if (previousStatus[row] === "ยังไม่ได้รักษา") {
+                    statusElement.className = "status failed"; // Apply failed style
+                }
+            }
+
+            closePopup();
+        }
+
+        // Show the confirmation pop-up for restoring the action buttons
+        function confirmRestore(row) {
+            document.getElementById("popup").style.display = "flex";
+
+            // Set the confirmation behavior for the second action (restoring buttons)
+            document.getElementById("popup").setAttribute("data-action", "restore-buttons");
+            document.getElementById("popup").setAttribute("data-row", row);
+        }
+    </script>
+
+</body>
+
+</html>
+
+<style>
+    /* Action buttons container */
+.Actionbutton {
+    display: flex;
+}
+    /* Hide the green button initially */
+    .green-button {
+        display: none;
+        background-color: #28a745;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 120px;
+        /* Same width as action buttons container */
+        height: 40px;
+        /* Ensure height matches with action buttons */
+    }
+
+    /* Green button hover effect */
+    .green-button:hover {
+        background-color: #218838;
+    }
+
+    /* Action buttons */
+    .action-btn {
+        position: relative;
+        color: #1d1b31;
+        border: none;
+        padding: 3px 8px;
+        font-size: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        background-color: rgb(241, 241, 241);
+        margin-left: 5px;
+    }
+
+    /* Hover effect for action buttons */
+    .action-btn:hover {
+        background-color: #5D97EF;
+        color: #F4F4F4;
+    }
+
+    /* Pop-up styles */
+    .popup {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+</style>

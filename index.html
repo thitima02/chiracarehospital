@@ -1,196 +1,202 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="css/sidebar.css">
-  <link rel="stylesheet" href="css/topbar.css">
-  <link rel="stylesheet" href="css/menubar.css">
-  <link rel="stylesheet" href="css/logo.css">
-  <link rel="stylesheet" href="css/mainpage/result.css">
-  <link rel="stylesheet" href="css/mainpage/datatable.css">
-  <!-- Import icon -->
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Fort Chiraprawat Hospital</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-  <!-- Sidebar will be loaded here -->
-  <div id="sidebar-container"></div>
-
-  <!-- Topbar will be loaded here -->
-  <div id="topbar-container"></div>
-
-  <!-- the resule of many patient -->
-  <container>
-    <div class="stats-container">
-      <div class="box new-order">
-        <i class='bx bx-user'></i>
-        <div>
-          <h2>10</h2>
-          <p>จำนวนผู้ป่วยที่มีนัดวันนี้</p>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="images/Logologin.png" alt="Hospital Logo" class="logo">
         </div>
-      </div>
-      <div class="box box2 visitors">
-        <i class='bx bx-smile'></i>
-        <div>
-          <h2>2834/5000</h2>
-          <p>รักษาเสร็จสิ้น</p>
+
+        <div class="login-form">
+            <form id="login-form">
+                <label for="username">ชื่อผู้ใช้ (เลขบัตรประชาชน)</label>
+                <input type="text" id="username" name="username" placeholder="Enter ID card number" required>
+
+                <div class="password-container">
+                    <label for="password">รหัสผ่าน</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                    <span class="toggle-password" onclick="togglePasswordVisibility()">
+                        <i id="password-icon" class='bx bx-hide'></i>
+                    </span>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="">ลืมรหัสผ่าน?</a>
+                </div>
+
+                <button type="button" class="login-button" onclick="handleLogin()">เข้าสู่ระบบ</button>
+            </form>
+
+            <div class="register">
+                <span>ยังไม่ได้ลงทะเบียนหรือ? <a href="register.html">ลงทะเบียน</a></span>
+            </div>
         </div>
-      </div>
-      <div class="box box3 total-sales">
-        <i class='bx bx-tired'></i>
-        <div>
-          <h2>2543/5000</h2>
-          <p>ยังไม่ได้รักษา</p>
-        </div>
-      </div>
     </div>
-  </container>
 
-  <!-- the dropdrown  -->
-  <div class="filter-container">
-    <div class="filter-item search-bar">
-      <h5>ค้นหารายขื่อ</h5>
-      <input type="text" placeholder="ค้นหาที่นี่..." class="search-input">
-      <i class='bx bx-search search-icon'></i> <!-- Add your icon here -->
-    </div>
-    <div class="filter-item">
-      <h5>วันที่นัดหมาย</h5>
-      <input type="date" class="date-filter">
-    </div>
-    <div class="filter-item">
-      <h5>ครั้งที่รักษา</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
-    </div>
-    <div class="filter-item">
-      <h5>สถานะการติดตาม</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">ยังไม่ได้ติดตาม</option>
-        <option value="">กำลังติดตาม</option>
-        <option value="">ติดตามแล้ว</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
-    </div>
-    <div class="filter-item">
-      <h5>สถานะการรักษา</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">ยังไม่ได้รักษา</option>
-        <option value="">นัดติดตามต่อเนื่อง</option>
-        <option value="">รักษาเสร็จสิ้น</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
-    </div>
-  </div>
-
-  <!-- the datatable  -->
-  <div class="table-container">
-    <table class="patient-table">
-      <thead>
-        <tr>
-          <th>รายชื่อผู้ป่วย</th>
-          <th>วันนัดหมาย</th>
-          <th>วันที่เข้ารักษา</th>
-          <th>วันที่นัดครั้งถัดไป</th>
-          <th>ครั้งที่รักษา</th>
-          <th>สถานะการติดตาม</th>
-          <th>สถานะการรักษา</th>
-          <th>จัดการ</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <img src="/images/amuro.jpg" alt="patient image">
-            นายเบชา สงกรานต์
-          </td>
-          <td>22/05/2022</td>
-          <td>29/05/2022</td>
-          <td>10/06/2022</td>
-          <td>2</td>
-          <td><span class="status completed">ติดตามแล้ว</span></td>
-          <td><span class="status success">รักษาเสร็จสิ้น</span></td>
-          <td>
-            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" id="add-button"><i class='bx bxs-edit'></i></button>
-            <button class="action-btn" title="คลิกเพื่อยืนยัน"><i class='bx bx-check'></i></button>
-          </td>
-        </tr>
-        <!-- Repeat similar <tr> for other patients -->
-      </tbody>
-      
-      <tbody></tbody>
-        <tr>
-          <td>
-            <img src="/images/amuro.jpg" alt="patient image">
-            นายเบชา สงกรานต์
-          </td>
-          <td>22/05/2022</td>
-          <td>29/05/2022</td>
-          <td>10/06/2022</td>
-          <td>2</td>
-          <td><span class="status pending">ยังไม่ได้ติดตาม</span></td>
-          <td><span class="status failed">ยังไม่ได้รักษา</span></td>
-          <td>
-            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด"><i class='bx bxs-edit'></i></button>
-            <button class="action-btn" title="คลิกเพื่อยืนยัน"><i class='bx bx-check'></i></button>
-          </td>
-        </tr>
-        <!-- Repeat similar <tr> for other patients -->
-      </tbody>
-      
-    </table>
-  </div>
-
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
-
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'หน้าหลัก'; // Set page title for the main page
-      });
-
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+    <script>
+        // ฟังก์ชันสำหรับสลับการแสดง/ซ่อนรหัสผ่าน
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const passwordIcon = document.getElementById('password-icon');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                passwordIcon.classList.remove('bx-hide');
+                passwordIcon.classList.add('bx-show-alt');
+            } else {
+                passwordField.type = 'password';
+                passwordIcon.classList.remove('bx-show-alt');
+                passwordIcon.classList.add('bx-hide');
+            }
         }
-      }
-      document.getElementById('add-button').addEventListener('click', function () {
-        window.location.href = 'addappointment.html';
-      });
-    }
-  </script>
-</body>
 
+        // ฟังก์ชันสำหรับจัดการการล็อกอิน
+        function handleLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // ตรวจสอบข้อมูลล็อกอิน (นี่คือโค้ดตัวอย่าง, คุณสามารถเปลี่ยนการตรวจสอบได้ตามจริง)
+            if (username === '1333333333333' && password === '1234') {
+                // ถ้าล็อกอินสำเร็จ จะเปลี่ยนหน้าไปยัง index.html
+                window.location.href = 'main.html';
+            } else {
+                // ถ้าข้อมูลไม่ถูกต้อง ให้แสดงข้อความเตือน
+                alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+            }
+        }
+    </script>
+</body>
 </html>
+
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-image: url('images/Loginbackground.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-container {
+    /* background: rgba(255, 255, 255, 0.9); */
+    padding: 40px;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    text-align: center;
+    width: 80%;
+  }
+
+  .logo {
+    width: 20%;
+    margin-bottom: 20px;
+  }
+
+  .login-header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .login-header h2 {
+    font-size: 18px;
+    color: gray;
+    margin-bottom: 30px;
+  }
+
+  .login-form {
+    text-align: left;
+  }
+
+  .login-form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .forgot-password {
+    text-align: right;
+  }
+
+  .forgot-password a {
+    text-decoration: none;
+    color: #007BFF;
+  }
+
+  .login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1F3F99;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 30px;
+  }
+
+  .login-button:hover {
+    background-color: #0056b3;
+  }
+
+  .register {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+
+  .register a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+
+  .register a:hover {
+    text-decoration: underline;
+  }
+  
+</style>
+
+<style>
+  .password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; /* เว้นที่สำหรับไอคอน */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 56%;
+    right: 20px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.toggle-password i {
+    font-size: 20px;
+}
+</style>

@@ -92,15 +92,7 @@
     background-color: #dddddd;
     color: #626262;
   }
-
-  /* .action-btn {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 25px;
-    color: #8d8d8d;
-  } */
-
+  
   .action-btn {
     position: relative;
     color: #1d1b31;
@@ -116,4 +108,4 @@
   .action-btn:hover {
     background-color: #5D97EF;
     color: #F4F4F4;
-  }
+  } 

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>The Main Page</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/topbar.css">
+  <link rel="stylesheet" href="css/menubar.css">
+  <link rel="stylesheet" href="css/logo.css">
+  <link rel="stylesheet" href="css/button.css">
+  <link rel="stylesheet" href="css/mainpage/result.css">
+  <link rel="stylesheet" href="css/mainpage/datatable.css">
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+  <!-- Sidebar will be loaded here -->
+  <div id="sidebar-container"></div>
+
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
+
+  <!-- the resule of many patient -->
+  <container>
+    <div class="stats-container">
+      <div class="box new-order">
+        <i class='bx bx-user'></i>
+        <div>
+          <h2>10</h2>
+          <p>จำนวนผู้ป่วยที่มีนัดวันนี้</p>
+        </div>
+      </div>
+      <div class="box box2 visitors">
+        <i class='bx bx-smile'></i>
+        <div>
+          <h2>2834/5000</h2>
+          <p>รักษาเสร็จสิ้น</p>
+        </div>
+      </div>
+      <div class="box box3 total-sales">
+        <i class='bx bx-tired'></i>
+        <div>
+          <h2>2543/5000</h2>
+          <p>ยังไม่ได้รักษา</p>
+        </div>
+      </div>
+    </div>
+  </container>
+
+  <!-- the dropdrown  -->
+  <div class="filter-container">
+    <div class="filter-item search-bar">
+      <h5>ค้นหารายขื่อ</h5>
+      <input type="text" placeholder="ค้นหาที่นี่..." class="search-input">
+      <i class='bx bx-search search-icon'></i> <!-- Add your icon here -->
+    </div>
+    <div class="filter-item">
+      <h5>วันที่นัดหมาย</h5>
+      <input type="date" class="date-filter">
+    </div>
+    <div class="filter-item">
+      <h5>ครั้งที่รักษา</h5>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
+    </div>
+    <div class="filter-item">
+      <h5>สถานะการติดตาม</h5>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">ยังไม่ได้ติดตาม</option>
+        <option value="">กำลังติดตาม</option>
+        <option value="">ติดตามแล้ว</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
+    </div>
+    <div class="filter-item">
+      <h5>สถานะการรักษา</h5>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">ยังไม่ได้รักษา</option>
+        <option value="">นัดติดตามต่อเนื่อง</option>
+        <option value="">รักษาเสร็จสิ้น</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
+    </div>
+  </div>
+
+  <!-- the datatable  -->
+  <div class="table-container">
+    <table class="patient-table">
+      <thead>
+        <tr>
+          <th>รายชื่อผู้ป่วย</th>
+          <th>วันนัดหมาย</th>
+          <th>วันที่เข้ารักษา</th>
+          <th>วันที่นัดครั้งถัดไป</th>
+          <th>ครั้งที่รักษา</th>
+          <th>สถานะการติดตาม</th>
+          <th>สถานะการรักษา</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <img src="images/amuro.jpg" alt="patient image">
+            นายเบชา สงกรานต์
+          </td>
+          <td>22/05/2022</td>
+          <td>29/05/2022</td>
+          <td>10/06/2022</td>
+          <td>2</td>
+          <td><span class="status completed">ติดตามแล้ว</span></td>
+          <td><span class="status follow-up" id="status-1">นัดติดตามต่อเนื่อง</span></td> <!-- Unique ID -->
+          <td>
+            <!-- action -->
+            <div class="Actionbutton" id="actionButtons-1">
+              <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" id="add-button">
+                <i class='bx bxs-edit'></i>
+              </button>
+              <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmAction(1)">
+                <i class='bx bx-check'></i>
+              </button>
+            </div>
+            <div class="Greenbutton">
+              <button id="greenButton-1" class="green-button" style="display: none;" onclick="confirmRestore(1)">
+                <p>เสร็จสิ้น</p>
+                <i class='bx bxs-check-circle'></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <!-- Repeat for other rows with unique ids -->
+      </tbody>
+
+      <tbody>
+        <tr>
+          <td>
+            <img src="images/amuro.jpg" alt="patient image">
+            นายเบชา สงกรานต์
+          </td>
+          <td>22/05/2022</td>
+          <td>29/05/2022</td>
+          <td>10/06/2022</td>
+          <td>2</td>
+          <td><span class="status pending">ยังไม่ได้ติดตาม</span></td>
+          <td><span class="status failed" id="status">ยังไม่ได้รักษา</span></td>
+          <td>
+            <!-- action button -->
+            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด"><i class='bx bxs-edit'></i></button>
+            <button class="action-btn" title="คลิกเพื่อยืนยัน"><i class='bx bx-check'></i></button>
+          </td>
+        </tr>
+        <!-- Repeat similar <tr> for other patients -->
+      </tbody>
+
+    </table>
+    <!-- pop up -->
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <h3>ยืนยันเพื่อเปลี่ยนสถานะการรักษาของผู้ป่วย</h3>
+        <p>เมื่อกดปุ่มข้างล่าง อาจจะไม่สามารถเพิ่มนัดการรักษาได้อีกเพราะคุณยืนยันว่าผู้ป่วยรักษาสำเร็จแล้ว</p>
+        <div class="button-popup">
+          <button type="Yes" onclick="confirmProceed()">ใช่</button>
+          <button type="No" onclick="closePopup()">ไม่</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Load sidebar
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('sidebar-container').innerHTML = data;
+          loadSidebarScript(); // Initialize sidebar toggle after loading
+        });
+
+      // Load topbar and set the page title
+      fetch('topbar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('topbar-container').innerHTML = data;
+          document.getElementById('page-title').textContent = 'หน้าหลัก'; // Set page title for the main page
+        });
+
+      function loadSidebarScript() {
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+
+        closeBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("open");
+          menuBtnChange();
+        });
+
+        function menuBtnChange() {
+          if (sidebar.classList.contains("open")) {
+            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+          } else {
+            closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+          }
+        }
+        // go to addappointment
+        document.getElementById('add-button').addEventListener('click', function () {
+          window.location.href = 'addappointment.html';
+        });
+      }
+    </script>
+
+    <script>
+      let previousStatus = {}; // Stores previous status for each row
+
+      // Show the confirmation pop-up for hiding action buttons
+      function confirmAction(row) {
+        document.getElementById("popup").style.display = "flex";
+
+        // Set the confirmation behavior for the first action (hiding buttons)
+        document.getElementById("popup").setAttribute("data-action", "hide-buttons");
+        document.getElementById("popup").setAttribute("data-row", row);
+      }
+
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+      }
+
+      // Handle what happens after confirming the pop-up
+      function confirmProceed() {
+        const actionType = document.getElementById("popup").getAttribute("data-action");
+        const row = document.getElementById("popup").getAttribute("data-row");
+        const statusElement = document.getElementById(`status-${row}`); // Ensure unique status id
+
+        if (actionType === "hide-buttons") {
+          // Store the current status before switching
+          previousStatus[row] = statusElement.innerText;
+
+          // Hide action buttons and show the green button
+          document.getElementById(`actionButtons-${row}`).style.display = "none";
+          document.getElementById(`greenButton-${row}`).style.display = "flex"; // Correct display style
+
+          // Change the status to "รักษาเสร็จสิ้น" and apply green color
+          statusElement.innerText = "รักษาเสร็จสิ้น";
+          statusElement.className = "status success"; // Apply green style
+        } else if (actionType === "restore-buttons") {
+          // Show action buttons and hide the green button
+          document.getElementById(`actionButtons-${row}`).style.display = "flex";
+          document.getElementById(`greenButton-${row}`).style.display = "none";
+
+          // Restore the previous status and apply the correct class
+          statusElement.innerText = previousStatus[row];
+          if (previousStatus[row] === "นัดติดตามต่อเนื่อง") {
+            statusElement.className = "status follow-up"; // Apply blue style
+          } else if (previousStatus[row] === "รักษาเสร็จสิ้น") {
+            statusElement.className = "status success"; // Apply green style
+          } else if (previousStatus[row] === "ยังไม่ได้รักษา") {
+            statusElement.className = "status failed"; // Apply failed style
+          }
+        }
+
+        closePopup();
+      }
+
+      // Show the confirmation pop-up for restoring the action buttons
+      function confirmRestore(row) {
+        document.getElementById("popup").style.display = "flex";
+
+        // Set the confirmation behavior for the second action (restoring buttons)
+        document.getElementById("popup").setAttribute("data-action", "restore-buttons");
+        document.getElementById("popup").setAttribute("data-row", row);
+      }
+    </script>
+
+</body>
+
+</html>
+
+<style>
+  /* Action buttons container */
+  .Actionbutton {
+    display: flex;
+    margin-left: 25px;
+    align-items: center;
+    /* Ensure vertical alignment */
+  }
+
+  .Greenbutton{
+    display: flex;
+  }
+
+  /* Green button */
+  .green-button {
+    background-color: #40C72A;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100px;
+    height: 35px;
+    display: none;
+    /* Initially hidden */
+    margin-left: 15%;
+  }
+
+  .green-button p {
+    font-size: 14.5px;
+    margin-left: 5px;
+    margin-top: 3px;
+  }
+
+  .green-button i {
+    margin-top: 3px;
+    margin-left: 5px;
+    top: 67%;
+    font-size: 20px;
+    color: #ffffff;
+  }
+
+  /* Green button hover effect */
+  .green-button:hover {
+    background-color: #40C72A;
+  }
+
+  /* Pop-up styles */
+  .popup {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .popup-content p {
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .button-popup {
+    margin-left: 20px;
+  }
+</style>
