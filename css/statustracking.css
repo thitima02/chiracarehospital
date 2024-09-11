@@ -56,13 +56,13 @@
   }
   
 /* การตั้งค่าเริ่มต้น */
-body {
+/* body {
     font-family: 'Prompt', sans-serif;
     background-color: #f4f7fa;
     color: #333;
     margin: 0;
     padding: 20px;
-  }
+  } */
   
   /* กล่องค้นหาและตัวกรอง */
   .filter-bar {
@@ -210,4 +210,21 @@ body {
       font-size: 10px;
     }
   }
+.statustracking-container{
+  width: 93.5%;
+  margin: auto;
+  padding: 20px;
+  margin-left: 89px;
+}
+.action-btn {
+  position: relative;
+  color: #1d1b31;
+  border: none;
+  padding: 3px 8px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(241, 241, 241);
+  margin-left: 15px;
+}
   

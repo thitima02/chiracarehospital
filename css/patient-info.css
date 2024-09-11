@@ -2,15 +2,12 @@
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Allows the search bar to wrap on smaller screens */
 }
-
 .search-bar input, .search-bar select {
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    width: calc(25% - 10px); /* Adjust the width to fit in a row */
-    min-width: 200px; /* Ensure minimum size for each input */
+    width: 100%;
 }
 
 .search-bar button {
@@ -20,7 +17,34 @@
     padding: 10px;
     border-radius: 8px;
     cursor: pointer;
-    width: 100px;
+}
+.table-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+table th, table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+table th {
+    background-color: #f1f3f6;
+}
+.table-actions button {
+    background-color: #ff5e5e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 5px;
 }
 
 @media screen and (max-width: 768px) {
@@ -31,4 +55,10 @@
     .search-bar button {
         width: 100%; /* Full width button for smaller screens */
     }
+}
+.patientinfo-container{
+    width: 93.5%;
+    margin: auto;
+    padding: 20px;
+    margin-left: 89px;
 }

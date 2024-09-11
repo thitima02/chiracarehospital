@@ -5,17 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Information</title> 
     <link rel="stylesheet" href="../../css/patient-info.css">
-    <link rel="stylesheet" href="../../css/sidebar.css"> 
-    <link rel="stylesheet" href="../../css/main.css">
-    <link rel="stylesheet" href="../../css/topbar.css">
-    <link rel="stylesheet" href="../../css/logo.css">
+    <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/sidebar.css">
+  <link rel="stylesheet" href="../../css/topbar.css">
+  <link rel="stylesheet" href="../../css/logo.css">
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
 </head>
-<body>
-    <!-- Sidebar will be inserted here -->
-    <!-- <div id="sidebar-placeholder"></div> -->
+<body style="background-color:#edeff1;">
+    <!-- Sidebar will be loaded here -->
+  <div id="sidebar-container"></div>
 
-    <div class="main-content">
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
+
+    <div class="patientinfo-container">
         <div class="search-bar">
             <input type="search" placeholder="ค้นหาชื่อ...">
             <input type="search" placeholder="เบอร์โทรศัพท์...">
@@ -26,7 +32,9 @@
                 <option>นัดติดตามต่อเนื่อง</option>
                 <option>รักษาเสร็จสิ้น</option>
             </select>
-            <button>ค้นหา</button>
+            <button class="add-icon">
+                <i class='bx bx-user-plus'></i>
+            </button>
         </div>
 
         <div class="table-container">
@@ -73,13 +81,38 @@
     </div>
 
     <script>
-        // Load sidebar content from the external file
-        fetch('../../index.html')
-          .then(response => response.text())
-          .then(data => {
-            document.getElementById('sidebar-placeholder').innerHTML = data;
-          })
-          .catch(error => console.error('Error loading sidebar:', error));
-      </script>
+         // Load sidebar
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+        loadSidebarScript(); // Initialize sidebar toggle after loading
+      });
+
+    // Load topbar and set the page title
+    fetch('topbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('topbar-container').innerHTML = data;
+        document.getElementById('page-title').textContent = 'จัดการข้อมูลผู้ป่วย'; // Set page title for the history page
+      });
+
+      function loadSidebarScript() {
+      let sidebar = document.querySelector(".sidebar");
+      let closeBtn = document.querySelector("#btn");
+
+      closeBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        menuBtnChange();
+      });
+      function menuBtnChange() {
+        if (sidebar.classList.contains("open")) {
+          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+        } else {
+          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+        }
+      }
+    }
+    </script>
 </body>
 </html>

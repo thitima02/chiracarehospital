@@ -14,6 +14,7 @@ h1 {
     border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    display: flex;
 }
 
 .card h4 {
@@ -140,23 +141,63 @@ h1 {
   color: #fa5a7d;
   font-size: 34px;
 } 
-body {
-    display: flex;
-    min-height: 100vh;
-    margin: 0;
-}
 
-#sidebar-placeholder {
-    width: 250px;
-    background-color: #f8f9fa;
-    border-right: 1px solid #ddd;
-}
-
-.container-fluid {
-    flex-grow: 1;
-    padding: 20px;
+.dasboard-container {
+    width: 93.5%;
+  margin: auto;
+  padding: 20px;
+  margin-left: 89px;
 }
 
 .card.ca1 {
     margin-bottom: 20px;
 }
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* กำหนดความสูงให้เท่ากัน */
+}
+.chart {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+}
+.status {
+    display: flex;
+    justify-content: space-between;
+    width:  100%;
+}
+/* .status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.status-card, .treatment-status-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.patient-count, .follow-up-dates, .treatment-dates {
+    margin-top: 10px;
+    font-weight: bold;
+} */
+
+

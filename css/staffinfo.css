@@ -1,9 +1,4 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f8fc;
-    margin: 0;
-    padding: 20px;
-}
+
 .search-bar {
     display: flex;
     gap: 10px;
@@ -59,4 +54,10 @@ table th {
 }
 .delete-btn {
     background-color: #dc3545;
+}
+.staffinfo-container{
+    width: 93.5%;
+    margin: auto;
+    padding: 20px;
+    margin-left: 89px;
 }

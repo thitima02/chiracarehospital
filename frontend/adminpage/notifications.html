@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="../../css/sidebar.css">
-  <link rel="stylesheet" href="/css/topbar.css">
-  <link rel="stylesheet" href="/css/logo.css">
-  <link rel="stylesheet" href="/css/mainpage/notification.css">
+  <link rel="stylesheet" href="../../css/topbar.css">
+  <link rel="stylesheet" href="../../css/logo.css">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/notifications.css">
+
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body style="background-color:#edeff1;">
 
   <!-- Sidebar will be loaded here -->
@@ -17,46 +21,73 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-  <container>
-    <div class="notification">
-      <h1>not found</h1>
+  <body>
+    <div class="history-container">
+      <div class="history">
+        <div class="activity">
+          <div class="left">
+            <img src="../../assets/images/cat.jpg" alt="icon" class="activity-icon">
+            <div class="details">
+              <p class="title">บันทึกไฟล์ PDF</p>
+              <p class="subtitle">อัปโหลดไฟล์ลงเครื่องของคุณสำเร็จแล้ว</p>
+            </div>
+          </div>
+          <div class="right">
+            <p class="date">21/12/2022</p>
+            <p class="time">10:40 AM</p>
+          </div>
+        </div>
+        <div class="activity">
+          <div class="left">
+            <img src="../../assets/images/cat.jpg" alt="icon" class="activity-icon">
+            <div class="details">
+              <p class="title">บันทึกไฟล์ PDF</p>
+              <p class="subtitle">อัปโหลดไฟล์ลงเครื่องของคุณสำเร็จแล้ว</p>
+            </div>
+          </div>
+          <div class="right">
+            <p class="date">21/12/2022</p>
+            <p class="time">10:40 AM</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </container>
 
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
+    <script>
+      // Load sidebar
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('sidebar-container').innerHTML = data;
+          loadSidebarScript(); // Initialize sidebar toggle after loading
+        });
 
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'การแจ้งเตือน'; // Set page title for the main page
-      });
+      // Load topbar and set the page title
+      fetch('topbar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('topbar-container').innerHTML = data;
+          document.getElementById('page-title').textContent = 'การแจ้งเตือน'; // Set page title for the main page
+        });
 
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
+      function loadSidebarScript() {
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
 
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
+        closeBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("open");
+          menuBtnChange();
+        });
 
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+        function menuBtnChange() {
+          if (sidebar.classList.contains("open")) {
+            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+          } else {
+            closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+          }
         }
       }
-    }
-  </script>
+    </script>
+  </body>
 </body>
 </html>
