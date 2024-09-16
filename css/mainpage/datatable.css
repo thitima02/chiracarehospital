@@ -1,0 +1,133 @@
+.table-container {
+  display: flex;
+  justify-content: center;
+  /* Horizontally center the table */
+  align-items: center;
+  /* Vertically center the table if needed */
+  width: 90.6%;
+  /* Ensure the container takes full width */
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  /* Center the container */
+  margin-left: 110px;
+}
+
+.patient-table {
+  width: 100%;
+  /* Ensure the table fits within the container */
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.patient-table thead tr {
+  background-color: #f4f4f4;
+  color: #5d97ef;
+}
+
+.patient-table th,
+.patient-table td {
+  padding: 15px;
+  padding-right: 33px;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.patient-table tbody tr {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.patient-table tbody tr:last-of-type {
+  border-bottom: 2px solid #f4f4f4;
+}
+
+.patient-table img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.pending {
+  background-color: #fff5c2;
+  color: #e99050;
+}
+
+.status.in-progress {
+  background-color: #f4e1e1;
+  color: #bb4242;
+}
+
+.status.follow-up {
+  background-color: #fff5c2;
+  color: #e99050;
+}
+
+.status.completed {
+  background-color: #e1f4e1;
+  color: #5f8d4e;
+}
+
+.status.success {
+  background-color: #e3f5ff;
+  color: #5d97ef;
+}
+
+.status.failed {
+  background-color: #dddddd;
+  color: #626262;
+}
+
+/* .action-btn {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 25px;
+  color: #8d8d8d;
+} */
+
+.action-btn {
+  position: relative;
+  color: #1d1b31;
+  border: none;
+  padding: 3px 8px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(241, 241, 241);
+  margin-left: 15px;
+}
+
+.action-btn:hover {
+  background-color: #5d97ef;
+  color: #f4f4f4;
+}
+
+.status-btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.status-btn.pink {
+  background-color: #f8bbd0;
+}
+
+.status-btn.green {
+  background-color: #a8e6cf;
+}

@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="css/topbar.css">
   <link rel="stylesheet" href="css/menubar.css">
   <link rel="stylesheet" href="css/logo.css">
-  <link rel="stylesheet" href="css/mainpage/datatable.css">
   <link rel="stylesheet" href="css/mainpage/result.css">
-
+  <link rel="stylesheet" href="css/mainpage/datatable.css">
+  <link rel="stylesheet" href="css/mainpage/togglebtn.css">
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 </head>
@@ -18,37 +18,12 @@
 <body>
 
   <!-- Sidebar will be loaded here -->
-  <div id="sidebar-container"></div>
+  <div id="sidebar-container"> </div>
 
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
   <!-- the resule of many patient -->
-  <container>
-    <div class="stats-container">
-      <div class="box new-order">
-        <i class='bx bx-user'></i>
-        <div>
-          <h2>10</h2>
-          <p>จำนวนผู้ป่วยที่มีนัดวันนี้</p>
-        </div>
-      </div>
-      <div class="box box2 visitors">
-        <i class='bx bx-smile'></i>
-        <div>
-          <h2>2834/5000</h2>
-          <p>ติดตามเสร็จสิ้น</p>
-        </div>
-      </div>
-      <div class="box box3 total-sales">
-        <i class='bx bx-tired'></i>
-        <div>
-          <h2>2543/5000</h2>
-          <p>ยังไม่ได้ติดตาม</p>
-        </div>
-      </div>
-    </div>
-  </container>
 
   <!-- the dropdrown  -->
   <div class="filter-container">
@@ -58,22 +33,35 @@
       <i class='bx bx-search search-icon'></i> <!-- Add your icon here -->
     </div>
     <div class="filter-item">
-      <h5>วันที่อัปเดตการติดตาม</h5>
+      <h5>วันที่ส่งแบบฟอร์ม</h5>
       <input type="date" class="date-filter">
     </div>
     <div class="filter-item">
-      <h5>ครั้งที่ติดตาม</h5>
+      <h5>วันที่แก้ไข</h5>
+      <input type="date" class="date-filter">
+    </div>
+    <div class="filter-item">
+      <h5>สถานะการติดตาม</h5>
       <select class="dropdown-filter">
         <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
+        <option value="">ยังไม่ได้ติดตาม</option>
+        <option value="">กำลังติดตาม</option>
+        <option value="">ติดตามแล้ว</option>
         <!-- Add other options as needed -->
       </select>
       <i class='bx bx-chevron-down dropdown-icon'></i>
     </div>
-
-
+    <div class="filter-item">
+      <h5>สถานะการรักษา</h5>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">ยังไม่ได้รักษา</option>
+        <option value="">นัดติดตามต่อเนื่อง</option>
+        <option value="">รักษาเสร็จสิ้น</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
+    </div>
   </div>
 
   <!-- the datatable  -->
@@ -82,30 +70,32 @@
       <thead>
         <tr>
           <th>รายชื่อผู้ป่วย</th>
-          <th>วันที่เริ่มติดตาม</th>
           <th>วันที่สิ้นสุด</th>
-          <th>ที่อยู่</th>
-          <th>ครั้งที่ติดตาม</th>
+          <th>วันที่กรอกฟอร์ม</th>
+          <th>วันที่แก้ไข</th>
+          <th>สถานะการรักษา</th>
+          <th>สถานะการติดตาม</th>
+          <th></th>
           <th></th>
         </tr>
       </thead>
-      <tbody id="patient-tbody">
+      <tbody>
         <tr>
           <td>
             <img src="assets/images/small 1.png" alt="patient image">
             นายปลาร้า ไม่เหม็น
           </td>
-          <td id="startDate">22/05/2022</td>
-          <td id="endDate">29/05/2022</td>
-          <td id="address">161 หมู่ 1 ซอย - ตำบล/แขวน นครสวรรค์ออก อำเภอ/เขต เมือง
-            จังหวัด นครสวรรค์ เลขไปรษณีย์ 60000</td>
-          <td id="timesFollowed">2</td>
-          <td>
-            <button class="action-btn" title="คลิปเพื่อกรอกฟอร์ม" id="add-button"><i
-                class='bx bxs-edit'>คลิกเพื่อกรอกฟอร์ม</i></button>
-          </td>
+          <td>22/05/2022</td>
+          <td>29/05/2022</td>
+          <td>10/06/2022</td>
+          <td><span class="status in-progress">นัดติดตามต่อเนื่อง</span></td>
+          <td><span class="status follow-up">กำลังติดตาม</span></td>
+          
         </tr>
+        
+
         <!-- Repeat similar <tr> for other patients -->
+
       </tbody>
 
       <tbody></tbody>
@@ -116,13 +106,14 @@
         </td>
         <td>22/05/2022</td>
         <td>29/05/2022</td>
-        <td>1330/3 หมู่ 8 ซอย - ตำบล/แขวน นครสวรรค์ออก อำเภอ/เขต เมือง
-          จังหวัด นครสวรรค์ เลขไปรษณีย์ 60000</td>
-        <td>2</td>
-        <td>
-          <button class="action-btn" title="คลิกเพื่อกรอกฟอร์ม" id="add-button"><i class='bx bxs-edit'></i>คลิกเพื่อกรอกฟอร์ม</button>
-        </td>
+        <td>10/06/2022</td>
+        <td><span class="status in-progress">นัดติดตามต่อเนื่อง</span></td>
+        <td><span class="status completed">ติดตามแล้ว</span></td>
+
+        
+
       </tr>
+
       <!-- Repeat similar <tr> for other patients -->
       </tbody>
 
@@ -143,7 +134,7 @@
       .then(response => response.text())
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'หน้าหลัก'; // Set page title for the main page
+        document.getElementById('page-title').textContent = 'ประวัติการติดตาม'; // Set page title for the main page
       });
 
     function loadSidebarScript() {
@@ -162,9 +153,10 @@
           closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
         }
       }
-      document.getElementById('add-button').addEventListener('click', function () {
-        window.location.href = 'form.html';
+      document.getElementById('view-history').addEventListener('click', function () {
+        window.location.href = 'viewhistory.html';
       });
+
     }
   </script>
 </body>
