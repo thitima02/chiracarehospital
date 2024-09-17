@@ -33,51 +33,53 @@
                 <option>รักษาเสร็จสิ้น</option>
             </select>
             <button class="add-icon">
+              <a href="addinfo.html">
                 <i class='bx bx-user-plus'></i>
+              </a>
             </button>
         </div>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ชื่อ - นามสกุล</th>
-                        <th>วันเกิด</th>
-                        <th>เลขบัตรประชาชน</th>
-                        <th>เบอร์โทรศัพท์</th>
-                        <th>เบอร์โทรศัพท์ญาติ</th>
-                        <th>สถานะการรักษา</th>
-                        <th>ค้นหา</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img src="profile-icon.png" alt="Profile Image"> นางสาวสิมนว ช่างทอง</td>
-                        <td>06-06-1989</td>
-                        <td>1666666666666</td>
-                        <td>0600005222</td>
-                        <td>0600005222</td>
-                        <td><span style="color: #ff5e5e;">นัดติดตามต่อเนื่อง</span></td>
-                        <td class="table-actions">
-                            <button class="edit-btn">แก้ไข</button>
-                            <button class="delete-btn">ลบ</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><img src="profile-icon.png" alt="Profile Image"> นางสุมาลี มากมีสุข</td>
-                        <td>06-06-1989</td>
-                        <td>1230000000000</td>
-                        <td>0600005222</td>
-                        <td>0600005222</td>
-                        <td><span style="color: #008cba;">รักษาเสร็จสิ้น</span></td>
-                        <td class="table-actions">
-                            <button class="edit-btn">แก้ไข</button>
-                            <button class="delete-btn">ลบ</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="patient-table">
+          <thead>
+            <tr>
+              <th>ชื่อ - นามสกุล</th>
+              <th>วันเกิด</th>
+              <th>เลขบัตรประชาชน</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>เบอร์โทรศัพท์ญาติ</th>
+              <th>สถานะการรักษา</th>
+              <th>จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
+              <td>18-06-1999</td>
+              <td>1234567890123</td>
+              <td>0987456123</td>
+              <td>0897321456</td>
+              <td><span class="status-label red">นัดติดตามต่อเนื่อง</span></td>
+              <td>
+                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
+                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
+                <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
+              <td>18-06-1999</td>
+              <td>1234567890123</td>
+              <td>0987456123</td>
+              <td>0897321456</td>
+              <td><span class="status-label green">รักษาเสร็จสิ้น</span></td>
+              <td>
+                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
+                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
+                <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
+              </td>
+            </tr>
+          </tbody>
+      </table>
     </div>
 
     <script>
