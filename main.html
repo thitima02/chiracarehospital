@@ -30,21 +30,21 @@
       <div class="box new-order">
         <i class='bx bx-user'></i>
         <div>
-          <h2>10</h2>
+          <h2>1</h2>
           <p>จำนวนผู้ป่วยที่มีนัดวันนี้</p>
         </div>
       </div>
       <div class="box box2 visitors">
         <i class='bx bx-smile'></i>
         <div>
-          <h2>2834/5000</h2>
+          <h2>0/5000</h2>
           <p>รักษาเสร็จสิ้น</p>
         </div>
       </div>
       <div class="box box3 total-sales">
         <i class='bx bx-tired'></i>
         <div>
-          <h2>2543/5000</h2>
+          <h2>0/5000</h2>
           <p>ยังไม่ได้รักษา</p>
         </div>
       </div>
@@ -128,7 +128,7 @@
             <!-- action -->
             <div class="Actionbutton" id="actionButtons-1">
               <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" id="add-button">
-                <i class='bx bxs-edit'></i>
+                <i class='bx bx-file'></i>
               </button>
               <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmAction(1)">
                 <i class='bx bx-check'></i>
@@ -145,27 +145,6 @@
         <!-- Repeat for other rows with unique ids -->
       </tbody>
 
-      <tbody>
-        <tr>
-          <td>
-            <img src="images/amuro.jpg" alt="patient image">
-            นายเบชา สงกรานต์
-          </td>
-          <td>22/05/2022</td>
-          <td>29/05/2022</td>
-          <td>10/06/2022</td>
-          <td>2</td>
-          <td><span class="status pending">ยังไม่ได้ติดตาม</span></td>
-          <td><span class="status failed" id="status">ยังไม่ได้รักษา</span></td>
-          <td>
-            <!-- action button -->
-            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด"><i class='bx bxs-edit'></i></button>
-            <button class="action-btn" title="คลิกเพื่อยืนยัน"><i class='bx bx-check'></i></button>
-          </td>
-        </tr>
-        <!-- Repeat similar <tr> for other patients -->
-      </tbody>
-
     </table>
     <!-- pop up -->
     <div id="popup" class="popup">
@@ -178,6 +157,7 @@
         </div>
       </div>
     </div>
+  </div>
 
     <script>
       // Load sidebar

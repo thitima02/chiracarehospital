@@ -1,9 +1,10 @@
 .stats-container {
   display: flex;
-  justify-content: space-between;
-  padding-left: 6.7%;
-  padding-right: 10%;
+  justify-content: center;
   padding-top: 20px;
+  padding-left: 5%;
+  width: 100%;
+  align-items: center;
 }
 
 .box {
@@ -15,6 +16,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   min-width: 450px;
   margin: 0 10px;
+
 }
 
 .box2 {
@@ -55,4 +57,14 @@
 .total-sales i {
   color: #FA5A7D;
   margin: 0 10px;
+}
+
+/* CSS for mobile devices */
+@media (max-width: 768px) {
+  
+  .box {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 10px;
+  }
 }

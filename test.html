@@ -3,16 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Main Page</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/topbar.css">
-    <link rel="stylesheet" href="css/menubar.css">
+    <link rel="stylesheet" href="css/filtermenu.css">
     <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/mainpage/result.css">
     <link rel="stylesheet" href="css/mainpage/datatable.css">
     <!-- Import icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
 </head>
 
 <body>
@@ -23,59 +26,281 @@
     <!-- Topbar will be loaded here -->
     <div id="topbar-container"></div>
 
-    <!-- the datatable -->
-    <div class="table-container">
-        <table class="patient-table">
-            <thead>
-                <tr>
-                    <th>รายชื่อผู้ป่วย</th>
-                    <th>วันนัดหมาย</th>
-                    <th>วันที่เข้ารักษา</th>
-                    <th>วันที่นัดครั้งถัดไป</th>
-                    <th>ครั้งที่รักษา</th>
-                    <th>สถานะการติดตาม</th>
-                    <th>สถานะการรักษา</th>
-                    <th>จัดการ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <img src="images/amuro.jpg" alt="patient image">
-                        นายเบชา สงกรานต์
-                    </td>
-                    <td>22/05/2022</td>
-                    <td>29/05/2022</td>
-                    <td>10/06/2022</td>
-                    <td>2</td>
-                    <td><span class="status completed">ติดตามแล้ว</span></td>
-                    <td><span class="status follow-up" id="status-1">นัดติดตามต่อเนื่อง</span></td>
-                    <td>
-                        <div class="Actionbutton" id="actionButtons-1">
-                            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" id="add-button-1">
-                                <i class='bx bxs-edit'></i>
-                            </button>
-                            <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmAction(1)">
-                                <i class='bx bx-check'></i>
-                            </button>
-                        </div>
-                        <button id="greenButton-1" class="green-button" style="display: none;"
-                            onclick="confirmRestore(1)">เสร็จสิ้น ✔️
-                        </button>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-        <!-- pop up -->
-        <div id="popup" class="popup">
-            <div class="popup-content">
-                <p>Are you sure you want to proceed?</p>
-                <button onclick="confirmProceed()">Yes</button>
-                <button onclick="closePopup()">No</button>
+    <!-- the result of many patients -->
+    <div class="stats-container">
+        <div class="box-container" style="display: flex;">
+            <div class="box new-order">
+                <i class='bx bx-user'></i>
+                <div>
+                    <h2 id="totalAppointments">0</h2>
+                    <p>จำนวนผู้ป่วยที่มีนัดวันนี้</p>
+                </div>
+            </div>
+            <div class="box box2 visitors">
+                <i class='bx bx-smile'></i>
+                <div>
+                    <h2 id="totalTreated">0</h2>
+                    <p>รักษาเสร็จสิ้น</p>
+                </div>
+            </div>
+            <div class="box box3 total-sales">
+                <i class='bx bx-tired'></i>
+                <div>
+                    <h2 id="totalUntreated">0</h2>
+                    <p>ยังไม่ได้รักษา</p>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('fetch_totals.php')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalAppointments').innerText = data.totalAppointments || 0;
+                    document.getElementById('totalTreated').innerText = data.totalTreated || 0;
+                    document.getElementById('totalUntreated').innerText = data.totalUntreated || 0;
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+
+    <!-- Filters -->
+    <section class="filter-section" style="justify-content: center;">
+        <div class="filter-container">
+            <div class="filter-item search-bar">
+                <h5>ค้นหารายชื่อ</h5>
+                <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchInput">
+                <i class='bx bx-search search-icon'></i>
+            </div>
+            <div class="filter-item">
+                <h5>วันที่นัดหมาย</h5>
+                <input type="date" class="date-filter" id="dateFilter">
+            </div>
+            <div class="filter-item">
+                <h5>ครั้งที่รักษา</h5>
+                <select class="dropdown-filter" id="treatmentTimesFilter">
+                    <option value="ทั้งหมด">ทั้งหมด</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <!-- Add other options as needed -->
+                </select>
+            </div>
+            <div class="filter-item">
+                <h5>สถานะการติดตาม</h5>
+                <select class="dropdown-filter" id="followupStatusFilter">
+                    <option value="ทั้งหมด">ทั้งหมด</option>
+                    <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
+                    <option value="กำลังติดตาม">กำลังติดตาม</option>
+                    <option value="ติดตามแล้ว">ติดตามแล้ว</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <h5>สถานะการรักษา</h5>
+                <select class="dropdown-filter" id="treatmentStatusFilter">
+                    <option value="ทั้งหมด">ทั้งหมด</option>
+                    <option value="ยังไม่ได้รักษา">ยังไม่ได้รักษา</option>
+                    <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+                    <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- the datatable  -->
+    <div class="table-container">
+        <div class="datatable">
+            <table class="patient-table" id="patientTable">
+                <thead>
+                    <tr>
+                        <th>รายชื่อผู้ป่วย</th>
+                        <th>วันนัดหมาย</th>
+                        <th>วันที่เข้ารักษา</th>
+                        <th>วันที่นัดครั้งถัดไป</th>
+                        <th>ครั้งที่รักษา</th>
+                        <th>สถานะการติดตาม</th>
+                        <th>สถานะการรักษา</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ข้อมูลจะถูกแทรกลงที่นี่ -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Fetch patient stats
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector('.new-order h2').innerText = data.today_appointments;
+                    document.querySelector('.visitors h2').innerText = data.treated_patients;
+                    document.querySelector('.total-sales h2').innerText = data.untreated_patients;
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+        // Fetch and display patient data
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('fetch_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#patientTable tbody');
+                    tableBody.innerHTML = '';
+
+                    data.forEach((patient, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${patient.name} ${patient.surname}</td>
+                            <td>${patient.appointment_date}</td>
+                            <td>${patient.treatment_date}</td>
+                            <td>${patient.next_appointment_date}</td>
+                            <td>${patient.treatment_times}</td>
+                            <td><span class="status ${getStatusClass(patient.followup_status)}">${patient.followup_status}</span></td>
+                            <td><span class="status ${getStatusClass(patient.treatment_status)}">${patient.treatment_status}</span></td>
+                            <td>
+                                <div class="Actionbutton" id="actionButtons-${index}">
+                                    <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" id="add-button" onclick="addAppointment(${patient.id})">
+                                        <i class='bx bx-file'></i>
+                                    </button>
+                                    <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmAction(${index})">
+                                        <i class='bx bx-check'></i>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+        // Filter logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const dateFilter = document.getElementById('dateFilter');
+            const treatmentTimesFilter = document.getElementById('treatmentTimesFilter');
+            const followupStatusFilter = document.getElementById('followupStatusFilter');
+            const treatmentStatusFilter = document.getElementById('treatmentStatusFilter');
+            const patientTable = document.getElementById('patientTable').getElementsByTagName('tbody')[0];
+
+            searchInput.addEventListener('input', filterTable);
+            dateFilter.addEventListener('change', filterTable);
+            treatmentTimesFilter.addEventListener('change', filterTable);
+            followupStatusFilter.addEventListener('change', filterTable);
+            treatmentStatusFilter.addEventListener('change', filterTable);
+
+            function filterTable() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const dateValue = dateFilter.value;
+                const treatmentTimesValue = treatmentTimesFilter.value;
+                const followupStatusValue = followupStatusFilter.value;
+                const treatmentStatusValue = treatmentStatusFilter.value;
+
+                const rows = patientTable.getElementsByTagName('tr');
+
+                for (let i = 0; i < rows.length; i++) {
+                    const name = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+                    const appointmentDate = rows[i].getElementsByTagName('td')[1].textContent;
+                    const treatmentTimes = rows[i].getElementsByTagName('td')[4].textContent;
+                    const followupStatus = rows[i].getElementsByTagName('td')[5].textContent;
+                    const treatmentStatus = rows[i].getElementsByTagName('td')[6].textContent;
+
+                    let isVisible = true;
+
+                    if (searchTerm && !name.includes(searchTerm)) isVisible = false;
+                    if (dateValue && appointmentDate !== dateValue) isVisible = false;
+                    if (treatmentTimesValue !== 'ทั้งหมด' && treatmentTimes !== treatmentTimesValue) isVisible = false;
+                    if (followupStatusValue !== 'ทั้งหมด' && followupStatus !== followupStatusValue) isVisible = false;
+                    if (treatmentStatusValue !== 'ทั้งหมด' && treatmentStatus !== treatmentStatusValue) isVisible = false;
+
+                    rows[i].style.display = isVisible ? '' : 'none';
+                }
+            }
+        });
+
+        function getStatusClass(status) {
+            switch (status) {
+                case 'ยังไม่ได้ติดตาม':
+                case 'ยังไม่ได้รักษา':
+                    return 'status-not-followed';
+                case 'กำลังติดตาม':
+                case 'นัดติดตามต่อเนื่อง':
+                    return 'status-in-progress';
+                case 'ติดตามแล้ว':
+                case 'รักษาเสร็จสิ้น':
+                    return 'status-complete';
+                default:
+                    return '';
+            }
+        }
+    </script>
+
+    <script>
+        function getStatusClass(status) {
+            switch (status) {
+                case 'ยังไม่ได้ติดตาม':
+                    return 'pending';
+                case 'กำลังติดตาม':
+                    return 'in-progress';
+                case 'ติดตามแล้ว':
+                    return 'completed';
+                case 'ยังไม่ได้รักษา':
+                    return 'failed';
+                case 'นัดติดตามต่อเนื่อง':
+                    return 'follow-up';
+                case 'รักษาเสร็จสิ้น':
+                    return 'success';
+                default:
+                    return 'failed'; // Fallback class if needed
+            }
+        }
+    </script>
+
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                loadSidebarScript(); // Initialize sidebar toggle after loading
+            });
+
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                document.getElementById('page-title').textContent = 'หน้าหลัก'; // Set page title for the main page
+            });
+
+        function loadSidebarScript() {
+            let sidebar = document.querySelector(".sidebar");
+            let closeBtn = document.querySelector("#btn");
+
+            closeBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+                menuBtnChange();
+            });
+
+            function menuBtnChange() {
+                if (sidebar.classList.contains("open")) {
+                    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+                } else {
+                    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+                }
+            }
+            // go to addappointment
+            document.getElementById('add-button').addEventListener('click', function () {
+                window.location.href = 'addappointment.html';
+            });
+        }
+    </script>
 
     <script>
         let previousStatus = {}; // Stores previous status for each row
@@ -97,7 +322,7 @@
         function confirmProceed() {
             const actionType = document.getElementById("popup").getAttribute("data-action");
             const row = document.getElementById("popup").getAttribute("data-row");
-            const statusElement = document.getElementById(`status-${row}`);
+            const statusElement = document.getElementById(`status-${row}`); // Ensure unique status id
 
             if (actionType === "hide-buttons") {
                 // Store the current status before switching
@@ -105,7 +330,7 @@
 
                 // Hide action buttons and show the green button
                 document.getElementById(`actionButtons-${row}`).style.display = "none";
-                document.getElementById(`greenButton-${row}`).style.display = "flex"; // Change from block to flex
+                document.getElementById(`greenButton-${row}`).style.display = "flex"; // Correct display style
 
                 // Change the status to "รักษาเสร็จสิ้น" and apply green color
                 statusElement.innerText = "รักษาเสร็จสิ้น";
@@ -142,70 +367,3 @@
 </body>
 
 </html>
-
-<style>
-    /* Action buttons container */
-.Actionbutton {
-    display: flex;
-}
-    /* Hide the green button initially */
-    .green-button {
-        display: none;
-        background-color: #28a745;
-        color: white;
-        padding: 5px 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        width: 120px;
-        /* Same width as action buttons container */
-        height: 40px;
-        /* Ensure height matches with action buttons */
-    }
-
-    /* Green button hover effect */
-    .green-button:hover {
-        background-color: #218838;
-    }
-
-    /* Action buttons */
-    .action-btn {
-        position: relative;
-        color: #1d1b31;
-        border: none;
-        padding: 3px 8px;
-        font-size: 20px;
-        cursor: pointer;
-        border-radius: 5px;
-        background-color: rgb(241, 241, 241);
-        margin-left: 5px;
-    }
-
-    /* Hover effect for action buttons */
-    .action-btn:hover {
-        background-color: #5D97EF;
-        color: #F4F4F4;
-    }
-
-    /* Pop-up styles */
-    .popup {
-        display: none;
-        /* Hidden by default */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-    }
-
-    .popup-content {
-        background-color: white;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-    }
-</style>
