@@ -1,76 +1,205 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="../../css/statustracking.css">
-    <link rel="stylesheet" href="../../styles.css">
-  <link rel="stylesheet" href="../../css/sidebar.css">
-  <link rel="stylesheet" href="../../css/topbar.css">
-  <link rel="stylesheet" href="../../css/logo.css">
-
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Fort Chiraprawat Hospital</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
-<body style="background-color:#edeff1;">
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <img src="../../assets/images/Logologin.png" alt="Hospital Logo" class="logo">
+    </div>
 
-  <!-- Sidebar will be loaded here -->
-  <div id="sidebar-container"></div>
+    <div class="login-form">
+      <form id="login-form">
+        <label for="username">ชื่อผู้ใช้ (เลขบัตรประชาชน)</label>
+        <input type="text" id="username" name="username" placeholder="Enter ID card number" required>
 
-  <!-- Topbar will be loaded here -->
-  <div id="topbar-container"></div>
+        <div class="password-container">
+          <label for="password">รหัสผ่าน</label>
+          <input type="password" id="password" name="password" placeholder="Enter password" required>
+          <span class="toggle-password" onclick="togglePasswordVisibility()">
+            <i id="password-icon" class='bx bx-hide'></i>
+          </span>
+        </div>
 
-  
+        <div class="forgot-password">
+          <a href="">ลืมรหัสผ่าน?</a>
+        </div>
 
-    <script>
-      // Load sidebar
-      fetch('sidebar.html')
-       .then(response => response.text())
-       .then(data => {
-         document.getElementById('sidebar-container').innerHTML = data;
-         loadSidebarScript(); // Initialize sidebar toggle after loading
-       });
- 
-     // Load topbar and set the page title
-     fetch('topbar.html')
-       .then(response => response.text())
-       .then(data => {
-         document.getElementById('topbar-container').innerHTML = data;
-         document.getElementById('page-title').textContent = 'ออกจากระบบ Test'; // Set page title for the history page
-       });
- 
-       function loadSidebarScript() {
-       let sidebar = document.querySelector(".sidebar");
-       let closeBtn = document.querySelector("#btn");
- 
-       closeBtn.addEventListener("click", () => {
-         sidebar.classList.toggle("open");
-         menuBtnChange();
-       });
-       function menuBtnChange() {
-         if (sidebar.classList.contains("open")) {
-           closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-         } else {
-           closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-         }
-       }
-     }
- 
-       document.querySelectorAll('.edit-btn').forEach(button => {
-         button.addEventListener('click', function() {
-           // เปลี่ยนเส้นทางไปที่หน้า edittracking.html
-           window.location.href = 'edittracking.html';
-         });
-       });
-       document.querySelectorAll('.detail-btn').forEach(button => {
-         button.addEventListener('click', function() {
-           const patientRow = this.closest('tr');
-           const patientId = patientRow.getAttribute('data-id');
-           // เปลี่ยนเส้นทางไปยังหน้า moreinfo.html พร้อมส่ง id ผู้ป่วย
-           window.location.href = `moreinfo.html?id=${patientId}`;
-         });
-       });
-     </script>
+        <button type="button" class="login-button" onclick="handleLogin()">เข้าสู่ระบบ</button>
+      </form>
+
+      <div class="register">
+        <span>ยังไม่ได้ลงทะเบียนหรือ? <a href="register.html">ลงทะเบียน</a></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ฟังก์ชันสำหรับสลับการแสดง/ซ่อนรหัสผ่าน
+    function togglePasswordVisibility() {
+      const passwordField = document.getElementById('password');
+      const passwordIcon = document.getElementById('password-icon');
+
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        passwordIcon.classList.remove('bx-hide');
+        passwordIcon.classList.add('bx-show-alt');
+      } else {
+        passwordField.type = 'password';
+        passwordIcon.classList.remove('bx-show-alt');
+        passwordIcon.classList.add('bx-hide');
+      }
+    }
+
+    // ฟังก์ชันสำหรับจัดการการล็อกอิน
+    function handleLogin() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // ตรวจสอบข้อมูลล็อกอิน (นี่คือโค้ดตัวอย่าง, คุณสามารถเปลี่ยนการตรวจสอบได้ตามจริง)
+      if (username === '1333333333333' && password === '1234') {
+        // ถ้าล็อกอินสำเร็จ จะเปลี่ยนหน้าไปยัง index.html
+        window.location.href = '/chiracarehospital/index.html';
+      } else {
+        // ถ้าข้อมูลไม่ถูกต้อง ให้แสดงข้อความเตือน
+        alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+      }
+    }
+  </script>
 </body>
+
 </html>
+
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-image: url('../../assets/images/Loginbackground.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-container {
+    /* background: rgba(255, 255, 255, 0.9); */
+    padding: 40px;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    text-align: center;
+    width: 80%;
+  }
+
+  .logo {
+    width: 20%;
+    margin-bottom: 20px;
+  }
+
+  .login-header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .login-header h2 {
+    font-size: 18px;
+    color: gray;
+    margin-bottom: 30px;
+  }
+
+  .login-form {
+    text-align: left;
+  }
+
+  .login-form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .forgot-password {
+    text-align: right;
+  }
+
+  .forgot-password a {
+    text-decoration: none;
+    color: #007BFF;
+  }
+
+  .login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1F3F99;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 30px;
+  }
+
+  .login-button:hover {
+    background-color: #0056b3;
+  }
+
+  .register {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+
+  .register a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+
+  .register a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<style>
+  .password-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .password-container input {
+    width: 100%;
+    padding-right: 40px;
+    /* เว้นที่สำหรับไอคอน */
+  }
+
+  .toggle-password {
+    position: absolute;
+    top: 56%;
+    right: 20px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .toggle-password i {
+    font-size: 20px;
+  }
+</style>
