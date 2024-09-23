@@ -144,12 +144,12 @@
       const user = JSON.parse(localStorage.getItem('user'));
 
       // แสดงชื่อผู้ใช้
-      document.getElementById('username').textContent = user.username;
+      document.getElementById('username').textContent = user.role;
 
       // แสดงพื้นที่รับผิดชอบ
-      document.getElementById('department').textContent = user.department;
+      document.getElementById('department').textContent = user.full_name;
 
-      document.getElementById('profile-image').src = `data:image/jpeg;base64,${user.image_base64}`;
+      document.getElementById('profile-image').src = `data:image/jpeg;base64,${user.user_image}`;
     }
 
     let sidebar = document.querySelector(".sidebar");

@@ -48,10 +48,10 @@
         <img id="profile-image" src="" alt="Profile Image" class="profile-image">
         <h2 id="full-name">ชื่อผู้ใช้</h2>
         <div class="profile-info">
-            <p><strong>ตำแหน่ง:</strong> <span id="rank"></span></p>
-            <p><strong>แผนก:</strong> <span id="department"></span></p>
             <p><strong>พื้นที่รับผิดชอบ:</strong> <span id="responsibility-area"></span></p>
             <p><strong>เบอร์โทรศัพท์:</strong> <span id="phone-number"></span></p>
+            <p><strong>สถาณะ:</strong> <span id="role"></span></p>
+
 
         </div>
     </div>
@@ -75,14 +75,13 @@
 
                             // แสดงข้อมูลในหน้า HTML
                             document.getElementById('full-name').textContent = userData.full_name;
-                            document.getElementById('rank').textContent = userData.rank;
-                            document.getElementById('department').textContent = userData.department;
                             document.getElementById('responsibility-area').textContent = userData.responsibility_area;
                             document.getElementById('phone-number').textContent = userData.phone_number;
+                            document.getElementById('role').textContent = userData.role;
 
                             // แสดงรูปภาพจาก Base64
-                            if (userData.image_base64) {
-                                document.getElementById('profile-image').src = `data:image/jpeg;base64,${userData.image_base64}`;
+                            if (userData.user_image) {
+                                document.getElementById('profile-image').src = `data:image/jpeg;base64,${userData.user_image}`;
                             }
                         } else {
                             console.error('ไม่พบข้อมูลผู้ใช้');
