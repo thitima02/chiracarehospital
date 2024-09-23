@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
     <link rel="stylesheet" href="../../css/sidebar.css">
     <link rel="stylesheet" href="../../css/topbar.css">
     <link rel="stylesheet" href="../../css/logo.css">
-    <!-- Import icon -->                              
+    <!-- Import icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -18,17 +19,19 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../method/logout.js"></script>
+
 </head>
 
 <body style="background-color:#edeff1;">
-  <!-- Sidebar will be loaded here -->
-  <div id="sidebar-container"></div>
+    <!-- Sidebar will be loaded here -->
+    <div id="sidebar-container"></div>
 
-  <!-- Topbar will be loaded here -->
-  <div id="topbar-container"></div>
+    <!-- Topbar will be loaded here -->
+    <div id="topbar-container"></div>
 
     <div class="dasboard-container">
-        
+
         <div class="row">
             <div class="col-12 col-md-12">
                 <div class="card ca1">
@@ -44,9 +47,9 @@
                                         <span class="mdi mdi-water-circle"></span>
                                         <h5 class="card-title">ความดันโลหิตสูง</h5>
                                         <p class="card-text">
-                                            <div>ประชาชน: 10</div>
-                                            <div>ครอบครัว: 5</div>
-                                            <div>กำลังพล: 3</div>
+                                        <div>ประชาชน: 10</div>
+                                        <div>ครอบครัว: 5</div>
+                                        <div>กำลังพล: 3</div>
                                         </p>
                                     </div>
                                 </div>
@@ -124,7 +127,8 @@
                         </div>
                         <div class="row">
                             <div class="col-12 text-right">
-                                <button class="btn btn-primary button" onclick="window.location.href='statustracking.html'">ดูเพิ่มเติม</button>
+                                <button class="btn btn-primary button"
+                                    onclick="window.location.href='statustracking.html'">ดูเพิ่มเติม</button>
                             </div>
                         </div>
                     </div>
@@ -152,8 +156,8 @@
                     </div>
                 </div>
             </div>
-            
-    
+
+
         </div>
         <div class="status">
             <div class="col-12 col-md-6">
@@ -226,19 +230,22 @@
                             <div class="mb-2">
                                 <h5>ติดตามแล้ว</h5>
                                 <div class="progress">
-                                    <div class="progress-bar bg-success progress-followed" style="width: 60%; height: 20px;">
+                                    <div class="progress-bar bg-success progress-followed"
+                                        style="width: 60%; height: 20px;">
                                         <strong>60%</strong>
                                     </div>
                                 </div>
                                 <h5>กำลังติดตาม</h5>
                                 <div class="progress">
-                                    <div class="progress-bar bg-warning progress-in-progress" style="width: 40%; height: 20px;">
+                                    <div class="progress-bar bg-warning progress-in-progress"
+                                        style="width: 40%; height: 20px;">
                                         <strong>40%</strong>
                                     </div>
                                 </div>
                                 <h5>ยังไม่ได้ติดตาม</h5>
                                 <div class="progress">
-                                    <div class="progress-bar bg-danger progress-not-followed" style="width: 20%; height: 20px;">
+                                    <div class="progress-bar bg-danger progress-not-followed"
+                                        style="width: 20%; height: 20px;">
                                         <strong>20%</strong>
                                     </div>
                                 </div>
@@ -249,7 +256,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
             <div class="col-12 col-md-3 treatment-status-card">
                 <div class="card">
@@ -260,13 +267,15 @@
                             <div class="mb-2">
                                 <h5>รักษาสำเร็จ</h5>
                                 <div class="progress">
-                                    <div class="progress-bar bg-success treatment-success" style="width: 40%; height: 20px;">
+                                    <div class="progress-bar bg-success treatment-success"
+                                        style="width: 40%; height: 20px;">
                                         <strong>40%</strong>
                                     </div>
                                 </div>
                                 <h5>รักษาไม่สำเร็จ</h5>
                                 <div class="progress">
-                                    <div class="progress-bar bg-danger treatment-fail" style="width: 40%; height: 20px;">
+                                    <div class="progress-bar bg-danger treatment-fail"
+                                        style="width: 40%; height: 20px;">
                                         <strong>40%</strong>
                                     </div>
                                 </div>
@@ -277,7 +286,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
     </div>
@@ -351,47 +360,48 @@
             .catch(error => console.error('Error:', error));
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="../../assets/js/plugins/chartjs.min.js"></script>
-<script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/plugins/chartjs.min.js"></script>
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                loadSidebarScript(); // Initialize sidebar toggle after loading
+            });
 
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'หน้าหลัก'; // Set page title for the history page
-      });
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                document.getElementById('page-title').textContent = 'หน้าหลัก'; // Set page title for the history page
+            });
 
-      function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
+        function loadSidebarScript() {
+            let sidebar = document.querySelector(".sidebar");
+            let closeBtn = document.querySelector("#btn");
 
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+            closeBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+                menuBtnChange();
+            });
+            function menuBtnChange() {
+                if (sidebar.classList.contains("open")) {
+                    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+                } else {
+                    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+                }
+            }
         }
-      }
-    }
-</script>
+    </script>
 
 
 </body>
+
 </html>
