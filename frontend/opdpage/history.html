@@ -31,216 +31,185 @@
                 <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
                 <i class='bx bx-search search-icon'></i>
             </div>
+
             <div class="filter-item">
-                <h5>วันที่นัดหมาย</h5>
-                <input type="date" class="date-filter" id="appointmentDateFilter">
+                <h5>วันที่อัปเดตล่าสุด</h5>
+                <input type="date" class="date-filter" id="updatedDateFilter">
             </div>
+
             <div class="filter-item">
-                <h5>ครั้งที่รักษา</h5>
-                <select class="dropdown-filter" id="treatmentCountFilter">
+                <h5>โรคประจำตัว</h5>
+                <select class="dropdown-filter" id="diseaseTypeFilter">
                     <option value="ทั้งหมด">ทั้งหมด</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <!-- Add other options as needed -->
-                </select>
-            </div>
-            <div class="filter-item">
-                <h5>สถานะการติดตาม</h5>
-                <select class="dropdown-filter" id="followUpStatusFilter">
-                    <option value="ทั้งหมด">ทั้งหมด</option>
-                    <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
-                    <option value="กำลังติดตาม">กำลังติดตาม</option>
-                    <option value="ติดตามแล้ว">ติดตามแล้ว</option>
-                    <option value="ติดตามล้มเหลว">ติดตามล้มเหลว</option>
-                </select>
-            </div>
-            <div class="filter-item">
-                <h5>สถานะการรักษา</h5>
-                <select class="dropdown-filter" id="treatmentStatusFilter">
-                    <option value="ทั้งหมด">ทั้งหมด</option>
-                    <option value="ยังไม่ได้รักษา">ยังไม่ได้รักษา</option>
-                    <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
-                    <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+                    <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+                    <option value="โรคอ้วน">โรคอ้วน</option>
+                    <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+                    <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+                    <option value="CVS Risk">CVS Risk</option>
+                    <option value="โรคไต">โรคไต</option>
                 </select>
             </div>
         </div>
     </section>
 
-    <script>
-        // Filter logic
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('searchPatientInput');
-            const appointmentDateFilter = document.getElementById('appointmentDateFilter');
-            const treatmentCountFilter = document.getElementById('treatmentCountFilter');
-            const followUpStatusFilter = document.getElementById('followUpStatusFilter');
-            const treatmentStatusFilter = document.getElementById('treatmentStatusFilter');
-            const patientTableBody = document.querySelector('.patient-table tbody');
+    <div class="history-container">
+        <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
+    </div>
 
-            // Filter Function
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_treatment_history.php")
+                .then(response => response.json())
+                .then(data => {
+                    const historyContainer = document.querySelector(".history-container");
+
+                    data.forEach(history => {
+                        const historyElement = document.createElement("div");
+                        historyElement.classList.add("history");
+
+                        // ฟังก์ชันเพื่อจัดรูปแบบวันที่และเวลา
+                        const formatDateTime = (dateTime) => {
+                            const date = new Date(dateTime);
+                            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                            const formattedDate = date.toLocaleDateString('th-TH', options);
+                            const formattedTime = date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+                            return { formattedDate, formattedTime };
+                        };
+
+                        const { formattedDate, formattedTime } = formatDateTime(history.newupdate);
+
+                        historyElement.innerHTML = `
+                        <div class="activity">
+                            <div class="left">
+                                <img src="images/amuro.jpg" alt="icon" class="activity-icon">
+                                <div class="details">
+                                    <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
+                                    <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <p class="date">${formattedDate}</p>
+                                <p class="time">${formattedTime}</p>
+                            </div>
+                            <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                            <div class="more-details" style="display: none;">
+                                <div class="detail">
+                                    <p>ชื่อ - นามสกุล : ${history.full_name}</p>
+                                    <p>โรคของผู้ป่วยที่รักษา : ${history.disease_type}</p>
+                                    <p>อาการทั่วไป : ${history.general_symptoms}</p>
+                                    <p>ประเด็นการรักษา : ${history.treatment_issue}</p>
+                                    <p>วันที่เข้ารับการรักษา : ${history.date_of_treatment}</p>
+                                    <p>วันที่นัดครั้งถัดไป : ${history.next_appointment_date}</p>
+                                    <p>หมายเหตุ : ${history.notes}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                        historyContainer.appendChild(historyElement);
+                    });
+                })
+                .catch(error => console.error("Error fetching data:", error));
+
+            // การกรองข้อมูล
+            const searchInput = document.getElementById('searchPatientInput');
+            const updatedDateFilter = document.getElementById('updatedDateFilter');
+            const diseaseTypeFilter = document.getElementById('diseaseTypeFilter');
+
             function filterData() {
                 const searchTerm = searchInput.value.toLowerCase();
-                const appointmentDate = appointmentDateFilter.value;
-                const treatmentCount = treatmentCountFilter.value;
-                const followUpStatus = followUpStatusFilter.value;
-                const treatmentStatus = treatmentStatusFilter.value;
+                const updatedDate = updatedDateFilter.value;
+                const diseaseType = diseaseTypeFilter.value;
 
-                const rows = patientTableBody.getElementsByTagName('tr');
+                const activities = document.querySelectorAll('.activity');
 
-                for (let i = 0; i < rows.length; i++) {
-                    const name = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
-                    const appointmentDateValue = rows[i].getElementsByTagName('td')[1].textContent;
-                    const treatmentCountValue = rows[i].getElementsByTagName('td')[4].textContent;
-                    const followUpStatusValue = rows[i].getElementsByTagName('td')[5].textContent;
-                    const treatmentStatusValue = rows[i].getElementsByTagName('td')[6].textContent;
+                activities.forEach(activity => {
+                    const name = activity.querySelector('.title').textContent.toLowerCase();
+                    const updateDateValue = activity.querySelector('.date').textContent;
+                    const diseaseTypeValue = activity.querySelector('.detail').children[1].textContent.split(' : ')[1];
 
                     let isVisible = true;
 
+                    // กรองตามชื่อ
                     if (searchTerm && !name.includes(searchTerm)) {
                         isVisible = false;
                     }
-                    if (appointmentDate && appointmentDateValue !== appointmentDate) {
-                        isVisible = false;
-                    }
-                    if (treatmentCount !== 'ทั้งหมด' && treatmentCountValue !== treatmentCount) {
-                        isVisible = false;
-                    }
-                    if (followUpStatus !== 'ทั้งหมด' && followUpStatusValue !== followUpStatus) {
-                        isVisible = false;
-                    }
-                    if (treatmentStatus !== 'ทั้งหมด' && treatmentStatusValue !== treatmentStatus) {
+
+                    // กรองตามวันที่อัปเดต
+                    if (updatedDate && new Date(updateDateValue).toISOString().split('T')[0] !== updatedDate) {
                         isVisible = false;
                     }
 
-                    rows[i].style.display = isVisible ? '' : 'none';
-                }
+                    // กรองตามประเภทโรค
+                    if (diseaseType !== 'ทั้งหมด' && diseaseTypeValue !== diseaseType) {
+                        isVisible = false;
+                    }
+
+                    // แสดงหรือซ่อนกิจกรรมตามเงื่อนไข
+                    activity.style.display = isVisible ? '' : 'none';
+                });
             }
 
-            // Attach events to filter fields
             searchInput.addEventListener('input', filterData);
-            appointmentDateFilter.addEventListener('change', filterData);
-            treatmentCountFilter.addEventListener('change', filterData);
-            followUpStatusFilter.addEventListener('change', filterData);
-            treatmentStatusFilter.addEventListener('change', filterData);
+            updatedDateFilter.addEventListener('change', filterData);
+            diseaseTypeFilter.addEventListener('change', filterData);
         });
+
+        function toggleDetails(button) {
+            const moreDetails = button.nextElementSibling;
+            moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
+        }
     </script>
 
-        <div class="history-container">
-            <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
-        </div>
-        
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_treatment_history.php") // ปรับ URL ตามที่ตั้งของไฟล์ PHP
-                    .then(response => response.json())
-                    .then(data => {
-                        const historyContainer = document.querySelector(".history-container");
-        
-                        data.forEach(history => {
-                            const historyElement = document.createElement("div");
-                            historyElement.classList.add("history");
-        
-                            // ฟังก์ชันเพื่อจัดรูปแบบวันที่และเวลา
-                            const formatDateTime = (dateTime) => {
-                                const date = new Date(dateTime);
-                                const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-                                const formattedDate = date.toLocaleDateString('th-TH', options); // รูปแบบวันเดือนปี
-                                const formattedTime = date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }); // รูปแบบเวลา
-                                return { formattedDate, formattedTime };
-                            };
-        
-                            const { formattedDate, formattedTime } = formatDateTime(history.date_of_treatment);
-        
-                            historyElement.innerHTML = `
-                                <div class="activity">
-                                    <div class="left">
-                                        <img src="images/amuro.jpg" alt="icon" class="activity-icon">
-                                        <div class="details">
-                                            <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
-                                            <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
-                                        </div>
-                                    </div>
-                                    <div class="right">
-                                        <p class="date">${formattedDate}</p>
-                                        <p class="time">${formattedTime}</p> <!-- ใช้ตัวแปรสำหรับเวลา -->
-                                    </div>
-                                    <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
-                                    <div class="more-details" style="display: none;">
-                                        <div class="detail">
-                                            <p>ชื่อ - นามสกุล : ${history.full_name}</p>
-                                            <p>โรคของผู้ป่วยที่รักษา : ${history.disease_type}</p>
-                                            <p>อาการทั่วไป : ${history.general_symptoms}</p>
-                                            <p>ประเด็นการรักษา : ${history.treatment_issue}</p>
-                                            <p>วันที่เข้ารับการรักษา : ${formattedDate}</p>
-                                            <p>วันที่นัดครั้งถัดไป : ${history.next_appointment_date}</p>
-                                            <p>หมายเหตุ : ${history.notes}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-        
-                            historyContainer.appendChild(historyElement);
-                        });
-                    })
-                    .catch(error => console.error("Error fetching data:", error));
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                loadSidebarScript(); // Initialize sidebar toggle after loading
             });
-        
-            // การทำงานของปุ่มเพิ่มเติม
-            function toggleDetails(button) {
-                const moreDetails = button.nextElementSibling;
-                moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
+
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา'; // Set page title for the history page
+            });
+
+        function toggleDetails(button) {
+            const details = button.nextElementSibling;
+            if (details.style.display === "block") {
+                details.style.display = "none";
+                button.textContent = "เพิ่มเติม";
+            } else {
+                details.style.display = "block";
+                button.textContent = "ซ้อนข้อมูล";
             }
-        </script>
+        }
 
-        <script>
-            // Load sidebar
-            fetch('sidebar.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('sidebar-container').innerHTML = data;
-                    loadSidebarScript(); // Initialize sidebar toggle after loading
-                });
+        function loadSidebarScript() {
+            let sidebar = document.querySelector(".sidebar");
+            let closeBtn = document.querySelector("#btn");
 
-            // Load topbar and set the page title
-            fetch('topbar.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('topbar-container').innerHTML = data;
-                    document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา'; // Set page title for the history page
-                });
+            closeBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+                menuBtnChange();
+            });
 
-            function toggleDetails(button) {
-                const details = button.nextElementSibling;
-                if (details.style.display === "block") {
-                    details.style.display = "none";
-                    button.textContent = "เพิ่มเติม";
+            function menuBtnChange() {
+                if (sidebar.classList.contains("open")) {
+                    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
                 } else {
-                    details.style.display = "block";
-                    button.textContent = "ซ้อนข้อมูล";
+                    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
                 }
             }
-
-            function loadSidebarScript() {
-                let sidebar = document.querySelector(".sidebar");
-                let closeBtn = document.querySelector("#btn");
-
-                closeBtn.addEventListener("click", () => {
-                    sidebar.classList.toggle("open");
-                    menuBtnChange();
-                });
-
-                function menuBtnChange() {
-                    if (sidebar.classList.contains("open")) {
-                        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-                    } else {
-                        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-                    }
-                }
-                document.getElementById('edit-button').addEventListener('click', function () {
-                    window.location.href = 'listhistoty.html';
-                });
-            }
-        </script>
-    </body>
+            document.getElementById('edit-button').addEventListener('click', function () {
+                window.location.href = 'listhistoty.html';
+            });
+        }
+    </script>
+</body>
 
 </html>

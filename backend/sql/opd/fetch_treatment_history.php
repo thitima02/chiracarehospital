@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 }
 
 // ดึงข้อมูลประวัติการรักษา
-$sql = "SELECT p.full_name, pm.disease_type, tf.general_symptoms, tf.treatment_issue, tf.date_of_treatment, tf.next_appointment_date, tf.notes
+$sql = "SELECT p.full_name, pm.disease_type, tf.general_symptoms, tf.treatment_issue, tf.date_of_treatment, tf.next_appointment_date, tf.notes, tf.newupdate
         FROM treatment_form tf 
         JOIN patient_information p ON tf.id_patient_information = p.id
         JOIN patient_medical_information pm ON tf.id_patient_medical_information = pm.id";
