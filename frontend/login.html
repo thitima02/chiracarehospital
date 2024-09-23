@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Fort Chiraprawat Hospital</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet">
 </head>
 
 <body>
   <div class="login-container">
     <div class="login-header">
-      <img src="../../assets/images/Logologin.png" alt="Hospital Logo" class="logo">
+      <img src="../assets/images/Logologin.png" alt="Hospital Logo" class="logo">
     </div>
 
     <div class="login-form">
@@ -42,6 +42,12 @@
   </div>
 
   <script>
+    // ตรวจสอบว่าผู้ใช้ล็อกอินอยู่แล้วหรือไม่
+    if (localStorage.getItem('token')) {
+      // ถ้าอยู่แล้วให้เปลี่ยนเส้นทางไปที่ index.html
+      window.location.href = "http://localhost/chiracarehospital/index.html";
+    }
+
     // ฟังก์ชันสำหรับสลับการแสดง/ซ่อนรหัสผ่าน
     function togglePasswordVisibility() {
       const passwordField = document.getElementById('password');
@@ -63,22 +69,35 @@
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
 
-      // ตรวจสอบข้อมูลล็อกอิน (นี่คือโค้ดตัวอย่าง, คุณสามารถเปลี่ยนการตรวจสอบได้ตามจริง)
-      if (username === '1333333333333' && password === '1234') {
-        // ถ้าล็อกอินสำเร็จ จะเปลี่ยนหน้าไปยัง index.html
-        window.location.href = '/chiracarehospital/index.html';
-      } else {
-        // ถ้าข้อมูลไม่ถูกต้อง ให้แสดงข้อความเตือน
-        alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
-      }
+      fetch('../backend/sql/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            // บันทึก token ลง localStorage
+            localStorage.setItem('token', data.token);
+            // บันทึกข้อมูลผู้ใช้ลง localStorage หรือจัดการตามต้องการ
+            localStorage.setItem('user', JSON.stringify(data.user));
+            // เปลี่ยนหน้าไปยัง index.html
+            window.location.href = "http://localhost/chiracarehospital/index.html";
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => console.error('Error:', error));
     }
   </script>
 </body>
 
 </html>
 
-
 <style>
+  /* Styles for the login page */
   * {
     margin: 0;
     padding: 0;
@@ -86,7 +105,7 @@
   }
 
   body {
-    background-image: url('../../assets/images/Loginbackground.jpg');
+    background-image: url('../assets/images/Loginbackground.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -96,10 +115,8 @@
   }
 
   .login-container {
-    /* background: rgba(255, 255, 255, 0.9); */
     padding: 40px;
     border-radius: 10px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     text-align: center;
     width: 80%;
   }
@@ -177,9 +194,7 @@
   .register a:hover {
     text-decoration: underline;
   }
-</style>
 
-<style>
   .password-container {
     position: relative;
     width: 100%;
@@ -188,7 +203,6 @@
   .password-container input {
     width: 100%;
     padding-right: 40px;
-    /* เว้นที่สำหรับไอคอน */
   }
 
   .toggle-password {
