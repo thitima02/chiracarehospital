@@ -223,15 +223,15 @@
                     <td><span class="status ${treatmentStatusClass}">${patient.treatment_status}</span></td>
                     <td>
                         <div class="Actionbutton">
-                            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" id="add-button">
+                           <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" onclick="window.location.href='test.html?name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'">
                                 <i class='bx bx-file'></i>
                             </button>
-                            <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmAction(${patient.id_treatment_form})">
+                            <button class="action-btn" title="คลิกเพื่อยืนยัน">
                                 <i class='bx bx-check'></i>
                             </button>
                         </div>
                         <div class="Greenbutton">
-                            <button class="green-button" style="display: none;" onclick="confirmRestore(${patient.id_treatment_form})">
+                            <button class="green-button" style="display: none;">
                                 <p>เสร็จสิ้น</p>
                                 <i class='bx bxs-check-circle'></i>
                             </button>
@@ -243,6 +243,19 @@
                 })
                 .catch(error => console.error("Error fetching data:", error));
         });
+
+        // action add 
+        function confirmAction(patientId) {
+            console.log(patientId); // เพิ่มบรรทัดนี้เพื่อตรวจสอบ
+            fetch(`http://localhost/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
+                .then(response => response.json())
+                .then(patient => {
+                    const name = encodeURIComponent(patient.patient_name);
+                    const disease = encodeURIComponent(patient.disease);
+                    window.location.href = `test.html?name=${name}&disease=${disease}`;
+                })
+                .catch(error => console.error("Error fetching patient data:", error));
+        }
 
         // Status color
         function getStatusClass(status) {
@@ -267,6 +280,7 @@
         }
 
     </script>
+
 
     <script>
         // Load sidebar
