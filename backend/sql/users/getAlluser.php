@@ -5,8 +5,8 @@ require_once '../db_connection.php'; // นำเข้าไฟล์เชื�
 $response = []; // ตัวแปรสำหรับเก็บข้อมูล response
 
 try {
-    // คำสั่ง SQL สำหรับดึงข้อมูลผู้ใช้ทั้งหมด รวมถึงรหัสผ่าน
-    $stmt = $conn->prepare("SELECT id, role, username, password, line_id, responsibility_area, image_base64, full_name, phone_number, rank, department FROM staff_info");
+    // คำสั่ง SQL สำหรับดึงข้อมูลผู้ใช้ทั้งหมดจากตาราง user_info
+    $stmt = $conn->prepare("SELECT id, role, username, password, responsibility_area, user_image, full_name, phone_number FROM user_info");
     $stmt->execute();
 
     // ดึงข้อมูลทั้งหมด
