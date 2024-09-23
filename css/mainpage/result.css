@@ -44,24 +44,24 @@
   margin: 10px;
 }
 
-.new-order i {
+.new i {
   color: #5DA3FA;
   margin: 0 10px;
 }
 
-.visitors i {
+.success i {
   color: #16bc19;
   margin: 0 10px;
 }
 
-.total-sales i {
+.unsuccess i {
   color: #FA5A7D;
   margin: 0 10px;
 }
 
 /* CSS for mobile devices */
 @media (max-width: 768px) {
-  
+
   .box {
     width: 100%;
     font-size: 0.9rem;

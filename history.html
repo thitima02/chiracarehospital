@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="css/sidebar.css">
   <link rel="stylesheet" href="css/topbar.css">
-  <link rel="stylesheet" href="css/menubar.css">
+  <link rel="stylesheet" href="css/filtermenu.css">
   <link rel="stylesheet" href="css/logo.css">
   <link rel="stylesheet" href="css/historypage/moredetail.css">
 
@@ -23,157 +23,156 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-  <!-- the dropdrown  -->
-  <div class="filter-container">
-    <div class="filter-item search-bar">
-      <h5>ค้นหารายขื่อ</h5>
-      <input type="text" placeholder="ค้นหาที่นี่..." class="search-input">
-      <i class='bx bx-search search-icon'></i> <!-- Add your icon here -->
-    </div>
-    <div class="filter-item">
-      <h5>วันที่นัดหมาย</h5>
-      <input type="date" class="date-filter">
-    </div>
-    <div class="filter-item">
-      <h5>ครั้งที่รักษา</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
-    </div>
-    <div class="filter-item">
-      <h5>สถานะการติดตาม</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">ยังไม่ได้ติดตาม</option>
-        <option value="">กำลังติดตาม</option>
-        <option value="">ติดตามแล้ว</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
-    </div>
-    <div class="filter-item">
-      <h5>สถานะการรักษา</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">ยังไม่ได้รักษา</option>
-        <option value="">นัดติดตามต่อเนื่อง</option>
-        <option value="">รักษาเสร็จสิ้น</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
-    </div>
-  </div>
-
-  <!-- the historytable  -->
-  <body>
-    <div class="history-container">
-        <div class="history">
-            <div class="activity">
-                <div class="left">
-                    <img src="images/amuro.jpg" alt="icon" class="activity-icon">
-                    <div class="details">
-                        <p class="title">เพิ่มนัดการรักษา</p>
-                        <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
-                    </div>
-                </div>
-                <div class="right">
-                    <p class="date">21/12/2022</p>
-                    <p class="time">10:40 AM</p>
-                </div>
-                <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
-                <div class="more-details">
-                    <div class="detail">
-                      <p>ชื่อ - นามสกุล : นายรู้มากความ สาระสำคัญ</p>
-                      <p>โรคของผู้ป่วยที่รักษา : โรคเบาหวาน</p>
-                      <p>อาการทั่วไป : ปกติ</p>
-                      <p>ประเด็นการรักษา :  -</p>
-                      <p>วันที่เข้ารับการรักษา : 17/05/2022</p>
-                      <p>วันที่นัดครั้งถัดไป : 26/05/2022</p>
-                      <p>หมายเหตุ :  -</p>
-                    </div>
-                </div>
-            </div>
-            <div class="activity">
-              <div class="left">
-                  <img src="images/amuro.jpg" alt="icon" class="activity-icon">
-                  <div class="details">
-                      <p class="title">เพิ่มนัดการรักษา</p>
-                      <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
-                  </div>
-              </div>
-              <div class="right">
-                  <p class="date">21/12/2022</p>
-                  <p class="time">10:40 AM</p>
-              </div>
-              <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
-              <div class="more-details">
-                  <p class="detail">ชื่อ - นามสกุล : นายรู้มากความ สาระสำคัญ
-                    โรคของผู้ป่วยที่รักษา : โรคเบาหวาน
-                    อาการทั่วไป : ปกติ
-                    ประเด็นการรักษา :  -
-                    วันที่เข้ารับการรักษา : 17/05/2022
-                    วันที่นัดครั้งถัดไป : 26/05/2022
-                    หมายเหตุ :  -
-                  </p>
-              </div>
-          </div>
+   <!-- Filters -->
+   <section class="filter-section" style="justify-content: center;">
+    <div class="filter-container">
+        <div class="filter-item search-bar">
+            <h5>ค้นหารายชื่อ</h5>
+            <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+            <i class='bx bx-search search-icon'></i>
+        </div>
+        <div class="filter-item">
+            <h5>วันที่นัดหมาย</h5>
+            <input type="date" class="date-filter" id="appointmentDateFilter">
+        </div>
+        <div class="filter-item">
+            <h5>ครั้งที่รักษา</h5>
+            <select class="dropdown-filter" id="treatmentCountFilter">
+                <option value="ทั้งหมด">ทั้งหมด</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <!-- Add other options as needed -->
+            </select>
+        </div>
+        <div class="filter-item">
+            <h5>สถานะการติดตาม</h5>
+            <select class="dropdown-filter" id="followUpStatusFilter">
+                <option value="ทั้งหมด">ทั้งหมด</option>
+                <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
+                <option value="กำลังติดตาม">กำลังติดตาม</option>
+                <option value="ติดตามแล้ว">ติดตามแล้ว</option>
+                <option value="ติดตามล้มเหลว">ติดตามล้มเหลว</option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <h5>สถานะการรักษา</h5>
+            <select class="dropdown-filter" id="treatmentStatusFilter">
+                <option value="ทั้งหมด">ทั้งหมด</option>
+                <option value="ยังไม่ได้รักษา">ยังไม่ได้รักษา</option>
+                <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+                <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+            </select>
         </div>
     </div>
+</section>
 
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
+  <!-- the historytable  -->
 
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา'; // Set page title for the history page
-      });
+  <body>
+    <div class="history-container">
+      <div class="history">
+        <div class="activity">
+          <div class="left">
+            <img src="images/amuro.jpg" alt="icon" class="activity-icon">
+            <div class="details">
+              <p class="title">เพิ่มนัดการรักษา</p>
+              <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+            </div>
+          </div>
+          <div class="right">
+            <p class="date">21/12/2022</p>
+            <p class="time">10:40 AM</p>
+          </div>
+          <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+          <div class="more-details">
+            <div class="detail">
+              <p>ชื่อ - นามสกุล : นายรู้มากความ สาระสำคัญ</p>
+              <p>โรคของผู้ป่วยที่รักษา : โรคเบาหวาน</p>
+              <p>อาการทั่วไป : ปกติ</p>
+              <p>ประเด็นการรักษา : -</p>
+              <p>วันที่เข้ารับการรักษา : 17/05/2022</p>
+              <p>วันที่นัดครั้งถัดไป : 26/05/2022</p>
+              <p>หมายเหตุ : -</p>
+            </div>
+          </div>
+        </div>
+        <div class="activity">
+          <div class="left">
+            <img src="images/amuro.jpg" alt="icon" class="activity-icon">
+            <div class="details">
+              <p class="title">เพิ่มนัดการรักษา</p>
+              <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+            </div>
+          </div>
+          <div class="right">
+            <p class="date">21/12/2022</p>
+            <p class="time">10:40 AM</p>
+          </div>
+          <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+          <div class="more-details">
+            <p class="detail">ชื่อ - นามสกุล : นายรู้มากความ สาระสำคัญ
+              โรคของผู้ป่วยที่รักษา : โรคเบาหวาน
+              อาการทั่วไป : ปกติ
+              ประเด็นการรักษา : -
+              วันที่เข้ารับการรักษา : 17/05/2022
+              วันที่นัดครั้งถัดไป : 26/05/2022
+              หมายเหตุ : -
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    function toggleDetails(button) {
-      const details = button.nextElementSibling;
-      if (details.style.display === "block") {
-        details.style.display = "none";
-        button.textContent = "เพิ่มเติม";
-      } else {
-        details.style.display = "block";
-        button.textContent = "ซ้อนข้อมูล";
-      }
-    }
+    <script>
+      // Load sidebar
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('sidebar-container').innerHTML = data;
+          loadSidebarScript(); // Initialize sidebar toggle after loading
+        });
 
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
+      // Load topbar and set the page title
+      fetch('topbar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('topbar-container').innerHTML = data;
+          document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา'; // Set page title for the history page
+        });
 
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+      function toggleDetails(button) {
+        const details = button.nextElementSibling;
+        if (details.style.display === "block") {
+          details.style.display = "none";
+          button.textContent = "เพิ่มเติม";
         } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+          details.style.display = "block";
+          button.textContent = "ซ้อนข้อมูล";
         }
       }
-      document.getElementById('edit-button').addEventListener('click', function () {
-        window.location.href = 'listhistoty.html';
-      });
-    }
-  </script>
-</body>
+
+      function loadSidebarScript() {
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+
+        closeBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("open");
+          menuBtnChange();
+        });
+
+        function menuBtnChange() {
+          if (sidebar.classList.contains("open")) {
+            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+          } else {
+            closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+          }
+        }
+        document.getElementById('edit-button').addEventListener('click', function () {
+          window.location.href = 'listhistoty.html';
+        });
+      }
+    </script>
+  </body>
 
 </html>

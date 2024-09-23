@@ -64,7 +64,7 @@
     font-weight: bold;
   }
 
-  .status.pending {
+  .status.uncomplete {
     background-color: #F4E1E1;
     color: #BB4242;
   }
@@ -74,7 +74,7 @@
     color: #E99050;
   }
 
-  .status.follow-up {
+  .status.continue {
     background-color: #F4E1ED;
     color: #BB4292;
   }
@@ -84,14 +84,19 @@
     color: #5F8D4E;
   }
 
-  .status.success {
+  .status.sucess {
     background-color: #E3F5FF;
     color: #5D97EF;
   }
 
-  .status.failed {
+  .status.unsucess {
     background-color: #dddddd;
     color: #626262;
+  }
+
+  .status.other {
+    background-color: #e5e1f4;
+    color: #634e8d;
   }
   
   .action-btn {
