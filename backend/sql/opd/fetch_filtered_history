@@ -1,0 +1,43 @@
+<?php
+$conn = new mysqli('localhost', 'root', '', 'chiracare_follow_up_db');
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// เริ่มสร้าง SQL query
+$sql = "SELECT p.full_name, t.illness, t.symptoms, t.treatment_issues, 
+        t.date_of_treatment, t.next_appointment_date, t.notes 
+        FROM treatment_form t 
+        JOIN patient_information p ON t.id_patient_information = p.id_patient_information 
+        WHERE 1=1"; // ใช้ 1=1 เพื่อให้สามารถเพิ่มเงื่อนไขได้ง่าย
+
+// ฟิลเตอร์การค้นหา
+$searchTerm = $_POST['searchTerm'] ?? '';
+if (!empty($searchTerm)) {
+    $sql .= " AND p.full_name LIKE '%" . $conn->real_escape_string($searchTerm) . "%'";
+}
+
+// ฟิลเตอร์วันที่นัดหมาย
+$appointmentDate = $_POST['appointmentDate'] ?? '';
+if (!empty($appointmentDate)) {
+    $sql .= " AND t.date_of_treatment = '" . $conn->real_escape_string($appointmentDate) . "'";
+}
+
+// ฟิลเตอร์สถานะการรักษา
+$treatmentStatus = $_POST['treatmentStatus'] ?? '';
+if ($treatmentStatus !== 'ทั้งหมด') {
+    $sql .= " AND t.treatment_status = '" . $conn->real_escape_string($treatmentStatus) . "'";
+}
+
+$result = $conn->query($sql);
+
+$historyData = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $historyData[] = $row;
+    }
+}
+
+echo json_encode($historyData);
+$conn->close();
+?>
