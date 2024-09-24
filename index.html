@@ -87,7 +87,7 @@
           if (data.status === 'success') {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = './frontend/login.html';
+            window.location.href = '/chiracarehospital/frontend/login.html';
           } else {
             alert(data.message);
           }
@@ -107,9 +107,11 @@
     }
 
     // ตรวจสอบว่า userData.role เป็น "แอดมิน" หรือไม่
-    if (userData.role === "Users") {
-      window.location.href = "/chiracarehospital/index.html"; // เปลี่ยนเส้นทางไปที่หน้า /home
+    if (userData.role === "User") {
+      window.location.href = "/chiracarehospital/frontend/opdpage/main.html"; // เปลี่ยนเส้นทางไปที่หน้า /home
     }
+
+
   </script>
 </body>
 
