@@ -1,40 +1,65 @@
 <!DOCTYPE html>
+<!-- ประกาศเอกสารเป็น HTML5 -->
 <html lang="en">
+<!-- เปิดแท็ก html และกำหนดภาษาของเอกสารเป็นภาษาอังกฤษ -->
 
 <head>
     <meta charset="UTF-8">
+    <!-- กำหนดการเข้ารหัสอักขระเป็น UTF-8 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- กำหนดมุมมองของเอกสารให้ตอบสนองต่อขนาดหน้าจอ (Responsive) -->
+
     <title>โรงพยาบาลค่ายจิรประวัติ</title>
+    <!-- กำหนดชื่อเรื่องของเอกสารที่จะปรากฏบนแท็บของเบราว์เซอร์ -->
 
     <link rel="stylesheet" href="../../css/sidebar.css">
+    <!-- เชื่อมโยงไฟล์ CSS สำหรับการจัดรูปแบบ sidebar -->
     <link rel="stylesheet" href="../../css/topbar.css">
+    <!-- เชื่อมโยงไฟล์ CSS สำหรับการจัดรูปแบบ topbar -->
     <link rel="stylesheet" href="../../css/logo.css">
+    <!-- เชื่อมโยงไฟล์ CSS สำหรับการจัดรูปแบบโลโก้ -->
 
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <!-- เชื่อมโยงไฟล์ CSS สำหรับไอคอนจาก Boxicons -->
     <script src="../method/logout.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
     <script src="../method/user.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
     <script src="../method/loadSidebarScript.js"></script>
-    <script src="../method/checkAuth.js"></script> <!-- เรียกใช้ checkAuth.js -->
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+    <script src="../method/checkAuth.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
 
     <style>
+        /* สไตล์ภายในแท็ก style สำหรับกำหนดรูปแบบ */
         .content {
             width: 93.5%;
+            /* กำหนดความกว้างของเนื้อหาเป็น 93.5% ของหน้าจอ */
             margin: auto;
+            /* กำหนด margin อัตโนมัติเพื่อจัดกลางเนื้อหา */
             padding: 20px;
+            /* กำหนด padding 20px รอบๆ เนื้อหา */
             margin-left: 89px;
+            /* กำหนด margin ด้านซ้ายเป็น 89px */
         }
     </style>
 </head>
 
 <body style="background-color:#edeff1;">
+    <!-- กำหนดสีพื้นหลังของเอกสารเป็นสีเทาอ่อน -->
+
     <!-- Sidebar will be loaded here -->
     <div id="sidebar-container"></div>
+    <!-- Div สำหรับโหลด sidebar -->
 
     <!-- Topbar will be loaded here -->
     <div id="topbar-container"></div>
+    <!-- Div สำหรับโหลด topbar -->
 
     <div class="content">
+        <!-- Div สำหรับเนื้อหาหลัก -->
         ใส่เนื้อหาของคุณที่นี่
+        <!-- ข้อความตัวอย่างบอกว่าให้ใส่เนื้อหาที่ต้องการที่นี่ -->
     </div>
 
     <script>
@@ -43,23 +68,34 @@
 
         // Load sidebar
         fetch('sidebar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
             .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
             .then(data => {
                 document.getElementById('sidebar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
                 loadSidebarScript();
+                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
             });
 
         // Load topbar and set the page title
         fetch('topbar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
             .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
             .then(data => {
                 document.getElementById('topbar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
                 document.getElementById('page-title').textContent = 'หน้าหลัก';
+                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
                 // Re-run user.js script after loading topbar
                 const script = document.createElement('script');
+                // สร้างแท็ก script ใหม่
                 script.src = '../method/user.js';
+                // กำหนดแหล่งที่มาของ script เป็น user.js
                 document.body.appendChild(script);
+                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
             });
     </script>
 
