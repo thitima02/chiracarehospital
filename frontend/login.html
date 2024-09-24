@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Fort Chiraprawat Hospital</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet">
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <img src="../assets/images/Logologin.png" alt="Hospital Logo" class="logo">
+    </div>
+
+    <div class="login-form">
+      <form id="login-form">
+        <label for="username">ชื่อผู้ใช้ (เลขบัตรประชาชน)</label>
+        <input type="text" id="username" name="username" placeholder="Enter ID card number" required>
+
+        <div class="password-container">
+          <label for="password">รหัสผ่าน</label>
+          <input type="password" id="password" name="password" placeholder="Enter password" required>
+          <span class="toggle-password" onclick="togglePasswordVisibility()">
+            <i id="password-icon" class='bx bx-hide'></i>
+          </span>
+        </div>
+
+        <div class="forgot-password">
+          <a href="">ลืมรหัสผ่าน?</a>
+        </div>
+
+        <button type="button" class="login-button" onclick="handleLogin()">เข้าสู่ระบบ</button>
+      </form>
+
+      <div class="register">
+        <span>ยังไม่ได้ลงทะเบียนหรือ? <a href="register.html">ลงทะเบียน</a></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ตรวจสอบว่าผู้ใช้ล็อกอินอยู่แล้วหรือไม่
+    if (localStorage.getItem('token')) {
+      // ถ้าอยู่แล้วให้เปลี่ยนเส้นทางไปที่ index.html
+      window.location.href = "http://localhost/chiracarehospital/index.html";
+    }
+
+    // ฟังก์ชันสำหรับสลับการแสดง/ซ่อนรหัสผ่าน
+    function togglePasswordVisibility() {
+      const passwordField = document.getElementById('password');
+      const passwordIcon = document.getElementById('password-icon');
+
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        passwordIcon.classList.remove('bx-hide');
+        passwordIcon.classList.add('bx-show-alt');
+      } else {
+        passwordField.type = 'password';
+        passwordIcon.classList.remove('bx-show-alt');
+        passwordIcon.classList.add('bx-hide');
+      }
+    }
+
+    // ฟังก์ชันสำหรับจัดการการล็อกอิน
+    function handleLogin() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      fetch('../backend/sql/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            // บันทึก token ลง localStorage
+            localStorage.setItem('token', data.token);
+            // บันทึกข้อมูลผู้ใช้ลง localStorage หรือจัดการตามต้องการ
+            localStorage.setItem('user', JSON.stringify(data.user));
+            // เปลี่ยนหน้าไปยัง index.html
+            window.location.href = "http://localhost/chiracarehospital/index.html";
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+</body>
+
+</html>
+
+<style>
+  /* Styles for the login page */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-image: url('../assets/images/Loginbackground.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-container {
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%;
+  }
+
+  .logo {
+    width: 20%;
+    margin-bottom: 20px;
+  }
+
+  .login-header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .login-header h2 {
+    font-size: 18px;
+    color: gray;
+    margin-bottom: 30px;
+  }
+
+  .login-form {
+    text-align: left;
+  }
+
+  .login-form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .forgot-password {
+    text-align: right;
+  }
+
+  .forgot-password a {
+    text-decoration: none;
+    color: #007BFF;
+  }
+
+  .login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1F3F99;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 30px;
+  }
+
+  .login-button:hover {
+    background-color: #0056b3;
+  }
+
+  .register {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+
+  .register a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+
+  .register a:hover {
+    text-decoration: underline;
+  }
+
+  .password-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .password-container input {
+    width: 100%;
+    padding-right: 40px;
+  }
+
+  .toggle-password {
+    position: absolute;
+    top: 56%;
+    right: 20px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .toggle-password i {
+    font-size: 20px;
+  }
+</style>

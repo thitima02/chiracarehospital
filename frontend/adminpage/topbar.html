@@ -3,21 +3,37 @@
     <div class="sidebar-button">
       <span id="page-title" class="text"></span> <!-- Placeholder for the page title -->
     </div>
-    
+
     <div class="right-section" title="หน้าหลัก">
-      <!-- Wrap the bell icon in an anchor tag that links to the notification page -->
-      <a href="../adminpage/notifications.html" class="icon-button"> <!-- Change this to the actual path of your notifications page -->
+      <a href="../adminpage/notifications.html" class="icon-button">
         <i class='bx bx-bell'></i>
       </a>
-      
+
       <div class="profile-details">
         <img src="../../assets/images/cat.jpg" alt="profile-details">
         <div class="admin_name">
-          <div class="name">Riranam</div>
-          <div class="job">OPD</div>
+          <div class="name" id="username"> <!-- Placeholder for username -->
+            <!-- Username will be populated here -->
+          </div>
+          <div class="job" id="responsibility-area"> <!-- Placeholder for responsibility area -->
+            <!-- Responsibility area will be populated here -->
+          </div>
         </div>
         <i class='bx bx-chevron-down'></i>
       </div>
     </div>
   </nav>
 </div>
+
+<script>
+  // ตรวจสอบว่ามีข้อมูลผู้ใช้ใน localStorage หรือไม่
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    // แสดงชื่อผู้ใช้และพื้นที่ความรับผิดชอบ
+    document.getElementById('username').textContent = user.username; // แทนที่ด้วยชื่อผู้ใช้
+    document.getElementById('responsibility-area').textContent = user.responsibility_area; // แทนที่ด้วยพื้นที่ความรับผิดชอบ
+  } else {
+    // หากไม่มีข้อมูลผู้ใช้ เปลี่ยนเส้นทางไปยังหน้า login
+    window.location.href = "../adminpage/login.html";
+  }
+</script>

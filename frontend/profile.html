@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรไฟล์ผู้ใช้</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .profile-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .profile-info {
+            text-align: left;
+        }
+
+        .profile-info p {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        <img id="profile-image" src="" alt="Profile Image" class="profile-image">
+        <h2 id="full-name">ชื่อผู้ใช้</h2>
+        <div class="profile-info">
+            <p><strong>ตำแหน่ง:</strong> <span id="rank"></span></p>
+            <p><strong>แผนก:</strong> <span id="department"></span></p>
+            <p><strong>พื้นที่รับผิดชอบ:</strong> <span id="responsibility-area"></span></p>
+            <p><strong>เบอร์โทรศัพท์:</strong> <span id="phone-number"></span></p>
+
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชันสำหรับดึงข้อมูลจาก API
+        function fetchUserProfile() {
+            // ดึงข้อมูลผู้ใช้จาก localStorage
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            // ตรวจสอบว่ามีข้อมูลผู้ใช้หรือไม่
+            if (user && user.id) {
+                const userId = user.id;
+                const apiUrl = `../backend/sql/users/getOneUser.php?id=${userId}`;
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            const userData = data.data;
+
+                            // แสดงข้อมูลในหน้า HTML
+                            document.getElementById('full-name').textContent = userData.full_name;
+                            document.getElementById('rank').textContent = userData.rank;
+                            document.getElementById('department').textContent = userData.department;
+                            document.getElementById('responsibility-area').textContent = userData.responsibility_area;
+                            document.getElementById('phone-number').textContent = userData.phone_number;
+
+                            // แสดงรูปภาพจาก Base64
+                            if (userData.image_base64) {
+                                document.getElementById('profile-image').src = `data:image/jpeg;base64,${userData.image_base64}`;
+                            }
+                        } else {
+                            console.error('ไม่พบข้อมูลผู้ใช้');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('เกิดข้อผิดพลาด:', error);
+                    });
+            } else {
+                console.error('ไม่มีข้อมูลผู้ใช้ใน localStorage');
+                // สามารถเปลี่ยนเส้นทางไปยังหน้า login หรือแสดงข้อผิดพลาดได้ที่นี่
+            }
+        }
+
+        // เรียกใช้ฟังก์ชันเมื่อโหลดหน้า
+        window.onload = fetchUserProfile;
+    </script>
+</body>
+
+</html>
