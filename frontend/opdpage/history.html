@@ -45,7 +45,7 @@
                     <option value="โรคอ้วน">โรคอ้วน</option>
                     <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
                     <option value="โรคเบาหวาน">โรคเบาหวาน</option>
-                    <option value="CVS Risk">CVS Risk</option>
+                    <option value="CVD Risk">CVD Risk</option>
                     <option value="โรคไต">โรคไต</option>
                 </select>
             </div>
@@ -71,8 +71,8 @@
                         const formatDateTime = (dateTime) => {
                             const date = new Date(dateTime);
                             const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-                            const formattedDate = date.toLocaleDateString('th-TH', options);
-                            const formattedTime = date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+                            const formattedDate = date.toLocaleDateString('en-CA', options);
+                            const formattedTime = date.toLocaleTimeString('en-EN', { hour: '2-digit', minute: '2-digit' });
                             return { formattedDate, formattedTime };
                         };
 
@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="right">
-                                <p class="date">${formattedDate}</p>
+                                <p class="update">${formattedDate}</p>
                                 <p class="time">${formattedTime}</p>
                             </div>
                             <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
@@ -125,7 +125,8 @@
 
                 activities.forEach(activity => {
                     const name = activity.querySelector('.title').textContent.toLowerCase();
-                    const updateDateValue = activity.querySelector('.date').textContent;
+                    const updateDateValue = activity.querySelector('.update').textContent;
+                    console.log('Update Date Value:', updateDateValue);
                     const diseaseTypeValue = activity.querySelector('.detail').children[1].textContent.split(' : ')[1];
 
                     let isVisible = true;
