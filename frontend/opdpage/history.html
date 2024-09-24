@@ -58,7 +58,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_treatment_history.php")
+            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_history.php")
                 .then(response => response.json())
                 .then(data => {
                     const historyContainer = document.querySelector(".history-container");
