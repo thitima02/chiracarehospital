@@ -79,9 +79,12 @@
                             document.getElementById('phone-number').textContent = userData.phone_number;
                             document.getElementById('role').textContent = userData.role;
 
-                            // แสดงรูปภาพจาก Base64
-                            if (userData.user_image) {
-                                document.getElementById('profile-image').src = `data:image/jpeg;base64,${userData.user_image}`;
+                            // ตรวจสอบว่ามีรูปภาพผู้ใช้หรือไม่
+                            if (user.user_image) {
+                                document.getElementById('profile-image').src = `data:image/jpeg;base64,${user.user_image}`;
+                            } else {
+                                // ถ้าไม่มีรูปภาพ ให้ใช้รูปภาพเริ่มต้น
+                                document.getElementById('profile-image').src = '../assets/images/cat.jpg'; // รูปภาพเริ่มต้น
                             }
                         } else {
                             console.error('ไม่พบข้อมูลผู้ใช้');

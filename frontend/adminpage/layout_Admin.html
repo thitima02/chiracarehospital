@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โรงพยาบาลค่ายจิรประวัติ</title>
+
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/topbar.css">
+    <link rel="stylesheet" href="../../css/logo.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <script src="../method/logout.js"></script>
+    <script src="../method/user.js"></script>
+    <script src="../method/loadSidebarScript.js"></script>
+    <script src="../method/checkAuth.js"></script> <!-- เรียกใช้ checkAuth.js -->
+
+    <style>
+        .content {
+            width: 93.5%;
+            margin: auto;
+            padding: 20px;
+            margin-left: 89px;
+        }
+    </style>
+</head>
+
+<body style="background-color:#edeff1;">
+    <!-- Sidebar will be loaded here -->
+    <div id="sidebar-container"></div>
+
+    <!-- Topbar will be loaded here -->
+    <div id="topbar-container"></div>
+
+    <div class="content">
+        ใส่เนื้อหาของคุณที่นี่
+    </div>
+
+    <script>
+        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+        checkAuth();
+
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                loadSidebarScript();
+            });
+
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                document.getElementById('page-title').textContent = 'หน้าหลัก';
+
+                // Re-run user.js script after loading topbar
+                const script = document.createElement('script');
+                script.src = '../method/user.js';
+                document.body.appendChild(script);
+            });
+    </script>
+
+</body>
+
+</html>
