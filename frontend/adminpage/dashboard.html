@@ -46,21 +46,18 @@
                                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                         <span class="mdi mdi-water-circle"></span>
                                         <h5 class="card-title">ความดันโลหิตสูง</h5>
-<<<<<<< HEAD:frontend/adminpage/dashboard.html
                                         <p class="card-text">
-                                        <div>ประชาชน: 10</div>
-                                        <div>ครอบครัว: 5</div>
-                                        <div>กำลังพล: 3</div>
+
                                         </p>
-=======
+
                                         <p>ประชาชน: <span id="public_hypertension"></span></p>
                                         <p>ครอบครัว: <span id="family_hypertension"></span></p>
                                         <p>กำลังพล: <span id="military_hypertension"></span></p>
->>>>>>> Thitima:frontend/adminpage/dasboard.html
+
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <!-- โรคอ้วน -->
                             <div class="col-2 col-md-2 mb-2">
                                 <div class="card patient-type text-center">
@@ -73,7 +70,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <!-- ไขมันในเลือดสูง -->
                             <div class="col-2 col-md-2 mb-2">
                                 <div class="card patient-type text-center">
@@ -86,7 +83,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <!-- โรคเบาหวาน -->
                             <div class="col-2 col-md-2 mb-2">
                                 <div class="card patient-type text-center">
@@ -99,7 +96,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <!-- CVD Risk -->
                             <div class="col-2 col-md-2 mb-2">
                                 <div class="card patient-type text-center">
@@ -112,7 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <!-- โรคไต -->
                             <div class="col-2 col-md-2 mb-2">
                                 <div class="card patient-type text-center">
@@ -126,19 +123,13 @@
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD:frontend/adminpage/dashboard.html
+
                         <div class="row">
-                            <div class="col-12 text-right">
+                            <div class="col-12 d-flex justify-content-end">
                                 <button class="btn btn-primary button"
                                     onclick="window.location.href='statustracking.html'">ดูเพิ่มเติม</button>
-=======
-                        
-                            <div class="row">
-                                <div class="col-12 d-flex justify-content-end">
-                                    <button class="btn btn-primary button" onclick="window.location.href='statustracking.html'">ดูเพิ่มเติม</button>
-                                </div>
->>>>>>> Thitima:frontend/adminpage/dasboard.html
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,7 +144,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="col-12 col-md-6 mb-2">
                     <div class="card mb-4">
                         <div class="card-body">
@@ -165,11 +156,7 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD:frontend/adminpage/dashboard.html
 
-
-=======
->>>>>>> Thitima:frontend/adminpage/dasboard.html
         </div>
         <div class="status">
             <div class="col-12 col-md-6">
@@ -307,71 +294,71 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Fetch the patient data
-    fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
+    <script>
+        // Fetch the patient data
+        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
 
-            // Preparing labels (years) and data for the chart
-            const labels = ['2564', '2565', '2566', '2567']; // Years on the X-axis
+                // Preparing labels (years) and data for the chart
+                const labels = ['2564', '2565', '2566', '2567']; // Years on the X-axis
 
-            // Sample data (Replace with actual values from the API response)
-            const publicData = [-50, -30, 20, 60, -10, -70];   // Replace with `item.public_total` values for each year
-            const familyData = [-20, 10, -30, -40, -50, -60];  // Replace with `item.family_total` values for each year
-            const militaryData = [0, 20, 50, 40, 10, 30];      // Replace with `item.military_total` values for each year
+                // Sample data (Replace with actual values from the API response)
+                const publicData = [-50, -30, 20, 60, -10, -70];   // Replace with `item.public_total` values for each year
+                const familyData = [-20, 10, -30, -40, -50, -60];  // Replace with `item.family_total` values for each year
+                const militaryData = [0, 20, 50, 40, 10, 30];      // Replace with `item.military_total` values for each year
 
-            // Creating the chart
-            const ctx = document.getElementById('patient-type-chart').getContext('2d');
-            const patientTypeChart = new Chart(ctx, {
-                type: 'line', // Line chart
-                data: {
-                    labels: labels, // X-axis (Years)
-                    datasets: [
-                        {
-                            label: 'ประชาชน', // Public
-                            data: publicData, // Data points for Public
-                            fill: false,
-                            borderColor: 'rgba(54, 162, 235, 1)', // Blue color for Public
-                            tension: 0.1
-                        },
-                        {
-                            label: 'กำลังพล', // Military
-                            data: militaryData, // Data points for Military
-                            fill: false,
-                            borderColor: 'rgba(153, 102, 255, 1)', // Purple color for Military
-                            tension: 0.1
-                        },
-                        {
-                            label: 'ครอบครัว', // Family
-                            data: familyData, // Data points for Family
-                            fill: false,
-                            borderColor: 'rgba(255, 99, 132, 1)', // Pink color for Family
-                            tension: 0.1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: false, // Disable to show negative values
-                        }
+                // Creating the chart
+                const ctx = document.getElementById('patient-type-chart').getContext('2d');
+                const patientTypeChart = new Chart(ctx, {
+                    type: 'line', // Line chart
+                    data: {
+                        labels: labels, // X-axis (Years)
+                        datasets: [
+                            {
+                                label: 'ประชาชน', // Public
+                                data: publicData, // Data points for Public
+                                fill: false,
+                                borderColor: 'rgba(54, 162, 235, 1)', // Blue color for Public
+                                tension: 0.1
+                            },
+                            {
+                                label: 'กำลังพล', // Military
+                                data: militaryData, // Data points for Military
+                                fill: false,
+                                borderColor: 'rgba(153, 102, 255, 1)', // Purple color for Military
+                                tension: 0.1
+                            },
+                            {
+                                label: 'ครอบครัว', // Family
+                                data: familyData, // Data points for Family
+                                fill: false,
+                                borderColor: 'rgba(255, 99, 132, 1)', // Pink color for Family
+                                tension: 0.1
+                            }
+                        ]
                     },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: false, // Disable to show negative values
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            }
                         }
                     }
-                }
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-</script>
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
 
 
 
@@ -379,74 +366,74 @@
 
     <!-- // ดึงข้อมูลจาก กราฟแสดงสถิติของกลุ่มผู้ป่วย -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
-        .then(response => response.json())
-        .then(data => {
-            // ตรวจสอบข้อมูลที่ได้จาก API
-            console.log(data);
+    <script>
+        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+            .then(response => response.json())
+            .then(data => {
+                // ตรวจสอบข้อมูลที่ได้จาก API
+                console.log(data);
 
-            // Sample labels (Years) and data for each group
-            const labels = ['2564', '2565', '2566', '2567']; // X-axis (Years)
+                // Sample labels (Years) and data for each group
+                const labels = ['2564', '2565', '2566', '2567']; // X-axis (Years)
 
-            // Sample data (Replace with actual values from the API response)
-            const patientGroupData = [20, 40, 60, 80, 60, 40]; // Replace with `item.patient_group` values for each year
-            const atRiskGroupData = [50, 60, 40, 30, 20, 40];  // Replace with `item.risk_group` values for each year
-            const suspectedGroupData = [30, 50, 60, 40, 30, 20]; // Replace with `item.suspected_group` values for each year
+                // Sample data (Replace with actual values from the API response)
+                const patientGroupData = [20, 40, 60, 80, 60, 40]; // Replace with `item.patient_group` values for each year
+                const atRiskGroupData = [50, 60, 40, 30, 20, 40];  // Replace with `item.risk_group` values for each year
+                const suspectedGroupData = [30, 50, 60, 40, 30, 20]; // Replace with `item.suspected_group` values for each year
 
-            // สร้างกราฟ
-            const ctx = document.getElementById('group-chart').getContext('2d');
-            const groupChart = new Chart(ctx, {
-                type: 'line', // เปลี่ยนเป็นกราฟเส้น (line chart)
-                data: {
-                    labels: labels, // X-axis: Years
-                    datasets: [
-                        {
-                            label: 'กลุ่มป่วย', // Patient Group
-                            data: patientGroupData, // Data points for Patient Group
-                            fill: false,
-                            borderColor: 'rgba(54, 162, 235, 1)', // Blue line
-                            tension: 0.1
-                        },
-                        {
-                            label: 'กลุ่มเสี่ยง', // At-risk Group
-                            data: atRiskGroupData, // Data points for At-risk Group
-                            fill: false,
-                            borderColor: 'rgba(153, 102, 255, 1)', // Purple line
-                            tension: 0.1
-                        },
-                        {
-                            label: 'กลุ่มสงสัยป่วย', // Suspected Patient Group
-                            data: suspectedGroupData, // Data points for Suspected Group
-                            fill: false,
-                            borderColor: 'rgba(255, 99, 132, 1)', // Pink line
-                            tension: 0.1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: false, // Allow negative values
-                        }
+                // สร้างกราฟ
+                const ctx = document.getElementById('group-chart').getContext('2d');
+                const groupChart = new Chart(ctx, {
+                    type: 'line', // เปลี่ยนเป็นกราฟเส้น (line chart)
+                    data: {
+                        labels: labels, // X-axis: Years
+                        datasets: [
+                            {
+                                label: 'กลุ่มป่วย', // Patient Group
+                                data: patientGroupData, // Data points for Patient Group
+                                fill: false,
+                                borderColor: 'rgba(54, 162, 235, 1)', // Blue line
+                                tension: 0.1
+                            },
+                            {
+                                label: 'กลุ่มเสี่ยง', // At-risk Group
+                                data: atRiskGroupData, // Data points for At-risk Group
+                                fill: false,
+                                borderColor: 'rgba(153, 102, 255, 1)', // Purple line
+                                tension: 0.1
+                            },
+                            {
+                                label: 'กลุ่มสงสัยป่วย', // Suspected Patient Group
+                                data: suspectedGroupData, // Data points for Suspected Group
+                                fill: false,
+                                borderColor: 'rgba(255, 99, 132, 1)', // Pink line
+                                tension: 0.1
+                            }
+                        ]
                     },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: false, // Allow negative values
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            }
                         }
                     }
-                }
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-</script>
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
 
 
-    
-    
-    
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Bootstrap JS and dependencies -->
@@ -480,72 +467,59 @@
             });
     </script>
 
-<<<<<<< HEAD:frontend/adminpage/dashboard.html
-=======
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-    }
-</script>
-<script>
-    fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data); // ตรวจสอบข้อมูลใน Console
 
-        const diseaseData = data.disease_data;
-        if (diseaseData && Array.isArray(diseaseData)) {
-            // วนลูปผ่านข้อมูลที่ได้มาและแสดงผลใน HTML ตามประเภทโรค
-            diseaseData.forEach(disease => {
-                const diseaseType = disease.disease_type.trim();
 
-                // แสดงข้อมูลในแต่ละ card ตามประเภทโรค
-                if (diseaseType === 'ความดันโลหิตสูง') {
-                    document.getElementById('public_hypertension').textContent = disease.public_total || 0;
-                    document.getElementById('family_hypertension').textContent = disease.family_total || 0;
-                    document.getElementById('military_hypertension').textContent = disease.military_total || 0;
-                } else if (diseaseType === 'โรคอ้วน') {
-                    document.getElementById('public_obesity').textContent = disease.public_total || 0;
-                    document.getElementById('family_obesity').textContent = disease.family_total || 0;
-                    document.getElementById('military_obesity').textContent = disease.military_total || 0;
-                } else if (diseaseType === 'ไขมันในเลือดสูง') {
-                    document.getElementById('public_cholesterol').textContent = disease.public_total || 0;
-                    document.getElementById('family_cholesterol').textContent = disease.family_total || 0;
-                    document.getElementById('military_cholesterol').textContent = disease.military_total || 0;
-                } else if (diseaseType === 'โรคเบาหวาน') {
-                    document.getElementById('public_diabetes').textContent = disease.public_total || 0;
-                    document.getElementById('family_diabetes').textContent = disease.family_total || 0;
-                    document.getElementById('military_diabetes').textContent = disease.military_total || 0;
-                } else if (diseaseType === 'CVD Risk') {
-                    document.getElementById('public_cvd').textContent = disease.public_total || 0;
-                    document.getElementById('family_cvd').textContent = disease.family_total || 0;
-                    document.getElementById('military_cvd').textContent = disease.military_total || 0;
-                } else if (diseaseType === 'โรคไต') {
-                    document.getElementById('public_kidney').textContent = disease.public_total || 0;
-                    document.getElementById('family_kidney').textContent = disease.family_total || 0;
-                    document.getElementById('military_kidney').textContent = disease.military_total || 0;
+    </script>
+    <script>
+        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // ตรวจสอบข้อมูลใน Console
+
+                const diseaseData = data.disease_data;
+                if (diseaseData && Array.isArray(diseaseData)) {
+                    // วนลูปผ่านข้อมูลที่ได้มาและแสดงผลใน HTML ตามประเภทโรค
+                    diseaseData.forEach(disease => {
+                        const diseaseType = disease.disease_type.trim();
+
+                        // แสดงข้อมูลในแต่ละ card ตามประเภทโรค
+                        if (diseaseType === 'ความดันโลหิตสูง') {
+                            document.getElementById('public_hypertension').textContent = disease.public_total || 0;
+                            document.getElementById('family_hypertension').textContent = disease.family_total || 0;
+                            document.getElementById('military_hypertension').textContent = disease.military_total || 0;
+                        } else if (diseaseType === 'โรคอ้วน') {
+                            document.getElementById('public_obesity').textContent = disease.public_total || 0;
+                            document.getElementById('family_obesity').textContent = disease.family_total || 0;
+                            document.getElementById('military_obesity').textContent = disease.military_total || 0;
+                        } else if (diseaseType === 'ไขมันในเลือดสูง') {
+                            document.getElementById('public_cholesterol').textContent = disease.public_total || 0;
+                            document.getElementById('family_cholesterol').textContent = disease.family_total || 0;
+                            document.getElementById('military_cholesterol').textContent = disease.military_total || 0;
+                        } else if (diseaseType === 'โรคเบาหวาน') {
+                            document.getElementById('public_diabetes').textContent = disease.public_total || 0;
+                            document.getElementById('family_diabetes').textContent = disease.family_total || 0;
+                            document.getElementById('military_diabetes').textContent = disease.military_total || 0;
+                        } else if (diseaseType === 'CVD Risk') {
+                            document.getElementById('public_cvd').textContent = disease.public_total || 0;
+                            document.getElementById('family_cvd').textContent = disease.family_total || 0;
+                            document.getElementById('military_cvd').textContent = disease.military_total || 0;
+                        } else if (diseaseType === 'โรคไต') {
+                            document.getElementById('public_kidney').textContent = disease.public_total || 0;
+                            document.getElementById('family_kidney').textContent = disease.family_total || 0;
+                            document.getElementById('military_kidney').textContent = disease.military_total || 0;
+                        }
+                    });
                 }
-            });
-        }
-    })
-    .catch(error => console.error('Error:', error));
+            })
+            .catch(error => console.error('Error:', error));
 
 
- </script>
-                                                                                                                                                   
+    </script>
 
 
 
 
->>>>>>> Thitima:frontend/adminpage/dasboard.html
+
 
 
 </body>
