@@ -1,33 +1,28 @@
 <?php
-// รวมไฟล์เชื่อมต่อฐานข้อมูล
-include 'db_connection.php';
-
-// สร้างการเชื่อมต่อ
-$conn = openConnection();
-
 header('Content-Type: application/json');
 
-// คำสั่ง SQL สำหรับดึงข้อมูลจากตาราง monitor_form
+// Database connection
+include 'db_connection.php'; // Ensure this file contains your database connection logic
+
+// SQL query to fetch data from the monitor_form table
 $sql = "SELECT * FROM monitor_form";
 $result = $conn->query($sql);
 
-// ตรวจสอบว่ามีข้อมูลหรือไม่
+// Check if there are results and fetch them
 if ($result->num_rows > 0) {
-    // สร้างอาร์เรย์เพื่อเก็บข้อมูล
-    $monitorData = [];
-    
-    // ดึงข้อมูลและเก็บไว้ในอาร์เรย์
-    while ($row = $result->fetch_assoc()) {
-        $monitorData[] = $row;
+    $monitor_data = array();
+
+    while($row = $result->fetch_assoc()) {
+        $monitor_data[] = $row;
     }
-    
-    // ส่งข้อมูลกลับในรูปแบบ JSON
-    echo json_encode($monitorData);
+
+    // Return data in JSON format
+    echo json_encode(array('status' => 'success', 'data' => $monitor_data));
 } else {
-    // ส่งข้อมูลว่าง
-    echo json_encode([]);
+    // No results found
+    echo json_encode(array('status' => 'error', 'message' => 'No data found.'));
 }
 
-// ปิดการเชื่อมต่อ
+// Close the database connection
 $conn->close();
 ?>
