@@ -11,7 +11,7 @@ if (!localStorage.getItem('token')) {
 
     if (user) {
         // แสดงชื่อผู้ใช้
-        document.getElementById('role').textContent = user.role;
+        document.getElementById('department').textContent = user.department;
 
         // แสดงพื้นที่รับผิดชอบ
         document.getElementById('full_name').textContent = user.full_name;
