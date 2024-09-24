@@ -9,31 +9,17 @@
         <i class='bx bx-bell'></i>
       </a>
 
-      <div class="profile-details">
-        <img src="../../assets/images/cat.jpg" alt="profile-details">
+      <div class="profile-details" onclick="goToProfilePage()">
+        <img id="profile-image" alt="profile-details">
         <div class="admin_name">
-          <div class="name" id="username"> <!-- Placeholder for username -->
-            <!-- Username will be populated here -->
-          </div>
-          <div class="job" id="responsibility-area"> <!-- Placeholder for responsibility area -->
-            <!-- Responsibility area will be populated here -->
-          </div>
+          <div class="name" id="full_name">TEST</div>
+          <div class="job" id="role">TEST</div>
         </div>
-        <i class='bx bx-chevron-down'></i>
+        <div class="tooltip">แสดงรายละเอียดผู้ใช้</div> <!-- Tooltip -->
       </div>
     </div>
   </nav>
 </div>
 
-<script>
-  // ตรวจสอบว่ามีข้อมูลผู้ใช้ใน localStorage หรือไม่
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (user) {
-    // แสดงชื่อผู้ใช้และพื้นที่ความรับผิดชอบ
-    document.getElementById('username').textContent = user.username; // แทนที่ด้วยชื่อผู้ใช้
-    document.getElementById('responsibility-area').textContent = user.responsibility_area; // แทนที่ด้วยพื้นที่ความรับผิดชอบ
-  } else {
-    // หากไม่มีข้อมูลผู้ใช้ เปลี่ยนเส้นทางไปยังหน้า login
-    window.location.href = "../adminpage/login.html";
-  }
-</script>
+<script src="../method/user.js"></script>
+<link rel="stylesheet" href="../../css/topbar.css">
