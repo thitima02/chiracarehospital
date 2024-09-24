@@ -11,18 +11,18 @@ try {
 
     // คำสั่ง SQL ที่ 1: รวมจำนวนผู้ป่วยในแต่ละประเภทโรคและประเภทผู้ป่วย
     $stmt1 = $conn->prepare("
-        SELECT 
+    SELECT 
         disease_type,
-            SUM(CASE WHEN patient_type = 'ประชาชน' THEN 1 ELSE 0 END) AS public_total,
-            SUM(CASE WHEN patient_type = 'ครอบครัว' THEN 1 ELSE 0 END) AS family_total,
-            SUM(CASE WHEN patient_type = 'กำลังพล' THEN 1 ELSE 0 END) AS military_total
-        FROM patient_medical_information
-        GROUP BY disease_type
-    ");
+        SUM(CASE WHEN patient_type = 'ประชาชน' THEN 1 ELSE 0 END) AS public_total,
+        SUM(CASE WHEN patient_type = 'ครอบครัว' THEN 1 ELSE 0 END) AS family_total,
+        SUM(CASE WHEN patient_type = 'กำลังพล' THEN 1 ELSE 0 END) AS military_total
+    FROM patient_medical_information
+    GROUP BY disease_type
+");
     $stmt1->execute();
     $diseaseData = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
-    // ตรวจสอบว่ามีข้อมูลหรือไม่สำหรับคำสั่ง SQL ที่ 1
+    // ตรวจสอบว่ามีข้อมูลหรือไม่
     if ($diseaseData) {
         $response['disease_data'] = $diseaseData;
     } else {
