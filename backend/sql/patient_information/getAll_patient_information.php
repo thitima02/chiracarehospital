@@ -6,7 +6,7 @@ $response = []; // ตัวแปรสำหรับเก็บข้อม�
 
 try {
     // คำสั่ง SQL สำหรับดึงข้อมูลผู้ป่วยทั้งหมดจากตาราง patient_information
-    $stmt = $conn->prepare("SELECT id, full_name, id_card, birth_date, phone_number, emergency_phone, rank, department, marital_status, current_status FROM patient_information");
+    $stmt = $conn->prepare("SELECT id, full_name, id_card, birth_date, phone_number, emergency_phone, rank, department, marital_status, current_status, id_patient_address ,id_patient_medical_information  FROM patient_information");
     $stmt->execute();
 
     // ดึงข้อมูลทั้งหมด
