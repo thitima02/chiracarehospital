@@ -144,13 +144,13 @@
                         </div>
                     </div>
                 </div>
-
+            
                 <div class="col-12 col-md-6 mb-2">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <h4 class="card-title">กราฟแสดงสถิติของกลุ่มผู้ป่วย</h4>
+                            <h4 class="card-title">สถิติของกลุ่มผู้ป่วย</h4>
                             <div class="chart-container">
-                                <canvas id="group-chart" class="chart-canvas"></canvas>
+                                <canvas id="patient-group-chart" class="chart-canvas"></canvas>
                             </div>
                         </div>
                     </div>
@@ -362,74 +362,75 @@
 
     <!-- // ดึงข้อมูลจาก กราฟแสดงสถิติของกลุ่มผู้ป่วย -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
+<script>
+    fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
 
-                // Extracting group data from the API response
-                const groupData = data.group_data;
+            // Extracting group data from the API response
+            const groupData = data.group_data;
 
-                // Extracting patient group data from response
-                const sickData = groupData.find(item => item.patient_group === 'กลุ่มป่วย')?.total || 0;
-                const riskData = groupData.find(item => item.patient_group === 'กลุ่มเสี่ยง')?.total || 0;
-                const suspectedData = groupData.find(item => item.patient_group === 'กลุ่มสงสัยป่วย')?.total || 0;
+            // Extracting patient group data from response
+            const sickData = groupData.find(item => item.patient_group === 'กลุ่มป่วย')?.total || 0;
+            const riskData = groupData.find(item => item.patient_group === 'กลุ่มเสี่ยง')?.total || 0;
+            const suspectedData = groupData.find(item => item.patient_group === 'กลุ่มสงสัยป่วย')?.total || 0;
 
-                // Preparing labels and data for the chart
-                const labels = ['2564', '2565', '2566', '2567']; // Years on X-axis
+            // Preparing labels and data for the chart
+            const labels = ['2564', '2565', '2566', '2567']; // Years on X-axis
 
-                // Creating chart datasets with actual data
-                const patientGroupData = {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'กลุ่มป่วย',
-                            data: [sickData, sickData, sickData, sickData, sickData, sickData],  // Replace with real-time data if available for multiple years
-                            fill: false,
-                            borderColor: 'rgba(54, 162, 235, 1)', // Blue color for 'กลุ่มป่วย'
-                            tension: 0.1
-                        },
-                        {
-                            label: 'กลุ่มเสี่ยง',
-                            data: [riskData, riskData, riskData, riskData, riskData, riskData],  // Replace with real-time data if available for multiple years
-                            fill: false,
-                            borderColor: 'rgba(255, 99, 132, 1)', // Pink color for 'กลุ่มเสี่ยง'
-                            tension: 0.1
-                        },
-                        {
-                            label: 'กลุ่มสงสัยป่วย',
-                            data: [suspectedData, suspectedData, suspectedData, suspectedData, suspectedData, suspectedData], // Replace with real-time data if available for multiple years
-                            fill: false,
-                            borderColor: 'rgba(153, 102, 255, 1)', // Purple color for 'กลุ่มสงสัยป่วย'
-                            tension: 0.1
+            // Creating chart datasets with actual data
+            const patientGroupData = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'กลุ่มป่วย',
+                        data: [sickData, sickData, sickData, sickData, sickData, sickData],  // Replace with real-time data if available for multiple years
+                        fill: false,
+                        borderColor: 'rgba(54, 162, 235, 1)', // Blue color for 'กลุ่มป่วย'
+                        tension: 0.1
+                    },
+                    {
+                        label: 'กลุ่มเสี่ยง',
+                        data: [riskData, riskData, riskData, riskData, riskData, riskData],  // Replace with real-time data if available for multiple years
+                        fill: false,
+                        borderColor: 'rgba(255, 99, 132, 1)', // Pink color for 'กลุ่มเสี่ยง'
+                        tension: 0.1
+                    },
+                    {
+                        label: 'กลุ่มสงสัยป่วย',
+                        data: [suspectedData, suspectedData, suspectedData, suspectedData, suspectedData, suspectedData], // Replace with real-time data if available for multiple years
+                        fill: false,
+                        borderColor: 'rgba(153, 102, 255, 1)', // Purple color for 'กลุ่มสงสัยป่วย'
+                        tension: 0.1
+                    }
+                ]
+            };
+
+            // Create the chart
+            const ctx = document.getElementById('patient-group-chart').getContext('2d');
+            const patientGroupChart = new Chart(ctx, {
+                type: 'line',
+                data: patientGroupData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
-                    ]
-                };
-
-                // Create the chart
-                const ctx = document.getElementById('patient-group-chart').getContext('2d');
-                const patientGroupChart = new Chart(ctx, {
-                    type: 'line',
-                    data: patientGroupData,
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                            }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
                         }
                     }
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    </script>
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+</script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Bootstrap JS and dependencies -->
