@@ -4,6 +4,20 @@
   padding-left: 6.7%;
   padding-right: 10%;
   padding-top: 20px;
+  
+
+  @media (max-width: 600px) {
+    justify-content: center; /* สำหรับหน้าจอมือถือ */
+    padding-left: 3%;
+    padding-right: 3%;
+    flex-wrap: wrap;
+  }
+
+  @media (min-width: 601px) and (max-width: 1024px) {
+    justify-content: space-around; /* ปรับตามขนาดแท็บเล็ต */
+    padding-left: 20%;
+    flex-wrap: wrap;
+  }
 }
 
 .box {
@@ -14,20 +28,24 @@
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   min-width: 450px;
-  margin: 0 10px;
-}
+  margin: 10px;
+  flex-grow: 1; /* ให้ขยายเต็มที่เท่าที่ทำได้ */
 
-.box2 {
-  /* background-color: #DCFCE7; */
-}
-
-.box3 {
-  /* background-color: #FFE2E5; */
+  @media (max-width: 600px) {
+    flex-direction: column; /* เมื่อหน้าจอเล็ก เปลี่ยนเป็นคอลัมน์ */
+    min-width: 100%; /* ให้เต็มความกว้างของหน้าจอมือถือ */
+    text-align: center; /* จัดกลางข้อความ */
+  }
 }
 
 .box i {
   font-size: 40px;
   margin-right: 30px;
+
+  @media (max-width: 600px) {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
 }
 
 .box h2 {

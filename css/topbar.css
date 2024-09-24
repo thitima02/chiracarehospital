@@ -47,6 +47,8 @@
   left: 78px;
   width: calc(100% - 78px);
   z-index: 2;
+
+ 
 }
 
 .top nav .profile-details{
@@ -58,4 +60,5 @@
   height: 50px;
   min-width: 190px;
   padding: 0 15px 0 2px;
+  
 }

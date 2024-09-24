@@ -1,24 +1,27 @@
+/* Table container */
 .table-container {
   display: flex;
   justify-content: center;
-  /* Horizontally center the table */
   align-items: center;
-  /* Vertically center the table if needed */
   width: 90.6%;
-  /* Ensure the container takes full width */
   padding: 20px;
   box-sizing: border-box;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-  /* Center the container */
-  margin-left: 110px;
+
+  @media (min-width: 601px) and (max-width: 1024px) {
+    display: flex;
+    justify-content: center;
+    margin-left: 10%;
+    
+  }
 }
 
+/* Patient table */
 .patient-table {
   width: 100%;
-  /* Ensure the table fits within the container */
   border-collapse: collapse;
   font-size: 14px;
   text-align: center;
@@ -33,7 +36,6 @@
 .patient-table th,
 .patient-table td {
   padding: 15px;
-  padding-right: 33px;
   border-bottom: 1px solid #f4f4f4;
 }
 
@@ -54,52 +56,7 @@
   vertical-align: middle;
 }
 
-.status {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.status.pending {
-  background-color: #fff5c2;
-  color: #e99050;
-}
-
-.status.in-progress {
-  background-color: #f4e1e1;
-  color: #bb4242;
-}
-
-.status.follow-up {
-  background-color: #fff5c2;
-  color: #e99050;
-}
-
-.status.completed {
-  background-color: #e1f4e1;
-  color: #5f8d4e;
-}
-
-.status.success {
-  background-color: #e3f5ff;
-  color: #5d97ef;
-}
-
-.status.failed {
-  background-color: #dddddd;
-  color: #626262;
-}
-
-/* .action-btn {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 25px;
-  color: #8d8d8d;
-} */
-
+/* Button styling */
 .action-btn {
   position: relative;
   color: #1d1b31;
@@ -117,17 +74,86 @@
   color: #f4f4f4;
 }
 
-.status-btn {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+/* Responsive design */
+
+/* Mobile */
+@media (max-width: 600px) {
+  .table-container {
+    padding: 10px;
+    width: 100%;
+  }
+  
+
+  .patient-table {
+    font-size: 12px;
+  }
+
+  .patient-table th,
+  .patient-table td {
+    padding: 8px;
+  }
+
+  .patient-table img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .action-btn {
+    padding: 2px 6px;
+    font-size: 14px;
+  }
 }
 
-.status-btn.pink {
-  background-color: #f8bbd0;
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .table-container {
+    padding: 15px;
+    width: 100%;
+  }
+
+  .patient-table {
+    font-size: 13px;
+  }
+
+  .patient-table th,
+  .patient-table td {
+    padding: 12px;
+  }
+
+  .patient-table img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .action-btn {
+    padding: 3px 7px;
+    font-size: 15px;
+  }
 }
 
-.status-btn.green {
-  background-color: #a8e6cf;
+/* Desktop */
+@media (min-width: 1025px) {
+  .table-container {
+    padding: 20px;
+    width: 90.6%;
+  }
+
+  .patient-table {
+    font-size: 14px;
+  }
+
+  .patient-table th,
+  .patient-table td {
+    padding: 15px;
+  }
+
+  .patient-table img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .action-btn {
+    padding: 3px 8px;
+    font-size: 16px;
+  }
 }

@@ -17,7 +17,7 @@
 
 <body>
 
- 
+  <!-- Sidebar will be loaded here -->
   <div id="sidebar-container"></div>
 
   <!-- Topbar will be loaded here -->
@@ -89,41 +89,11 @@
           <th></th>
         </tr>
       </thead>
-      <!-- <tbody id="patient-tbody">
-        <tr>
-          <td>
-            <img src="assets/images/small 1.png" alt="patient image">
-            นายปลาร้า ไม่เหม็น
-          </td>
-          <td id="startDate">22/05/2022</td>
-          <td id="endDate">29/05/2022</td>
-          <td id="address">161 หมู่ 1 ซอย - ตำบล/แขวน นครสวรรค์ออก อำเภอ/เขต เมือง
-            จังหวัด นครสวรรค์ เลขไปรษณีย์ 60000</td>
-          <td id="timesFollowed">2</td>
-          <td>
-            <button class="action-btn" title="คลิปเพื่อกรอกฟอร์ม" id="add-button"><i
-                class='bx bxs-edit'>คลิกเพื่อกรอกฟอร์ม</i></button>
-          </td>
-        </tr>
-        <!-- Repeat similar <tr> for other patients -->
+      <?php
+        // รวมโค้ด PHP ที่ดึงข้อมูลจาก MySQL
+        include 'fetch_patient_address.php'; // ไฟล์นี้คือไฟล์ที่เราเขียนโค้ด PHP ไว้เพื่อดึงข้อมูล
+        ?>
       </tbody>
-
-      <tbody></tbody>
-      <!-- <tr>
-        <td>
-          <img src="assets/images/small 1.png" alt="patient image">
-          นายรู้มากความ สาระสำคัญ
-        </td>
-        <td>22/05/2022</td>
-        <td>29/05/2022</td>
-        <td>1330/3 หมู่ 8 ซอย - ตำบล/แขวน นครสวรรค์ออก อำเภอ/เขต เมือง
-          จังหวัด นครสวรรค์ เลขไปรษณีย์ 60000</td>
-        <td>2</td>
-        <td>
-          <button class="action-btn" title="คลิกเพื่อกรอกฟอร์ม" id="add-button"><i class='bx bxs-edit'></i>คลิกเพื่อกรอกฟอร์ม</button>
-        </td>
-      </tr>
-      </tbody> -->
 
     </table>
   </div>
@@ -162,7 +132,7 @@
         }
       }
       document.getElementById('add-button').addEventListener('click', function () {
-        window.location.href = 'form.html';
+        window.location.href = 'form.php';
       });
     }
   </script>

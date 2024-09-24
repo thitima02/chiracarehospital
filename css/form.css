@@ -15,6 +15,10 @@
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+
+    @media (min-width: 601px) and (max-width: 1024px) {
+     
+    }
 }
 
 .form-group {

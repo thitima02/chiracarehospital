@@ -5,12 +5,19 @@
     padding: 20px;
     border-radius: 8px;
     margin-left: 90px;
+
+   
 }
 
 .filter-item {
     flex: 1;
     margin-right: 10px;
     position: relative; /* Needed to position the icon inside the input */
+
+    @media (max-width: 600px) {
+        display: flex;
+        flex-wrap: wrap;
+      }
 }
 
 .filter-item:last-child {
