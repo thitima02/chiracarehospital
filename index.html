@@ -1,175 +1,80 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>โรงพยาบาลค่ายจิรประวัติ</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/topbar.css">
-  <link rel="stylesheet" href="css/logo.css">
-  <!-- <link rel="stylesheet" href="../../css/sidebar.css">
-  <link rel="stylesheet" href="../../styles.css"> -->
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+
+
+  <!-- เชื่อมโยงไปยัง Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
   <style>
-    .profile-details {
-      cursor: pointer;
-      /* เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ div */
-      transition: transform 0.2s;
-      /* เพิ่มการเปลี่ยนแปลงเล็กน้อย */
-      position: relative;
-      /* สำหรับจัดตำแหน่ง tooltip */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
     }
 
-    .profile-details:hover {
-      transform: scale(1.05);
-      /* ขยายเล็กน้อยเมื่อ hover */
-      background-color: rgba(0, 0, 0, 0.1);
-      /* เปลี่ยนสีพื้นหลัง */
-    }
-
-    .tooltip {
-      visibility: hidden;
-      width: 120px;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: #fff;
+    .welcome-container {
       text-align: center;
-      border-radius: 5px;
-      padding: 5px;
-      position: absolute;
-      z-index: 1;
-      top: 100%;
-      /* เปลี่ยนตำแหน่งให้แสดงด้านล่าง */
-      left: 50%;
-      margin-left: -60px;
-      opacity: 0;
-      transition: opacity 0.3s;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .profile-details:hover .tooltip {
-      visibility: visible;
-      opacity: 1;
+    h1 {
+      font-size: 3em;
+      margin: 0;
+      color: #ff0000;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin: 10px 0;
+      color: #555;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 1em;
+      color: white;
+      background-color: #ff0000;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #cc0000;
+      /* เปลี่ยนสีเมื่อ hover */
     }
   </style>
 </head>
 
 <body>
-  <div id="sidebar-container"></div>
-  <div id="topbar-container"></div>
+  <div class="welcome-container">
+    <h1><i class="fas fa-lock"></i> คุณไม่มีสิทธิเข้าถึงระบบของ Chiracarehospital</h1>
+    <p><i class="fas fa-info-circle"></i> กรุณาติดต่อผู้ดูแลระบบ</p>
+    <button class="button" onclick="handleLogout()">ออกจากระบบ</button>
 
-  <div class="sidebar">
-    <div class="logo-details">
-      <div class="logo_img">
-        <img src="assets/images/chiralogo.jpg" alt="" class="logo-image">
-      </div>
-      <div class="logo_name">โรงพยาบาลค่ายจิรประวัติ</div>
-      <i class='bx bx-menu' id="btn"></i>
-    </div>
-    <ul>
-      <li>
-        <a href="frontend/adminpage/dasboard.html">
-          <i class='bx bx-home'></i>
-          <span class="links_name">หน้าหลัก</span>
-        </a>
-        <span class="tooltip">หน้าหลัก</span>
-      </li>
-      <li>
-        <a href="frontend/adminpage/testdatabase.html">
-          <i class='bx bx-home'></i>
-          <span class="links_name">ทดสอบ</span>
-        </a>
-        <span class="tooltip">ทดสอบ</span>
-      </li>
-      <li>
-        <a href="frontend/adminpage/patient-info.html">
-          <i class='bx bx-error-circle'></i>
-          <span class="links_name">จัดการข้อมูลผู้ป่วย</span>
-        </a>
-        <span class="tooltip">จัดการข้อมูลผู้ป่วย</span>
-      </li>
-      <li>
-        <a href="frontend/adminpage/statustracking.html">
-          <i class='bx bx-line-chart'></i>
-          <span class="links_name">สถานะและการติดตาม</span>
-        </a>
-        <span class="tooltip">สถานะและการติดตาม</span>
-      </li>
-      <li>
-        <a href="frontend/adminpage/staff-info.html">
-          <i class='bx bx-group'></i>
-          <span class="links_name">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
-        </a>
-        <span class="tooltip">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
-      </li>
-      <li>
-        <a href="javascript:void(0)" onclick="handleLogout()">
-          <i class='bx bx-log-out'></i>
-          <span class="links_name">ออกจากระบบ</span>
-        </a>
-        <span class="tooltip">ออกจากระบบ</span>
-      </li>
-    </ul>
   </div>
 
-  <section class="home-section">
-    <nav>
-      <div class="sidebar-button">
-        <span class="text">หน้าหลัก</span>
-      </div>
-      <div class="profile-notification">
-        <div class="button-notification">
-          <button class="icon-button" onclick="goToNotificationPage()">
-            <i class='bx bx-bell'></i>
-          </button>
-        </div>
-        <div class="profile-details" onclick="goToProfilePage()">
-          <img id="profile-image" alt="profile-details">
-          <div class="admin_name">
-            <div class="name" id="username">TEST</div>
-            <div class="job" id="department">TEST</div>
-          </div>
-          <div class="tooltip">ดูรายละเอียดผู้ใช้</div>
-        </div>
-      </div>
-    </nav>
-  </section>
 
   <script>
-    // ตรวจสอบว่าผู้ใช้ล็อกอินอยู่หรือไม่
     if (!localStorage.getItem('token')) {
-      // ถ้ายังไม่ล็อกอิน ให้เปลี่ยนเส้นทางไปยังหน้า login
       window.location.href = "./frontend/login.html";
-    } else {
-      // ดึงข้อมูลผู้ใช้จาก localStorage
-      const user = JSON.parse(localStorage.getItem('user'));
-
-      // แสดงชื่อผู้ใช้
-      document.getElementById('username').textContent = user.role;
-
-      // แสดงพื้นที่รับผิดชอบ
-      document.getElementById('department').textContent = user.full_name;
-
-      document.getElementById('profile-image').src = `data:image/jpeg;base64,${user.user_image}`;
     }
-
-    let sidebar = document.querySelector(".sidebar");
-    let closeBtn = document.querySelector("#btn");
-
-    closeBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("open");
-      menuBtnChange();
-    });
-
-    function menuBtnChange() {
-      if (sidebar.classList.contains("open")) {
-        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-      } else {
-        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-      }
-    }
-
-
-
     function handleLogout() {
       fetch('./backend/sql/logout.php', {
         method: 'POST',
@@ -180,28 +85,32 @@
         .then(response => response.json())
         .then(data => {
           if (data.status === 'success') {
-            // ลบ token จาก localStorage
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            // เปลี่ยนหน้าไปที่ login.html
             window.location.href = './frontend/login.html';
           } else {
             alert(data.message);
           }
         })
         .catch(error => console.error('Error:', error));
+
+
+    }
+    const userData = JSON.parse(localStorage.user);
+    // console.log(userData.role);
+    // console.log(localStorage.user);
+
+
+    // ตรวจสอบว่า userData.role เป็น "แอดมิน" หรือไม่
+    if (userData.role === "Admin") {
+      window.location.href = "/chiracarehospital/frontend/adminpage/dashboard.html"; // เปลี่ยนเส้นทางไปที่หน้า /home
     }
 
-    // ฟังก์ชันสำหรับไปยังหน้าโปรไฟล์
-    function goToProfilePage() {
-      window.location.href = 'frontend/profile.html';
-    }
-    function goToNotificationPage() {
-      window.location.href = "frontend/adminpage/noti.html";
+    // ตรวจสอบว่า userData.role เป็น "แอดมิน" หรือไม่
+    if (userData.role === "Users") {
+      window.location.href = "/chiracarehospital/index.html"; // เปลี่ยนเส้นทางไปที่หน้า /home
     }
   </script>
 </body>
-
-
 
 </html>
