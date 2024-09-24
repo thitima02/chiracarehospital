@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../method/logout.js"></script>
+    <script src="../method/user.js"></script>
+    <script src="../method/loadSidebarScript.js"></script>
+    <script src="../method/checkAuth.js"></script>
 </head>
 
 <body style="background-color:#edeff1;">
@@ -42,9 +46,14 @@
                                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                         <span class="mdi mdi-water-circle"></span>
                                         <h5 class="card-title">ความดันโลหิตสูง</h5>
+                                        <p class="card-text">
+
+                                        </p>
+
                                         <p>ประชาชน: <span id="public_hypertension"></span></p>
                                         <p>ครอบครัว: <span id="family_hypertension"></span></p>
                                         <p>กำลังพล: <span id="military_hypertension"></span></p>
+
                                     </div>
                                 </div>
                             </div>
@@ -139,14 +148,15 @@
                 <div class="col-12 col-md-6 mb-2">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <h4 class="card-title">สถิติของกลุ่มผู้ป่วย</h4>
+                            <h4 class="card-title">กราฟแสดงสถิติของกลุ่มผู้ป่วย</h4>
                             <div class="chart-container">
-                                <canvas id="patient-group-chart" class="chart-canvas"></canvas>
+                                <canvas id="group-chart" class="chart-canvas"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
         <div class="status">
             <div class="col-12 col-md-6">
@@ -285,26 +295,26 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- // ดึงข้อมูลจาก สถิติของประ -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Fetch the patient data
         fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
             .then(response => response.json())
             .then(data => {
                 console.log(data);
 
-                // Assuming the data returned has disease_data which contains the patient totals for each type.
-                const labels = ['2564', '2565', '2566', '2567']; // Sample Years
+                // Preparing labels (years) and data for the chart
+                const labels = ['2564', '2565', '2566', '2567']; // Years on the X-axis
 
-                // Extracting the actual data from API response (replace with real data mapping)
-                const publicData = data.disease_data.map(item => item.public_total);
-                const familyData = data.disease_data.map(item => item.family_total);
-                const militaryData = data.disease_data.map(item => item.military_total);
+                // Sample data (Replace with actual values from the API response)
+                const publicData = [-50, -30, 20, 60, -10, -70];   // Replace with `item.public_total` values for each year
+                const familyData = [-20, 10, -30, -40, -50, -60];  // Replace with `item.family_total` values for each year
+                const militaryData = [0, 20, 50, 40, 10, 30];      // Replace with `item.military_total` values for each year
 
                 // Creating the chart
                 const ctx = document.getElementById('patient-type-chart').getContext('2d');
                 const patientTypeChart = new Chart(ctx, {
-                    type: 'line',
+                    type: 'line', // Line chart
                     data: {
                         labels: labels, // X-axis (Years)
                         datasets: [
@@ -335,6 +345,76 @@
                         responsive: true,
                         scales: {
                             y: {
+                                beginAtZero: false, // Disable to show negative values
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+
+
+
+
+
+    <!-- // ดึงข้อมูลจาก กราฟแสดงสถิติของกลุ่มผู้ป่วย -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+            .then(response => response.json())
+            .then(data => {
+                // ตรวจสอบข้อมูลที่ได้จาก API
+                console.log(data);
+
+                // Sample labels (Years) and data for each group
+                const labels = ['2564', '2565', '2566', '2567']; // X-axis (Years)
+
+                // Sample data (Replace with actual values from the API response)
+                const patientGroupData = [20, 40, 60, 80, 60, 40]; // Replace with `item.patient_group` values for each year
+                const atRiskGroupData = [50, 60, 40, 30, 20, 40];  // Replace with `item.risk_group` values for each year
+                const suspectedGroupData = [30, 50, 60, 40, 30, 20]; // Replace with `item.suspected_group` values for each year
+
+                // สร้างกราฟ
+                const ctx = document.getElementById('group-chart').getContext('2d');
+                const groupChart = new Chart(ctx, {
+                    type: 'line', // เปลี่ยนเป็นกราฟเส้น (line chart)
+                    data: {
+                        labels: labels, // X-axis: Years
+                        datasets: [
+                            {
+                                label: 'กลุ่มป่วย', // Patient Group
+                                data: patientGroupData, // Data points for Patient Group
+                                fill: false,
+                                borderColor: 'rgba(54, 162, 235, 1)', // Blue line
+                                tension: 0.1
+                            },
+                            {
+                                label: 'กลุ่มเสี่ยง', // At-risk Group
+                                data: atRiskGroupData, // Data points for At-risk Group
+                                fill: false,
+                                borderColor: 'rgba(153, 102, 255, 1)', // Purple line
+                                tension: 0.1
+                            },
+                            {
+                                label: 'กลุ่มสงสัยป่วย', // Suspected Patient Group
+                                data: suspectedGroupData, // Data points for Suspected Group
+                                fill: false,
+                                borderColor: 'rgba(255, 99, 132, 1)', // Pink line
+                                tension: 0.1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
                                 beginAtZero: false, // Allow negative values
                             }
                         },
@@ -348,141 +428,29 @@
                 });
             })
             .catch(error => console.error('Error fetching data:', error));
-
     </script>
 
-    <!-- // ดึงข้อมูลจาก กราฟแสดงสถิติของกลุ่มผู้ป่วย -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
 
-                // Extracting group data from the API response
-                const groupData = data.group_data;
 
-                // Extracting patient group data from response
-                const sickData = groupData.find(item => item.patient_group === 'กลุ่มป่วย')?.total || 0;
-                const riskData = groupData.find(item => item.patient_group === 'กลุ่มเสี่ยง')?.total || 0;
-                const suspectedData = groupData.find(item => item.patient_group === 'กลุ่มสงสัยป่วย')?.total || 0;
 
-                // Preparing labels and data for the chart
-                const labels = ['2564', '2565', '2566', '2567']; // Years on X-axis
 
-                // Creating chart datasets with actual data
-                const patientGroupData = {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'กลุ่มป่วย',
-                            data: [sickData, sickData, sickData, sickData, sickData, sickData],  // Replace with real-time data if available for multiple years
-                            fill: false,
-                            borderColor: 'rgba(54, 162, 235, 1)', // Blue color for 'กลุ่มป่วย'
-                            tension: 0.1
-                        },
-                        {
-                            label: 'กลุ่มเสี่ยง',
-                            data: [riskData, riskData, riskData, riskData, riskData, riskData],  // Replace with real-time data if available for multiple years
-                            fill: false,
-                            borderColor: 'rgba(255, 99, 132, 1)', // Pink color for 'กลุ่มเสี่ยง'
-                            tension: 0.1
-                        },
-                        {
-                            label: 'กลุ่มสงสัยป่วย',
-                            data: [suspectedData, suspectedData, suspectedData, suspectedData, suspectedData, suspectedData], // Replace with real-time data if available for multiple years
-                            fill: false,
-                            borderColor: 'rgba(153, 102, 255, 1)', // Purple color for 'กลุ่มสงสัยป่วย'
-                            tension: 0.1
-                        }
-                    ]
-                };
-
-                // Create the chart
-                const ctx = document.getElementById('patient-group-chart').getContext('2d');
-                const patientGroupChart = new Chart(ctx, {
-                    type: 'line',
-                    data: patientGroupData,
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                            }
-                        }
-                    }
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    </script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        // Function to fetch data from the API
-        async function fetchMonitorData() {
-            try {
-                const response = await fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_form.php');
-                const data = await response.json();
-
-                // Check if data exists and is an array
-                if (Array.isArray(data)) {
-                    const monitorTableBody = document.getElementById('monitorData');
-                    monitorTableBody.innerHTML = '';  // Clear previous data
-
-                    let rank = 1;
-                    data.forEach(item => {
-                        const reason = item.reason; // Make sure these match your backend data
-                        const percentage = item.percentage;
-
-                        // Create a new row for the table
-                        const row = `
-                            <tr>
-                                <td>${rank}</td>
-                                <td>${reason}</td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-blue" style="width: ${percentage}%; height: 10px;"></div>
-                                    </div>
-                                </td>
-                                <td>${percentage}%</td>
-                            </tr>
-                        `;
-
-                        // Append the new row to the table body
-                        monitorTableBody.innerHTML += row;
-                        rank++;
-                    });
-                } else {
-                    console.error('Invalid data format:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-
-        // Fetch and populate the table on page load
-        document.addEventListener('DOMContentLoaded', fetchMonitorData);
-    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/plugins/chartjs.min.js"></script>
+    <!-- <script src="../../assets/js/plugins/chartjs.min.js"></script> -->
     <script>
+        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+        checkAuth();
+
         // Load sidebar
         fetch('sidebar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('sidebar-container').innerHTML = data;
-                loadSidebarScript(); // Initialize sidebar toggle after loading
+                loadSidebarScript();
             });
 
         // Load topbar and set the page title
@@ -490,25 +458,17 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('topbar-container').innerHTML = data;
-                document.getElementById('page-title').textContent = 'หน้าหลัก'; // Set page title for the history page
-            });
+                document.getElementById('page-title').textContent = 'หน้าหลัก';
 
-        function loadSidebarScript() {
-            let sidebar = document.querySelector(".sidebar");
-            let closeBtn = document.querySelector("#btn");
-
-            closeBtn.addEventListener("click", () => {
-                sidebar.classList.toggle("open");
-                menuBtnChange();
+                // Re-run user.js script after loading topbar
+                const script = document.createElement('script');
+                script.src = '../method/user.js';
+                document.body.appendChild(script);
             });
-            function menuBtnChange() {
-                if (sidebar.classList.contains("open")) {
-                    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-                } else {
-                    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-                }
-            }
-        }
+    </script>
+
+
+
     </script>
     <script>
         fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
@@ -552,7 +512,16 @@
                 }
             })
             .catch(error => console.error('Error:', error));
+
+
     </script>
+
+
+
+
+
+
+
 </body>
 
 </html>
