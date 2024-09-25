@@ -5,8 +5,8 @@ require_once '../db_connection.php'; // นำเข้าไฟล์เชื�
 $response = []; // ตัวแปรสำหรับเก็บข้อมูล response
 
 try {
-    // คำสั่ง SQL สำหรับดึงข้อมูลผู้ป่วยทั้งหมดจากตาราง patient_information
-    $stmt = $conn->prepare("SELECT id, full_name, id_card, birth_date, phone_number, emergency_phone, rank, department, marital_status, current_status, id_patient_address ,id_patient_medical_information  FROM patient_information");
+    // คำสั่ง SQL สำหรับดึงข้อมูลที่ต้องการจากตาราง patient_information
+    $stmt = $conn->prepare("SELECT full_name, birth_date, id_card, phone_number, emergency_phone, current_status FROM patient_information");
     $stmt->execute();
 
     // ดึงข้อมูลทั้งหมด
@@ -36,3 +36,4 @@ try {
 
 // ส่ง response กลับเป็น JSON
 echo json_encode($response);
+?>

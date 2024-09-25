@@ -39,7 +39,7 @@
             </button>
         </div>
 
-        <table class="patient-table">
+        <table class="patienttable">
           <thead>
             <tr>
               <th>ชื่อ - นามสกุล</th>
@@ -51,31 +51,9 @@
               <th>จัดการ</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
-              <td>18-06-1999</td>
-              <td>1234567890123</td>
-              <td>0987456123</td>
-              <td>0897321456</td>
-              <td><span class="status-label red">นัดติดตามต่อเนื่อง</span></td>
-              <td>
-                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
-              <td>18-06-1999</td>
-              <td>1234567890123</td>
-              <td>0987456123</td>
-              <td>0897321456</td>
-              <td><span class="status-label green">รักษาเสร็จสิ้น</span></td>
-              <td>
-                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
-              </td>
-            </tr>
+          
+          <tbody id="patient-info-body">
+            <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
           </tbody>
       </table>
     </div>
@@ -117,5 +95,81 @@
         window.location.href = 'editaddinfo.html';
       });
     </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
+    $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function(response) {
+        if (response.status === 'success') {
+            var patients = response.data;
+            var rows = '';
+
+            // วนลูปข้อมูลผู้ป่วยเพื่อแสดงในตาราง
+            patients.forEach(function(patient) {
+                rows += '<tr>';
+                rows += '<td><img src="../../assets/images/cat.jpg" alt="avatar"> ' + patient.full_name + '</td>';
+                rows += '<td>' + formatDate(patient.birth_date) + '</td>';
+                rows += '<td>' + patient.id_card + '</td>';
+                rows += '<td>' + patient.phone_number + '</td>';
+                rows += '<td>' + patient.emergency_phone + '</td>';
+                rows += '<td><span class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</span></td>';
+
+                rows += '<td>';
+                rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.id + '\')"><i class="bx bxs-edit"></i></button>';
+                rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
+                rows += '</td>';
+                rows += '</tr>';
+            });
+
+            // แทรกข้อมูลในตาราง
+            $('#patient-info-body').html(rows);
+        } else {
+            alert(response.message);
+        }
+    });
+
+    // ฟังก์ชันสำหรับฟอร์แมตวันเกิด
+    function formatDate(dateStr) {
+        var date = new Date(dateStr);
+        var day = String(date.getDate()).padStart(2, '0');
+        var month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0
+        var year = date.getFullYear();
+        return day + '-' + month + '-' + year;
+    }
+
+    // ฟังก์ชันสำหรับกำหนดสีตามสถานะการรักษา
+    // ฟังก์ชันสำหรับกำหนดสีตามสถานะการรักษา
+    function getStatusColor(status) {
+    if (status === 'ปกติ') {
+        return 'green'; // สถานะสีเขียวสำหรับปกติ
+    } else if (status === 'เสียชีวิต') {
+        return 'red'; // สถานะสีแดงสำหรับเสียชีวิต
+    } else if (status === 'ไม่เป็นผู้ป่วยแล้ว') {
+        return 'blue'; // สีน้ำเงินสำหรับไม่เป็นผู้ป่วยแล้ว
+    // } else {
+    //     return 'yellow'; 
+    // }
+    }
+}
+
+
+});
+
+// ฟังก์ชันแก้ไขข้อมูลผู้ป่วย
+function editPatient(patientId) {
+    alert('แก้ไขข้อมูลผู้ป่วย ID: ' + patientId);
+    // ใส่ logic การแก้ไขที่นี่
+}
+
+// ฟังก์ชันลบข้อมูลผู้ป่วย
+function deletePatient(patientId) {
+    if (confirm('คุณต้องการลบผู้ป่วย ID: ' + patientId + ' ใช่หรือไม่?')) {
+        // ใส่ logic การลบที่นี่
+        alert('ลบข้อมูลผู้ป่วยเรียบร้อย');
+    }
+}
+
+</script>
 </body>
 </html>

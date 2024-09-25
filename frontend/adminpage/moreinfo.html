@@ -5,8 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ข้อมูลเพิ่มเติมผู้ป่วย</title>
     <link rel="stylesheet" href="../../css/moreinfo.css">
+    <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/sidebar.css">
+  <link rel="stylesheet" href="../../css/topbar.css">
+  <link rel="stylesheet" href="../../css/logo.css">
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
+<body body style="background-color:#edeff1;"></body>
+    <!-- Sidebar will be loaded here -->
+  <div id="sidebar-container"></div>
+
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
     <div class="container">
         <!-- Section for Patient Profile -->
         <div class="patient-profile">
@@ -78,6 +90,40 @@
         </div>
     </div>
 </body>
+<script>
+    // Load sidebar
+fetch('sidebar.html')
+ .then(response => response.text())
+ .then(data => {
+   document.getElementById('sidebar-container').innerHTML = data;
+   loadSidebarScript(); // Initialize sidebar toggle after loading
+ });
+
+// Load topbar and set the page title
+fetch('topbar.html')
+ .then(response => response.text())
+ .then(data => {
+   document.getElementById('topbar-container').innerHTML = data;
+   document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย'; // Set page title for the history page
+ });
+
+ function loadSidebarScript() {
+ let sidebar = document.querySelector(".sidebar");
+ let closeBtn = document.querySelector("#btn");
+
+ closeBtn.addEventListener("click", () => {
+   sidebar.classList.toggle("open");
+   menuBtnChange();
+ });
+ function menuBtnChange() {
+   if (sidebar.classList.contains("open")) {
+     closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+   } else {
+     closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+   }
+ }
+}
+</script>
 <script>
     // JavaScript เพื่อดึง id ของผู้ป่วยจาก URL
     function getQueryParameter(param) {

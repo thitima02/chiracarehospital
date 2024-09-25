@@ -1,3 +1,4 @@
+
 .search-bar {
   display: flex;
   gap: 10px;
@@ -63,7 +64,7 @@ table th {
   margin-left: 89px;
 }
 
-.patient-table {
+.patienttable {
   width: 100%;
   border-collapse: collapse;
   background-color: #fff;
@@ -71,23 +72,23 @@ table th {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.patient-table th, .patient-table td {
+.patienttable th, .patienttable td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #eee;
   font-size: 14px;
 }
 
-.patient-table th {
+.patienttable th {
   background-color: #f4f7fa;
   font-weight: 600;
 }
 
-.patient-table tr:hover {
+.patienttable tr:hover {
   background-color: #f1f1f1;
 }
 
-.patient-table img {
+.patienttable img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -153,7 +154,7 @@ table th {
   background-color: rgb(241, 241, 241);
   margin-left: 15px;
 }
-.status-label {
+/* .status-label {
   padding: 5px 10px;
   border-radius: 20px;
   font-size: 12px;
@@ -165,4 +166,29 @@ table th {
 }
 .status-label.green {
   background-color: #28a745;
+} */
+.status-label {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white; /* ข้อความในสถานะ */
 }
+
+.status-label.green {
+  background-color: #4CAF50; /* สีเขียวสำหรับปกติ */
+}
+
+.status-label.red {
+  background-color: #f44336; /* สีแดงสำหรับเสียชีวิต */
+}
+
+.status-label.blue {
+  background-color: #2196F3; /* สีน้ำเงินสำหรับไม่เป็นผู้ป่วยแล้ว */
+}
+/* 
+.status-label.yellow {
+  background-color: #FFEB3B; 
+} */
+
+
+
+/* สีอื่น ๆ สามารถเพิ่มได้ตามต้องการ */
