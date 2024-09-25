@@ -30,21 +30,21 @@
       <div class="box new-order">
         <i class='bx bx-user'></i>
         <div>
-          <h2>10</h2>
-          <p>จำนวนผู้ป่วยที่มีนัดวันนี้</p>
+          <h2>0</h2>
+          <p>ผู้ป่วยที่ต้องติดตามวันนี้</p>
         </div>
       </div>
       <div class="box box2 visitors">
         <i class='bx bx-smile'></i>
         <div>
-          <h2>2834/5000</h2>
+          <h2>0</h2>
           <p>ติดตามเสร็จสิ้น</p>
         </div>
       </div>
       <div class="box box3 total-sales">
         <i class='bx bx-tired'></i>
         <div>
-          <h2>2543/5000</h2>
+          <h2>0</h2>
           <p>ยังไม่ได้ติดตาม</p>
         </div>
       </div>
@@ -59,7 +59,7 @@
       <i class='bx bx-search search-icon'></i> <!-- Add your icon here -->
     </div>
     <div class="filter-item">
-      <h5>วันที่อัปเดตการติดตาม</h5>
+      <h5>วันที่เริ่มติดตาม</h5>
       <input type="date" class="date-filter">
     </div>
     <div class="filter-item">
@@ -117,7 +117,7 @@
               row.innerHTML = `
           <td><img src='/assets/images/cat.jpg' alt='patient image'> ${patient.full_name}</td>
           <td id='startDate'>${patient.start_date || '2024-09-22'}</td>
-          <td id='endDate'>${patient.end_date || '2024-09-22'}</td>
+          <td id='endDate'>${patient.end_date || '2024-09-25'}</td>
           <td id='address'>${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
           <td id='timesFollowed'>${patient.times_followed || '2'}</td>
           <td><button class="action-btn" title="คลิปเพื่อกรอกฟอร์ม" id="add-button"><i

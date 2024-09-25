@@ -2,12 +2,11 @@
 // รวมไฟล์การเชื่อมต่อฐานข้อมูล
 include '../db_connection.php';
 
-
 // ตรวจสอบว่าเชื่อมต่อสำเร็จหรือไม่
 if ($conn) {
     try {
         // เตรียมคำสั่ง SQL เพื่อดึงข้อมูลจากตาราง patient_address
-        $sql = "SELECT p.full_name, a.province, a.amphur, a.tambon, a.number
+        $sql = "SELECT p.full_name, a.province, a.amphur, a.tambon, a.number, a.postal_code
         FROM patient_information p
         JOIN patient_address a ON p.id_patient_address = a.id";
        

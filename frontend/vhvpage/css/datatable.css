@@ -1,27 +1,25 @@
-/* Table container */
 .table-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 90.6%;
+  width: 91%;
   padding: 20px;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-
-  @media (min-width: 601px) and (max-width: 1024px) {
-    display: flex;
-    justify-content: center;
-    margin-left: 10%;
-    
-  }
+  /* Center the container */
+  margin-left: 110px;
 }
 
-/* Patient table */
+.datatable {
+  min-width: 100%;
+}
+
 .patient-table {
   width: 100%;
+  /* Ensure the table fits within the container */
   border-collapse: collapse;
   font-size: 14px;
   text-align: center;
@@ -29,14 +27,16 @@
 }
 
 .patient-table thead tr {
-  background-color: #f4f4f4;
-  color: #5d97ef;
+  background-color: #ececec;
+  color: #5D97EF;
 }
 
 .patient-table th,
 .patient-table td {
   padding: 15px;
-  border-bottom: 1px solid #f4f4f4;
+  padding-right: 33px;
+  border-bottom: 1px solid #F4F4F4;
+
 }
 
 .patient-table tbody tr {
@@ -56,13 +56,55 @@
   vertical-align: middle;
 }
 
-/* Button styling */
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.uncomplete {
+  background-color: #F4E1E1;
+  color: #BB4242;
+}
+
+.status.in-progress {
+  background-color: #FFF5C2;
+  color: #E99050;
+}
+
+.status.continue {
+  background-color: #F4E1ED;
+  color: #BB4292;
+}
+
+.status.completed {
+  background-color: #E1F4E1;
+  color: #5F8D4E;
+}
+
+.status.sucess {
+  background-color: #E3F5FF;
+  color: #5D97EF;
+}
+
+.status.unsucess {
+  background-color: #dddddd;
+  color: #626262;
+}
+
+.status.other {
+  background-color: #e5e1f4;
+  color: #634e8d;
+}
+
 .action-btn {
   position: relative;
   color: #1d1b31;
   border: none;
   padding: 3px 8px;
-  font-size: 16px;
+  font-size: 20px;
   cursor: pointer;
   border-radius: 5px;
   background-color: rgb(241, 241, 241);
@@ -70,90 +112,6 @@
 }
 
 .action-btn:hover {
-  background-color: #5d97ef;
-  color: #f4f4f4;
-}
-
-/* Responsive design */
-
-/* Mobile */
-@media (max-width: 600px) {
-  .table-container {
-    padding: 10px;
-    width: 100%;
-  }
-  
-
-  .patient-table {
-    font-size: 12px;
-  }
-
-  .patient-table th,
-  .patient-table td {
-    padding: 8px;
-  }
-
-  .patient-table img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .action-btn {
-    padding: 2px 6px;
-    font-size: 14px;
-  }
-}
-
-/* Tablet */
-@media (min-width: 601px) and (max-width: 1024px) {
-  .table-container {
-    padding: 15px;
-    width: 100%;
-  }
-
-  .patient-table {
-    font-size: 13px;
-  }
-
-  .patient-table th,
-  .patient-table td {
-    padding: 12px;
-  }
-
-  .patient-table img {
-    width: 25px;
-    height: 25px;
-  }
-
-  .action-btn {
-    padding: 3px 7px;
-    font-size: 15px;
-  }
-}
-
-/* Desktop */
-@media (min-width: 1025px) {
-  .table-container {
-    padding: 20px;
-    width: 90.6%;
-  }
-
-  .patient-table {
-    font-size: 14px;
-  }
-
-  .patient-table th,
-  .patient-table td {
-    padding: 15px;
-  }
-
-  .patient-table img {
-    width: 30px;
-    height: 30px;
-  }
-
-  .action-btn {
-    padding: 3px 8px;
-    font-size: 16px;
-  }
-}
+  background-color: #5D97EF;
+  color: #F4F4F4;
+} 
