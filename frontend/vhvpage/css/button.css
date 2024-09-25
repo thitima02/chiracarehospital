@@ -1,0 +1,26 @@
+
+button[type="back"] {
+    padding: 6px 35px;
+    background-color: #5D97EF;
+    border: 2px solid #5D97EF;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    /* font-weight: bold; */
+    margin-right: 20px; /* Adds spacing between the buttons */
+}
+
+button[type="back"]:hover {
+    background-color: #4a7bce;
+}
+
+/* Button styling */
+.button-group {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/sidebar.css">
+  <link rel="stylesheet" href="css/topbar.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/menubar.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/logo.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/button.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/result.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+  <!-- Sidebar will be loaded here -->
+  <div id="sidebar-container"> </div>
+
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
+
+  <!-- the resule of many patient -->
+
+  <!-- the dropdrown  -->
+  <div class="filter-container">
+    <div class="filter-item search-bar">
+      <h5>ค้นหารายชื่อ</h5>
+      <input type="text" placeholder="ค้นหาที่นี่..." class="search-input">
+      <i class='bx bx-search search-icon'></i> <!-- Add your icon here -->
+    </div>
+    <div class="filter-item">
+      <h5>วันที่ส่งแบบฟอร์ม</h5>
+      <input type="date" class="date-filter">
+    </div>
+    <div class="filter-item">
+      <h5>วันที่แก้ไข</h5>
+      <input type="date" class="date-filter">
+    </div>
+    <div class="filter-item">
+      <h5>สถานะการติดตาม</h5>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">ยังไม่ได้ติดตาม</option>
+        <option value="">กำลังติดตาม</option>
+        <option value="">ติดตามแล้ว</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
+    </div>
+    <div class="filter-item">
+      <h5>สถานะการรักษา</h5>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">ยังไม่ได้รักษา</option>
+        <option value="">นัดติดตามต่อเนื่อง</option>
+        <option value="">รักษาเสร็จสิ้น</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
+    </div>
+  </div>
+
+  <!-- the datatable  -->
+  <div class="table-container">
+    <table class="patient-table">
+      <thead>
+        <tr>
+          <th>รายชื่อผู้ป่วย</th>
+          <th>วันที่สิ้นสุด</th>
+          <th>วันที่กรอกฟอร์ม</th>
+          <th>วันที่แก้ไข</th>
+          <th>สถานะการรักษา</th>
+          <th>สถานะการติดตาม</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+           
+            นายปลาร้า ไม่เหม็น
+          </td>
+          <td>22/05/2022</td>
+          <td>29/05/2022</td>
+          <td>10/06/2022</td>
+          <td><span class="status in-progress">นัดติดตามต่อเนื่อง</span></td>
+          <td><span class="status follow-up">กำลังติดตาม</span></td>
+          
+        </tr>
+        
+
+        <!-- Repeat similar <tr> for other patients -->
+
+      </tbody>
+
+      <tbody></tbody>
+      <tr>
+        <td>
+          <img src="assets/images/small 1.png" alt="patient image">
+          นายรู้มากความ สาระสำคัญ
+        </td>
+        <td>22/05/2022</td>
+        <td>29/05/2022</td>
+        <td>10/06/2022</td>
+        <td><span class="status in-progress">นัดติดตามต่อเนื่อง</span></td>
+        <td><span class="status completed">ติดตามแล้ว</span></td>
+
+        
+
+      </tr>
+
+      <!-- Repeat similar <tr> for other patients -->
+      </tbody>
+
+    </table>
+  </div>
+
+  <script>
+    // Load sidebar
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+        loadSidebarScript(); // Initialize sidebar toggle after loading
+      });
+
+    // Load topbar and set the page title
+    fetch('topbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('topbar-container').innerHTML = data;
+        document.getElementById('page-title').textContent = 'ประวัติการติดตาม'; // Set page title for the main page
+      });
+
+    function loadSidebarScript() {
+      let sidebar = document.querySelector(".sidebar");
+      let closeBtn = document.querySelector("#btn");
+
+      closeBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        menuBtnChange();
+      });
+
+      function menuBtnChange() {
+        if (sidebar.classList.contains("open")) {
+          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+        } else {
+          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+        }
+      }
+      document.getElementById('view-history').addEventListener('click', function () {
+        window.location.href = 'viewhistory.html';
+      });
+
+    }
+  </script>
+</body>
+
+</html>
