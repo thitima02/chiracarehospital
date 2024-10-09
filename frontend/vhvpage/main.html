@@ -74,6 +74,19 @@
       <i class='bx bx-chevron-down dropdown-icon'></i>
     </div>
 
+    <div class="filter-item">
+      <h5>สถานะการติดตาม</h5>
+      <select class="dropdown-filter">
+        <option value="ทั้งหมด">ทั้งหมด</option>
+        <option value="">ยังไม่ได้ติดตาม</option>
+        <option value="">กำลังติดตาม</option>
+        <option value="">ติดตามแล้ว</option>
+        <option value="">ติดตามล้มเหลว</option>
+        <!-- Add other options as needed -->
+      </select>
+      <i class='bx bx-chevron-down dropdown-icon'></i>
+    </div>
+
 
   </div>
 
@@ -86,6 +99,7 @@
           <th>วันที่เริ่มติดตาม</th>
           <th>วันที่สิ้นสุด</th>
           <th>ที่อยู่</th>
+          <th>สถานะการติดตาม</th>
           <th>ครั้งที่ติดตาม</th>
           <th></th>
         </tr>
@@ -115,13 +129,14 @@
 
               // เพิ่มข้อมูลในแต่ละคอลัมน์
               row.innerHTML = `
-          <td><img src='/assets/images/cat.jpg' alt='patient image'> ${patient.full_name}</td>
-          <td id='startDate'>${patient.start_date || '2024-09-22'}</td>
-          <td id='endDate'>${patient.end_date || '2024-09-25'}</td>
-          <td id='address'>${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
-          <td id='timesFollowed'>${patient.times_followed || '2'}</td>
-          <td><button class="action-btn" title="คลิปเพื่อกรอกฟอร์ม" id="add-button"><i
-                class='bx bxs-edit'>คลิกเพื่อกรอกฟอร์ม</i></button></td>`;
+            <td><img src='/assets/images/cat.jpg' alt='patient image'> ${patient.full_name}</td>
+            <td id='startDate'>${patient.monitor_date || 'ไม่มีข้อมูล'}</td>  <!-- แสดง monitor_date -->
+            <td id='endDate'>${patient.last_update || 'ไม่มีข้อมูล'}</td> <!-- แสดง last_update -->
+            <td id='address'>${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
+            <td id='timesFollowed'>${patient.monitor_status || 'ไม่มีข้อมูล'}</td>  <!-- แสดง monitor_status -->
+            <td id='timesFollowed'>${patient.times_followed || '2'}</td>
+            <td><button class="action-btn" title="คลิกเพื่อกรอกฟอร์ม"><i class='bx bxs-edit'>คลิกเพื่อกรอกฟอร์ม</i></button></td>
+        `;
 
               // เพิ่มแถวลงใน tbody
               tbody.appendChild(row);
@@ -129,6 +144,7 @@
           } else {
             tbody.innerHTML = "<tr><td colspan='6'>ไม่พบข้อมูลผู้ป่วย</td></tr>";
           }
+
         })
         .catch(error => console.error("Error fetching patient data:", error));
 
@@ -169,11 +185,14 @@
         }
       }
       document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById('add-button').addEventListener('click', function () {
-          window.location.href = 'form.html';
+        // ดึงปุ่มทั้งหมดที่มีคลาส .action-btn
+        document.querySelectorAll('.action-btn').forEach(button => {
+          button.addEventListener('click', function () {
+            // ลิ้งก์ไปที่ไฟล์ historytacking.html ในโฟลเดอร์ frontend/vhvpage/
+            window.location.href = 'index.html';
+          });
         });
       });
-
 
     }
   </script>

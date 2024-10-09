@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <title>History Page</title>
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="css/topbar.css">
@@ -11,114 +12,160 @@
   <link rel="stylesheet" href="../../frontend/vhvpage/css/button.css">
   <link rel="stylesheet" href="../../frontend/vhvpage/css/result.css">
   <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
-  <!-- Import icon -->
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/fittermenu.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/moredetail.css">
+
+
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
+<body style="background-color:#edeff1;">
 
   <!-- Sidebar will be loaded here -->
-  <div id="sidebar-container"> </div>
+  <div id="sidebar-container"></div>
 
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-  <!-- the resule of many patient -->
+  <!-- Filters -->
+  <section class="filter-section" style="justify-content: center;">
+    <div class="filter-container">
+      <div class="filter-item search-bar">
+        <h5>ค้นหารายชื่อ</h5>
+        <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+        <i class='bx bx-search search-icon'></i>
+      </div>
 
-  <!-- the dropdrown  -->
-  <div class="filter-container">
-    <div class="filter-item search-bar">
-      <h5>ค้นหารายชื่อ</h5>
-      <input type="text" placeholder="ค้นหาที่นี่..." class="search-input">
-      <i class='bx bx-search search-icon'></i> <!-- Add your icon here -->
+      <div class="filter-item">
+        <h5>วันที่อัปเดตล่าสุด</h5>
+        <input type="date" class="date-filter" id="updatedDateFilter">
+      </div>
+
+      <div class="filter-item">
+        <h5>โรคประจำตัว</h5>
+        <select class="dropdown-filter" id="diseaseTypeFilter">
+          <option value="ทั้งหมด">ทั้งหมด</option>
+          <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+          <option value="โรคอ้วน">โรคอ้วน</option>
+          <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+          <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+          <option value="CVD Risk">CVD Risk</option>
+          <option value="โรคไต">โรคไต</option>
+        </select>
+      </div>
     </div>
-    <div class="filter-item">
-      <h5>วันที่ส่งแบบฟอร์ม</h5>
-      <input type="date" class="date-filter">
-    </div>
-    <div class="filter-item">
-      <h5>วันที่แก้ไข</h5>
-      <input type="date" class="date-filter">
-    </div>
-    <div class="filter-item">
-      <h5>สถานะการติดตาม</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">ยังไม่ได้ติดตาม</option>
-        <option value="">กำลังติดตาม</option>
-        <option value="">ติดตามแล้ว</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
-    </div>
-    <div class="filter-item">
-      <h5>สถานะการรักษา</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">ยังไม่ได้รักษา</option>
-        <option value="">นัดติดตามต่อเนื่อง</option>
-        <option value="">รักษาเสร็จสิ้น</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
-    </div>
+  </section>
+
+  <div class="history-container">
+    <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
   </div>
 
-  <!-- the datatable  -->
-  <div class="table-container">
-    <table class="patient-table">
-      <thead>
-        <tr>
-          <th>รายชื่อผู้ป่วย</th>
-          <th>วันที่สิ้นสุด</th>
-          <th>วันที่กรอกฟอร์ม</th>
-          <th>วันที่แก้ไข</th>
-          <th>สถานะการรักษา</th>
-          <th>สถานะการติดตาม</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-           
-            นายปลาร้า ไม่เหม็น
-          </td>
-          <td>2024-09-25</td>
-          <td>2024-09-23</td>
-          <td>2024-09-24</td>
-          <td><span class="status in-progress">นัดติดตามต่อเนื่อง</span></td>
-          <td><span class="status follow-up">กำลังติดตาม</span></td>
-          
-        </tr>
-        
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_history.php")
+        .then(response => response.json())
+        .then(data => {
+          const historyContainer = document.querySelector(".history-container");
 
-        <!-- Repeat similar <tr> for other patients -->
+          data.forEach(history => {
+            const historyElement = document.createElement("div");
+            historyElement.classList.add("history");
 
-      </tbody>
+            // ฟังก์ชันเพื่อจัดรูปแบบวันที่และเวลา
+            const formatDateTime = (dateTime) => {
+              const date = new Date(dateTime);
+              const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+              const formattedDate = date.toLocaleDateString('en-CA', options);
+              const formattedTime = date.toLocaleTimeString('en-EN', { hour: '2-digit', minute: '2-digit' });
+              return { formattedDate, formattedTime };
+            };
 
-      <tbody></tbody>
-      <tr>
-        <td>
-          <img src="assets/images/small 1.png" alt="patient image">
-          นายรู้มากความ สาระสำคัญ
-        </td>
-        <td>2024-09-25</td>
-        <td>2024-09-23</td>
-        <td>2024-09-24</td>
-        <td><span class="status in-progress">นัดติดตามต่อเนื่อง</span></td>
-        <td><span class="status completed">ติดตามแล้ว</span></td>
+            const { formattedDate, formattedTime } = formatDateTime(history.newupdate);
 
-        
+            historyElement.innerHTML = `
+                        <div class="activity">
+                            <div class="left">
+                                <img src="images/amuro.jpg" alt="icon" class="activity-icon">
+                                <div class="details">
+                                    <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
+                                    <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <p class="update">${formattedDate}</p>
+                                <p class="time">${formattedTime}</p>
+                            </div>
+                            <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                            <div class="more-details" style="display: none;">
+                                <div class="detail">
+                                    <p>ชื่อ - นามสกุล : ${history.full_name}</p>
+                                    <p>โรคของผู้ป่วยที่รักษา : ${history.disease_type}</p>
+                                    <p>อาการทั่วไป : ${history.general_symptoms}</p>
+                                    <p>ประเด็นการรักษา : ${history.treatment_issue}</p>
+                                    <p>วันที่เข้ารับการรักษา : ${history.date_of_treatment}</p>
+                                    <p>วันที่นัดครั้งถัดไป : ${history.next_appointment_date}</p>
+                                    <p>หมายเหตุ : ${history.notes}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
 
-      </tr>
+            historyContainer.appendChild(historyElement);
+          });
+        })
+        .catch(error => console.error("Error fetching data:", error));
 
-      <!-- Repeat similar <tr> for other patients -->
-      </tbody>
+      // การกรองข้อมูล
+      const searchInput = document.getElementById('searchPatientInput');
+      const updatedDateFilter = document.getElementById('updatedDateFilter');
+      const diseaseTypeFilter = document.getElementById('diseaseTypeFilter');
 
-    </table>
-  </div>
+      function filterData() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const updatedDate = updatedDateFilter.value;
+        const diseaseType = diseaseTypeFilter.value;
+
+        const activities = document.querySelectorAll('.activity');
+
+        activities.forEach(activity => {
+          const name = activity.querySelector('.title').textContent.toLowerCase();
+          const updateDateValue = activity.querySelector('.update').textContent;
+          console.log('Update Date Value:', updateDateValue);
+          const diseaseTypeValue = activity.querySelector('.detail').children[1].textContent.split(' : ')[1];
+
+          let isVisible = true;
+
+          // กรองตามชื่อ
+          if (searchTerm && !name.includes(searchTerm)) {
+            isVisible = false;
+          }
+
+          // กรองตามวันที่อัปเดต
+          if (updatedDate && new Date(updateDateValue).toISOString().split('T')[0] !== updatedDate) {
+            isVisible = false;
+          }
+
+          // กรองตามประเภทโรค
+          if (diseaseType !== 'ทั้งหมด' && diseaseTypeValue !== diseaseType) {
+            isVisible = false;
+          }
+
+          // แสดงหรือซ่อนกิจกรรมตามเงื่อนไข
+          activity.style.display = isVisible ? '' : 'none';
+        });
+      }
+
+      searchInput.addEventListener('input', filterData);
+      updatedDateFilter.addEventListener('change', filterData);
+      diseaseTypeFilter.addEventListener('change', filterData);
+    });
+
+    function toggleDetails(button) {
+      const moreDetails = button.nextElementSibling;
+      moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
 
   <script>
     // Load sidebar
@@ -134,8 +181,19 @@
       .then(response => response.text())
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'ประวัติการติดตาม'; // Set page title for the main page
+        document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา'; // Set page title for the history page
       });
+
+    function toggleDetails(button) {
+      const details = button.nextElementSibling;
+      if (details.style.display === "block") {
+        details.style.display = "none";
+        button.textContent = "เพิ่มเติม";
+      } else {
+        details.style.display = "block";
+        button.textContent = "ซ้อนข้อมูล";
+      }
+    }
 
     function loadSidebarScript() {
       let sidebar = document.querySelector(".sidebar");
@@ -153,10 +211,9 @@
           closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
         }
       }
-      document.getElementById('view-history').addEventListener('click', function () {
-        window.location.href = 'viewhistory.html';
+      document.getElementById('edit-button').addEventListener('click', function () {
+        window.location.href = 'listhistoty.html';
       });
-
     }
   </script>
 </body>

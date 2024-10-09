@@ -33,7 +33,7 @@
 
       <form>
         <label for="name">ชื่อ – นามสกุล</label>
-        <input type="text" id="name" placeholder="นายปลาร้า ไม่เหม็น">
+        <input type="text" id="name" ${patient.full_name}/>  
 
         <label for="disease">โรคของผู้ป่วยที่ติดตาม</label>
         <select id="disease">
@@ -137,44 +137,7 @@
         document.getElementById('popup-card').classList.add('hidden');
       });
 
-      document.getElementById('confirm-btn').addEventListener('click', function () {
-        // สร้างองค์ประกอบ <table>
-        var table = document.createElement('table');
-
-        // สร้างแถวหัวตาราง
-        var thead = document.createElement('thead');
-        var headerRow = document.createElement('tr');
-
-        headers.forEach(function (headerText) {
-          var th = document.createElement('th');
-          th.textContent = headerText;
-          headerRow.appendChild(th);
-        });
-
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-
-        // สร้างแถวข้อมูล
-        var tbody = document.createElement('tbody');
-        for (var i = 1; i <= 3; i++) { // สร้าง 3 แถว
-          var row = document.createElement('tr');
-          for (var j = 1; j <= 3; j++) { // สร้าง 3 เซลล์ในแต่ละแถว
-            var td = document.createElement('td');
-            td.textContent = 'Cell ' + i + '-' + j;
-            row.appendChild(td);
-          }
-          tbody.appendChild(row);
-        }
-
-        table.appendChild(tbody);
-
-        // เพิ่มตารางลงใน <div id="table-container">
-        var container = document.getElementById('table-container');
-        container.innerHTML = ''; // ล้างเนื้อหาก่อนเพิ่มตารางใหม่
-        container.appendChild(table);
-      });
-
-
+    
     }
   </script>
 </body>
