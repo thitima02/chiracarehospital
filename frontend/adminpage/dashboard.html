@@ -296,69 +296,43 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
+<script>
+    // Fetch the data from the PHP file
+    fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+        .then(response => response.json())
+        .then(data => {
+            // Prepare the data for Chart.js
+            const labels = ['ประชาชน', 'ครอบครัว', 'กำลังพล']; // Only fetch for these 3 groups
+            const datasets = [
+                { label: 'Hypertension', data: [data.hypertension['ประชาชน'], data.hypertension['ครอบครัว'], data.hypertension['กำลังพล']], backgroundColor: 'rgba(255, 99, 132, 0.5)' },
+                { label: 'Obesity', data: [data.obesity['ประชาชน'], data.obesity['ครอบครัว'], data.obesity['กำลังพล']], backgroundColor: 'rgba(54, 162, 235, 0.5)' },
+                { label: 'Cholesterol', data: [data.cholesterol['ประชาชน'], data.cholesterol['ครอบครัว'], data.cholesterol['กำลังพล']], backgroundColor: 'rgba(255, 206, 86, 0.5)' },
+                { label: 'Diabetes', data: [data.diabetes['ประชาชน'], data.diabetes['ครอบครัว'], data.diabetes['กำลังพล']], backgroundColor: 'rgba(75, 192, 192, 0.5)' },
+                { label: 'CVD', data: [data.cvd['ประชาชน'], data.cvd['ครอบครัว'], data.cvd['กำลังพล']], backgroundColor: 'rgba(153, 102, 255, 0.5)' },
+                { label: 'Kidney Disease', data: [data.kidney['ประชาชน'], data.kidney['ครอบครัว'], data.kidney['กำลังพล']], backgroundColor: 'rgba(255, 159, 64, 0.5)' }
+            ];
 
-                // Assuming the data returned has disease_data which contains the patient totals for each type.
-                const labels = ['2564', '2565', '2566', '2567']; // Sample Years
-
-                // Extracting the actual data from API response (replace with real data mapping)
-                const publicData = data.disease_data.map(item => item.public_total);
-                const familyData = data.disease_data.map(item => item.family_total);
-                const militaryData = data.disease_data.map(item => item.military_total);
-
-                // Creating the chart
-                const ctx = document.getElementById('patient-type-chart').getContext('2d');
-                const patientTypeChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels, // X-axis (Years)
-                        datasets: [
-                            {
-                                label: 'ประชาชน', // Public
-                                data: publicData, // Data points for Public
-                                fill: false,
-                                borderColor: 'rgba(54, 162, 235, 1)', // Blue color for Public
-                                tension: 0.1
-                            },
-                            {
-                                label: 'กำลังพล', // Military
-                                data: militaryData, // Data points for Military
-                                fill: false,
-                                borderColor: 'rgba(153, 102, 255, 1)', // Purple color for Military
-                                tension: 0.1
-                            },
-                            {
-                                label: 'ครอบครัว', // Family
-                                data: familyData, // Data points for Family
-                                fill: false,
-                                borderColor: 'rgba(255, 99, 132, 1)', // Pink color for Family
-                                tension: 0.1
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: false, // Allow negative values
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                            }
+            // Create the chart
+            const ctx = document.getElementById('patient-type-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels, // Only these groups
+                    datasets: datasets // Corresponding data
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
                     }
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+</script>
 
-    </script>
 
     <!-- // ดึงข้อมูลจาก กราฟแสดงสถิติของกลุ่มผู้ป่วย -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -468,47 +442,54 @@
 
     </script>
     <script>
-        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+        // Function to fetch data from PHP and update the dashboard
+        function updateDashboard() {
+            fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
             .then(response => response.json())
             .then(data => {
-                console.log(data); // ตรวจสอบข้อมูลใน Console
-
-                const diseaseData = data.disease_data;
-                if (diseaseData && Array.isArray(diseaseData)) {
-                    // วนลูปผ่านข้อมูลที่ได้มาและแสดงผลใน HTML ตามประเภทโรค
-                    diseaseData.forEach(disease => {
-                        const diseaseType = disease.disease_type.trim();
-
-                        // แสดงข้อมูลในแต่ละ card ตามประเภทโรค
-                        if (diseaseType === 'ความดันโลหิตสูง') {
-                            document.getElementById('public_hypertension').textContent = disease.public_total || 0;
-                            document.getElementById('family_hypertension').textContent = disease.family_total || 0;
-                            document.getElementById('military_hypertension').textContent = disease.military_total || 0;
-                        } else if (diseaseType === 'โรคอ้วน') {
-                            document.getElementById('public_obesity').textContent = disease.public_total || 0;
-                            document.getElementById('family_obesity').textContent = disease.family_total || 0;
-                            document.getElementById('military_obesity').textContent = disease.military_total || 0;
-                        } else if (diseaseType === 'ไขมันในเลือดสูง') {
-                            document.getElementById('public_cholesterol').textContent = disease.public_total || 0;
-                            document.getElementById('family_cholesterol').textContent = disease.family_total || 0;
-                            document.getElementById('military_cholesterol').textContent = disease.military_total || 0;
-                        } else if (diseaseType === 'โรคเบาหวาน') {
-                            document.getElementById('public_diabetes').textContent = disease.public_total || 0;
-                            document.getElementById('family_diabetes').textContent = disease.family_total || 0;
-                            document.getElementById('military_diabetes').textContent = disease.military_total || 0;
-                        } else if (diseaseType === 'CVD Risk') {
-                            document.getElementById('public_cvd').textContent = disease.public_total || 0;
-                            document.getElementById('family_cvd').textContent = disease.family_total || 0;
-                            document.getElementById('military_cvd').textContent = disease.military_total || 0;
-                        } else if (diseaseType === 'โรคไต') {
-                            document.getElementById('public_kidney').textContent = disease.public_total || 0;
-                            document.getElementById('family_kidney').textContent = disease.family_total || 0;
-                            document.getElementById('military_kidney').textContent = disease.military_total || 0;
-                        }
-                    });
-                }
+                // Update hypertension
+                document.getElementById('public_hypertension').innerText = data.hypertension['ประชาชน'];
+                document.getElementById('family_hypertension').innerText = data.hypertension['ครอบครัว'];
+                document.getElementById('military_hypertension').innerText = data.hypertension['กำลังพล'];
+        
+                // Update obesity
+                document.getElementById('public_obesity').innerText = data.obesity['ประชาชน'];
+                document.getElementById('family_obesity').innerText = data.obesity['ครอบครัว'];
+                document.getElementById('military_obesity').innerText = data.obesity['กำลังพล'];
+        
+                // Update cholesterol
+                document.getElementById('public_cholesterol').innerText = data.cholesterol['ประชาชน'];
+                document.getElementById('family_cholesterol').innerText = data.cholesterol['ครอบครัว'];
+                document.getElementById('military_cholesterol').innerText = data.cholesterol['กำลังพล'];
+        
+                // Update diabetes
+                document.getElementById('public_diabetes').innerText = data.diabetes['ประชาชน'];
+                document.getElementById('family_diabetes').innerText = data.diabetes['ครอบครัว'];
+                document.getElementById('military_diabetes').innerText = data.diabetes['กำลังพล'];
+        
+                // Update CVD
+                document.getElementById('public_cvd').innerText = data.cvd['ประชาชน'];
+                document.getElementById('family_cvd').innerText = data.cvd['ครอบครัว'];
+                document.getElementById('military_cvd').innerText = data.cvd['กำลังพล'];
+        
+                // Update kidney disease
+                document.getElementById('public_kidney').innerText = data.kidney['ประชาชน'];
+                document.getElementById('family_kidney').innerText = data.kidney['ครอบครัว'];
+                document.getElementById('military_kidney').innerText = data.kidney['กำลังพล'];
             })
             .catch(error => console.error('Error:', error));
-    </script>
+        }
+        
+        // Call the function when the page loads
+        window.onload = updateDashboard;
+        </script>
+        
+
+
+
+
+
+
+
 </body>
 </html>

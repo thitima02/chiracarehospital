@@ -50,7 +50,7 @@
         <div class="profile-info">
             <p><strong>พื้นที่รับผิดชอบ:</strong> <span id="responsibility-area"></span></p>
             <p><strong>เบอร์โทรศัพท์:</strong> <span id="phone-number"></span></p>
-            <p><strong>สถาณะ:</strong> <span id="role"></span></p>
+            <p><strong>ตำแหน่ง:</strong> <span id="department"></span></p>
 
 
         </div>
@@ -77,7 +77,8 @@
                             document.getElementById('full-name').textContent = userData.full_name;
                             document.getElementById('responsibility-area').textContent = userData.responsibility_area;
                             document.getElementById('phone-number').textContent = userData.phone_number;
-                            document.getElementById('role').textContent = userData.role;
+
+                            document.getElementById('department').textContent = user.department;
 
                             // ตรวจสอบว่ามีรูปภาพผู้ใช้หรือไม่
                             if (user.user_image) {
