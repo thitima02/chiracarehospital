@@ -1,7 +1,8 @@
 .right-section {
   display: flex;
   align-items: center;
-  gap: 20px; /* Adjust the spacing between the bell icon and profile details */
+  gap: 20px;
+  /* Adjust the spacing between the bell icon and profile details */
 }
 
 .icon-button {
@@ -19,11 +20,12 @@
   background-color: #b4b4b4;
 }
 
-.sidebar.open ~ .top{
+.sidebar.open~.top {
   left: 250px;
   width: calc(100% - 250px);
 }
-.top .text{
+
+.top .text {
   display: inline-block;
   color: #151D48;
   font-size: 28px;
@@ -31,7 +33,8 @@
   margin: 10px;
   margin-left: 30px;
 }
-.top nav{
+
+.top nav {
   display: flex;
   justify-content: space-between;
   height: 80px;
@@ -49,7 +52,7 @@
   z-index: 2;
 }
 
-.top nav .profile-details{
+.top nav .profile-details {
   display: flex;
   align-items: center;
   background: #F5F6FA;
@@ -58,4 +61,41 @@
   height: 50px;
   min-width: 190px;
   padding: 0 15px 0 2px;
+}
+
+
+/* เริ่มซ่อนไว้ก่อน */
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  /* แสดงข้อความด้านบนของโปรไฟล์ */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  transition: opacity 0.3s;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+/* แสดง tooltip เมื่อ hover */
+.profile-details:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }

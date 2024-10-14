@@ -142,12 +142,11 @@
         window.location.href = 'moreinfo.html';
       });
 
-      document.querySelectorAll('.edit-btn').forEach(button => {
-        button.addEventListener('click', function() {
-          // เปลี่ยนเส้นทางไปที่หน้า edittracking.html
-          window.location.href = 'edittracking.html';
-        });
-      });
+      // document.querySelectorAll('.edit-btn').forEach(button => {
+      //   button.addEventListener('click', function() {
+      //     window.location.href = 'edittracking.html';
+      //   });
+      // });
       document.querySelectorAll('.detail-btn').forEach(button => {
         button.addEventListener('click', function() {
           const patientRow = this.closest('tr');
