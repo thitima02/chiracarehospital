@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Information</title> 
-    <link rel="stylesheet" href="../../css/patient-info.css">
+    <title>Staff Information</title>
+    <link rel="stylesheet" href="../../css/staffinfo.css">
     <link rel="stylesheet" href="../../styles.css">
-  <link rel="stylesheet" href="../../css/sidebar.css">
-  <link rel="stylesheet" href="../../css/topbar.css">
-  <link rel="stylesheet" href="../../css/logo.css">
-  <!-- Import icon -->
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/topbar.css">
+    <link rel="stylesheet" href="../../css/logo.css">
+    <!-- Import icon -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body style="background-color:#edeff1;">
     <!-- Sidebar will be loaded here -->
@@ -21,68 +20,71 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-    <div class="patientinfo-container">
-        <div class="search-bar">
-            <input type="search" placeholder="ค้นหาชื่อ">
-            <input type="search" placeholder="เขตที่รับผิดชอบ">
-            <input type="search" placeholder="เลขบัตรประชาชน">
-            <input type="search" placeholder="เบอร์โทรศัพท์">
-            <select>
-                <option>สถานะ</option>
-                <option>อาสาสมัครสาธารณะสุข</option>
-                <option>เสนารักษ์</option>
-            </select>
-            <button class="add-icon">
-              <a href="addstaff.html">
-                <i class='bx bx-user-plus'></i>
-              </a>
-            </button>
-        </div>
+  <div class="staffinfo-container">
 
-        <table class="patient-table">
-          <thead>
-            <tr>
-              <th>ชื่อ - นามสกุล</th>
-              <th>สถานะ</th>
-              <th>เขตที่รับผิดชอบ</th>
-              <th>ไอดีไลน์(LINE ID)</th>
-              <th>เลขบัตรประชาชน</th>
-              <th>เบอร์โทรศัพท์</th>
-              <th>จัดการ</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
-              <td>อาสาสมัครสาธารณะสุข</td>
-              <td>18</td>
-              <td>sage123</td>
-              <td>1234567890123</td>
-              <td>0987456123</td>
-              <td>
-                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
-              <td>เสนารักษ์</td>
-              <td>5</td>
-              <td>sova123</td>
-              <td>1234567890123</td>
-              <td>0987456123</td>
-              <td>
-                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
-              </td>
-            </tr>
-          </tbody>
-      </table>
+    <div class="search-bar">
+        <input type="text" placeholder="ค้นหารายชื่อ" aria-label="ค้นหารายชื่อ">
+        <input type="text" placeholder="เขตที่รับผิดชอบ" aria-label="เขตที่รับผิดชอบ">
+        <input type="text" placeholder="เลขบัตรประชาชน" aria-label="เลขบัตรประชาชน">
+        <input type="text" placeholder="เบอร์โทรศัพท์" aria-label="เบอร์โทรศัพท์">
+        <select aria-label="สถานะผู้ป่วย">
+            <option value="all">สถานะ</option>
+            <option>อาสาสมัครสาธารณสุข</option>
+            <option>เสนารักษ์</option>
+        </select>
+        <button class="add-icon">
+            <i class='bx bx-user-plus'></i>
+        </button>
     </div>
 
-    <script>
-         // Load sidebar
-    fetch('sidebar.html')
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ชื่อ - นามสกุล</th>
+                    <th>สถานะการรักษา</th>
+                    <th>เขตที่รับผิดชอบ</th>
+                    <th>ไอดีไลน์(LINE ID)</th>
+                    <th>เลขบัตรประชาชน</th>
+                    <th>เบอร์โทรศัพท์</th>
+                    <th>ค้นหา</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="profile-icon.png" alt="Profile Image"> นางสาว ข</td>
+                    <td>อาสาสมัครสาธารณสุข</td>
+                    <td>1</td>
+                    <td>niranam</td>
+                    <td>1230000000000</td>
+                    <td>0998889999</td>
+                    <td class="table-actions">
+                        <button class="edit-btn">แก้ไข</button>
+                        <button class="delete-btn">ลบ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><img src="profile-icon.png" alt="Profile Image"> นาง ก</td>
+                    <td>เสนารักษ์</td>
+                    <td>3</td>
+                    <td>niranam99</td>
+                    <td>1230000000000</td>
+                    <td>0997775555</td>
+                    <td class="table-actions">
+                        <button class="edit-btn">แก้ไข</button>
+                        <button class="delete-btn">ลบ</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+</body>
+<script>
+     // Load sidebar
+     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('sidebar-container').innerHTML = data;
@@ -113,9 +115,5 @@
         }
       }
     }
-    document.getElementById('add-button').addEventListener('click', function () {
-        window.location.href = 'editaddstaff.html';
-      });
-    </script>
-</body>
+</script>
 </html>

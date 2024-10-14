@@ -60,7 +60,6 @@ h1 {
     background-color: #0056b3;
 }
 
-
 .list-group-item {
     border: none;
     padding: 15px 20px;
@@ -162,13 +161,8 @@ h1 {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    gap: 20px; /* เพิ่มระยะห่างระหว่างการ์ด */
-}
 
-.chart .col-12.col-md-6 {
-    flex: 1; /* ให้การ์ดมีขนาดเท่ากัน */
 }
-
 .status {
     display: flex;
     justify-content: space-between;

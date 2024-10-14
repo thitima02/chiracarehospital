@@ -1,97 +1,52 @@
-<!DOCTYPE html>
-<html lang="th">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidebar</title>
-    <!-- <link rel="stylesheet" href="path/to/your/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.0.9/css/boxicons.min.css"> -->
-    <script src="../method/logout.js"></script>
-
-</head>
-
-<body>
-
-    <div class="sidebar">
-        <div class="logo-details">
-            <div class="logo_img">
-                <img src="../../assets/images/chiralogo.jpg" alt="" class="logo-image">
-            </div>
-            <div class="logo_name">โรงพยาบาลค่ายจิรประวัติ</div>
-            <i class='bx bx-menu' id="btn"></i>
-        </div>
-        <ul>
-            <li>
-                <a href="../../frontend/adminpage/dashboard.html">
-                    <i class='bx bx-home'></i>
-                    <span class="links_name">หน้าหลัก</span>
-                </a>
-                <span class="tooltip">หน้าหลัก</span>
-            </li>
-            <li>
-                <a href="../../frontend/adminpage/patient-info.html">
-                    <i class='bx bx-error-circle'></i>
-                    <span class="links_name">จัดการข้อมูลผู้ป่วย</span>
-                </a>
-                <span class="tooltip">จัดการข้อมูลผู้ป่วย</span>
-            </li>
-            <li>
-                <a href="../../frontend/adminpage/statustracking.html">
-                    <i class='bx bx-line-chart'></i>
-                    <span class="links_name">สถานะและการติดตาม</span>
-                </a>
-                <span class="tooltip">สถานะและการติดตาม</span>
-            </li>
-            <li>
-                <a href="../../frontend/adminpage/staff-info.html">
-                    <i class='bx bx-group'></i>
-                    <span class="links_name">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
-                </a>
-                <span class="tooltip">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
-            </li>
-
-            <!-- <li>
-                <a href="../../frontend/adminpage/staff-info.html">
-                    <i class='bx bx-group'></i>
-                    <span class="links_name">จัดการข้อมูลผู้ใช้งาน</span>
-                </a>
-                <span class="tooltip">จัดการข้อมูลผู้ใช้งาน</span>
-            </li> -->
-            <li>
-                <a href="javascript:void(0);" onclick="handleLogout()">
-                    <i class='bx bx-log-out'></i>
-                    <span class="links_name">ออกจากระบบ</span>
-                </a>
-                <span class="tooltip">ออกจากระบบ</span>
-            </li>
-        </ul>
-    </div>
-
-    <script>
-        function handleLogout() {
-            fetch('./backend/sql/logout.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        // ลบ token จาก localStorage
-                        localStorage.removeItem('token');
-                        localStorage.removeItem('user');
-                        // เปลี่ยนหน้าไปที่ login.html
-                        window.location.href = './frontend/login.html';
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    </script>
-
-</body>
-
-</html>
+<div class="sidebar">
+  <div class="logo-details">
+    <!-- assent logo -->
+    <div class="logo_img">
+      <img src="../../assets/images/chiralogo.jpg" alt="" class="logo-image">
+    </div>      
+    <!-- assent aapp name -->
+      <div class="logo_name">โรงพยาบาลค่ายจิรประวัติ</div>
+      <i class='bx bx-menu' id="btn" ></i>
+  </div>
+  <li>
+    <a href="../../frontend/adminpage/dasboard.html">
+      <i class='bx bx-home'></i>
+      <span class="links_name">หน้าหลัก</span>
+    </a>
+    <span class="tooltip">หน้าหลัก</span>
+  </li>
+  <!-- patient-info menu -->
+  <li>
+    <a href="../../frontend/adminpage/patient-info.html">
+      <i class='bx bx-error-circle'></i>
+      <span class="links_name">จัดการข้อมูลผู้ป่วย</span>
+    </a>
+    <span class="tooltip">จัดการข้อมูลผู้ป่วย</span>
+  </li>
+  <!-- statustracking menu -->
+  <li>
+    <a href="../../frontend/adminpage/statustracking.html">
+      <i class='bx bx-line-chart'></i>
+      <span class="links_name">สถานะและการติดตาม</span>
+    </a>
+    <span class="tooltip">สถานะและการติดตาม</span>
+  </li>
+  <!-- staff-info -->
+  <li>
+    <a href="../../frontend/adminpage/staff-info.html">
+      <i class='bx bx-group'></i>
+      <span class="links_name">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
+    </a>
+    <span class="tooltip">จัดการข้อมูลเจ้าหน้าที่ฯลฯ</span>
+  </li>
+  <!-- log out menu -->
+  <li>
+    <a href="../../frontend/adminpage/login.html">
+      <i class='bx bx-log-out'></i>
+      <span class="links_name">ออกจากระบบ</span>
+    </a>
+    <span class="tooltip">ออกจากระบบ</span>
+  </li>
+</ul>
+</div>

@@ -23,9 +23,9 @@
 
     <div class="patientinfo-container">
         <div class="search-bar">
-            <input type="search" placeholder="ค้นหาชื่อ">
-            <input type="search" placeholder="เบอร์โทรศัพท์">
-            <input type="search" placeholder="เลขบัตรประชาชน">
+            <input type="search" placeholder="ค้นหาชื่อ...">
+            <input type="search" placeholder="เบอร์โทรศัพท์...">
+            <input type="search" placeholder="เลขบัตรประชาชน...">
             <input type="search" placeholder="เบอร์โทรศัพท์ญาติ...">
             <select>
                 <option>สถานะผู้ป่วย</option>
@@ -62,6 +62,7 @@
               <td>
                 <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
                 <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
+                <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
               </td>
             </tr>
             <tr>
@@ -74,6 +75,7 @@
               <td>
                 <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
                 <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
+                <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
               </td>
             </tr>
           </tbody>
@@ -113,9 +115,6 @@
         }
       }
     }
-      document.getElementById('add-button').addEventListener('click', function () {
-        window.location.href = 'editaddinfo.html';
-      });
     </script>
 </body>
 </html>
