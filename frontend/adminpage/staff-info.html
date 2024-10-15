@@ -1,87 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Information</title> 
-    <link rel="stylesheet" href="../../css/patient-info.css">
-    <link rel="stylesheet" href="../../styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Information</title>
+  <link rel="stylesheet" href="../../css/patient-info.css">
+  <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
 </head>
+
 <body style="background-color:#edeff1;">
-    <!-- Sidebar will be loaded here -->
+  <!-- Sidebar will be loaded here -->
   <div id="sidebar-container"></div>
 
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-    <div class="patientinfo-container">
-        <div class="search-bar">
-            <input type="search" placeholder="ค้นหาชื่อ">
-            <input type="search" placeholder="เขตที่รับผิดชอบ">
-            <input type="search" placeholder="เลขบัตรประชาชน">
-            <input type="search" placeholder="เบอร์โทรศัพท์">
-            <select>
-                <option>สถานะ</option>
-                <option>อาสาสมัครสาธารณะสุข</option>
-                <option>เสนารักษ์</option>
-            </select>
-            <button class="add-icon">
-              <a href="addstaff.html">
-                <i class='bx bx-user-plus'></i>
-              </a>
-            </button>
-        </div>
-
-        <table class="patient-table">
-          <thead>
-            <tr>
-              <th>ชื่อ - นามสกุล</th>
-              <th>สถานะ</th>
-              <th>เขตที่รับผิดชอบ</th>
-              <th>ไอดีไลน์(LINE ID)</th>
-              <th>เลขบัตรประชาชน</th>
-              <th>เบอร์โทรศัพท์</th>
-              <th>จัดการ</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
-              <td>อาสาสมัครสาธารณะสุข</td>
-              <td>10</td>
-              <td>sage123</td>
-              <td>1234567890123</td>
-              <td>0987456123</td>
-              <td>
-                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
-              <td>เสนารักษ์</td>
-              <td>5</td>
-              <td>sova123</td>
-              <td>1234567890123</td>
-              <td>0987456123</td>
-              <td>
-                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
-              </td>
-            </tr>
-          </tbody>
-      </table>
+  <div class="patientinfo-container">
+    <div class="search-bar">
+      <input type="search" placeholder="ค้นหาชื่อ">
+      <input type="search" placeholder="เขตที่รับผิดชอบ">
+      <input type="search" placeholder="เลขบัตรประชาชน">
+      <input type="search" placeholder="เบอร์โทรศัพท์">
+      <select>
+        <option>สถานะ</option>
+        <option>อาสาสมัครสาธารณะสุข</option>
+        <option>เสนารักษ์</option>
+      </select>
+      <button class="add-icon">
+        <a href="addstaff.html">
+          <i class='bx bx-user-plus'></i>
+        </a>
+      </button>
     </div>
 
-    <script>
-         // Load sidebar
+    <table class="patient-table">
+      <thead>
+        <tr>
+          <th>ชื่อ - นามสกุล</th>
+          <th>สถานะ</th>
+          <th>เขตที่รับผิดชอบ</th>
+          <th>ไอดีไลน์(LINE ID)</th>
+          <th>เลขบัตรประชาชน</th>
+          <th>เบอร์โทรศัพท์</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+
+      <tbody id="patient-info-body">
+        <!-- ข้อมูลจะแสดงที่นี่ -->
+      </tbody>
+
+    </table>
+  </div>
+
+  <script>
+    // Load sidebar
     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
@@ -97,7 +78,7 @@
         document.getElementById('page-title').textContent = 'จัดการข้อมูลเจ้าหน้าที่ติดตามผู้ป่วย'; // Set page title for the history page
       });
 
-      function loadSidebarScript() {
+    function loadSidebarScript() {
       let sidebar = document.querySelector(".sidebar");
       let closeBtn = document.querySelector("#btn");
 
@@ -114,8 +95,75 @@
       }
     }
     document.getElementById('add-button').addEventListener('click', function () {
-        window.location.href = 'editaddstaff.html';
+      window.location.href = 'editaddstaff.html';
+    });
+  </script>
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
+      $.getJSON('http://localhost/chiracarehospital/backend/sql/users/getAlluser.php', function (response) {
+        if (response.status === 'success') {
+          var staffs = response.data;
+          var rows = '';
+
+          // วนลูปข้อมูลผู้ใช้เพื่อแสดงในตาราง
+          staffs.forEach(function (staff) {
+            // กรองเฉพาะผู้ที่มีสถานะเป็น 'อาสาสมัครสาธารณะสุข' หรือ 'เสนารักษ์'
+            if (staff.department === 'อาสาสมัครสาธารณสุข' || staff.department === 'เสนารักษ์') {
+              rows += '<tr>';
+              rows += '<td><img src="../../assets/images/cat.jpg" alt="avatar"> ' + staff.full_name + '</td>';
+              rows += '<td>' + staff.department + '</td>';
+              rows += '<td>' + staff.responsibility_area + '</td>';
+              rows += '<td>' + (staff.id_card ? staff.id_card : '-') + '</td>';
+              rows += '<td>' + (staff.id_card_number ? staff.id_card_number : '-') + '</td>';
+              rows += '<td>' + staff.phone_number + '</td>';
+              rows += '<td>';
+              rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editStaff(\'' + staff.id + '\')"><i class="bx bxs-edit"></i></button>';
+              rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deleteStaff(\'' + staff.id + '\')"><i class="bx bx-trash"></i></button>';
+              rows += '</td>';
+              rows += '</tr>';
+            }
+          });
+
+          // แทรกข้อมูลในตาราง
+          $('#patient-info-body').html(rows);
+        } else {
+          alert(response.message);
+        }
       });
-    </script>
+    });
+
+
+    // ฟังก์ชันแก้ไขข้อมูล
+    function editStaff(id) {
+      // กำหนดให้ฟังก์ชันทำการแก้ไขข้อมูลตาม ID
+      window.location.href = 'edit_staff.html?id=' + id;
+    }
+
+    // ฟังก์ชันลบข้อมูล
+    function deleteStaff(id) {
+      if (confirm('คุณแน่ใจว่าต้องการลบข้อมูลนี้?')) {
+        // ส่งคำขอลบไปยัง API
+        $.ajax({
+          url: 'http://localhost/chiracarehospital/backend/sql/staff_information/delete_staff.php',
+          method: 'POST',
+          data: { id: id },
+          success: function (response) {
+            if (response.status === 'success') {
+              // รีโหลดหน้าเว็บหลังจากลบสำเร็จ
+              location.reload();
+            } else {
+              alert(response.message);
+            }
+          }
+        });
+      }
+    }
+  </script>
+
 </body>
+
 </html>

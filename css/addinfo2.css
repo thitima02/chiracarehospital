@@ -86,13 +86,8 @@ body {
 }
 
 .btn.back {
-    padding: 5px 25px;
-    background-color: #F0F0F0;
-    border: 2px solid #CECECE;
-    border-radius: 4px;
-    color: #8E8E8E;
-    cursor: pointer;
-    font-size: 16px;
+    background-color: #e0e0e0;
+    color: #333;
 }
 
 .btn.next {

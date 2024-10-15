@@ -6,7 +6,7 @@ $response = []; // ตัวแปรสำหรับเก็บข้อม�
 
 try {
     // คำสั่ง SQL สำหรับดึงข้อมูลผู้ใช้ทั้งหมดจากตาราง user_info
-    $stmt = $conn->prepare("SELECT id, role, username, password, responsibility_area, user_image, full_name, phone_number FROM user_info");
+    $stmt = $conn->prepare("SELECT id, role, username, password, responsibility_area, user_image, full_name, phone_number , department FROM user_info");
     $stmt->execute();
 
     // ดึงข้อมูลทั้งหมด
