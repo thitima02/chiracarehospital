@@ -96,6 +96,7 @@
       const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
         const row = checkbox.closest('tr');
         return {
+          id: row.cells[0].innerText, // แทนที่ด้วย id_patient_information
           full_name: row.cells[1].innerText,
           disease_type: row.cells[2].innerText,
           patient_type: row.cells[3].innerText,
@@ -124,19 +125,59 @@
     });
 
     // ฟังก์ชันยืนยันการมอบหมายงาน
-    document.getElementById('confirm-assign').addEventListener('click', function () {
-      // เพิ่มโค้ดสำหรับมอบหมายงานที่นี่
-      // ...
+    // ฟังก์ชันยืนยันการมอบหมายงาน
+    document.getElementById('confirm-assign').addEventListener('click', async function () {
+      // ดึงข้อมูลผู้ป่วยที่เลือก
+      const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
+        return checkbox.value; // ดึง id_patient_information
+      });
 
-      // ปิดป๊อปอัพและซ่อน overlay
-      document.getElementById('confirmation-popup').style.display = 'none';
-      document.getElementById('overlay').style.display = 'none'; // ซ่อน overlay
-    });
+      // ตรวจสอบว่ามีการเลือกผู้ป่วยหรือไม่
+      if (selectedPatients.length === 0) {
+        alert('กรุณาเลือกผู้ป่วยก่อนมอบหมายงาน');
+        return;
+      }
 
-    // ฟังก์ชันยกเลิกการมอบหมายงาน
-    document.getElementById('cancel-assign').addEventListener('click', function () {
-      document.getElementById('confirmation-popup').style.display = 'none';
-      document.getElementById('overlay').style.display = 'none'; // ซ่อน overlay
+      // Debug: แสดงข้อมูลที่จะส่ง
+      console.log('Data to send:', JSON.stringify({ patientIds: selectedPatients }));
+
+      // อัปเดตสถานะในฐานข้อมูล
+      try {
+        const response = await fetch('http://localhost/chiracarehospital/backend/sql/monitoring/update_patient_status.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            patientIds: selectedPatients // ส่ง patient_id ทั้งหมดที่เลือก
+          })
+        });
+
+        // Debug: แสดงสถานะการตอบสนอง
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok: ' + response.statusText);
+        }
+
+        const responseData = await response.json(); // แปลงข้อมูลตอบกลับเป็น JSON
+        console.log('Response:', responseData); // แสดงผลการตอบสนอง
+
+        // ตรวจสอบสถานะการตอบสนอง
+        if (responseData.status === 'success') {
+          alert(`อัปเดตสถานะสำเร็จ: ${responseData.updated_count} รายการ`);
+        } else {
+          alert(`เกิดข้อผิดพลาด: ${responseData.message}`);
+        }
+
+        // ปิดป๊อปอัพเมื่อสำเร็จ
+        document.getElementById('confirmation-popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+
+      } catch (error) {
+        console.error('Error:', error);
+        alert('เกิดข้อผิดพลาดในการอัปเดตสถานะการติดตาม: ' + error.message);
+      }
     });
   </script>
 
