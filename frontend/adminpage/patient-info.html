@@ -117,6 +117,7 @@
             rows += '<td>' + patient.emergency_phone + '</td>';
             rows += '<td><span class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</span></td>';
 
+
             rows += '<td>';
             rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.id + '\')"><i class="bx bxs-edit"></i></button>';
             rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
@@ -141,7 +142,6 @@
       }
 
 
-      // ฟังก์ชันสำหรับกำหนดสีตามสถานะการรักษา
       function getStatusColor(status) {
         if (status === 'ปกติ') {
           return 'green'; // สถานะสีเขียวสำหรับปกติ
@@ -149,12 +149,10 @@
           return 'red'; // สถานะสีแดงสำหรับเสียชีวิต
         } else if (status === 'ไม่เป็นผู้ป่วยแล้ว') {
           return 'blue'; // สีน้ำเงินสำหรับไม่เป็นผู้ป่วยแล้ว
-          // } else {
-          //     return 'yellow'; 
-          // }
+        } else {
+          return ''; // ค่าเริ่มต้น ถ้าไม่มีสถานะที่ตรงกัน
         }
       }
-
 
     });
 
