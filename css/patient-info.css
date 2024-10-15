@@ -177,19 +177,22 @@ img {
   padding: 5px 10px;
   border-radius: 5px;
   color: white; /* ข้อความในสถานะ */
+  background-color: green;
 }
 
 .status-label.green {
-  background-color: #4CAF50; /* สีเขียวสำหรับปกติ */
+  background-color: green;
 }
 
 .status-label.red {
-  background-color: #f44336; /* สีแดงสำหรับเสียชีวิต */
+  background-color: red;
 }
 
 .status-label.blue {
-  background-color: #2196F3; /* สีน้ำเงินสำหรับไม่เป็นผู้ป่วยแล้ว */
+  background-color: blue;
 }
+
+
 /* 
 .status-label.yellow {
   background-color: #FFEB3B; 
