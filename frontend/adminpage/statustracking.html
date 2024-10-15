@@ -113,8 +113,8 @@
               <td>${patient.patient_group}</td>
               <td>${patient.current_status}</td>
               <td>${patient.monitor_round}</td>
-              <td><span class='status'>${patient.treatment_status}</span></td>
-              <td><span class='status'>${patient.monitor_status}</span></td>
+              <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status}</span></td>
+              <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status}</span></td>
               <td>
                 <button class='action-btn detail-btn' title='แก้ไขข้อมูล'><i class='bx bx-edit'></i></button>
                 <button class='action-btn detail-btn' title='ดูเพิ่มเติม'><i class='bx bx-right-arrow-alt'></i></button>
