@@ -48,6 +48,7 @@
     </div>
 
     <button id="assign-button" style="display: none;">มอบหมายงาน</button>
+    <button id="download-pdf-button" style="display: none;">ดาวน์โหลด PDF</button>
 
     <table class="table patient-table">
       <thead>
@@ -70,6 +71,8 @@
         <!-- ข้อมูลผู้ป่วยจะถูกโหลดจาก fetchPatientData() -->
       </tbody>
     </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
     <script>
       // Status color
@@ -216,6 +219,48 @@
           alert('ไม่สามารถมอบหมายงานได้ กรุณาลองใหม่');
         }
       });
+
+      document.getElementById('download-pdf-button').addEventListener('click', function () {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // สร้างเนื้อหา PDF
+        const patientData = Array.from(document.querySelectorAll('.patient-table tbody tr')).map(row => {
+          const columns = row.querySelectorAll('td');
+          return {
+            fullName: columns[1].innerText,
+            diseaseType: columns[2].innerText,
+            patientType: columns[3].innerText,
+            patientGroup: columns[4].innerText,
+            currentStatus: columns[5].innerText,
+            monitorRound: columns[6].innerText,
+            treatmentStatus: columns[7].innerText,
+            monitorStatus: columns[8].innerText
+          };
+        });
+
+        // เพิ่มข้อมูลลงใน PDF
+        let y = 10; // ตำแหน่งแนวตั้งเริ่มต้น
+        patientData.forEach((patient, index) => {
+          doc.text(`${index + 1}. ${patient.fullName}, โรค: ${patient.diseaseType}, สถานะ: ${patient.monitorStatus}`, 10, y);
+          y += 10; // เปลี่ยนตำแหน่งแนวตั้ง
+        });
+
+        // ดาวน์โหลด PDF
+        doc.save('patient_list.pdf');
+      });
+
+      function updateAssignButtonVisibility() {
+        const selectedPatients = document.querySelectorAll('.patient-checkbox:checked');
+        const assignButton = document.getElementById('assign-button');
+        const downloadPdfButton = document.getElementById('download-pdf-button');
+
+        // แสดงปุ่มเมื่อมีการเลือก
+        assignButton.style.display = selectedPatients.length > 0 ? 'block' : 'none';
+        downloadPdfButton.style.display = selectedPatients.length > 0 ? 'block' : 'none'; // แสดงปุ่มดาวน์โหลด PDF
+      }
+
     </script>
 </body>
+
 </html>
