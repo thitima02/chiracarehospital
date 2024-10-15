@@ -221,6 +221,7 @@
                         const treatmentStatusClass = getStatusClass(patient.treatment_status);
 
                         const row = document.createElement("tr");
+                        const isTreated = patient.treatment_status === "รักษาเสร็จสิ้น";
                         row.innerHTML = `
                     <td>${patient.patient_name}</td>
                     <td>${patient.appointment_date}</td>
@@ -234,9 +235,10 @@
                            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" onclick="window.location.href='test.html?name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'">
                                 <i class='bx bx-file'></i>
                             </button>
-                            <button class="action-btn" title="คลิกเพื่อยืนยัน">
-                                <i class='bx bx-check'></i>
-                            </button>
+                            <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmMakeDone(${patient.id_patient_information})"
+                data-patient-id="${patient.id_patient_information}" ${isTreated ? 'disabled style="opacity: 0.5;"' : ''}>
+                <i class='bx bx-check'></i>
+            </button>
                         </div>
                         <div class="Greenbutton">
                             <button class="green-button" style="display: none;">
@@ -289,6 +291,56 @@
 
     </script>
 
+    <script>
+        function confirmMakeDone(patientId) {
+            // แสดงกล่องยืนยัน
+            const confirmation = confirm("คุณต้องการยืนยันสถานะการรักษาว่า 'รักษาเสร็จสิ้น' หรือไม่?");
+
+            if (confirmation) {
+                // ถ้ายืนยัน ให้ทำการเปลี่ยนสถานะในระบบ
+                updateTreatmentStatus(patientId);
+            } else {
+                console.log("Cancelled");
+            }
+        }
+
+        function updateTreatmentStatus(patientId) {
+            // ส่งข้อมูลผ่าน AJAX ไปยัง PHP เพื่ออัปเดตสถานะ
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost/chiracarehospital/backend/sql/opd/update_treatment_status.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            const params = `patient_id=${patientId}`;
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.status === "success") {
+                        alert(response.message);
+
+                        // อัปเดตสถานะใน UI และล็อคปุ่ม action
+                        const statusSpan = document.querySelector(`span[data-patient-id="${patientId}"]`);
+                        const button = document.querySelector(`button[data-patient-id="${patientId}"]`);
+
+                        if (statusSpan) {
+                            statusSpan.textContent = "รักษาเสร็จสิ้น"; // เปลี่ยนสถานะในตาราง
+                            statusSpan.classList.add("done-status"); // เพิ่มคลาสสำหรับสถานะที่เสร็จแล้ว
+                        }
+
+                        if (button) {
+                            button.disabled = true; // ล็อคปุ่ม
+                            button.style.opacity = 0.5; // เปลี่ยนลักษณะปุ่มให้ดูเหมือนปิดใช้งาน
+                        }
+
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            };
+
+            xhr.send(params);
+        }
+    </script>
 
     <script>
         // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
