@@ -153,9 +153,9 @@
             </div>
 
         </div>
-        <div class="status">
-            <div class="col-12 col-md-6">
-                <div class="card">
+        <div class="status"> 
+            <div class="col-12 col-md-6 mb-2">
+                <div class="card mb-4">
                     <div class="card-body">
                         <h4 class="card-title">อันดับสาเหตุของการขาดนัด</h4>
                         <table class="table">
@@ -167,123 +167,242 @@
                                     <th>เปอร์เซ็นต์</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- Example reason row -->
-                                <tr>
-                                    <td>1</td>
-                                    <td>ผู้ป่วยไม่มาเพราะลืมนัด</td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-blue" style="width: 70%; height: 10px;"></div>
-                                        </div>
-                                    </td>
-                                    <td>70%</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>ผู้ป่วยไม่มาเพราะไม่มีใครพามารักษา</td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-blue" style="width: 50%; height: 10px;"></div>
-                                        </div>
-                                    </td>
-                                    <td>50%</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>ผู้ป่วยไม่มาเพราะเจตนา</td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-blue" style="width: 30%; height: 10px;"></div>
-                                        </div>
-                                    </td>
-                                    <td>30%</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>อื่นๆ</td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-blue" style="width: 5%; height: 10px;"></div>
-                                        </div>
-                                    </td>
-                                    <td>5%</td>
-                                </tr>
+                            <tbody id="reasons-table">
+                                <!-- Dynamic content will be inserted here -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-12 col-md-3 status-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">สถานะการติดตามล่าสุด</h4>
-                        <div class="card-text">
-                            <!-- Example status progress -->
-                            <div class="mb-2">
-                                <h5>ติดตามแล้ว</h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-success progress-followed"
-                                        style="width: 60%; height: 20px;">
-                                        <strong>60%</strong>
-                                    </div>
-                                </div>
-                                <h5>กำลังติดตาม</h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-warning progress-in-progress"
-                                        style="width: 40%; height: 20px;">
-                                        <strong>40%</strong>
-                                    </div>
-                                </div>
-                                <h5>ยังไม่ได้ติดตาม</h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-danger progress-not-followed"
-                                        style="width: 20%; height: 20px;">
-                                        <strong>20%</strong>
-                                    </div>
-                                </div>
+        <div class="col-12 col-md-3 status-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">สถานะการติดตามล่าสุด</h4>
+                    <div class="card-text">
+                        <div id="status-container" class="mb-2">
+                            <div class="status-bar">
+                                <div class="status-label">ติดตามแล้ว</div>
+                                <div class="progress-bar" id="followed-bar"><span>0%</span></div>
                             </div>
-                            <div class="patient-count">150 คน</div>
-                            <div class="follow-up-dates">19 - 25 กุมภาพันธ์ 2567</div>
+                            <div class="status-bar">
+                                <div class="status-label">กำลังติดตาม</div>
+                                <div class="progress-bar" id="following-bar"><span>0%</span></div>
+                            </div>
+                            <div class="status-bar">
+                                <div class="status-label">ยังไม่ได้ติดตาม</div>
+                                <div class="progress-bar" id="not-followed-bar"><span>0%</span></div>
+                            </div>
                         </div>
+                        <div class="patient-count"></div>
+                        <div class="follow-up-dates"></div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
-            <div class="col-12 col-md-3 treatment-status-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">สถานะการรักษาล่าสุด</h4>
-                        <div class="card-text">
-                            <!-- Example treatment status progress -->
-                            <div class="mb-2">
-                                <h5>รักษาสำเร็จ</h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-success treatment-success"
-                                        style="width: 40%; height: 20px;">
-                                        <strong>40%</strong>
-                                    </div>
-                                </div>
-                                <h5>รักษาไม่สำเร็จ</h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-danger treatment-fail"
-                                        style="width: 40%; height: 20px;">
-                                        <strong>40%</strong>
-                                    </div>
+        <div class="col-12 col-md-3 treatment-status-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">สถานะการรักษาล่าสุด</h4>
+                    <div class="card-text">
+                        <!-- Progress Bars for Treatment Status -->
+                        <div class="mb-2">
+                            <h5>รักษาเสร็จสิ้น</h5>
+                            <div class="progress">
+                                <div class="progress-bar bg-success treatment-success"
+                                    style="width: 0%; height: 20px;">
+                                    <strong>0%</strong>
                                 </div>
                             </div>
-                            <div class="patient-count">60 คน</div>
-                            <div class="treatment-dates">19 - 25 กุมภาพันธ์ 2567</div>
+                            <h5>ยังไม่ได้รักษา</h5>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger treatment-fail"
+                                    style="width: 0%; height: 20px;">
+                                    <strong>0%</strong>
+                                </div>
+                            </div>
+                            <h5>นัดติดตามต่อเนื่อง</h5>
+                            <div class="progress">
+                                <div class="progress-bar bg-info treatment-follow-up"
+                                    style="width: 0%; height: 20px;">
+                                    <strong>0%</strong>
+                                </div>
+                            </div>
                         </div>
+                        <div class="patient-count"></div>
+                        <div class="follow-up-dates"></div>
                     </div>
                 </div>
             </div>
-
+        </div>
+        
+        
+        
         </div>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_form.php') 
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        const reasons = data.data;
+                        let totalCount = reasons.reduce((sum, reason) => sum + parseInt(reason.reason_count), 0);
+                        
+                        if (totalCount === 0) {
+                            document.getElementById('reasons-table').innerHTML = '<tr><td colspan="4">No data available.</td></tr>';
+                            return;
+                        }
+                        
+                        let tbody = '';
+        
+                        reasons.forEach((reason, index) => {
+                            const percentage = ((reason.reason_count / totalCount) * 100).toFixed(2);
+                            tbody += `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${reason.reason_for_missed_treatment}</td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar" role="progressbar" style="width: ${percentage}%" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">${reason.reason_count}</div>
+                                        </div>
+                                    </td>
+                                    <td>${percentage} %</td>
+                                </tr>
+                            `;
+                        });
+        
+                        document.getElementById('reasons-table').innerHTML = tbody;
+                    } else {
+                        document.getElementById('reasons-table').innerHTML = '<tr><td colspan="4">No data found.</td></tr>';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('reasons-table').innerHTML = '<tr><td colspan="4">Error loading data.</td></tr>';
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        });
+        </script>
+
+<script>
+    // ฟังก์ชันดึงข้อมูลจาก API และอัปเดต UI
+    function fetchStatusData() {
+    fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php')  // แก้ไขลิงก์เป็น API PHP ของคุณ
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                console.log(data.message);  // ถ้าไม่มีข้อมูล
+            } else {
+                // นับจำนวนผู้ป่วยทั้งหมด
+                let totalPatients = 0;
+                let followed = 0, following = 0, notFollowed = 0;
+                let lastUpdateDate = ''; // ตัวแปรเก็บ last_update ล่าสุด
+
+                // นับจำนวนแต่ละสถานะและเก็บค่าของ last_update
+                data.forEach(item => {
+                    totalPatients += parseInt(item.status_count);
+                    if (item.monitor_status === 'ติดตามแล้ว') {
+                        followed = item.status_count;
+                    } else if (item.monitor_status === 'กำลังติดตาม') {
+                        following = item.status_count;
+                    } else if (item.monitor_status === 'ยังไม่ได้ติดตาม') {
+                        notFollowed = item.status_count;
+                    }
+                    // เก็บค่า last_update (คุณสามารถใช้เงื่อนไขเพื่อเลือก last_update ล่าสุด)
+                    if (item.last_update) {
+                        lastUpdateDate = item.last_update;  // เก็บ last_update
+                    }
+                });
+
+                // คำนวณเปอร์เซ็นต์ของแต่ละสถานะ
+                const followedPercent = ((followed / totalPatients) * 100).toFixed(1);
+                const followingPercent = ((following / totalPatients) * 100).toFixed(1);
+                const notFollowedPercent = ((notFollowed / totalPatients) * 100).toFixed(1);
+
+                // อัปเดตแถบสถานะ
+                document.getElementById('followed-bar').innerHTML = `<span>${followedPercent}%</span>`;
+                document.getElementById('followed-bar').style.width = followedPercent + '%';
+
+                document.getElementById('following-bar').innerHTML = `<span>${followingPercent}%</span>`;
+                document.getElementById('following-bar').style.width = followingPercent + '%';
+
+                document.getElementById('not-followed-bar').innerHTML = `<span>${notFollowedPercent}%</span>`;
+                document.getElementById('not-followed-bar').style.width = notFollowedPercent + '%';
+
+                // อัปเดตจำนวนผู้ป่วย
+                document.querySelector('.patient-count').innerText = `${totalPatients} คน`;
+
+                // แปลง last_update เป็นวันที่ไทย (วัน-เดือน-ปี)
+                if (lastUpdateDate) {
+                    const date = new Date(lastUpdateDate); // แปลงเป็น Date object
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    const formattedDate = date.toLocaleDateString('th-TH', options); // แปลงเป็นวันที่ไทย
+                    document.querySelector('.follow-up-dates').innerText = formattedDate;
+                }
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// เรียกฟังก์ชันเมื่อโหลดหน้าเสร็จ
+document.addEventListener('DOMContentLoaded', fetchStatusData);
+    </script>
+
+<script>
+    // Fetch treatment data from the PHP script
+    fetch('http://localhost/chiracarehospital/backend/sql/get_treatment_information.php')
+        .then(response => response.json())
+        .then(data => {
+            const totalTreatments = data.total_treatments;
+            const treatmentData = data.treatment_data;
+
+            // Initialize status counts
+            let completedCount = 0;
+            let notStartedCount = 0;
+            let followUpCount = 0;
+
+            // Map status codes or descriptions to variables
+            treatmentData.forEach(item => {
+                if (item.treatment_status === 'รักษาเสร็จสิ้น') {
+                    completedCount = item.status_count;
+                } else if (item.treatment_status === 'ยังไม่ได้รักษา') {
+                    notStartedCount = item.status_count;
+                } else if (item.treatment_status === 'นัดติดตามต่อเนื่อง') {
+                    followUpCount = item.status_count;
+                }
+            });
+
+            // Calculate percentages
+            const completedPercentage = (completedCount / totalTreatments) * 100;
+            const notStartedPercentage = (notStartedCount / totalTreatments) * 100;
+            const followUpPercentage = (followUpCount / totalTreatments) * 100;
+
+            // Update progress bars and text
+            document.querySelector('.treatment-success').style.width = `${completedPercentage}%`;
+            document.querySelector('.treatment-success strong').innerText = `${completedPercentage.toFixed(2)}%`;
+
+            document.querySelector('.treatment-fail').style.width = `${notStartedPercentage}%`;
+            document.querySelector('.treatment-fail strong').innerText = `${notStartedPercentage.toFixed(2)}%`;
+
+            document.querySelector('.treatment-follow-up').style.width = `${followUpPercentage}%`;
+            document.querySelector('.treatment-follow-up strong').innerText = `${followUpPercentage.toFixed(2)}%`;
+
+            // Display total patient count
+            document.querySelector('.patient-count').innerText = `Total Patients: ${totalTreatments}`;
+        })
+        .catch(error => console.error('Error fetching treatment data:', error));
+</script>
+
 
     <!-- Include scripts for Bootstrap, Chart.js, and other libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
