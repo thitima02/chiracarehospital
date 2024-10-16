@@ -48,14 +48,6 @@
     border-bottom: 2px solid #f4f4f4;
   }
 
-  .patient-table img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 10px;
-    vertical-align: middle;
-  }
-
   .status {
     display: inline-block;
     padding: 5px 10px;
@@ -115,3 +107,23 @@
     background-color: #5D97EF;
     color: #F4F4F4;
   } 
+
+  /* การตอบสนองของตาราง */
+  @media (max-width: 768px) {
+    .filter-bar {
+      flex-direction: column;
+    }
+  
+    .patient-table th, .patient-table td {
+      font-size: 12px;
+    }
+  
+    .search-box, .filter {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .edit-btn, .detail-btn {
+      font-size: 10px;
+    }
+  }
