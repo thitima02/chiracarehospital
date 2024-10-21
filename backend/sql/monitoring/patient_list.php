@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 }
 
 // SQL query ดึงข้อมูลจากหลายตาราง
-$sql = "SELECT pi.full_name, pi.current_status, 
+$sql = "SELECT pi.patient_id, pi.full_name, pi.current_status, 
                pm.disease_type, pm.patient_type, pm.patient_group,
                mi.monitor_round, mi.monitor_status,
                ti.treatment_status
