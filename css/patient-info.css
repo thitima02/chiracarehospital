@@ -1,18 +1,18 @@
-
 .search-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-.search-bar input, .search-bar select {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    width: 100%;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-<<<<<<< HEAD
-.search-bar .add-icon{
+.search-bar input,
+.search-bar select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+
+.search-bar .add-icon {
   background-color: #007bff;
   color: white;
   border: none;
@@ -22,56 +22,66 @@
 }
 
 .add-icon a i {
-  color: white; /* เปลี่ยนสีไอคอนเป็นสีขาว */
+  color: white;
+  /* เปลี่ยนสีไอคอนเป็นสีขาว */
   font-size: 20px;
 }
 
 .table-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
-table th, table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+
+table th,
+table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
+
 table th {
-    background-color: #f1f3f6;
+  background-color: #f1f3f6;
 }
+
 .table-actions button {
-    background-color: #ff5e5e;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-right: 5px;
+  background-color: #ff5e5e;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 5px;
 }
 
 @media screen and (max-width: 768px) {
-    .search-bar input, .search-bar select {
-        width: calc(50% - 10px); /* Adjust width on smaller screens */
-    }
 
-    .search-bar button {
-        width: 100%; /* Full width button for smaller screens */
-    }
-}
-.patientinfo-container{
-    width: 93.5%;
-    margin: auto;
-    padding: 20px;
-    margin-left: 89px;
+  .search-bar input,
+  .search-bar select {
+    width: calc(50% - 10px);
+    /* Adjust width on smaller screens */
+  }
+
+  .search-bar button {
+    width: 100%;
+    /* Full width button for smaller screens */
+  }
 }
 
-<<<<<<< HEAD
+.patientinfo-container {
+  width: 93.5%;
+  margin: auto;
+  padding: 20px;
+  margin-left: 89px;
+}
+
 .patienttable {
   width: 100%;
   border-collapse: collapse;
@@ -80,7 +90,8 @@ table th {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.patienttable th, .patienttable td {
+.patienttable th,
+.patienttable td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #eee;
@@ -104,55 +115,58 @@ img {
   vertical-align: middle;
 }
 
-  .edit-btn, .detail-btn {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .edit-btn {
-    background-color: #6c757d;
-    color: white;
-    margin-right: 5px;
-  }
-  
-  .edit-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .detail-btn {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  .detail-btn:hover {
-    background-color: #5a6268;
+.edit-btn,
+.detail-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn {
+  background-color: #6c757d;
+  color: white;
+  margin-right: 5px;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.detail-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.detail-btn:hover {
+  background-color: #5a6268;
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
   }
 
-  @media (max-width: 768px) {
-    .filter-bar {
-      flex-direction: column;
-    }
-  
-    .patient-table th, .patient-table td {
-      font-size: 12px;
-    }
-  
-    .search-box, .filter {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  
-    .edit-btn, .detail-btn {
-      font-size: 10px;
-    }
+  .patient-table th,
+  .patient-table td {
+    font-size: 12px;
   }
+
+  .search-box,
+  .filter {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .edit-btn,
+  .detail-btn {
+    font-size: 10px;
+  }
+}
 
 .action-btn {
-<<<<<<< HEAD
   position: relative;
   color: #1d1b31;
   border: none;
@@ -163,6 +177,7 @@ img {
   background-color: rgb(241, 241, 241);
   margin-left: 15px;
 }
+
 /* .status-label {
   padding: 5px 10px;
   border-radius: 20px;
@@ -179,7 +194,8 @@ img {
 .status-label {
   padding: 5px 10px;
   border-radius: 5px;
-  color: white; /* ข้อความในสถานะ */
+  color: white;
+  /* ข้อความในสถานะ */
   background-color: green;
 }
 
