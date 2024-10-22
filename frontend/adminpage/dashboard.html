@@ -212,22 +212,19 @@
                         <div class="mb-2">
                             <h5>รักษาเสร็จสิ้น</h5>
                             <div class="progress">
-                                <div class="progress-bar bg-success treatment-success"
-                                    style="width: 0%; height: 20px;">
+                                <div class="progress-bar bg-success treatment-success" style="width: 0%; height: 20px;">
                                     <strong>0%</strong>
                                 </div>
                             </div>
                             <h5>ยังไม่ได้รักษา</h5>
                             <div class="progress">
-                                <div class="progress-bar bg-danger treatment-fail"
-                                    style="width: 0%; height: 20px;">
+                                <div class="progress-bar bg-danger treatment-fail" style="width: 0%; height: 20px;">
                                     <strong>0%</strong>
                                 </div>
                             </div>
                             <h5>นัดติดตามต่อเนื่อง</h5>
                             <div class="progress">
-                                <div class="progress-bar bg-info treatment-follow-up"
-                                    style="width: 0%; height: 20px;">
+                                <div class="progress-bar bg-info treatment-follow-up" style="width: 0%; height: 20px;">
                                     <strong>0%</strong>
                                 </div>
                             </div>
@@ -238,14 +235,10 @@
                 </div>
             </div>
         </div>
-        
-        
-        
         </div>
-
     </div>
-
     <script>
+        // อันดับสาเหตุของการขาดนัด
         document.addEventListener('DOMContentLoaded', () => {
             fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_form.php') 
                 .then(response => {
@@ -295,7 +288,7 @@
         </script>
 
 <script>
-    // ฟังก์ชันดึงข้อมูลจาก API และอัปเดต UI
+    // สถานะการติดตามล่าสุด
     function fetchStatusData() {
     fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php')  // แก้ไขลิงก์เป็น API PHP ของคุณ
         .then(response => response.json())
@@ -358,52 +351,51 @@
 document.addEventListener('DOMContentLoaded', fetchStatusData);
     </script>
 
+
 <script>
-    // Fetch treatment data from the PHP script
+    // Fetch treatment status data from the server
     fetch('http://localhost/chiracarehospital/backend/sql/get_treatment_information.php')
         .then(response => response.json())
         .then(data => {
-            const totalTreatments = data.total_treatments;
-            const treatmentData = data.treatment_data;
-
-            // Initialize status counts
-            let completedCount = 0;
-            let notStartedCount = 0;
+            // Assume data is an array of treatment statuses
+            let totalPatients = 0;
+            let successCount = 0;
+            let failCount = 0;
             let followUpCount = 0;
-
-            // Map status codes or descriptions to variables
-            treatmentData.forEach(item => {
+    
+            // Calculate total and individual status counts
+            data.forEach(item => {
+                totalPatients += parseInt(item.status_count);
                 if (item.treatment_status === 'รักษาเสร็จสิ้น') {
-                    completedCount = item.status_count;
+                    successCount = parseInt(item.status_count);
                 } else if (item.treatment_status === 'ยังไม่ได้รักษา') {
-                    notStartedCount = item.status_count;
+                    failCount = parseInt(item.status_count);
                 } else if (item.treatment_status === 'นัดติดตามต่อเนื่อง') {
-                    followUpCount = item.status_count;
+                    followUpCount = parseInt(item.status_count);
                 }
             });
-
+    
             // Calculate percentages
-            const completedPercentage = (completedCount / totalTreatments) * 100;
-            const notStartedPercentage = (notStartedCount / totalTreatments) * 100;
-            const followUpPercentage = (followUpCount / totalTreatments) * 100;
-
-            // Update progress bars and text
-            document.querySelector('.treatment-success').style.width = `${completedPercentage}%`;
-            document.querySelector('.treatment-success strong').innerText = `${completedPercentage.toFixed(2)}%`;
-
-            document.querySelector('.treatment-fail').style.width = `${notStartedPercentage}%`;
-            document.querySelector('.treatment-fail strong').innerText = `${notStartedPercentage.toFixed(2)}%`;
-
-            document.querySelector('.treatment-follow-up').style.width = `${followUpPercentage}%`;
-            document.querySelector('.treatment-follow-up strong').innerText = `${followUpPercentage.toFixed(2)}%`;
-
-            // Display total patient count
-            document.querySelector('.patient-count').innerText = `Total Patients: ${totalTreatments}`;
+            const successPercent = totalPatients ? (successCount / totalPatients) * 100 : 0;
+            const failPercent = totalPatients ? (failCount / totalPatients) * 100 : 0;
+            const followUpPercent = totalPatients ? (followUpCount / totalPatients) * 100 : 0;
+            
+    
+            // Update the progress bars
+            document.querySelector('.treatment-success').style.width = successPercent + '%';
+            document.querySelector('.treatment-success strong').innerText = Math.round(successPercent) + '%';
+    
+            document.querySelector('.treatment-fail').style.width = failPercent + '%';
+            document.querySelector('.treatment-fail strong').innerText = Math.round(failPercent) + '%';
+    
+            document.querySelector('.treatment-follow-up').style.width = followUpPercent + '%';
+            document.querySelector('.treatment-follow-up strong').innerText = Math.round(followUpPercent) + '%';
+    
+            // Update patient count
+            document.querySelector('.patient-count').innerText = `Total Patients: ${totalPatients}`;
         })
         .catch(error => console.error('Error fetching treatment data:', error));
-</script>
-
-
+    </script>
     <!-- Include scripts for Bootstrap, Chart.js, and other libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -417,9 +409,9 @@ document.addEventListener('DOMContentLoaded', fetchStatusData);
                 const years = Object.keys(data); // Get the years from the data
                 const labels = years; // Use years as labels
                 const datasets = [
-                    { label: 'Total Patients (ประชาชน)', data: [], backgroundColor: 'rgba(0, 255, 255, 0.5)' },
-                    { label: 'Total Patients (ครอบครัว)', data: [], backgroundColor: 'rgba(0, 0, 255, 0.5)' },
-                    { label: 'Total Patients (กำลังพล)', data: [], backgroundColor: 'rgba(255, 165, 0, 0.5)' }
+                    { label: 'ประชาชน', data: [], backgroundColor: 'rgba(0, 255, 255, 0.5)' },
+                    { label: 'ครอบครัว', data: [], backgroundColor: 'rgba(0, 0, 255, 0.5)' },
+                    { label: 'กำลังพล', data: [], backgroundColor: 'rgba(255, 165, 0, 0.5)' }
                 ];
     
                 // Iterate over the years to fill in the datasets
@@ -427,9 +419,9 @@ document.addEventListener('DOMContentLoaded', fetchStatusData);
                     const yearlyData = data[year];
     
                     // Fill the datasets with total patient counts
-                    datasets[0].data.push(yearlyData.group_totals_patient['ประชาชน'] || 0); // Total Patients (ประชาชน)
-                    datasets[1].data.push(yearlyData.group_totals_patient['ครอบครัว'] || 0); // Total Patients (ครอบครัว)
-                    datasets[2].data.push(yearlyData.group_totals_patient['กำลังพล'] || 0); // Total Patients (กำลังพล)
+                    datasets[0].data.push(yearlyData.group_totals_patient['ประชาชน'] || 0); // ประชาชน
+                    datasets[1].data.push(yearlyData.group_totals_patient['ครอบครัว'] || 0); // ครอบครัว
+                    datasets[2].data.push(yearlyData.group_totals_patient['กำลังพล'] || 0); // กำลังพล
                 });
     
                 // Create the chart
