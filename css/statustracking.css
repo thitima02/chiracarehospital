@@ -361,3 +361,10 @@ button[type="No"]:hover {
   background-color: #b40000;
 }
 
+input[type="checkbox"]{
+  display: inline-block;
+  width: 18px; /* ปรับขนาดตามต้องการ */
+  height: 18px; /* ปรับขนาดตามต้องการ */
+}
+
+
