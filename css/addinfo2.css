@@ -95,18 +95,3 @@ body {
     color: white;
 }
 
-button[type="back"] {
-    padding: 5px 25px;
-    background-color: #F0F0F0;
-    border: 2px solid #CECECE;
-    border-radius: 4px;
-    color: #8E8E8E;
-    cursor: pointer;
-    font-size: 16px;
-    /* font-weight: bold; */
-}
-
-button[type="back"]:hover {
-    background-color: #cecece;
-}
-

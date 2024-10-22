@@ -1,0 +1,78 @@
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-radius: 8px;
+    margin-left: 90px;
+
+   
+}
+
+.filter-item {
+    flex: 1;
+    margin-right: 10px;
+    position: relative; /* Needed to position the icon inside the input */
+
+    @media (max-width: 600px) {
+        display: flex;
+        flex-wrap: wrap;
+      }
+}
+
+.filter-item:last-child {
+    margin-right: 0;
+}
+
+.search-bar .search-input {
+    padding-left: 40px; /* Add padding to leave space for the icon */
+}
+
+.search-input {
+    width: 95%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #E8F1FF;
+}
+
+.date-filter,
+.dropdown-filter {
+    width: 95%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #333;
+}
+
+.dropdown-filter {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('data:image/svg+xml;base64,<svg ... >') no-repeat right center;
+    background-size: 12px 12px;
+    background-color: #fff;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 67%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #5D97EF;
+}
+
+/* Dropdown icon */
+.dropdown-icon {
+    position: absolute;
+    right: 30px;
+    top: 67%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #5D97EF;
+    pointer-events: none; /* Prevent clicking the icon */
+  }

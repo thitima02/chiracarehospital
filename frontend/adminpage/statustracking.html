@@ -387,6 +387,43 @@
       });
   </script>
 
+<<<<<<< HEAD
+=======
+      closeBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        menuBtnChange();
+      });
+      function menuBtnChange() {
+        if (sidebar.classList.contains("open")) {
+          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+        } else {
+          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+        }
+      }
+    }
+    document.getElementById('add-button').addEventListener('click', function () {
+        window.location.href = 'edittracking.html';
+      });
+      document.getElementById('add-buttona1').addEventListener('click', function () {
+        window.location.href = 'moreinfo.html';
+      });
+
+      document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          // เปลี่ยนเส้นทางไปที่หน้า edittracking.html
+          window.location.href = 'edittracking.html';
+        });
+      });
+      document.querySelectorAll('.detail-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const patientRow = this.closest('tr');
+          const patientId = patientRow.getAttribute('data-id');
+          // เปลี่ยนเส้นทางไปยังหน้า moreinfo.html พร้อมส่ง id ผู้ป่วย
+          window.location.href = `moreinfo.html?id=${patientId}`;
+        });
+      });
+    </script>
+>>>>>>> 5fb23b13028dad19b99bb00e163c4d44b3e3b8f0
 </body>
 
 </html>

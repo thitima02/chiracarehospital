@@ -23,6 +23,7 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
+<<<<<<< HEAD
   <div class="patientinfo-container">
     <div class="search-bar">
       <input type="search" placeholder="ค้นหาชื่อ">
@@ -39,6 +40,67 @@
           <i class='bx bx-user-plus'></i>
         </a>
       </button>
+=======
+    <div class="patientinfo-container">
+        <div class="search-bar">
+            <input type="search" placeholder="ค้นหาชื่อ...">
+            <input type="search" placeholder="เบอร์โทรศัพท์...">
+            <input type="search" placeholder="เลขบัตรประชาชน...">
+            <input type="search" placeholder="เบอร์โทรศัพท์ญาติ...">
+            <select>
+                <option>สถานะผู้ป่วย</option>
+                <option>นัดติดตามต่อเนื่อง</option>
+                <option>รักษาเสร็จสิ้น</option>
+            </select>
+            <button class="add-icon">
+              <a href="addinfo.html">
+                <i class='bx bx-user-plus'></i>
+              </a>
+            </button>
+        </div>
+
+        <table class="patient-table">
+          <thead>
+            <tr>
+              <th>ชื่อ - นามสกุล</th>
+              <th>วันเกิด</th>
+              <th>เลขบัตรประชาชน</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>เบอร์โทรศัพท์ญาติ</th>
+              <th>สถานะการรักษา</th>
+              <th>จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
+              <td>18-06-1999</td>
+              <td>1234567890123</td>
+              <td>0987456123</td>
+              <td>0897321456</td>
+              <td><span class="status-label red">นัดติดตามต่อเนื่อง</span></td>
+              <td>
+                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
+                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
+                <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
+              <td>18-06-1999</td>
+              <td>1234567890123</td>
+              <td>0987456123</td>
+              <td>0897321456</td>
+              <td><span class="status-label green">รักษาเสร็จสิ้น</span></td>
+              <td>
+                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
+                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
+                <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+>>>>>>> 5fb23b13028dad19b99bb00e163c4d44b3e3b8f0
     </div>
 
     <table class="patienttable">
@@ -93,6 +155,7 @@
         }
       }
     }
+<<<<<<< HEAD
     document.getElementById('add-button').addEventListener('click', function () {
       window.location.href = 'editaddinfo.html';
     });
@@ -171,6 +234,9 @@
     }
 
   </script>
+=======
+    </script>
+>>>>>>> 5fb23b13028dad19b99bb00e163c4d44b3e3b8f0
 </body>
 
 </html>
