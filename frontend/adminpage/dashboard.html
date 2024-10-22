@@ -222,13 +222,6 @@
                                     <strong>0%</strong>
                                 </div>
                             </div>
-                            <h5>นัดติดตามต่อเนื่อง</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-info treatment-follow-up" style="width: 0%; height: 20px;">
-                                    <strong>0%</strong>
-                                </div>
-                            </div>
-                        </div>
                         <div class="patient-count"></div>
                         <div class="follow-up-dates"></div>
                     </div>
@@ -353,7 +346,7 @@ document.addEventListener('DOMContentLoaded', fetchStatusData);
 
 
 <script>
-    // Fetch treatment status data from the server
+    // สถานะการรักษาล่าสุด
     fetch('http://localhost/chiracarehospital/backend/sql/get_treatment_information.php')
         .then(response => response.json())
         .then(data => {
@@ -392,7 +385,7 @@ document.addEventListener('DOMContentLoaded', fetchStatusData);
             document.querySelector('.treatment-follow-up strong').innerText = Math.round(followUpPercent) + '%';
     
             // Update patient count
-            document.querySelector('.patient-count').innerText = `Total Patients: ${totalPatients}`;
+            document.querySelector('.patient-count').innerText = `${totalPatients} คน`;
         })
         .catch(error => console.error('Error fetching treatment data:', error));
     </script>
