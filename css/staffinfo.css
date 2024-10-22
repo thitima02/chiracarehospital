@@ -13,14 +13,20 @@
 .search-bar input[type="search"] {
     width: calc(100% - 50px);
 }
-.search-bar button {
-    background-color: #008cba;
+.search-bar .add-icon{
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 10px;
     border-radius: 8px;
     cursor: pointer;
-}
+  }
+  
+  .add-icon a i {
+    color: white; /* เปลี่ยนสีไอคอนเป็นสีขาว */
+    font-size: 20px;
+  }
+  
 .table-container {
     background-color: white;
     padding: 20px;
@@ -60,4 +66,12 @@ table th {
     margin: auto;
     padding: 20px;
     margin-left: 89px;
+}
+
+.patient-table img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
 }

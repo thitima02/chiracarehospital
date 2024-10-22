@@ -1,89 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Information</title> 
-    <link rel="stylesheet" href="../../css/patient-info.css">
-    <link rel="stylesheet" href="../../styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Information</title>
+  <link rel="stylesheet" href="../../css/patient-info.css">
+  <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
 </head>
+
 <body style="background-color:#edeff1;">
-    <!-- Sidebar will be loaded here -->
+  <!-- Sidebar will be loaded here -->
   <div id="sidebar-container"></div>
 
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-    <div class="patientinfo-container">
-        <div class="search-bar">
-            <input type="search" placeholder="ค้นหาชื่อ...">
-            <input type="search" placeholder="เบอร์โทรศัพท์...">
-            <input type="search" placeholder="เลขบัตรประชาชน...">
-            <input type="search" placeholder="เบอร์โทรศัพท์ญาติ...">
-            <select>
-                <option>สถานะผู้ป่วย</option>
-                <option>นัดติดตามต่อเนื่อง</option>
-                <option>รักษาเสร็จสิ้น</option>
-            </select>
-            <button class="add-icon">
-              <a href="addinfo.html">
-                <i class='bx bx-user-plus'></i>
-              </a>
-            </button>
-        </div>
-
-        <table class="patient-table">
-          <thead>
-            <tr>
-              <th>ชื่อ - นามสกุล</th>
-              <th>วันเกิด</th>
-              <th>เลขบัตรประชาชน</th>
-              <th>เบอร์โทรศัพท์</th>
-              <th>เบอร์โทรศัพท์ญาติ</th>
-              <th>สถานะการรักษา</th>
-              <th>จัดการ</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
-              <td>18-06-1999</td>
-              <td>1234567890123</td>
-              <td>0987456123</td>
-              <td>0897321456</td>
-              <td><span class="status-label red">นัดติดตามต่อเนื่อง</span></td>
-              <td>
-                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
-                <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
-              <td>18-06-1999</td>
-              <td>1234567890123</td>
-              <td>0987456123</td>
-              <td>0897321456</td>
-              <td><span class="status-label green">รักษาเสร็จสิ้น</span></td>
-              <td>
-                <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-                <button class="action-btn" title="ลบข้อมูล" id="add-button2"><i class='bx bx-trash'></i></button>
-                <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
-              </td>
-            </tr>
-          </tbody>
-      </table>
+  <div class="patientinfo-container">
+    <div class="search-bar">
+      <input type="search" placeholder="ค้นหาชื่อ">
+      <input type="search" placeholder="เบอร์โทรศัพท์">
+      <input type="search" placeholder="เลขบัตรประชาชน">
+      <input type="search" placeholder="เบอร์โทรศัพท์ญาติ...">
+      <select>
+        <option>สถานะผู้ป่วย</option>
+        <option>นัดติดตามต่อเนื่อง</option>
+        <option>รักษาเสร็จสิ้น</option>
+      </select>
+      <button class="add-icon">
+        <a href="addinfo.html">
+          <i class='bx bx-user-plus'></i>
+        </a>
+      </button>
     </div>
 
-    <script>
-         // Load sidebar
+    <table class="patienttable">
+      <thead>
+        <tr>
+          <th>ชื่อ - นามสกุล</th>
+          <th>วันเกิด</th>
+          <th>เลขบัตรประชาชน</th>
+          <th>เบอร์โทรศัพท์</th>
+          <th>เบอร์โทรศัพท์ญาติ</th>
+          <th>สถานะการรักษา</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+
+      <tbody id="patient-info-body">
+        <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Load sidebar
     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
@@ -99,7 +77,7 @@
         document.getElementById('page-title').textContent = 'จัดการข้อมูลผู้ป่วย'; // Set page title for the history page
       });
 
-      function loadSidebarScript() {
+    function loadSidebarScript() {
       let sidebar = document.querySelector(".sidebar");
       let closeBtn = document.querySelector("#btn");
 
@@ -115,6 +93,84 @@
         }
       }
     }
-    </script>
+    document.getElementById('add-button').addEventListener('click', function () {
+      window.location.href = 'editaddinfo.html';
+    });
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
+      $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+        if (response.status === 'success') {
+          var patients = response.data;
+          var rows = '';
+
+          // วนลูปข้อมูลผู้ป่วยเพื่อแสดงในตาราง
+          patients.forEach(function (patient) {
+            rows += '<tr>';
+            rows += '<td><img src="../../assets/images/cat.jpg" alt="avatar"> ' + patient.full_name + '</td>';
+            rows += '<td>' + formatDate(patient.birth_date) + '</td>';
+            rows += '<td>' + patient.id_card + '</td>';
+            rows += '<td>' + patient.phone_number + '</td>';
+            rows += '<td>' + patient.emergency_phone + '</td>';
+            rows += '<td><span class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</span></td>';
+
+
+            rows += '<td>';
+            rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.id + '\')"><i class="bx bxs-edit"></i></button>';
+            rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
+            rows += '</td>';
+            rows += '</tr>';
+          });
+
+          // แทรกข้อมูลในตาราง
+          $('#patient-info-body').html(rows);
+        } else {
+          alert(response.message);
+        }
+      });
+
+      // ฟังก์ชันสำหรับฟอร์แมตวันเกิด
+      function formatDate(dateStr) {
+        var date = new Date(dateStr);
+        var day = String(date.getDate()).padStart(2, '0');
+        var month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0
+        var year = date.getFullYear();
+        return day + '-' + month + '-' + year;
+      }
+
+
+      function getStatusColor(status) {
+        if (status === 'ปกติ') {
+          return 'green'; // สถานะสีเขียวสำหรับปกติ
+        } else if (status === 'เสียชีวิต') {
+          return 'red'; // สถานะสีแดงสำหรับเสียชีวิต
+        } else if (status === 'ไม่เป็นผู้ป่วยแล้ว') {
+          return 'blue'; // สีน้ำเงินสำหรับไม่เป็นผู้ป่วยแล้ว
+        } else {
+          return ''; // ค่าเริ่มต้น ถ้าไม่มีสถานะที่ตรงกัน
+        }
+      }
+
+    });
+
+    // ฟังก์ชันแก้ไขข้อมูลผู้ป่วย
+    function editPatient(patientId) {
+      alert('แก้ไขข้อมูลผู้ป่วย ID: ' + patientId);
+      // ใส่ logic การแก้ไขที่นี่
+    }
+
+    // ฟังก์ชันลบข้อมูลผู้ป่วย
+    function deletePatient(patientId) {
+      if (confirm('คุณต้องการลบผู้ป่วย ID: ' + patientId + ' ใช่หรือไม่?')) {
+        // ใส่ logic การลบที่นี่
+        alert('ลบข้อมูลผู้ป่วยเรียบร้อย');
+      }
+    }
+
+  </script>
 </body>
+
 </html>

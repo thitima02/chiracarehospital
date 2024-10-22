@@ -1,161 +1,392 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>โรงพยาบาลค่ายจิรประวัติ</title> 
-    <link rel="stylesheet" href="../../css/statustracking.css">
-    <link rel="stylesheet" href="../../styles.css">
-    <link rel="stylesheet" href="../../css/sidebar.css">
-    <link rel="stylesheet" href="../../css/topbar.css">
-    <link rel="stylesheet" href="../../css/logo.css">
-    <!-- Import icon -->
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>โรงพยาบาลค่ายจิรประวัติ</title>
+  <link rel="stylesheet" href="../../css/statustracking.css">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/sidebar.css">
+  <link rel="stylesheet" href="../../css/topbar.css">
+  <link rel="stylesheet" href="../../css/logo.css">
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../method/logout.js"></script>
+  <script src="../method/user.js"></script>
+  <script src="../method/loadSidebarScript.js"></script>
+  <script src="../method/checkAuth.js"></script>
 </head>
+
 <body style="background-color:#edeff1;">
-  <!-- Sidebar will be loaded here -->
   <div id="sidebar-container"></div>
-
-  <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
-  
-  <div class="statustracking-container">
 
+  <div class="statustracking-container">
     <div class="filter-bar">
-        <input type="text" class="search-box" placeholder="ค้นหา...">
-        <select class="filter">
-          <option>ประเภทโรค</option>
-          <option>ความดันโลหิตสูง</option>
-          <option>โรคอ้วน</option>
-          <option>ไขมันในเลือดสูง</option>
-          <option>โรคเบาหวาน</option>
-          <option>CVS Risk</option>
-          <option>โรคไต</option>
-        </select>
-        <select class="filter">
-          <option>สถานะผู้ป่วย</option>
-          <option>ปกติ</option>
-          <option>เสียชีวิต</option>
-        </select>
-        <select class="filter">
-          <option>สถานะการรักษา</option>
-          <option>รักษาเสร็จสิ้น</option>
-          <option>ยังไม่ได้รับการรักษา</option>
-        </select>
-        <select class="filter">
-          <option>สถานะการติดตาม</option>
-          <option>ติดตามแล้ว</option>
-          <option>ยังไม่ได้ติดตาม</option>
-        </select>
-        <button class="search-btn">ค้นหา</button>
+      <input type="text" class="search-box" placeholder="ค้นหา...">
+      <select class="filter">
+        <option>ประเภทโรค</option>
+        <option>ความดันโลหิตสูง</option>
+        <option>โรคอ้วน</option>
+        <option>ไขมันในเลือดสูง</option>
+        <option>โรคเบาหวาน</option>
+        <option>CVS Risk</option>
+        <option>โรคไต</option>
+      </select>
+      <select class="filter">
+        <option>สถานะผู้ป่วย</option>
+        <option>ปกติ</option>
+        <option>เสียชีวิต</option>
+      </select>
+      <select class="filter">
+        <option>สถานะการรักษา</option>
+        <option>รักษาเสร็จสิ้น</option>
+        <option>ยังไม่ได้รับการรักษา</option>
+      </select>
+      <select class="filter">
+        <option>สถานะการติดตาม</option>
+        <option>ติดตามแล้ว</option>
+        <option>ยังไม่ได้ติดตาม</option>
+      </select>
+      <button class="search-btn">ค้นหา</button>
     </div>
-    
-    <table class="patient-table">
+
+    <div id="button-container">
+      <button id="assign-button" style="display: none;">มอบหมายงาน</button>
+      <button id="download-pdf-button" style="display: none;">ดาวน์โหลด PDF</button>
+    </div>
+
+    <div class="table-container">
+      <table class="patient-table">
         <thead>
           <tr>
-            <th></th>
-            <th>ชื่อ - นามสกุล</th>
+            <th>
+              <input type="checkbox" id="select-all" class="select-all">
+            </th>
+            <th>ชื่อผู้ป่วย</th>
             <th>ประเภทโรค</th>
             <th>ประเภทผู้ป่วย</th>
             <th>กลุ่มผู้ป่วย</th>
-            <th>สถานะผู้ป่วย</th>
+            <th>สถานะปัจจุบัน</th>
             <th>ครั้งที่ติดตาม</th>
             <th>สถานะการรักษา</th>
             <th>สถานะการติดตาม</th>
-            <th>จัดการ</th>
+            <th>การจัดการ</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><input type="checkbox"></td>
-            <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ข</td>
-            <td>เบาหวาน</td>
-            <td>ประชาชน</td>
-            <td>กลุ่มเสี่ยง</td>
-            <td>ปกติ</td>
-            <td>2</td>
-            <td><span class="status-label red">นัดติดตามต่อเนื่อง</span></td>
-            <td><span class="status-label gray">ติดตามแล้ว</span></td>
-            <td>
-              <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-              <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
-            </td>
-          </tr>
-          <tr>
-            <td><input type="checkbox"></td>
-            <td><img src="../../assets/images/cat.jpg" alt="avatar"> นาย ก</td>
-            <td>เบาหวาน</td>
-            <td>ประชาชน</td>
-            <td>กลุ่มเสี่ยง</td>
-            <td>ปกติ</td>
-            <td>1</td>
-            <td><span class="status-label red">นัดติดตามต่อเนื่อง</span></td>
-            <td><span class="status-label blue">ยังไม่ได้ติดตาม</span></td>
-            <td>
-              <button class="action-btn" title="แก้ไขข้อมูล" id="add-button"><i class='bx bxs-edit'></i></button>
-              <button class="action-btn" title="ดูเพิ่มเติม" id="add-buttona1"><i class='bx bx-right-arrow-alt'></i></button>
-            </td>
-          </tr>
+          <!-- ข้อมูลผู้ป่วยจะถูกเติมที่นี่ -->
         </tbody>
-    </table>
+      </table>
+    </div>
   </div>
 
+  <div id="overlay" style="display:none;">
+    <div id="confirmation-popup" style="display:none;">
+      <div class="popup-content">
+        <h2>ยืนยันการมอบหมายงาน</h2>
+        <p id="patient-count"></p>
+        <ul id="patient-list"></ul>
+        <button type="Yes" id="confirm-assign">ยืนยัน</button>
+        <button type="No" id="cancel-assign">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
 
-    <script>
-     // Load sidebar
-     fetch('sidebar.html')
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // ซ่อนป๊อปอัพและ overlay เมื่อกดปุ่มยกเลิก
+      document.getElementById('cancel-assign').addEventListener('click', function () {
+        document.getElementById('confirmation-popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const assignButton = document.getElementById('assign-button');
+      const patientCountElement = document.getElementById('patient-count');
+      const patientList = document.getElementById('patient-list');
+      const checkboxes = document.querySelectorAll('.patient-checkbox');
+
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+          const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+          assignButton.style.display = anyChecked ? 'block' : 'none';
+        });
+      });
+
+      assignButton.addEventListener('click', function () {
+        const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
+          return checkbox.getAttribute('data-patient-name'); // ดึงชื่อผู้ป่วยจาก data-patient-name
+        });
+
+        if (selectedPatients.length === 0) {
+          alert('กรุณาเลือกผู้ป่วยก่อนมอบหมายงาน');
+          return;
+        }
+
+        if (patientCountElement) {
+          patientCountElement.textContent = `จำนวนผู้ป่วยที่เลือก: ${selectedPatients.length}`;
+        } else {
+          console.error("ไม่พบ patient-count element");
+        }
+
+        if (patientList) {
+          patientList.innerHTML = '';
+          selectedPatients.forEach(patientName => {
+            const li = document.createElement('li');
+            li.textContent = patientName; // แสดงชื่อผู้ป่วยแทนที่จะเป็น ID
+            patientList.appendChild(li);
+          });
+        } else {
+          console.error("ไม่พบ patient-list element");
+        }
+
+        document.getElementById('confirmation-popup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'flex';
+      });
+
+      document.getElementById('confirm-assign').addEventListener('click', async function () {
+        const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
+          return parseInt(checkbox.value); // แปลงเป็น integer
+        });
+
+        if (selectedPatients.length === 0) {
+          alert('กรุณาเลือกผู้ป่วยก่อนมอบหมายงาน');
+          return;
+        }
+
+        const monitorStatus = 'กำลังติดตาม';
+
+        try {
+          const response = await fetch('http://localhost/chiracarehospital/backend/sql/monitoring/update_patient_status.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              monitorStatus: monitorStatus,
+              patientIds: selectedPatients
+            })
+          });
+
+          const responseData = await response.json();
+
+          if (responseData.status === 'success') {
+            alert(`อัปเดตสถานะสำเร็จ: ${responseData.updated_count} รายการ`);
+
+            // ซ่อนป๊อปอัพและ overlay
+            document.getElementById('confirmation-popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+
+            // รีเฟรชหน้าเว็บเพื่อแสดงข้อมูลที่อัปเดตแล้ว
+            window.location.reload();
+          } else {
+            alert(`เกิดข้อผิดพลาด: ${responseData.message}`);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('เกิดข้อผิดพลาดในการอัปเดตสถานะการติดตาม: ' + error.message);
+        }
+      });
+    });
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  ,
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchPatientData();
+      // Status color
+      function getStatusClass(status) {
+        switch (status) {
+          case 'ยังไม่ได้ติดตาม': return 'uncomplete';
+          case 'กำลังติดตาม': return 'in-progress';
+          case 'ติดตามแล้ว': return 'completed';
+          case 'ติดตามล้มเหลว': return 'other';
+          case 'ยังไม่ได้รักษา': return 'unsucess';
+          case 'นัดติดตามต่อเนื่อง': return 'continue';
+          case 'รักษาเสร็จสิ้น': return 'sucess';
+          default: return 'other';
+        }
+      }
+
+      // ฟังก์ชันสำหรับดึงข้อมูลผู้ป่วย
+      async function fetchPatientData() {
+        const tbody = document.querySelector('.patient-table tbody');
+        try {
+          const response = await fetch('http://localhost/chiracarehospital/backend/sql/monitoring/patient_list.php');
+          if (!response.ok) throw new Error('Network response was not ok: ' + response.statusText);
+
+          const data = await response.json();
+          tbody.innerHTML = '';
+
+          if (!Array.isArray(data) || data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="10">ไม่มีข้อมูลผู้ป่วย</td></tr>`;
+            document.getElementById('assign-button').style.display = 'none'; // ซ่อนปุ่มถ้าไม่มีข้อมูล
+            return;
+          }
+
+          data.forEach(patient => {
+            console.log('Patient Data:', patient); // ตรวจสอบข้อมูลของผู้ป่วย
+            const isMonitoringPending = patient.monitor_status === 'ยังไม่ได้ติดตาม';
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+        <td>${isMonitoringPending ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-patient-name='${patient.full_name}'>` : ''}</td>
+        <td>${patient.full_name}</td>
+        <td>${patient.disease_type}</td>
+        <td>${patient.patient_type}</td>
+        <td>${patient.patient_group}</td>
+        <td>${patient.current_status}</td>
+        <td>${patient.monitor_round}</td>
+        <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status}</span></td>
+        <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status}</span></td>
+        <td>
+          <button class='action-btn' title='แก้ไขข้อมูล'><i class='bx bx-edit'></i></button>
+          <button class='action-btn' title='ดูเพิ่มเติม'><i class='bx bx-right-arrow-alt'></i></button>
+        </td>`;
+            tbody.appendChild(row);
+          });
+
+          updateAssignButtonVisibility();
+
+        } catch (error) {
+          console.error('Error:', error);
+          tbody.innerHTML = `<tr><td colspan="10">เกิดข้อผิดพลาดในการดึงข้อมูล: ${error.message}</td></tr>`;
+          document.getElementById('assign-button').style.display = 'none'; // ซ่อนปุ่มถ้ามีข้อผิดพลาด
+        }
+      }
+
+      function updateAssignButtonVisibility() {
+        const selectedPatients = document.querySelectorAll('.patient-checkbox:checked');
+        document.getElementById('assign-button').style.display = selectedPatients.length > 0 ? 'block' : 'none';
+        document.getElementById('download-pdf-button').style.display = selectedPatients.length > 0 ? 'block' : 'none'; // แสดงปุ่มดาวน์โหลด PDF
+      }
+
+      document.getElementById('download-pdf-button').addEventListener('click', function () {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // เพิ่มฟอนต์ภาษาไทย
+        const fontBase64 = "YOUR_BASE64_ENCODED_FONT_HERE"; // ฟอนต์ Base64
+        doc.addFileToVFS("THSarabunNew.ttf", fontBase64);
+        doc.addFont("THSarabunNew.ttf", "THSarabunNew", "normal");
+        doc.setFont("THSarabunNew");
+
+        // ดึงข้อมูลผู้ป่วยที่เลือก
+        const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
+          const row = checkbox.closest('tr');
+          return {
+            full_name: row.cells[1].innerText,
+            disease_type: row.cells[2].innerText,
+            patient_type: row.cells[3].innerText,
+            monitor_round: row.cells[6].innerText
+          };
+        });
+
+        // ตรวจสอบว่ามีข้อมูลหรือไม่
+        if (selectedPatients.length === 0) {
+          alert('กรุณาเลือกผู้ป่วยก่อนดาวน์โหลด PDF');
+          return;
+        }
+
+        // เพิ่มข้อมูลลงใน PDF
+        let y = 10; // ตำแหน่งแนวตั้งเริ่มต้น
+        selectedPatients.forEach((patient, index) => {
+          const fullName = patient.full_name || "ไม่ระบุชื่อ";
+          const diseaseType = patient.disease_type || "ไม่ระบุโรค";
+          const patientType = patient.patient_type || "ไม่ระบุประเภทผู้ป่วย";
+          const monitorRound = patient.monitor_round || "ไม่ระบุครั้งที่ติดตาม";
+
+          doc.setFontSize(12); // กำหนดขนาดฟอนต์
+          doc.text(`${index + 1}. ชื่อผู้ป่วย: ${fullName}`, 10, y);
+          doc.text(`ประเภทโรค: ${diseaseType}`, 10, y + 10);
+          doc.text(`ประเภทผู้ป่วย: ${patientType}`, 10, y + 20);
+          doc.text(`ครั้งที่ติดตาม: ${monitorRound}`, 10, y + 30);
+          y += 40; // เปลี่ยนตำแหน่งแนวตั้งสำหรับผู้ป่วยถัดไป
+        });
+
+        // ดาวน์โหลด PDF
+        doc.save('patient_report.pdf');
+      });
+
+      function initializeSidebar() {
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+
+        closeBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("active");
+          closeBtn.classList.toggle("bx-menu");
+          closeBtn.classList.toggle("bx-menu-alt-right");
+        });
+      }
+
+      // ฟังก์ชันสำหรับการเลือกผู้ป่วยทั้งหมด
+      document.getElementById('select-all').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('.patient-checkbox');
+        checkboxes.forEach(checkbox => {
+          checkbox.checked = this.checked;
+        });
+        updateAssignButtonVisibility();
+      });
+
+      // ฟังก์ชันสำหรับการจัดการการเลือกผู้ป่วย
+      document.addEventListener('change', function (event) {
+        if (event.target.classList.contains('patient-checkbox')) {
+          updateAssignButtonVisibility();
+        }
+      });
+    });
+  </script>
+
+  <script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
+
+    // Load sidebar
+    fetch('sidebar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
       .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
         document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
+        // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+        loadSidebarScript();
+        // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
       });
 
     // Load topbar and set the page title
     fetch('topbar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล topbar.html
       .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย'; // Set page title for the history page
-      });
+        // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+        document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย';
+        // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
-      function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
+        // Re-run user.js script after loading topbar
+        const script = document.createElement('script');
+        // สร้างแท็ก script ใหม่
+        script.src = '../method/user.js';
+        // กำหนดแหล่งที่มาของ script เป็น user.js
+        document.body.appendChild(script);
+        // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+      });
+  </script>
 
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-    }
-    document.getElementById('add-button').addEventListener('click', function () {
-        window.location.href = 'edittracking.html';
-      });
-      document.getElementById('add-buttona1').addEventListener('click', function () {
-        window.location.href = 'moreinfo.html';
-      });
-
-      document.querySelectorAll('.edit-btn').forEach(button => {
-        button.addEventListener('click', function() {
-          // เปลี่ยนเส้นทางไปที่หน้า edittracking.html
-          window.location.href = 'edittracking.html';
-        });
-      });
-      document.querySelectorAll('.detail-btn').forEach(button => {
-        button.addEventListener('click', function() {
-          const patientRow = this.closest('tr');
-          const patientId = patientRow.getAttribute('data-id');
-          // เปลี่ยนเส้นทางไปยังหน้า moreinfo.html พร้อมส่ง id ผู้ป่วย
-          window.location.href = `moreinfo.html?id=${patientId}`;
-        });
-      });
-    </script>
 </body>
+
 </html>

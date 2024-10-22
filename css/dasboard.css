@@ -199,5 +199,44 @@ h1 {
     margin-top: 10px;
     font-weight: bold;
 } */
+.status-bar {
+    margin-bottom: 10px;
+}
+
+.status-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    position: relative;
+    height: 25px;
+    overflow: hidden;
+}
+
+.progress-bar span {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+    z-index: 1;
+}
+
+#followed-bar {
+    background-color: #4CAF50; /* Green */
+}
+
+#following-bar {
+    background-color: #FF9800; /* Orange */
+}
+
+#not-followed-bar {
+    background-color: #F44336; /* Red */
+}
+
 
 

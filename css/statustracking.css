@@ -1,60 +1,60 @@
 /* ปุ่มค้นหา */
 .search-btn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    margin-left: 10px;
-  }
-  
-  .search-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  /* ปรับให้ฟอร์มค้นหาดูดีขึ้น */
-  .filter-bar {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .search-box {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-  }
-  
-  .search-box:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
-  }
-  
-  .filter {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .filter:hover {
-    border-color: #007bff;
-  }
-  
+  padding: 10px 20px;
+  background-color: #5D97EF;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.search-btn:hover {
+  background-color: #4a7bce;
+}
+
+/* ปรับให้ฟอร์มค้นหาดูดีขึ้น */
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-box {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.search-box:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.filter {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter:hover {
+  border-color: #007bff;
+}
+
 /* การตั้งค่าเริ่มต้น */
 /* body {
     font-family: 'Prompt', sans-serif;
@@ -63,159 +63,167 @@
     margin: 0;
     padding: 20px;
   } */
-  
-  /* กล่องค้นหาและตัวกรอง */
+
+/* กล่องค้นหาและตัวกรอง */
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-box {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.search-box:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.filter {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter:hover {
+  border-color: #007bff;
+}
+
+/* ตารางผู้ป่วย */
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 91%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  width: 100%;
+}
+
+.patient-table {
+  width: 100%;
+  table-layout: fixed;
+  /* ให้ความกว้างของคอลัมน์เท่ากัน */
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.patient-table thead tr {
+  background-color: #ececec;
+  color: #5D97EF;
+}
+
+.patient-table th,
+.patient-table td {
+  padding: 15px 10px;
+  padding-right: 33px;
+  border-bottom: 1px solid #F4F4F4;
+
+}
+
+.patient-table tbody tr {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.patient-table tbody tr:last-of-type {
+  border-bottom: 2px solid #f4f4f4;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.uncomplete {
+  background-color: #F4E1E1;
+  color: #BB4242;
+}
+
+.status.in-progress {
+  background-color: #FFF5C2;
+  color: #E99050;
+}
+
+.status.continue {
+  background-color: #F4E1ED;
+  color: #BB4292;
+}
+
+.status.completed {
+  background-color: #E1F4E1;
+  color: #5F8D4E;
+}
+
+.status.sucess {
+  background-color: #E3F5FF;
+  color: #5D97EF;
+}
+
+.status.unsucess {
+  background-color: #dddddd;
+  color: #626262;
+}
+
+.status.other {
+  background-color: #e5e1f4;
+  color: #634e8d;
+}
+
+/* การตอบสนองของตาราง */
+@media (max-width: 768px) {
   .filter-bar {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
   }
-  
-  .search-box {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.3s ease;
+
+  .patient-table th,
+  .patient-table td {
+    font-size: 12px;
   }
-  
-  .search-box:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
-  }
-  
+
+  .search-box,
   .filter {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .filter:hover {
-    border-color: #007bff;
-  }
-  
-  /* ตารางผู้ป่วย */
-  .patient-table {
     width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
   }
-  
-  .patient-table th, .patient-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-  }
-  
-  .patient-table th {
-    background-color: #f4f7fa;
-    font-weight: 600;
-  }
-  
-  .patient-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .patient-table img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-    vertical-align: middle;
-  }
-  
-  /* ป้ายสถานะ */
-  .status-label {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    color: white;
-    display: inline-block;
-  }
-  
-  .status-label.red {
-    background-color: #BB4292;
-  }
-  
-  .status-label.gray {
-    background-color: #22bd44;
-  }
-  
-  .status-label.green {
-    background-color: #28a745;
-  }
-  
-  .status-label.blue {
-    background-color: #007bff;
-  }
-  
-  /* ปุ่มแก้ไขและรายละเอียด */
-  .edit-btn, .detail-btn {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .edit-btn {
-    background-color: #6c757d;
-    color: white;
-    margin-right: 5px;
-  }
-  
-  .edit-btn:hover {
-    background-color: #0056b3;
-  }
-  
+
+  .edit-btn,
   .detail-btn {
-    background-color: #6c757d;
-    color: white;
+    font-size: 10px;
   }
-  
-  .detail-btn:hover {
-    background-color: #5a6268;
-  }
-  
-  /* การตอบสนองของตาราง */
-  @media (max-width: 768px) {
-    .filter-bar {
-      flex-direction: column;
-    }
-  
-    .patient-table th, .patient-table td {
-      font-size: 12px;
-    }
-  
-    .search-box, .filter {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  
-    .edit-btn, .detail-btn {
-      font-size: 10px;
-    }
-  }
-.statustracking-container{
+}
+
+.statustracking-container {
   width: 93.5%;
   margin: auto;
   padding: 20px;
   margin-left: 89px;
 }
+
 .action-btn {
   position: relative;
   color: #1d1b31;
@@ -227,4 +235,136 @@
   background-color: rgb(241, 241, 241);
   margin-left: 15px;
 }
-  
+
+.action-btn:hover {
+  background-color: #5D97EF;
+  color: #F4F4F4;
+}
+
+/* ปรับแต่งปุ่ม */
+#button-container {
+  position: fixed;
+  /* ใช้ fixed เพื่อให้ตำแหน่งคงที่เมื่อเลื่อนหน้า */
+  bottom: 20px;
+  /* ระยะห่างจากด้านล่าง */
+  right: 20px;
+  /* ระยะห่างจากด้านขวา */
+  display: flex;
+  /* ใช้ flexbox เพื่อจัดเรียงปุ่มในแนวนอน */
+  gap: 10px;
+  /* ระยะห่างระหว่างปุ่ม */
+  z-index: 1000;
+  /* ให้แน่ใจว่าปุ่มอยู่ด้านบนขององค์ประกอบอื่น */
+  padding: 10px;
+  /* ระยะห่างภายใน container */
+  border-radius: 8px;
+  /* มุมมนของ container */
+}
+
+#download-pdf-button,
+#assign-button {
+  padding: 10px 20px;
+  /* ขนาดปุ่ม */
+  background-color: #007bff;
+  /* สีพื้นหลัง */
+  color: white;
+  /* สีตัวอักษร */
+  border: none;
+  /* ไม่มีเส้นขอบ */
+  border-radius: 5px;
+  /* มุมมน */
+  cursor: pointer;
+  /* เปลี่ยนเป็น pointer เมื่อ hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* เพิ่มเงา */
+  font-size: 17px;
+}
+
+#download-pdf-button:hover,
+#assign-button:hover {
+  background-color: #0057b4;
+  /* สีพื้นหลังเมื่อ hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  /* เพิ่มเงาเมื่อ hover */
+}
+
+#confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1001;
+  overflow-y: auto; /* เพิ่มเลื่อนในแนวตั้ง */
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#confirmation-popup p {
+  list-style-type: none;
+  /* ไม่มีสัญลักษณ์ที่หน้าชื่อ */
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+#confirmation-popup ul {
+  list-style-type: none;
+  /* ไม่มีสัญลักษณ์ที่หน้าชื่อ */
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+button[type="Yes"] {
+  padding: 6px 35px;
+  background-color: #27AE60;
+  border: 2px solid #27AE60;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  /* font-weight: bold; */
+  margin-right: 20px;
+  /* Adds spacing between the buttons */
+}
+
+button[type="Yes"]:hover {
+  background-color: #157d41;
+}
+
+button[type="No"] {
+  padding: 6px 35px;
+  background-color: #DD0E0E;
+  border: 2px solid #DD0E0E;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  /* font-weight: bold; */
+  margin-right: 20px;
+  /* Adds spacing between the buttons */
+}
+
+button[type="No"]:hover {
+  background-color: #b40000;
+}
+
+input[type="checkbox"]{
+  display: inline-block;
+  width: 18px; /* ปรับขนาดตามต้องการ */
+  height: 18px; /* ปรับขนาดตามต้องการ */
+}
+
+
