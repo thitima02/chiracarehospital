@@ -1,25 +1,25 @@
 <div class="top">
   <nav>
     <div class="sidebar-button">
-      <span id="page-title" class="text">ข้อมูลการติดตาม</span> <!-- Placeholder for the page title -->
+      <span id="page-title" class="text"></span> <!-- Placeholder for the page title -->
     </div>
 
-    <div class="right-section" title="ข้อมูลการติดตาม">
-      <!-- Wrap the bell icon in an anchor tag that links to the notification page -->
-      <a href="../../frontend/vhvpage/form.html" class="icon-button">
-        <!-- Change this to the actual path of your notifications page -->
+    <div class="right-section" title="หน้าหลัก">
+      <a href="../adminpage/notifications.html" class="icon-button">
         <i class='bx bx-bell'></i>
       </a>
 
-      <div class="profile-details">
-        <img src="assets/images/cat.jpg" alt="profile-details">
-
+      <div class="profile-details" onclick="goToProfilePage()">
+        <img id="profile-image" alt="profile-details">
         <div class="admin_name">
-          <div class="name">นิรนาม มือที่สาม</div>
-          <div class="job">VHV</div>
+          <div class="name" id="full_name">TEST</div>
+          <div class="job" id="department">TEST</div>
         </div>
-        <i class='bx bx-chevron-down'></i>
+        <div class="tooltip">แสดงรายละเอียดผู้ใช้</div> <!-- Tooltip -->
       </div>
     </div>
   </nav>
-</div>    
+</div>
+
+<script src="../method/user.js"></script>
+<link rel="stylesheet" href="../../css/topbar.css">
