@@ -2,157 +2,165 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="../../styles.css">
-  <link rel="stylesheet" href="../../css/sidebar.css">
-  <link rel="stylesheet" href="css/topbar.css">
-  <link rel="stylesheet" href="../../frontend/vhvpage/css/menubar.css">
-  <link rel="stylesheet" href="../../frontend/vhvpage/css/logo.css">
-  <link rel="stylesheet" href="../../frontend/vhvpage/css/button.css">
-  <link rel="stylesheet" href="../../frontend/vhvpage/css/result.css">
-  <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Import icon -->
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="css/topbar.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/menubar.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/logo.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/button.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/result.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Import icon -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="../method/logout.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+    <script src="../method/user.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+    <script src="../method/loadSidebarScript.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+    <script src="../method/checkAuth.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
 </head>
 
 <body>
 
 
-  <div id="sidebar-container"></div>
+    <div id="sidebar-container"></div>
 
-  <!-- Topbar will be loaded here -->
-  <div id="topbar-container"></div>
+    <!-- Topbar will be loaded here -->
+    <div id="topbar-container"></div>
 
-  <!-- the resule of many patient -->
-  <div>
-    <div class="stats-container">
-      <div class="box new-order">
-        <i class='bx bx-user'></i>
-        <div>
-          <h2>0</h2>
-          <p>ผู้ป่วยที่ต้องติดตามวันนี้</p>
+    <!-- the resule of many patient -->
+    <div>
+        <div class="stats-container">
+            <div class="box new-order">
+                <i class='bx bx-user'></i>
+                <div>
+                    <h2>0</h2>
+                    <p>ผู้ป่วยที่ต้องติดตามวันนี้</p>
+                </div>
+            </div>
+            <div class="box box2 visitors">
+                <i class='bx bx-smile'></i>
+                <div>
+                    <h2>0</h2>
+                    <p>ติดตามเสร็จสิ้น</p>
+                </div>
+            </div>
+            <div class="box box3 total-sales">
+                <i class='bx bx-tired'></i>
+                <div>
+                    <h2>0</h2>
+                    <p>ยังไม่ได้ติดตาม</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="box box2 visitors">
-        <i class='bx bx-smile'></i>
-        <div>
-          <h2>0</h2>
-          <p>ติดตามเสร็จสิ้น</p>
+    </div>
+
+    <!-- the dropdrown  -->
+    <div class="filter-container">
+        <div class="filter-item search-bar">
+            <h5>ค้นหารายชื่อ</h5>
+            <input type="text" id="searchInput" placeholder="ค้นหาที่นี่..." class="search-input">
+            <i class='bx bx-search search-icon'></i>
         </div>
-      </div>
-      <div class="box box3 total-sales">
-        <i class='bx bx-tired'></i>
-        <div>
-          <h2>0</h2>
-          <p>ยังไม่ได้ติดตาม</p>
+        <div class="filter-item">
+            <h5>วันที่เริ่มติดตาม</h5>
+            <input type="date" class="date-filter">
         </div>
-      </div>
-    </div>
-  </div>
+        <div class="filter-item">
+            <h5>ครั้งที่ติดตาม</h5>
+            <select class="dropdown-filter">
+                <option value="ทั้งหมด">ทั้งหมด</option>
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <!-- Add other options as needed -->
+            </select>
+            <i class='bx bx-chevron-down dropdown-icon'></i>
+        </div>
 
-  <!-- the dropdrown  -->
-  <div class="filter-container">
-    <div class="filter-item search-bar">
-      <h5>ค้นหารายชื่อ</h5>
-      <input type="text" id="searchInput" placeholder="ค้นหาที่นี่..." class="search-input">
-      <i class='bx bx-search search-icon'></i>
-    </div>
-    <div class="filter-item">
-      <h5>วันที่เริ่มติดตาม</h5>
-      <input type="date" class="date-filter">
-    </div>
-    <div class="filter-item">
-      <h5>ครั้งที่ติดตาม</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
-    </div>
+        <div class="filter-item">
+            <h5>สถานะการติดตาม</h5>
+            <select class="dropdown-filter">
+                <option value="ทั้งหมด">ทั้งหมด</option>
+                <option value="">ยังไม่ได้ติดตาม</option>
+                <option value="">กำลังติดตาม</option>
+                <option value="">ติดตามแล้ว</option>
+                <option value="">ติดตามล้มเหลว</option>
+                <!-- Add other options as needed -->
+            </select>
+            <i class='bx bx-chevron-down dropdown-icon'></i>
+        </div>
 
-    <div class="filter-item">
-      <h5>สถานะการติดตาม</h5>
-      <select class="dropdown-filter">
-        <option value="ทั้งหมด">ทั้งหมด</option>
-        <option value="">ยังไม่ได้ติดตาม</option>
-        <option value="">กำลังติดตาม</option>
-        <option value="">ติดตามแล้ว</option>
-        <option value="">ติดตามล้มเหลว</option>
-        <!-- Add other options as needed -->
-      </select>
-      <i class='bx bx-chevron-down dropdown-icon'></i>
+
     </div>
 
+    <!-- the datatable  -->
+    <div class="table-container">
+        <table class="patient-table">
+            <thead>
+                <tr>
+                    <th>รายชื่อผู้ป่วย</th>
+                    <th>วันที่เริ่มติดตาม</th>
+                    <th>วันที่สิ้นสุด</th>
+                    <th>ที่อยู่</th>
+                    <th>สถานะการติดตาม</th>
+                    <th>ครั้งที่ติดตาม</th>
+                    <th></th>
+                </tr>
+            </thead>
 
-  </div>
+            <tbody id="patient-tbody"></tbody>
 
-  <!-- the datatable  -->
-  <div class="table-container">
-    <table class="patient-table">
-      <thead>
-        <tr>
-          <th>รายชื่อผู้ป่วย</th>
-          <th>วันที่เริ่มติดตาม</th>
-          <th>วันที่สิ้นสุด</th>
-          <th>ที่อยู่</th>
-          <th>สถานะการติดตาม</th>
-          <th>ครั้งที่ติดตาม</th>
-          <th></th>
-        </tr>
-      </thead>
+            </tbody>
 
-      <tbody id="patient-tbody"></tbody>
-
-      </tbody>
-
-    </table>
-  </div>
+        </table>
+    </div>
 
 
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
 
-// Fetch total patients count from PHP
-fetch("../../backend/sql/vhv/get_total_patients.php")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log("Total Patients Data:", data); // Log data for debugging
-    // Update the corresponding stat box with the total patient count
-    const todayPatientsCount = document.querySelector('.new-order h2');
-    todayPatientsCount.textContent = data.total || 0; // Default to 0 if no data.total
-  })
-  .catch(error => console.error("Error fetching total patients count:", error));
+            // Fetch total patients count from PHP
+            fetch("../../backend/sql/vhv/get_total_patients.php")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Total Patients Data:", data); // Log data for debugging
+                    // Update the corresponding stat box with the total patient count
+                    const todayPatientsCount = document.querySelector('.new-order h2');
+                    todayPatientsCount.textContent = data.total || 0; // Default to 0 if no data.total
+                })
+                .catch(error => console.error("Error fetching total patients count:", error));
 
-// Fetch patient address data
-fetch("../../backend/sql/vhv/get_patient_address.php")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log("Patient Address Data:", data); // Log data for debugging
-    const tbody = document.getElementById("patient-tbody");
+            // Fetch patient address data
+            fetch("../../backend/sql/vhv/get_patient_address.php")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Patient Address Data:", data); // Log data for debugging
+                    const tbody = document.getElementById("patient-tbody");
 
-    // Check if there is any data
-    if (data.length > 0) {
-      data.forEach((patient, index) => {
-        // Create a new row for each patient
-        const row = document.createElement("tr");
+                    // Check if there is any data
+                    if (data.length > 0) {
+                        data.forEach((patient, index) => {
+                            // Create a new row for each patient
+                            const row = document.createElement("tr");
 
-        // Populate the row with patient data
-        row.innerHTML = `
+                            // Populate the row with patient data
+                            row.innerHTML = `
           <td><img src='/assets/images/cat.jpg' alt='patient image'> ${patient.full_name}</td>
           <td id='startDate'>${patient.monitor_date || 'ไม่มีข้อมูล'}</td>
           <td id='endDate'>${patient.last_update || 'ไม่มีข้อมูล'}</td>
@@ -166,213 +174,228 @@ fetch("../../backend/sql/vhv/get_patient_address.php")
           </td>
         `;
 
-        // Append the new row to the table body
-        tbody.appendChild(row);
-      });
-    } else {
-      tbody.innerHTML = "<tr><td colspan='6'>ไม่พบข้อมูลผู้ป่วย</td></tr>";
-    }
-  })
-  .catch(error => console.error("Error fetching patient data:", error));
+                            // Append the new row to the table body
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        tbody.innerHTML = "<tr><td colspan='6'>ไม่พบข้อมูลผู้ป่วย</td></tr>";
+                    }
+                })
+                .catch(error => console.error("Error fetching patient data:", error));
 
-});
-
-  </script>
-
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
-
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'หน้าหลัก'; // ตั้งชื่อหน้า
-      });
-
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-      document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('.formbutton').forEach(button => {
-        button.addEventListener('click', function () {
-            console.log('Button clicked');  // For debugging
-            window.location.href = 'form.html';  // Redirects to form.html
         });
-    });
-});
 
+    </script>
 
+    <script>
+        //function for filter the name
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the search input field
+            const searchInput = document.getElementById('searchInput');
 
+            // Add event listener to the search input
+            searchInput.addEventListener('keyup', function () {
+                // Get the value of the search input and convert to lowercase
+                let searchTerm = searchInput.value.toLowerCase();
 
-    }
-    //function for filter the name
-    document.addEventListener("DOMContentLoaded", function () {
-    // Get the search input field
-    const searchInput = document.getElementById('searchInput');
-    
-    // Add event listener to the search input
-    searchInput.addEventListener('keyup', function () {
-        // Get the value of the search input and convert to lowercase
-        let searchTerm = searchInput.value.toLowerCase();
+                // Get all the rows of the table
+                const rows = document.querySelectorAll("#patient-tbody tr");
 
-        // Get all the rows of the table
-        const rows = document.querySelectorAll("#patient-tbody tr");
+                // Loop through the rows to find matches
+                rows.forEach(row => {
+                    // Find the cell that contains the patient's name
+                    let nameCell = row.querySelector("td:first-child").innerText.toLowerCase();
 
-        // Loop through the rows to find matches
-        rows.forEach(row => {
-            // Find the cell that contains the patient's name
-            let nameCell = row.querySelector("td:first-child").innerText.toLowerCase();
-
-            // Check if the search term is found in the name
-            if (nameCell.includes(searchTerm)) {
-                row.style.display = ""; // Show row if there's a match
-            } else {
-                row.style.display = "none"; // Hide row if there's no match
-            }
+                    // Check if the search term is found in the name
+                    if (nameCell.includes(searchTerm)) {
+                        row.style.display = ""; // Show row if there's a match
+                    } else {
+                        row.style.display = "none"; // Hide row if there's no match
+                    }
+                });
+            });
         });
-    });
-});
-  </script>
+    </script>
+
+    <script>
+        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+        checkAuth();
+
+        // Load sidebar
+        fetch('sidebar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+                loadSidebarScript();
+                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+            });
+
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+                document.getElementById('page-title').textContent = 'หน้าหลัก';
+                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+                // Re-run user.js script after loading topbar
+                const script = document.createElement('script');
+                // สร้างแท็ก script ใหม่
+                script.src = '../method/user.js';
+                // กำหนดแหล่งที่มาของ script เป็น user.js
+                document.body.appendChild(script);
+                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+            });
+    </script>
+
 </body>
 <style>
-  .formbutton {
-    display: inline-flex; /* Keeps icon and text aligned in a single row */
-    align-items: center; /* Vertically centers content */
-    justify-content: center; /* Horizontally centers content */
-    padding: 15px 60px; /* Adjust padding for a larger button */
-    background-color: #5D97EF;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
-    white-space: normal; /* Allows wrapping but tries to fit on two lines */
-    width: 260px; /* Let the button expand to fit the content */
-    max-width: 400px; /* Set a maximum width so the text doesn't go too wide */
-}
+    .formbutton {
+        display: inline-flex;
+        /* Keeps icon and text aligned in a single row */
+        align-items: center;
+        /* Vertically centers content */
+        justify-content: center;
+        /* Horizontally centers content */
+        padding: 15px 60px;
+        /* Adjust padding for a larger button */
+        background-color: #5D97EF;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-right: 20px;
+        white-space: normal;
+        /* Allows wrapping but tries to fit on two lines */
+        width: 260px;
+        /* Let the button expand to fit the content */
+        max-width: 400px;
+        /* Set a maximum width so the text doesn't go too wide */
+    }
 
-/* Hover state for .formbutton */
-.formbutton:hover {
-    background-color: #4a7bce; /* Slightly darker blue on hover */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Increase shadow on hover */
-}
+    /* Hover state for .formbutton */
+    .formbutton:hover {
+        background-color: #4a7bce;
+        /* Slightly darker blue on hover */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Increase shadow on hover */
+    }
 
-/* Icon styling inside the button */
-.formbutton i {
-    margin-right: 8px; /* Space between icon and text */
-    font-size: 18px; /* Icon size */
-    vertical-align: middle; /* Align icon with the text */
-}
+    /* Icon styling inside the button */
+    .formbutton i {
+        margin-right: 8px;
+        /* Space between icon and text */
+        font-size: 18px;
+        /* Icon size */
+        vertical-align: middle;
+        /* Align icon with the text */
+    }
 
-/* Ensure the button and text are horizontally aligned */
-.formbutton {
-    display: inline-flex; /* Align text and icon in one line */
-    align-items: center; /* Vertically center the content */
-}
-
+    /* Ensure the button and text are horizontally aligned */
+    .formbutton {
+        display: inline-flex;
+        /* Align text and icon in one line */
+        align-items: center;
+        /* Vertically center the content */
+    }
 </style>
 
 <style>
-  .stats-container {
-  display: flex;
-  justify-content: space-between;
-  padding-left: 6.7%;
-  padding-right: 10%;
-  padding-top: 20px;
+    .stats-container {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 6.7%;
+        padding-right: 10%;
+        padding-top: 20px;
 
-  @media (max-width: 600px) {
-    justify-content: center; /* Center for mobile */
-    padding-left: 3%;
-    padding-right: 3%;
-    flex-wrap: wrap; /* Wrap the boxes on small screens */
-  }
+        @media (max-width: 600px) {
+            justify-content: center;
+            /* Center for mobile */
+            padding-left: 3%;
+            padding-right: 3%;
+            flex-wrap: wrap;
+            /* Wrap the boxes on small screens */
+        }
 
-  @media (min-width: 601px) and (max-width: 1024px) {
-    justify-content: space-around; /* Adjust for tablets */
-    padding-left: 20%;
-    flex-wrap: wrap;
-  }
-}
+        @media (min-width: 601px) and (max-width: 1024px) {
+            justify-content: space-around;
+            /* Adjust for tablets */
+            padding-left: 20%;
+            flex-wrap: wrap;
+        }
+    }
 
-.box {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  border-radius: 15px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  min-width: 370px; /* Reduce the minimum width */
-  margin: 10px;
-  flex-grow: 1; /* Allow it to expand to fill available space */
+    .box {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        border-radius: 15px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        min-width: 370px;
+        /* Reduce the minimum width */
+        margin: 10px;
+        flex-grow: 1;
+        /* Allow it to expand to fill available space */
 
-  @media (max-width: 600px) {
-    flex-direction: column; /* Stack content vertically on small screens */
-    min-width: 100%; /* Full width for mobile */
-    text-align: center; /* Center the text */
-  }
-}
+        @media (max-width: 600px) {
+            flex-direction: column;
+            /* Stack content vertically on small screens */
+            min-width: 100%;
+            /* Full width for mobile */
+            text-align: center;
+            /* Center the text */
+        }
+    }
 
-.box i {
-  font-size: 40px;
-  margin-right: 20px; /* Reduce the space between icon and text */
+    .box i {
+        font-size: 40px;
+        margin-right: 20px;
+        /* Reduce the space between icon and text */
 
-  @media (max-width: 600px) {
-    margin-right: 0;
-    margin-bottom: 10px;
-  }
-}
+        @media (max-width: 600px) {
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+    }
 
-.box h2 {
-  margin: 10px;
-  font-size: 22px; /* Slightly smaller font size */
-  color: #333;
-}
+    .box h2 {
+        margin: 10px;
+        font-size: 22px;
+        /* Slightly smaller font size */
+        color: #333;
+    }
 
-.box p {
-  margin: 5px 0 0 0;
-  color: #525252;
-  margin: 10px;
-}
+    .box p {
+        margin: 5px 0 0 0;
+        color: #525252;
+        margin: 10px;
+    }
 
-.new-order i {
-  color: #5DA3FA;
-  margin: 0 10px;
-}
+    .new-order i {
+        color: #5DA3FA;
+        margin: 0 10px;
+    }
 
-.visitors i {
-  color: #16bc19;
-  margin: 0 10px;
-}
+    .visitors i {
+        color: #16bc19;
+        margin: 0 10px;
+    }
 
-.total-sales i {
-  color: #FA5A7D;
-  margin: 0 10px;
-}
-
+    .total-sales i {
+        color: #FA5A7D;
+        margin: 0 10px;
+    }
 </style>
 
 </html>
