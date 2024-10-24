@@ -322,9 +322,9 @@
                 });
 
                 // คำนวณเปอร์เซ็นต์ของแต่ละสถานะ
-                const followedPercent = ((followed / totalPatients) * 100).toFixed(1);
-                const followingPercent = ((following / totalPatients) * 100).toFixed(1);
-                const notFollowedPercent = ((notFollowed / totalPatients) * 100).toFixed(1);
+                const followedPercent = ((followed / totalPatients) * 100);
+                const followingPercent = ((following / totalPatients) * 100);
+                const notFollowedPercent = ((notFollowed / totalPatients) * 100);
 
                 // อัปเดตแถบสถานะ
                 document.getElementById('followed-bar').innerHTML = `<span>${followedPercent}%</span>`;
@@ -393,13 +393,13 @@ document.addEventListener('DOMContentLoaded', fetchStatusData);
 
             // Update progress bars and percentages
             document.querySelector('.treatment-success').style.width = successPercent + '%';
-            document.querySelector('.treatment-success strong').textContent = successPercent.toFixed(2) + '%';
+            document.querySelector('.treatment-success strong').textContent = successPercent + '%';
 
             document.querySelector('.treatment-fail').style.width = failPercent + '%';
-            document.querySelector('.treatment-fail strong').textContent = failPercent.toFixed(2) + '%';
+            document.querySelector('.treatment-fail strong').textContent = failPercent + '%';
 
             document.querySelector('.treatment-follow-up').style.width = followUpPercent + '%';
-            document.querySelector('.treatment-follow-up strong').textContent = followUpPercent.toFixed(2) + '%';
+            document.querySelector('.treatment-follow-up strong').textContent = followUpPercent + '%';
 
             // Update the patient count
             document.querySelector('.patient-count-treatment').textContent = `${totalPatients}  คน `;
