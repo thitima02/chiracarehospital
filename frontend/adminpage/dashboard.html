@@ -201,14 +201,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-6 treatment-status-card">
+        <div class="col-12 col-md-3 treatment-status-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">สถานะการรักษาล่าสุด</h4>
                     <div class="card-text">
-                        <!-- Progress Bars for Treatment Status -->
                         <div class="mb-3">
-                            <h5>รักษาสำเร็จ</h5>
+                            <h5>รักษาเสร็จสิ้น</h5>
                             <div class="progress">
                                 <div class="progress-bar bg-success treatment-success" style="width: 0%;">
                                     <strong>0%</strong>
@@ -216,19 +215,28 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <h5>รักษาไม่สำเร็จ</h5>
+                            <h5>ยังไม่ได้รักษา</h5>
                             <div class="progress">
                                 <div class="progress-bar bg-danger treatment-fail" style="width: 0%;">
                                     <strong>0%</strong>
                                 </div>
                             </div>
                         </div>
+                        <div class="mb-3">
+                            <h5>นัดติดตามต่อเนื่อง</h5>
+                            <div class="progress">
+                                <div class="progress-bar bg-info treatment-follow-up" style="width: 0%;">
+                                    <strong>0%</strong>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="patient-count text-center mt-4">0 คน</div>
-                    <div class="follow-up-dates text-center mt-2"></div>
+                    <div class="patient-count-treatment text-center mt-4"></div>
+                    <div class="latest-update-date text-center mt-2"></div>
                 </div>
             </div>
         </div>
+        
         
         
         </div>
@@ -284,7 +292,7 @@
         </script>
 
 <script>
-    // สถานะการติดตามล่าสุด
+    //สถานะการติดตามล่าสุด
     function fetchStatusData() {
     fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php')  // แก้ไขลิงก์เป็น API PHP ของคุณ
         .then(response => response.json())
@@ -342,63 +350,71 @@
         })
         .catch(error => console.error('Error:', error));
 }
-
-// เรียกฟังก์ชันเมื่อโหลดหน้าเสร็จ
 document.addEventListener('DOMContentLoaded', fetchStatusData);
-    </script>
-
+</script>
 
 <script>
-    // สถานะการรักษาล่าสุด
-    // Fetch treatment information and update the progress bars
-fetch('http://localhost/chiracarehospital/backend/sql/get_treatment_information.php')
-    .then(response => response.json())
-    .then(data => {
-        // Initialize variables
-        let totalPatients = 0;
-        let successCount = 0;
-        let failCount = 0;
-        let lastUpdateDate = '';
+    //สถานะการรักษาล่าสุด
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('http://localhost/chiracarehospital/backend/sql/get_treatment_information.php')
+        .then(response => response.json())
+        .then(data => {
+            // Initialize counters and follow-up dates array
+            let totalPatients = data.length;
+            let successCount = 0, failCount = 0, followUpCount = 0;
+            let followUpDates = [];
+            let latestUpdate = null;  // Variable to hold the latest update date
 
-        // Loop through the treatment data and calculate totals
-        data.forEach(item => {
-            totalPatients += parseInt(item.status_count);
-            if (item.treatment_status === 'รักษาสำเร็จ') {
-                successCount = parseInt(item.status_count);
-            } else if (item.treatment_status === 'รักษาไม่สำเร็จ') {
-                failCount = parseInt(item.status_count);
+            // Calculate the count for each status and collect follow-up dates
+            data.forEach(item => {
+                switch(item.treatment_status) {
+                    case 'รักษาเสร็จสิ้น':
+                        successCount++;
+                        break;
+                    case 'ยังไม่ได้รักษา':
+                        failCount++;
+                        break;
+                    case 'นัดติดตามต่อเนื่อง':
+                        followUpCount++;
+                        followUpDates.push(item.last_update);  // Collect follow-up dates
+                        break;
+                }
+
+                // Check for the latest last_update date
+                if (!latestUpdate || new Date(item.last_update) > new Date(latestUpdate)) {
+                    latestUpdate = item.last_update;  // Update latest date
+                }
+            });
+
+            // Calculate percentages
+            let successPercent = (successCount / totalPatients) * 100;
+            let failPercent = (failCount / totalPatients) * 100;
+            let followUpPercent = (followUpCount / totalPatients) * 100;
+
+            // Update progress bars and percentages
+            document.querySelector('.treatment-success').style.width = successPercent + '%';
+            document.querySelector('.treatment-success strong').textContent = successPercent.toFixed(2) + '%';
+
+            document.querySelector('.treatment-fail').style.width = failPercent + '%';
+            document.querySelector('.treatment-fail strong').textContent = failPercent.toFixed(2) + '%';
+
+            document.querySelector('.treatment-follow-up').style.width = followUpPercent + '%';
+            document.querySelector('.treatment-follow-up strong').textContent = followUpPercent.toFixed(2) + '%';
+
+            // Update the patient count
+            document.querySelector('.patient-count-treatment').textContent = `${totalPatients}  คน `;
+
+            // Update the follow-up dates
+            if (latestUpdate) {
+                const date = new Date(latestUpdate); // แปลงเป็น Date object
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = date.toLocaleDateString('th-TH', options); // แปลงเป็นวันที่ไทย
+                document.querySelector('.latest-update-date').textContent = ` ${formattedDate}`;
             }
-
-            // Track the latest update date
-            if (item.last_update && !lastUpdateDate) {
-                lastUpdateDate = item.last_update;
-            }
-        });
-
-        // Calculate percentages
-        const successPercent = totalPatients ? (successCount / totalPatients) * 100 : 0;
-        const failPercent = totalPatients ? (failCount / totalPatients) * 100 : 0;
-
-        // Update the progress bars
-        document.querySelector('.treatment-success').style.width = successPercent + '%';
-        document.querySelector('.treatment-success strong').innerText = Math.round(successPercent) + '%';
-
-        document.querySelector('.treatment-fail').style.width = failPercent + '%';
-        document.querySelector('.treatment-fail strong').innerText = Math.round(failPercent) + '%';
-
-        // Update patient count
-        document.querySelector('.patient-count').innerText = `${totalPatients} คน`;
-
-        // Format the last update date to Thai date format and update the UI
-        if (lastUpdateDate) {
-            const date = new Date(lastUpdateDate);
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = date.toLocaleDateString('th-TH', options);
-            document.querySelector('.follow-up-dates').innerText = `อัปเดตล่าสุด: ${formattedDate}`;
-        }
-    })
-    .catch(error => console.error('Error fetching treatment data:', error));
-    </script>
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
+</script>
     <!-- Include scripts for Bootstrap, Chart.js, and other libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
