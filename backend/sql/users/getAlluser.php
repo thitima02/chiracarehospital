@@ -8,7 +8,7 @@ try {
     // คำสั่ง SQL สำหรับดึงข้อมูลผู้ใช้ทั้งหมดจากตาราง user_info
     $stmt = $conn->prepare("SELECT id, role, username, password, responsibility_area, user_image, full_name, phone_number , department FROM user_info");
     $stmt->execute();
-
+   
     // ดึงข้อมูลทั้งหมด
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -35,4 +35,4 @@ try {
 }
 
 // ส่ง response กลับเป็น JSON
-echo json_encode($response);
+echo json_encode($response); 

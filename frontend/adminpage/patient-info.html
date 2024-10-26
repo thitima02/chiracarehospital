@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patient Information</title>
   <link rel="stylesheet" href="../../css/patient-info.css">
+  <link rel="stylesheet" href="../../css/filltermenu.css">
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
@@ -24,21 +25,45 @@
   <div id="topbar-container"></div>
 
   <div class="patientinfo-container">
-    <div class="search-bar">
-      <input type="search" placeholder="ค้นหาชื่อ">
-      <input type="search" placeholder="เบอร์โทรศัพท์">
-      <input type="search" placeholder="เลขบัตรประชาชน">
-      <input type="search" placeholder="เบอร์โทรศัพท์ญาติ...">
-      <select>
-        <option>สถานะผู้ป่วย</option>
-        <option>นัดติดตามต่อเนื่อง</option>
-        <option>รักษาเสร็จสิ้น</option>
-      </select>
-      <button class="add-icon">
-        <a href="addinfo.html">
-          <i class='bx bx-user-plus'></i>
-        </a>
-      </button>
+    <div class="filter-container">
+      <div class="filter-item">
+        <h5>ค้นหารายชื่อ</h5>
+        <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+        <i class='bx bx-search search-icon'></i>
+      </div>
+      <div class="filter-item">
+        <h5>วันที่นัดหมาย</h5>
+        <input type="date" class="date-filter" id="appointmentDateFilter">
+      </div>
+      <div class="filter-item">
+        <h5>ครั้งที่รักษา</h5>
+        <select class="dropdown-filter" id="treatmentCountFilter">
+          <option value="ทั้งหมด">ทั้งหมด</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <!-- Add other options as needed -->
+        </select>
+      </div>
+      <div class="filter-item">
+        <h5>สถานะการติดตาม</h5>
+        <select class="dropdown-filter" id="followUpStatusFilter">
+          <option value="ทั้งหมด">ทั้งหมด</option>
+          <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
+          <option value="กำลังติดตาม">กำลังติดตาม</option>
+          <option value="ติดตามแล้ว">ติดตามแล้ว</option>
+          <option value="ติดตามล้มเหลว">ติดตามล้มเหลว</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <h5>สถานะการรักษา</h5>
+        <select class="dropdown-filter" id="treatmentStatusFilter">
+          <option value="ทั้งหมด">ทั้งหมด</option>
+          <option value="ยังไม่ได้รักษา">ยังไม่ได้รักษา</option>
+          <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+          <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+        </select>
+      </div>
     </div>
 
     <table class="patienttable">
@@ -50,7 +75,7 @@
           <th>เบอร์โทรศัพท์</th>
           <th>เบอร์โทรศัพท์ญาติ</th>
           <th>สถานะการรักษา</th>
-          <th>จัดการ</th>
+          <th></th>
         </tr>
       </thead>
 

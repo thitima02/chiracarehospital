@@ -25,11 +25,11 @@
 
   <div class="patientinfo-container">
     <div class="search-bar">
-      <input type="search" placeholder="ค้นหาชื่อ">
-      <input type="search" placeholder="เขตที่รับผิดชอบ">
-      <input type="search" placeholder="เลขบัตรประชาชน">
-      <input type="search" placeholder="เบอร์โทรศัพท์">
-      <select>
+      <input type="search" placeholder="ค้นหาชื่อ" id="SearchFilter">
+      <input type="search" placeholder="เขตที่รับผิดชอบ" id="responsibility-areaFilter">
+      <input type="search" placeholder="เลขบัตรประชาชน" id="IdcardFilter">
+      <input type="search" placeholder="เบอร์โทรศัพท์" id="PhonenumberFilter">
+      <select class="dropdown-filter" id="StatusFilter">
         <option>สถานะ</option>
         <option>อาสาสมัครสาธารณสุข</option>
         <option>เสนารักษ์</option>
@@ -122,6 +122,7 @@
               rows += '<td>' + staff.phone_number + '</td>';
               rows += '<td>';
               rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editStaff(\'' + staff.id + '\')"><i class="bx bxs-edit"></i></button>';
+              rows += '<button class="action-btn" title="ดูเพิ่มเติม" onclick="moreStaff(\'' + staff.id + '\')"><i class="bx bx-right-arrow-alt"></i></button>';
               rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deleteStaff(\'' + staff.id + '\')"><i class="bx bx-trash"></i></button>';
               rows += '</td>';
               rows += '</tr>';
@@ -140,7 +141,11 @@
     // ฟังก์ชันแก้ไขข้อมูล
     function editStaff(id) {
       // กำหนดให้ฟังก์ชันทำการแก้ไขข้อมูลตาม ID
-      window.location.href = 'edit_staff.html?id=' + id;
+      window.location.href = 'editaddstaff.html?id=' + id;
+    }
+
+    function moreStaff(id) {
+      window.location.href = 'morestaff.html?id=' + id;
     }
 
     // ฟังก์ชันลบข้อมูล
