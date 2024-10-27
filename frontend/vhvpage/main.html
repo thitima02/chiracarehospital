@@ -126,7 +126,7 @@
         document.addEventListener("DOMContentLoaded", function () {
 
             // Fetch total patients count from PHP
-            fetch("../../backend/sql/vhv/get_total_patients.php")
+            fetch("http://localhost/chiracarehospital/backend/sql/vhv/get_patient_address.php")
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -161,19 +161,18 @@
 
                             // Populate the row with patient data
                             row.innerHTML = `
-          <td><img src='/assets/images/cat.jpg' alt='patient image'> ${patient.full_name}</td>
-          <td id='startDate'>${patient.monitor_date || 'ไม่มีข้อมูล'}</td>
-          <td id='endDate'>${patient.last_update || 'ไม่มีข้อมูล'}</td>
-          <td id='address'>${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
-          <td id='timesFollowed'>${patient.monitor_status || 'ไม่มีข้อมูล'}</td>
-          <td id='timesFollowed'>${patient.times_followed || '2'}</td>
-          <td>
-            <a href="../../frontend/vhvpage/form.html" class="formbutton" title="คลิกเพื่อกรอกฟอร์ม">
-              <i class='bx bxs-edit'></i> คลิกเพื่อกรอกฟอร์ม
-            </a>
-          </td>
-        `;
-
+                <td><img src='data:image/jpeg;base64,${patient.patient_image}'> ${patient.full_name}</td>
+                <td id='startDate'>${patient.monitor_date}</td>
+                <td id='endDate'>${patient.last_update}</td>
+                <td id='address'>${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
+                <td id='timesFollowed'>${patient.monitor_status}</td>
+                <td id='timesFollowed'>${patient.monitor_round}</td>
+                <td>
+                    <a href="../../frontend/vhvpage/form.html" class="formbutton" title="คลิกเพื่อกรอกฟอร์ม">
+                        <i class='bx bxs-edit'></i> คลิกเพื่อกรอกฟอร์ม
+                    </a>
+                </td>
+            `;
                             // Append the new row to the table body
                             tbody.appendChild(row);
                         });

@@ -6,10 +6,20 @@ include '../db_connection.php';
 if ($conn) {
     try {
         // เตรียมคำสั่ง SQL เพื่อดึงข้อมูลจากตาราง patient_address
-        $sql = "SELECT p.full_name, a.province, a.amphur, a.tambon, a.number, a.soi, a.moo, a.postal_code
+        $sql = "SELECT p.full_name, p.patient_image,
+               a.province, 
+               a.amphur, 
+               a.tambon, 
+               a.soi, 
+               a.moo, 
+               a.number, 
+               m.monitor_date, 
+               m.monitor_status, 
+               m.monitor_round 
         FROM patient_information p
-        JOIN patient_address a ON p.id_patient_address = a.id";
-       
+        JOIN patient_address a ON p.id_patient_address = a.id
+        JOIN monitor_information m ON p.patient_id = m.patient_id"; // ใช้ id_patient เพื่อเชื่อมต่อกับ monitor_information
+
         $stmt = $conn->prepare($sql);
         $stmt->execute();
 
