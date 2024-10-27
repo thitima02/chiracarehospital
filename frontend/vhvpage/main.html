@@ -159,12 +159,17 @@
                             // Create a new row for each patient
                             const row = document.createElement("tr");
 
+                            // Check if patient_image is null or empty
+                            const imageUrl = patient.patient_image
+                                ? `data:image/jpeg;base64,${patient.patient_image}`
+                                : '../../assets/images/cat.jpg'; // Default image if patient_image is null
+
                             // Populate the row with patient data
                             row.innerHTML = `
-                <td><img src='data:image/jpeg;base64,${patient.patient_image}'> ${patient.full_name}</td>
+                <td style="text-align: left; padding-left: 25px"><img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px;"> ${patient.full_name}</td>
                 <td id='startDate'>${patient.monitor_date}</td>
                 <td id='endDate'>${patient.last_update}</td>
-                <td id='address'>${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
+                <td id='address' style="width:30%">${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
                 <td id='timesFollowed'>${patient.monitor_status}</td>
                 <td id='timesFollowed'>${patient.monitor_round}</td>
                 <td>
@@ -254,147 +259,5 @@
     </script>
 
 </body>
-<style>
-    .formbutton {
-        display: inline-flex;
-        /* Keeps icon and text aligned in a single row */
-        align-items: center;
-        /* Vertically centers content */
-        justify-content: center;
-        /* Horizontally centers content */
-        padding: 15px 60px;
-        /* Adjust padding for a larger button */
-        background-color: #5D97EF;
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        text-decoration: none;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-right: 20px;
-        white-space: normal;
-        /* Allows wrapping but tries to fit on two lines */
-        width: 260px;
-        /* Let the button expand to fit the content */
-        max-width: 400px;
-        /* Set a maximum width so the text doesn't go too wide */
-    }
-
-    /* Hover state for .formbutton */
-    .formbutton:hover {
-        background-color: #4a7bce;
-        /* Slightly darker blue on hover */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* Increase shadow on hover */
-    }
-
-    /* Icon styling inside the button */
-    .formbutton i {
-        margin-right: 8px;
-        /* Space between icon and text */
-        font-size: 18px;
-        /* Icon size */
-        vertical-align: middle;
-        /* Align icon with the text */
-    }
-
-    /* Ensure the button and text are horizontally aligned */
-    .formbutton {
-        display: inline-flex;
-        /* Align text and icon in one line */
-        align-items: center;
-        /* Vertically center the content */
-    }
-</style>
-
-<style>
-    .stats-container {
-        display: flex;
-        justify-content: space-between;
-        padding-left: 6.7%;
-        padding-right: 10%;
-        padding-top: 20px;
-
-        @media (max-width: 600px) {
-            justify-content: center;
-            /* Center for mobile */
-            padding-left: 3%;
-            padding-right: 3%;
-            flex-wrap: wrap;
-            /* Wrap the boxes on small screens */
-        }
-
-        @media (min-width: 601px) and (max-width: 1024px) {
-            justify-content: space-around;
-            /* Adjust for tablets */
-            padding-left: 20%;
-            flex-wrap: wrap;
-        }
-    }
-
-    .box {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        border-radius: 15px;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        min-width: 370px;
-        /* Reduce the minimum width */
-        margin: 10px;
-        flex-grow: 1;
-        /* Allow it to expand to fill available space */
-
-        @media (max-width: 600px) {
-            flex-direction: column;
-            /* Stack content vertically on small screens */
-            min-width: 100%;
-            /* Full width for mobile */
-            text-align: center;
-            /* Center the text */
-        }
-    }
-
-    .box i {
-        font-size: 40px;
-        margin-right: 20px;
-        /* Reduce the space between icon and text */
-
-        @media (max-width: 600px) {
-            margin-right: 0;
-            margin-bottom: 10px;
-        }
-    }
-
-    .box h2 {
-        margin: 10px;
-        font-size: 22px;
-        /* Slightly smaller font size */
-        color: #333;
-    }
-
-    .box p {
-        margin: 5px 0 0 0;
-        color: #525252;
-        margin: 10px;
-    }
-
-    .new-order i {
-        color: #5DA3FA;
-        margin: 0 10px;
-    }
-
-    .visitors i {
-        color: #16bc19;
-        margin: 0 10px;
-    }
-
-    .total-sales i {
-        color: #FA5A7D;
-        margin: 0 10px;
-    }
-</style>
 
 </html>
