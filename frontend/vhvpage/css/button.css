@@ -1,4 +1,4 @@
-button[type="submit"] {
+button[type="button_submit"] {
     padding: 6px 35px;
     background-color: #5D97EF;
     border: 2px solid #5D97EF;
@@ -8,14 +8,13 @@ button[type="submit"] {
     cursor: pointer;
     font-size: 16px;
     /* font-weight: bold; */
-    margin-right: 20px; /* Adds spacing between the buttons */
 }
 
-button[type="submit"]:hover {
+button[type="button_submit"]:hover {
     background-color: #4a7bce;
 }
 
-button[type="back"] {
+button[type="button"] {
     padding: 5px 25px;
     background-color: #F0F0F0;
     border: 2px solid #CECECE;
@@ -24,9 +23,10 @@ button[type="back"] {
     cursor: pointer;
     font-size: 16px;
     /* font-weight: bold; */
+    margin-right: 20px; /* Adds spacing between the buttons */
 }
 
-button[type="back"]:hover {
+button[type="button"]:hover {
     background-color: #cecece;
 }
 
@@ -34,9 +34,8 @@ button[type="back"]:hover {
 .button-group {
     display: flex;
     justify-content: flex-end; /* Align buttons to the right */
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-bottom: 15px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 button[type="Yes"]{

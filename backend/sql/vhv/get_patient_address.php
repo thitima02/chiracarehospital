@@ -6,7 +6,8 @@ include '../db_connection.php';
 if ($conn) {
     try {
         // เตรียมคำสั่ง SQL เพื่อดึงข้อมูลจากตาราง patient_address
-        $sql = "SELECT p.full_name, p.patient_image,
+        $sql = "SELECT p.full_name, p.patient_image, pm.disease_type,
+               a.postal_code,
                a.province, 
                a.amphur, 
                a.tambon, 
@@ -18,6 +19,7 @@ if ($conn) {
                m.monitor_round 
         FROM patient_information p
         JOIN patient_address a ON p.id_patient_address = a.id
+        JOIN patient_medical_information pm ON p.id_patient_medical_information = pm.id
         JOIN monitor_information m ON p.patient_id = m.patient_id"; // ใช้ id_patient เพื่อเชื่อมต่อกับ monitor_information
 
         $stmt = $conn->prepare($sql);
