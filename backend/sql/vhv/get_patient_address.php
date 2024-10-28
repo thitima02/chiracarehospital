@@ -6,7 +6,7 @@ include '../db_connection.php';
 if ($conn) {
     try {
         // เตรียมคำสั่ง SQL เพื่อดึงข้อมูลจากตาราง patient_address
-        $sql = "SELECT p.full_name, p.patient_image, pm.disease_type,
+        $sql = "SELECT p.full_name, p.patient_image, pm.disease_type, p.patient_id,
                a.postal_code,
                a.province, 
                a.amphur, 

@@ -164,9 +164,9 @@
                             // Check if the monitor_status is "ติดตามแล้ว"
                             const actionButton = patient.monitor_status === "ติดตามแล้ว"
                                 ? `<span style="color:#16bc19;">รายงานผลเรียบร้อยแล้ว</span>`
-                                : `<a href="form.html?full_name=${patient.full_name}&disease=${patient.disease_type}" class="formbutton" title="กรอกข้อมูลการติดตาม">
-                        <i class='bx bxs-edit'></i> กรอกข้อมูลการติดตาม
-                       </a>`;
+                                : `<a href="form.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}" class="formbutton" title="กรอกข้อมูลการติดตาม">
+                                <i class='bx bxs-edit'></i> กรอกข้อมูลการติดตาม
+                                 </a>`;
 
                             // Populate the row with patient data
                             row.innerHTML = `

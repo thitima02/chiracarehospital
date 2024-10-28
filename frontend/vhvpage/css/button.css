@@ -1,4 +1,4 @@
-button[type="button_submit"] {
+button[type="button"] {
     padding: 6px 35px;
     background-color: #5D97EF;
     border: 2px solid #5D97EF;
@@ -10,11 +10,11 @@ button[type="button_submit"] {
     /* font-weight: bold; */
 }
 
-button[type="button_submit"]:hover {
+button[type="button"]:hover {
     background-color: #4a7bce;
 }
 
-button[type="button"] {
+button[type="cancelBtn"] {
     padding: 5px 25px;
     background-color: #F0F0F0;
     border: 2px solid #CECECE;
@@ -26,7 +26,7 @@ button[type="button"] {
     margin-right: 20px; /* Adds spacing between the buttons */
 }
 
-button[type="button"]:hover {
+button[type="cancelBtn"]:hover {
     background-color: #cecece;
 }
 
