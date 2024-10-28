@@ -7,10 +7,17 @@ body {
 
 .container {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 20px;
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
 }
 
 .patient-profile {
@@ -18,19 +25,12 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 25%;
+    width: 30%;
 }
 
 .patient-profile img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
-
-.patient-details {
-    display: flex;
-    gap: 20px;
-    width: 100%;
+    width: 20%;
+    border-radius: 8px;
 }
 
 .follow-up-info, .treatment-info {
@@ -38,11 +38,13 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 50%;
+    width: 35%;
 }
 
-.follow-up-info h3, .treatment-info h3 {
-    color: #2d72b5;
+h3 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 15px;
 }
 
 .green-status {
@@ -58,6 +60,7 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 table {
