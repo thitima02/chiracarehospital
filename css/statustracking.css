@@ -334,6 +334,17 @@
   text-align: center;
 }
 
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* จัดให้อยู่ตรงกลางในแนวแกน X */
+}
+
+.text label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
 button[type="Yes"] {
   padding: 6px 35px;
   background-color: #27AE60;
@@ -346,6 +357,7 @@ button[type="Yes"] {
   /* font-weight: bold; */
   margin-right: 20px;
   /* Adds spacing between the buttons */
+  margin-top: 20px;
 }
 
 button[type="Yes"]:hover {
@@ -364,6 +376,7 @@ button[type="No"] {
   /* font-weight: bold; */
   margin-right: 20px;
   /* Adds spacing between the buttons */
+  margin-top: 20px;
 }
 
 button[type="No"]:hover {

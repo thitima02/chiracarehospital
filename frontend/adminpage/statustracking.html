@@ -91,11 +91,15 @@
 
   <div id="confirmation-popup" style="display:none;">
     <div class="popup-content">
-      <h2>ยืนยันการมอบหมายงาน</h2>
+      <h2>กรุณาตรวจสอบก่อนยืนยันเพื่อติดตามผู้ป่วย</h2>
       <p id="patient-count"></p>
       <ul id="patient-list"></ul>
-      <label for="monitor-deadline">กำหนดวันหมดอายุการติดตาม:</label>
-      <input type="date" id="monitor-deadline" required>
+      <div class="text">
+        <label for="monitor-start-date">วันที่เริ่มติดตาม:</label>
+        <input type="date" id="monitor-start-date" required>
+        <label for="monitor-deadline">กำหนดส่งผลการติดตาม:</label>
+        <input type="date" id="monitor-deadline" required>
+      </div>
       <button type="Yes" id="confirm-assign">ยืนยัน</button>
       <button type="No" id="cancel-assign">ยกเลิก</button>
     </div>
@@ -111,9 +115,8 @@
 
     // ตั้งค่า min เป็นวันที่ปัจจุบัน
     document.getElementById('monitor-deadline').setAttribute('min', today);
-  </script>
+    document.getElementById('monitor-start-date').setAttribute('min', today); // วันที่เริ่มติดตามต้องไม่ย้อนกลับ
 
-  <script>
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('cancel-assign').addEventListener('click', function () {
         const confirmationPopup = document.getElementById('confirmation-popup');
@@ -141,7 +144,7 @@
 
       assignButton.addEventListener('click', function () {
         const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
-          return parseInt(checkbox.value); // เปลี่ยนให้ใช้ value เป็น ID ของผู้ป่วย
+          return parseInt(checkbox.value);
         });
 
         if (selectedPatients.length === 0) {
@@ -157,7 +160,7 @@
           patientList.innerHTML = '';
           selectedPatients.forEach(patientId => {
             const li = document.createElement('li');
-            li.textContent = `ผู้ป่วย ID: ${patientId}`; // แสดง ID ของผู้ป่วย
+            li.textContent = `ผู้ป่วย ID: ${patientId}`;
             patientList.appendChild(li);
           });
         }
@@ -176,8 +179,13 @@
           return;
         }
 
-        const monitorStatus = 'กำลังติดตาม';
-        const monitorDeadline = document.getElementById('monitor-deadline').value;
+        const monitorStatus = 'กำลังติดตาม'; // สถานะการติดตามที่เราต้องการ
+        const monitorDeadline = document.getElementById('monitor-deadline').value; // วันหมดอายุ
+        const monitorStartDate = document.getElementById('monitor-start-date').value; // วันเริ่มติดตาม
+
+        // ตรวจสอบค่าวันที่ก่อนส่ง
+        console.log('Monitor Deadline:', monitorDeadline);
+        console.log('Monitor Start Date:', monitorStartDate);
 
         try {
           const response = await fetch('http://localhost/chiracarehospital/backend/sql/monitoring/update_patient_status.php', {
@@ -188,7 +196,8 @@
             body: JSON.stringify({
               monitorStatus: monitorStatus,
               patientIds: selectedPatients,
-              monitorDeadline: monitorDeadline
+              monitorDeadline: monitorDeadline,
+              monitorStartDate: monitorStartDate // ส่งวันที่เริ่มติดตาม
             })
           });
 
@@ -198,7 +207,7 @@
             alert(`อัปเดตสถานะสำเร็จ: ${responseData.updated_count} รายการ`);
             document.getElementById('confirmation-popup').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
-            window.location.reload();
+            window.location.reload(); // รีเฟรชหน้าเว็บ
           } else {
             alert(`เกิดข้อผิดพลาด: ${responseData.message}`);
           }
@@ -272,9 +281,9 @@
                 <td>${patient.full_name ? patient.full_name : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
                 <td>${patient.disease_type ? patient.disease_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
                 <td>${patient.patient_type ? patient.patient_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-                <td>${patient.monitor_date ? patient.monitor_date : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-                <td>${patient.monitor_deadline ? patient.monitor_deadline : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-                <td>${patient.monitor_round ? patient.monitor_round : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td>${patient.monitor_date ? patient.monitor_date : `<span class="no-data">ไม่มี</span>`}</td>
+                <td>${patient.monitor_deadline ? patient.monitor_deadline : `<span class="no-data">ไม่มี</span>`}</td>
+                <td>${patient.monitor_round ? patient.monitor_round : `<span class="no-data">ไม่มี</span>`}</td>
                 <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status ? patient.treatment_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
                 <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status ? patient.monitor_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
                 <td>
