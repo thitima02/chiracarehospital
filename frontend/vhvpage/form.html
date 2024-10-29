@@ -72,7 +72,8 @@
 
       <!-- Submit Button -->
       <div class="button-group">
-        <button type="cancelBtn" id="back" onclick="goBack();">ยกเลิก</button>
+        <!-- ปุ่มยกเลิก -->
+        <button type="button" id="back" onclick="goBack();">ยกเลิก</button>
         <button type="button" id="saveBtn" onclick="confirmSubmission(event)">บันทึก</button>
 
       </div>
@@ -106,7 +107,7 @@
       document.getElementById("not-receiving-treatment").value = reasonForMissedTreatment;
       document.getElementById("date").value = formSubmissionDate;
 
-      // เพิ่มส่วนนี้เพื่อแสดง patient_id ในฟอร์ม
+      // แสดง patient_id ในฟอร์ม
       document.getElementById("patient-id").value = patientId; // ตั้งค่าค่า patient_id
     }
 
@@ -164,6 +165,7 @@
       const popup = document.getElementById("popup");
       popup.style.display = "flex";
     }
+
     function closePopup() {
       document.getElementById("popup").style.display = "none";
     }
@@ -178,14 +180,6 @@
       const vitalSigns = document.getElementById("vital-signs").value.trim();
       const reasonForMissedTreatment = document.getElementById("not-receiving-treatment").value.trim();
       const formSubmissionDate = document.getElementById("date").value.trim();
-
-      // แสดงค่าที่ถูกกรอกเพื่อช่วยในการดีบัก
-      console.log("Patient ID:", patientId);
-      console.log("General Symptoms:", generalSymptoms);
-      console.log("Blood Sugar Level:", bloodSugarLevel);
-      console.log("Vital Signs:", vitalSigns);
-      console.log("Reason for Missed Treatment:", reasonForMissedTreatment);
-      console.log("Form Submission Date:", formSubmissionDate);
 
       // ตรวจสอบให้แน่ใจว่าข้อมูลที่จำเป็นถูกกรอกครบถ้วน
       if (!patientId || !generalSymptoms || !bloodSugarLevel || !vitalSigns || !reasonForMissedTreatment || !formSubmissionDate) {
@@ -208,14 +202,19 @@
           form_submission_date: formSubmissionDate
         })
       })
-        .then(response => response.text()) // ใช้ response.text() เพื่ออ่านข้อมูลเป็นข้อความ
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+          }
+          return response.text(); // อ่านข้อมูลเป็นข้อความ
+        })
         .then(data => {
           console.log(data); // แสดงข้อมูลที่ได้รับจากเซิร์ฟเวอร์
           try {
             const jsonData = JSON.parse(data); // แปลงเป็น JSON
             if (jsonData.success) {
               alert('ข้อมูลบันทึกสำเร็จ');
-              window.location.href = 'main.html';
+              window.location.href = 'main.html'; // เปลี่ยนไปยัง main.html
             } else {
               alert('การบันทึกข้อมูลล้มเหลว: ' + jsonData.error);
             }
@@ -235,25 +234,32 @@
       const fullName = urlParams.get("full_name");
       const disease = urlParams.get("disease");
 
-      // กำหนดค่าที่ฟอร์ม
       if (fullName) {
         document.getElementById("name").value = fullName;
-        document.getElementById("name").readOnly = true; // ไม่ให้แก้ไขชื่อ
+        document.getElementById("name").readOnly = true;
       } else {
         console.error("Full name not found in URL");
+        // เปลี่ยนเส้นทางไปยัง main.html ถ้าไม่พบชื่อ
+        window.location.href = "main.html";
+        return; // ออกจากฟังก์ชัน
       }
 
       if (disease) {
         document.getElementById("disease").value = disease;
-        document.getElementById("disease").readOnly = true; // ไม่ให้แก้ไขโรค
+        document.getElementById("disease").readOnly = true;
       } else {
         console.error("Disease not found in URL");
+        // เปลี่ยนเส้นทางไปยัง main.html ถ้าไม่พบโรค
+        window.location.href = "main.html";
+        return; // ออกจากฟังก์ชัน
       }
     }
 
+    // ตรวจสอบให้แน่ใจว่า DOM โหลดเสร็จแล้ว
     document.addEventListener("DOMContentLoaded", function () {
       loadFormData(); // โหลดข้อมูลจาก URL
     });
+
   </script>
 
   <script>

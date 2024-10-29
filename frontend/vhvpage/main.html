@@ -40,21 +40,21 @@
                 <i class='bx bx-user'></i>
                 <div>
                     <h2>0</h2>
-                    <p>ผู้ป่วยที่ต้องติดตามวันนี้</p>
+                    <p>จำนวนการกรอกข้อมูลการติดตามที่ยังไม่เสร็จสิ้น</p>
                 </div>
             </div>
             <div class="box box2 visitors">
                 <i class='bx bx-smile'></i>
                 <div>
                     <h2>0</h2>
-                    <p>ติดตามเสร็จสิ้น</p>
+                    <p>ผู้ป่วยทั้งหมดที่ติดตามแล้ว</p>
                 </div>
             </div>
             <div class="box box3 total-sales">
                 <i class='bx bx-tired'></i>
                 <div>
                     <h2>0</h2>
-                    <p>ยังไม่ได้ติดตาม</p>
+                    <p>ผู้ป่วยทั้งหมดที่ยังไม่ได้ติดตาม</p>
                 </div>
             </div>
         </div>
@@ -121,7 +121,6 @@
         </table>
     </div>
 
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
@@ -152,9 +151,12 @@
                     console.log("Patient Address Data:", data);
                     const tbody = document.getElementById("patient-tbody");
 
-                    // Check if there is any data
-                    if (data.length > 0) {
-                        data.forEach((patient, index) => {
+                    // Filter data to get only patients with status "กำลังติดตาม"
+                    const filteredData = data.filter(patient => patient.monitor_status === "กำลังติดตาม");
+
+                    // Check if there is any filtered data
+                    if (filteredData.length > 0) {
+                        filteredData.forEach(patient => {
                             const row = document.createElement("tr");
 
                             const imageUrl = patient.patient_image
@@ -170,20 +172,20 @@
 
                             // Populate the row with patient data
                             row.innerHTML = `
-                    <td style="text-align: left; padding-left: 40px">
-                        <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px;"> ${patient.full_name}
-                    </td>
-                    <td id='startDate'>${patient.monitor_date}</td>
-                    <td id='endDate'>${patient.disease_type}</td>
-                    <td id='address' style="width:20%">${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
-                    <td id='timesFollowed'>${patient.monitor_status}</td>
-                    <td id='timesFollowed'>${patient.monitor_round}</td>
-                    <td>${actionButton}</td>
-                `;
+                                <td style="text-align: left; padding-left: 40px">
+                                    <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px;"> ${patient.full_name}
+                                </td>
+                                <td id='startDate'>${patient.monitor_date}</td>
+                                <td id='endDate'>${patient.disease_type}</td>
+                                <td id='address' style="width:20%">${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
+                                <td id='timesFollowed'>${patient.monitor_status}</td>
+                                <td id='timesFollowed'>${patient.monitor_round}</td>
+                                <td>${actionButton}</td>
+                            `;
                             tbody.appendChild(row);
                         });
                     } else {
-                        tbody.innerHTML = "<tr><td colspan='6'>ไม่พบข้อมูลผู้ป่วย</td></tr>";
+                        tbody.innerHTML = "<tr><td colspan='6'>ไม่พบข้อมูลผู้ป่วยที่กำลังติดตาม</td></tr>";
                     }
                 })
                 .catch(error => console.error("Error fetching patient data:", error));
@@ -192,7 +194,7 @@
     </script>
 
     <script>
-        //function for filter the name
+        // Function for filter the name
         document.addEventListener("DOMContentLoaded", function () {
             // Get the search input field
             const searchInput = document.getElementById('searchInput');
