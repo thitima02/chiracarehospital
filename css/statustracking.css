@@ -155,33 +155,37 @@
   display: inline-block;
   padding: 5px 10px;
   border-radius: 5px;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 13px;
 }
 
 .status.uncomplete {
   background-color: #F4E1E1;
   color: #BB4242;
+  font-weight: bold;
 }
 
 .status.in-progress {
   background-color: #FFF5C2;
   color: #E99050;
+  font-weight: bold;
 }
 
 .status.continue {
   /* background-color: #F4E1ED; */
   color: #BB4292;
+  font-weight: bold;
 }
 
 .status.completed {
   background-color: #E1F4E1;
   color: #5F8D4E;
+  font-weight: bold;
 }
 
 .status.sucess {
   /* background-color: #E3F5FF; */
   color: #5D97EF;
+  font-weight: bold;
 }
 
 .status.unsucess {
@@ -192,6 +196,7 @@
 .status.failed {
   background-color: #e5e1f4;
   color: #634e8d;
+  font-weight: bold;
 }
 
 .status.other {

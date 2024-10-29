@@ -75,7 +75,7 @@
             <th>ประเภทโรค</th>
             <th>ประเภทผู้ป่วย</th>
             <th>วันที่เริ่มติดตาม</th>
-            <th>กำหนดส่งผลติดตาม</th>
+            <th>กำหนดส่งงาน</th>
             <th>ครั้งที่ติดตาม</th>
             <th>สถานะการรักษา</th>
             <th>สถานะการติดตาม</th>
@@ -230,41 +230,57 @@
         }
       }
 
-      // ฟังก์ชันสำหรับดึงข้อมูลผู้ป่วย
+      // ฟังก์ชันสำหรับดึงข้อมูลผู้ป่วยพร้อมการจัดเรียงตามสถานะการติดตาม
       async function fetchPatientData() {
         const tbody = document.querySelector('.patient-table tbody');
         try {
           const response = await fetch('http://localhost/chiracarehospital/backend/sql/monitoring/patient_list.php');
           if (!response.ok) throw new Error('Network response was not ok: ' + response.statusText);
 
-          const data = await response.json();
+          let data = await response.json();
+
+          // ลำดับการจัดเรียงสถานะตามที่กำหนด
+          const statusOrder = {
+            'ยังไม่ได้ติดตาม': 1,
+            'ติดตามล้มเหลว': 2,
+            'กำลังติดตาม': 3,
+            'ติดตามแล้ว': 4
+          };
+
+          // จัดเรียงข้อมูลตามสถานะการติดตาม
+          data.sort((a, b) => {
+            const statusA = statusOrder[a.monitor_status] || 5;
+            const statusB = statusOrder[b.monitor_status] || 5;
+            return statusA - statusB;
+          });
+
           tbody.innerHTML = '';
 
           if (!Array.isArray(data) || data.length === 0) {
             tbody.innerHTML = `<tr><td colspan="10">ไม่มีข้อมูลผู้ป่วย</td></tr>`;
-            document.getElementById('assign-button').style.display = 'none'; // ซ่อนปุ่มถ้าไม่มีข้อมูล
+            document.getElementById('assign-button').style.display = 'none';
             return;
           }
 
           data.forEach(patient => {
             const isMonitoringPending = patient.monitor_status === 'ยังไม่ได้ติดตาม';
-            const isMonitoringFailed = patient.monitor_status === 'ติดตามล้มเหลว'; // ตรวจสอบสถานะติดตามล้มเหลว
+            const isMonitoringFailed = patient.monitor_status === 'ติดตามล้มเหลว';
 
             const row = document.createElement('tr');
             row.innerHTML = `
-                        <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-patient-name='${patient.full_name}'>` : ''}</td>
-                        <td>${patient.full_name}</td>
-                        <td>${patient.disease_type}</td>
-                        <td>${patient.patient_type}</td>
-                        <td>${patient.monitor_date}</td>
-                        <td>${patient.monitor_deadline}</td>
-                        <td>${patient.monitor_round}</td>
-                        <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status}</span></td>
-                        <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status}</span></td>
-                        <td>
-                            <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html';"><i class='bx bx-edit'></i></button>
-                            <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html';"><i class='bx bx-right-arrow-alt'></i></button>
-                        </td>`;
+                <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-patient-name='${patient.full_name}'>` : `<div class="unselectable-box"></div>`}</td>
+                <td>${patient.full_name}</td>
+                <td>${patient.disease_type}</td>
+                <td>${patient.patient_type}</td>
+                <td>${patient.monitor_date || 'ไม่มีข้อมูล'}</td>
+                <td>${patient.monitor_deadline || 'ไม่มีข้อมูล'}</td>
+                <td>${patient.monitor_round || 'ไม่มีข้อมูล'}</td>
+                <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>
+                <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status || 'ไม่มีข้อมูล'}</span></td>
+                <td>
+                    <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html';"><i class='bx bx-edit'></i></button>
+                    <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html';"><i class='bx bx-right-arrow-alt'></i></button>
+                </td>`;
             tbody.appendChild(row);
           });
 
@@ -273,7 +289,7 @@
         } catch (error) {
           console.error('Error:', error);
           tbody.innerHTML = `<tr><td colspan="10">เกิดข้อผิดพลาดในการดึงข้อมูล: ${error.message}</td></tr>`;
-          document.getElementById('assign-button').style.display = 'none'; // ซ่อนปุ่มถ้ามีข้อผิดพลาด
+          document.getElementById('assign-button').style.display = 'none';
         }
       }
 
@@ -397,5 +413,36 @@
   </script>
 
 </body>
+
+<style>
+  .no-data {
+    color: red;
+    /* กำหนดสีของข้อความเป็นสีแดง */
+    /* font-style: italic; */
+  }
+
+  .unselectable-box {
+    width: 20px;
+    height: 20px;
+    background-color: #d9d9d9;
+    /* สีพื้นหลังทึบ */
+    border: 1px solid #a6a6a6;
+    /* สีขอบ */
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  td .patient-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+  }
+
+  th .select-all {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+  }
+</style>
 
 </html>
