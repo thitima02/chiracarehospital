@@ -23,27 +23,32 @@ $data = json_decode(file_get_contents("php://input"), true);
 error_log('Received data: ' . print_r($data, true));
 
 // ตรวจสอบ monitorStatus และ patientIds ว่ามีการส่งมาหรือไม่
-$monitorStatus = $data['monitorStatus'] ?? '';
-$patientIds = $data['patientIds'] ?? [];
+$monitorStatus = isset($data['monitorStatus']) ? $data['monitorStatus'] : '';
+$patientIds = isset($data['patientIds']) ? $data['patientIds'] : [];
+$monitorDeadline = isset($data['monitorDeadline']) ? $data['monitorDeadline'] : ''; // รับวันหมดอายุ
 
-if (empty($monitorStatus) || empty($patientIds)) {
-    echo json_encode(['status' => 'error', 'message' => 'No patient IDs or monitor status provided']);
+// ตรวจสอบว่าค่า monitorStatus มีการส่งมาหรือไม่
+if (empty($monitorStatus)) {
+    echo json_encode(['status' => 'error', 'message' => 'No monitor status provided']);
+    exit;
+}
+
+// ตรวจสอบว่า patientIds เป็นอาร์เรย์และมีค่าไม่ว่าง
+if (!is_array($patientIds) || empty($patientIds)) {
+    echo json_encode(['status' => 'error', 'message' => 'No patient IDs provided or patient IDs are not an array']);
     exit;
 }
 
 // ตรวจสอบ ID ที่ส่งมา
 error_log('Patient IDs for update: ' . implode(',', $patientIds));
 
-// เตรียมคำสั่ง SQL
+// เตรียมคำสั่ง SQL เพื่ออัปเดตสถานะการติดตาม
 $placeholders = implode(',', array_fill(0, count($patientIds), '?'));
 $sql = "
     UPDATE monitor_information 
-    SET monitor_status = ? 
+    SET monitor_status = ?, monitor_deadline = ?, monitor_round = monitor_round + 1
     WHERE patient_id IN ($placeholders)
 ";
-
-// เพิ่ม log เพื่อตรวจสอบคำสั่ง SQL
-error_log('SQL Query: ' . $sql);
 
 try {
     $stmt = $conn->prepare($sql);
@@ -52,8 +57,8 @@ try {
     }
 
     // ผูกค่าให้กับ placeholders
-    $types = 's' . str_repeat('i', count($patientIds)); // 's' สำหรับ monitorStatus, 'i' สำหรับ patientIds
-    $stmt->bind_param($types, $monitorStatus, ...$patientIds);
+    $types = 'ss' . str_repeat('i', count($patientIds));
+    $stmt->bind_param($types, $monitorStatus, $monitorDeadline, ...$patientIds);
 
     // ตรวจสอบก่อนการอัปเดตว่า ID มีอยู่ในฐานข้อมูลหรือไม่
     $sql_check = "SELECT * FROM monitor_information WHERE patient_id IN ($placeholders)";
@@ -62,7 +67,6 @@ try {
     $stmt_check->execute();
     $result_check = $stmt_check->get_result();
 
-    // Debug: แสดงจำนวนแถวที่พบ
     error_log('Matching records found: ' . $result_check->num_rows);
 
     if ($result_check->num_rows > 0) {

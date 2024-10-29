@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 // SQL query ดึงข้อมูลจากหลายตาราง
 $sql = "SELECT pi.patient_id, pi.full_name, pi.current_status, 
                pm.disease_type, pm.patient_type, pm.patient_group,
-               mi.monitor_round, mi.monitor_status,
+               mi.monitor_round, mi.monitor_status, mi.monitor_deadline, mi.monitor_date,
                ti.treatment_status
         FROM patient_information pi
         LEFT JOIN patient_medical_information pm ON pi.patient_id = pm.patient_id

@@ -170,7 +170,7 @@
 }
 
 .status.continue {
-  background-color: #F4E1ED;
+  /* background-color: #F4E1ED; */
   color: #BB4292;
 }
 
@@ -180,18 +180,22 @@
 }
 
 .status.sucess {
-  background-color: #E3F5FF;
+  /* background-color: #E3F5FF; */
   color: #5D97EF;
 }
 
 .status.unsucess {
-  background-color: #dddddd;
+  /* background-color: #dddddd; */
   color: #626262;
 }
 
-.status.other {
+.status.failed {
   background-color: #e5e1f4;
   color: #634e8d;
+}
+
+.status.other {
+  color: #c0c0c0;
 }
 
 /* การตอบสนองของตาราง */
