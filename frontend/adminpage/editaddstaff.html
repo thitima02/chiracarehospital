@@ -70,36 +70,32 @@
   <!-- Form -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // ดึง ID จาก URL
       const params = new URLSearchParams(window.location.search);
-      const userId = params.get('id'); // รับค่า ID จาก URL
+      const userId = params.get('id');
 
       if (userId) {
-        // โหลดข้อมูลของผู้ใช้ตาม ID ที่ได้รับ
         loadUserData(userId);
       } else {
         console.error("ไม่พบ ID ผู้ใช้ใน URL");
       }
     });
 
-    function loadUserData(staffId) {
-      // ดึงข้อมูลพนักงานตาม ID ที่ส่งเข้ามาในฟังก์ชัน
-      fetch(`http://localhost/chiracarehospital/backend/sql/users/getAlluser.php?id=${staffId}`)
+    function loadUserData(id) {
+      fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser.php?id=${id}`)
         .then(response => response.json())
         .then(data => {
+          console.log(data); // ตรวจสอบข้อมูลที่ได้รับจาก API
           if (data.status === 'success') {
-            // กำหนดค่าให้กับฟิลด์ต่างๆ
-            document.getElementById("name").value = data.data.full_name || '';
-            document.getElementById("phonenumber").value = data.data.phone_number || '';
-
+            document.getElementById("name").value = data.data.full_name || 'ไม่มีข้อมูล';
+            document.getElementById("phonenumber").value = data.data.phone_number || 'ไม่มีข้อมูล';
           } else {
             console.error(data.message);
           }
         })
         .catch(error => console.error("Error fetching data:", error));
     }
-  </script>
 
+  </script>
 
   <script>
     // Load sidebar

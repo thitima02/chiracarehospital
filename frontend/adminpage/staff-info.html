@@ -94,9 +94,6 @@
         }
       }
     }
-    document.getElementById('add-button').addEventListener('click', function () {
-      window.location.href = 'editaddstaff.html';
-    });
   </script>
 
 
@@ -122,7 +119,7 @@
               rows += '<td>' + staff.phone_number + '</td>';
               rows += '<td>';
               rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editStaff(\'' + staff.id + '\')"><i class="bx bxs-edit"></i></button>';
-              rows += '<button class="action-btn" title="ดูเพิ่มเติม" onclick="moreStaff(\'' + staff.id + '\')"><i class="bx bx-right-arrow-alt"></i></button>';
+              rows += '<button class="action-btn" title="ดูเพิ่มเติม" onclick="moreStaff(\'' + staff.id + '\')" ><i class="bx bx-right-arrow-alt"></i></button>';
               rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deleteStaff(\'' + staff.id + '\')"><i class="bx bx-trash"></i></button>';
               rows += '</td>';
               rows += '</tr>';
@@ -140,12 +137,11 @@
 
     // ฟังก์ชันแก้ไขข้อมูล
     function editStaff(id) {
-      // กำหนดให้ฟังก์ชันทำการแก้ไขข้อมูลตาม ID
-      window.location.href = 'editaddstaff.html?id=' + id;
+      window.location.href = `editaddstaff.html?id=${id}`;
     }
 
     function moreStaff(id) {
-      window.location.href = 'morestaff.html?id=' + id;
+      window.location.href = `morestaff.html?id=${id}`;
     }
 
     // ฟังก์ชันลบข้อมูล
@@ -167,6 +163,37 @@
         });
       }
     }
+  </script>
+
+  <script>
+    function getUserIdFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('id');
+    }
+
+    function loadUserData() {
+      const userId = getUserIdFromURL();
+      if (userId) {
+        fetch(`http://localhost/chiracarehospital/backend/sql/users/getAlluser.php?id=${userId}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              // แสดงข้อมูลในฟอร์ม เช่น
+              document.getElementById('name').value = data.data.full_name;
+              document.getElementById('idcard').value = data.data.id;
+              document.getElementById('phonenumber').value = data.data.phone_number;
+              // กำหนดข้อมูลอื่น ๆ
+            } else {
+              alert(data.message); // แจ้งเตือนถ้าข้อมูลผิดพลาด
+            }
+          })
+          .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+      }
+    }
+
+    // เรียกใช้เมื่อโหลดหน้า
+    document.addEventListener('DOMContentLoaded', loadUserData);
+
   </script>
 
 </body>
