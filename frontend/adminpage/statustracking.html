@@ -269,14 +269,14 @@
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-patient-name='${patient.full_name}'>` : `<div class="unselectable-box"></div>`}</td>
-                <td>${patient.full_name}</td>
-                <td>${patient.disease_type}</td>
-                <td>${patient.patient_type}</td>
-                <td>${patient.monitor_date || 'ไม่มีข้อมูล'}</td>
-                <td>${patient.monitor_deadline || 'ไม่มีข้อมูล'}</td>
-                <td>${patient.monitor_round || 'ไม่มีข้อมูล'}</td>
-                <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>
-                <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status || 'ไม่มีข้อมูล'}</span></td>
+                <td>${patient.full_name ? patient.full_name : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td>${patient.disease_type ? patient.disease_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td>${patient.patient_type ? patient.patient_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td>${patient.monitor_date ? patient.monitor_date : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td>${patient.monitor_deadline ? patient.monitor_deadline : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td>${patient.monitor_round ? patient.monitor_round : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status ? patient.treatment_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
+                <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status ? patient.monitor_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
                 <td>
                     <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html';"><i class='bx bx-edit'></i></button>
                     <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html';"><i class='bx bx-right-arrow-alt'></i></button>
