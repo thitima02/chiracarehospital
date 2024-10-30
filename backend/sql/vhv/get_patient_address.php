@@ -1,19 +1,6 @@
 <?php
 include '../db_connection.php'; // รวมไฟล์การเชื่อมต่อ
 
-<<<<<<< HEAD
-try {
-    $stmt = $conn->prepare("SELECT * FROM patient_address"); // เปลี่ยนชื่อตารางตามที่คุณต้องการ
-    $stmt->execute();
-    
-    // ดึงข้อมูลทั้งหมด
-    $addresses = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    // แสดงผลข้อมูลในรูปแบบ JSON
-    echo json_encode($addresses);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-=======
 // ตรวจสอบว่าเชื่อมต่อสำเร็จหรือไม่
 if ($conn) {
     try {
@@ -53,7 +40,6 @@ if ($conn) {
 } else {
     // กรณีการเชื่อมต่อฐานข้อมูลไม่สำเร็จ
     echo json_encode(['error' => 'ไม่สามารถเชื่อมต่อกับฐานข้อมูลได้']);
->>>>>>> afb29b7133428cf218e6db51d0efbdd318bed75f
 }
 ?>
 

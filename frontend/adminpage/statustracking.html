@@ -277,24 +277,6 @@
 
             const row = document.createElement('tr');
             row.innerHTML = `
-<<<<<<< HEAD
-        <td>${isMonitoringPending ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-patient-name='${patient.full_name}'>` : ''}</td>
-        <td>${patient.full_name}</td>
-        <td>${patient.disease_type}</td>
-        <td>${patient.patient_type}</td>
-        <td>${patient.patient_group}</td>
-        <td>${patient.current_status}</td>
-        <td>${patient.monitor_round}</td>
-        <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status}</span></td>
-        <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status}</span></td>
-        <td>
-          <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html';"><i class='bx bx-edit'></i></button>
-          <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html?patient_id=1';">
-    <i class='bx bx-right-arrow-alt'></i>
-</button>
-
-        </td>`;
-=======
                 <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-patient-name='${patient.full_name}'>` : `<div class="unselectable-box"></div>`}</td>
                 <td>${patient.full_name ? patient.full_name : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
                 <td>${patient.disease_type ? patient.disease_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
@@ -308,7 +290,6 @@
                     <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html';"><i class='bx bx-edit'></i></button>
                     <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html';"><i class='bx bx-right-arrow-alt'></i></button>
                 </td>`;
->>>>>>> afb29b7133428cf218e6db51d0efbdd318bed75f
             tbody.appendChild(row);
           });
 
