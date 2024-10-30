@@ -57,108 +57,60 @@
     </div>
   </section>
 
-  <div class="history-container">
+  <div class="history-container" id="historyElement">
+    <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
+  </div>
+
+  <div class="history-container" id="historyElement">
     <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_history.php")
+      fetch('http://localhost/chiracarehospital/backend/sql/vhv/fetch_monitor_history.php')
         .then(response => response.json())
         .then(data => {
-          const historyContainer = document.querySelector(".history-container");
+          if (data.success) {
+            const historyElement = document.getElementById('historyElement'); // ใช้ ID ของ element ที่แสดงประวัติ
+            historyElement.innerHTML = ''; // ล้างข้อมูลเก่า
+            data.data.forEach(history => {
+              const formattedDate = new Date(history.form_submission_date).toLocaleDateString('th-TH'); // ปรับวันที่ตามที่ต้องการ
+              const formattedTime = new Date(history.form_submission_date).toLocaleTimeString('th-TH'); // ปรับเวลา
 
-          data.forEach(history => {
-            const historyElement = document.createElement("div");
-            historyElement.classList.add("history");
-
-            // ฟังก์ชันเพื่อจัดรูปแบบวันที่และเวลา
-            const formatDateTime = (dateTime) => {
-              const date = new Date(dateTime);
-              const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-              const formattedDate = date.toLocaleDateString('en-CA', options);
-              const formattedTime = date.toLocaleTimeString('en-EN', { hour: '2-digit', minute: '2-digit' });
-              return { formattedDate, formattedTime };
-            };
-
-            const { formattedDate, formattedTime } = formatDateTime(history.newupdate);
-
-            historyElement.innerHTML = `
-                        <div class="activity">
-                            <div class="left">
-                                <img src="images/amuro.jpg" alt="icon" class="activity-icon">
-                                <div class="details">
-                                    <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
-                                    <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
-                                </div>
-                            </div>
-                            <div class="right">
-                                <p class="update">${formattedDate}</p>
-                                <p class="time">${formattedTime}</p>
-                            </div>
-                            <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
-                            <div class="more-details" style="display: none;">
-                                <div class="detail">
-                                    <p>ชื่อ - นามสกุล : ${history.full_name}</p>
-                                    <p>โรคของผู้ป่วยที่รักษา : ${history.disease_type}</p>
-                                    <p>อาการทั่วไป : ${history.general_symptoms}</p>
-                                    <p>ประเด็นการรักษา : ${history.treatment_issue}</p>
-                                    <p>วันที่เข้ารับการรักษา : ${history.date_of_treatment}</p>
-                                    <p>วันที่นัดครั้งถัดไป : ${history.next_appointment_date}</p>
-                                    <p>หมายเหตุ : ${history.notes}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-
-            historyContainer.appendChild(historyElement);
-          });
+              historyElement.innerHTML += `
+                          <div class="activity">
+                              <div class="left">
+                                  <img src="images/amuro.jpg" alt="icon" class="activity-icon">
+                                  <div class="details">
+                                      <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
+                                      <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+                                  </div>
+                              </div>
+                              <div class="right">
+                                  <p class="update">${formattedDate}</p>
+                                  <p class="time">${formattedTime}</p>
+                              </div>
+                              <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                              <div class="more-details" style="display: none;">
+                                  <div class="detail">
+                                      <p>ชื่อผู้ป่วย : ${history.full_name}</p>
+                                      <p>โรคประจำตัว : ${history.disease_type}</p>
+                                      <p>อาการทั่วไป : ${history.general_symptoms}</p>
+                                      <p>ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร) : ${history.blood_sugar_level}</p>
+                                      <p>ค่าสัญญาณชีพ (ครั้ง/นาที) : ${history.vital_signs}</p>
+                                      <p>สาเหตุที่ไม่มารับการรักษา : ${history.reason_for_missed_treatment}</p>
+                                      <p>วันที่กรอกฟอร์ม : ${formattedDate}</p>
+                                      <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.id_user_info}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+            });
+          } else {
+            console.error('Error fetching data:', data.error);
+          }
         })
-        .catch(error => console.error("Error fetching data:", error));
-
-      // การกรองข้อมูล
-      const searchInput = document.getElementById('searchPatientInput');
-      const updatedDateFilter = document.getElementById('updatedDateFilter');
-      const diseaseTypeFilter = document.getElementById('diseaseTypeFilter');
-
-      function filterData() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const updatedDate = updatedDateFilter.value;
-        const diseaseType = diseaseTypeFilter.value;
-
-        const activities = document.querySelectorAll('.activity');
-
-        activities.forEach(activity => {
-          const name = activity.querySelector('.title').textContent.toLowerCase();
-          const updateDateValue = activity.querySelector('.update').textContent;
-          console.log('Update Date Value:', updateDateValue);
-          const diseaseTypeValue = activity.querySelector('.detail').children[1].textContent.split(' : ')[1];
-
-          let isVisible = true;
-
-          // กรองตามชื่อ
-          if (searchTerm && !name.includes(searchTerm)) {
-            isVisible = false;
-          }
-
-          // กรองตามวันที่อัปเดต
-          if (updatedDate && new Date(updateDateValue).toISOString().split('T')[0] !== updatedDate) {
-            isVisible = false;
-          }
-
-          // กรองตามประเภทโรค
-          if (diseaseType !== 'ทั้งหมด' && diseaseTypeValue !== diseaseType) {
-            isVisible = false;
-          }
-
-          // แสดงหรือซ่อนกิจกรรมตามเงื่อนไข
-          activity.style.display = isVisible ? '' : 'none';
-        });
-      }
-
-      searchInput.addEventListener('input', filterData);
-      updatedDateFilter.addEventListener('change', filterData);
-      diseaseTypeFilter.addEventListener('change', filterData);
+        .catch(error => console.error('Fetch error:', error));
     });
 
     function toggleDetails(button) {
@@ -166,6 +118,7 @@
       moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
     }
   </script>
+
 
   <script>
     // Load sidebar

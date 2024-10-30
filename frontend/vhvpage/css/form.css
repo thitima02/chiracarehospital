@@ -8,15 +8,13 @@
 
 .form-section {
   align-items: center;
-  width: 90%;
+  width: 92%;
   margin: 25px auto;
   margin-left: 115px;
   background-color: white;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-
-  
 }
 
 .form-group {
@@ -41,7 +39,9 @@ label {
   color: #000000;
 }
 
-input, select {
+input,
+select {
+  width: 100%;
   margin-bottom: 15px;
   padding: 10px;
   font-size: 16px;
@@ -50,65 +50,6 @@ input, select {
 }
 
 input[type="date"] {
-  padding: 9px;
-}
-
-/* ทำให้ตัวป๊อปอัพอยู่ตรงกลาง */
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.hidden {
-  display: none;
-}
-
-.popup-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 400px;
   width: 100%;
-}
-
-.popup-content h2 {
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-}
-
-.popup-content p {
-  margin-bottom: 20px;
-  font-size: 1rem;
-}
-
-.popup-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.confirm-btn {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.cancel-btn {
-  background-color: #f44336;
-  color: white;
+  padding: 9px;
 }
