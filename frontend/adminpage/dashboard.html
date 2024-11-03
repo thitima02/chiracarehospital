@@ -201,6 +201,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="col-12 col-md-3 treatment-status-card">
             <div class="card">
                 <div class="card-body">
@@ -236,9 +237,6 @@
                 </div>
             </div>
         </div>
-        
-        
-        
         </div>
     </div>
     <script>
@@ -292,66 +290,86 @@
         </script>
 
 <script>
-    //สถานะการติดตามล่าสุด
     function fetchStatusData() {
-    fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php')  // แก้ไขลิงก์เป็น API PHP ของคุณ
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                console.log(data.message);  // ถ้าไม่มีข้อมูล
-            } else {
-                // นับจำนวนผู้ป่วยทั้งหมด
+        fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php')
+            .then(response => response.json())
+            .then(data => {
                 let totalPatients = 0;
                 let followed = 0, following = 0, notFollowed = 0;
-                let lastUpdateDate = ''; // ตัวแปรเก็บ last_update ล่าสุด
 
-                // นับจำนวนแต่ละสถานะและเก็บค่าของ last_update
-                data.forEach(item => {
-                    totalPatients += parseInt(item.status_count);
-                    if (item.monitor_status === 'ติดตามแล้ว') {
-                        followed = item.status_count;
-                    } else if (item.monitor_status === 'กำลังติดตาม') {
-                        following = item.status_count;
-                    } else if (item.monitor_status === 'ยังไม่ได้ติดตาม') {
-                        notFollowed = item.status_count;
-                    }
-                    // เก็บค่า last_update (คุณสามารถใช้เงื่อนไขเพื่อเลือก last_update ล่าสุด)
-                    if (item.last_update) {
-                        lastUpdateDate = item.last_update;  // เก็บ last_update
-                    }
-                });
+                // Check if data has a message indicating no data
+                if (data.message) {
+                    console.log(data.message);
 
-                // คำนวณเปอร์เซ็นต์ของแต่ละสถานะ
-                const followedPercent = ((followed / totalPatients) * 100);
-                const followingPercent = ((following / totalPatients) * 100);
-                const notFollowedPercent = ((notFollowed / totalPatients) * 100);
+                    // Set all progress bars to 0%
+                    updateProgressBar('followed-bar', 0);
+                    updateProgressBar('following-bar', 0);
+                    updateProgressBar('not-followed-bar', 0);
+                    
+                    document.querySelector('.patient-count').innerText = `0 คน`;
+                    document.querySelector('.follow-up-dates').innerText = getCurrentFormattedDate();
+                } else {
+                    // Process the data received
+                    data.forEach(item => {
+                        // Increment counts based on the monitor_status value
+                        if (item.monitor_status === "ติดตามแล้ว") {
+                            followed += 1;
+                        } else if (item.monitor_status === "กำลังติดตาม") {
+                            following += 1;
+                        } else if (item.monitor_status === "ยังไม่ได้ติดตาม") {
+                            notFollowed += 1;
+                        }
+                    });
 
-                // อัปเดตแถบสถานะ
-                document.getElementById('followed-bar').innerHTML = `<span>${followedPercent}%</span>`;
-                document.getElementById('followed-bar').style.width = followedPercent + '%';
+                    // Calculate total patients and percentages
+                    totalPatients = followed + following + notFollowed;
 
-                document.getElementById('following-bar').innerHTML = `<span>${followingPercent}%</span>`;
-                document.getElementById('following-bar').style.width = followingPercent + '%';
+                    // Calculate percentages
+                    const followedPercent = totalPatients ? (followed / totalPatients) * 100 : 0;
+                    const followingPercent = totalPatients ? (following / totalPatients) * 100 : 0;
+                    const notFollowedPercent = totalPatients ? (notFollowed / totalPatients) * 100 : 0;
 
-                document.getElementById('not-followed-bar').innerHTML = `<span>${notFollowedPercent}%</span>`;
-                document.getElementById('not-followed-bar').style.width = notFollowedPercent + '%';
+                    // Update progress bars with calculated percentages
+                    updateProgressBar('followed-bar', followedPercent);
+                    updateProgressBar('following-bar', followingPercent);
+                    updateProgressBar('not-followed-bar', notFollowedPercent);
 
-                // อัปเดตจำนวนผู้ป่วย
-                document.querySelector('.patient-count').innerText = `${totalPatients} คน`;
+                    document.querySelector('.patient-count').innerText = `${totalPatients} คน`;
 
-                // แปลง last_update เป็นวันที่ไทย (วัน-เดือน-ปี)
-                if (lastUpdateDate) {
-                    const date = new Date(lastUpdateDate); // แปลงเป็น Date object
-                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                    const formattedDate = date.toLocaleDateString('th-TH', options); // แปลงเป็นวันที่ไทย
-                    document.querySelector('.follow-up-dates').innerText = formattedDate;
+                    // Update the last update date if available
+                    const lastUpdateDate = data[0]?.last_update;
+                    document.querySelector('.follow-up-dates').innerText = lastUpdateDate ? 
+                        formatDate(new Date(lastUpdateDate)) : 
+                        getCurrentFormattedDate();
                 }
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
-document.addEventListener('DOMContentLoaded', fetchStatusData);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+    
+    // Function to update the progress bar
+    function updateProgressBar(barId, percentage) {
+        const bar = document.getElementById(barId);
+        bar.innerHTML = `<span>${percentage.toFixed(0)}%</span>`;
+        bar.style.width = percentage + '%';
+    }
+    
+    // Function to format the current date
+    function getCurrentFormattedDate() {
+        const currentDate = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return currentDate.toLocaleDateString('th-TH', options);
+    }
+    
+    // Function to format a specific date
+    function formatDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('th-TH', options);
+    }
+    
+    document.addEventListener('DOMContentLoaded', fetchStatusData);
 </script>
+
+    
 
 <script>
     //สถานะการรักษาล่าสุด
