@@ -107,7 +107,6 @@
     </table>
 </div>
 
-
 <script>
     // ฟังก์ชันสำหรับคำนวณอายุจากวันเกิด
     function calculateAge(birthDate) {
@@ -121,10 +120,10 @@
         return age;
     }
 
-    // ดึงข้อมูลผู้ป่วยและที่อยู่จาก PHP
-    function fetchPatientData() {
+    // ฟังก์ชันหลักสำหรับดึงข้อมูลผู้ป่วยตาม patient_id
+    function fetchPatientData(patient_id) {
         // ดึงข้อมูลผู้ป่วย
-        fetch('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php')
+        fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patient_id}`)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
@@ -138,10 +137,10 @@
                     document.getElementById('birthDate').textContent = patient.birth_date || '-';
                     document.getElementById('phoneNumber').textContent = patient.phone_number || '-';
                     document.getElementById('emergencyPhone').textContent = patient.emergency_phone || '-';
-                    document.getElementById('additionalInfo').textContent = patient.additional_info || '-'; 
+                    document.getElementById('additionalInfo').textContent = patient.additional_info || '-';
 
                     // ดึงข้อมูลที่อยู่
-                    return fetch('http://localhost/chiracarehospital/backend/sql/vhv/get_patient_address.php');
+                    return fetch(`http://localhost/chiracarehospital/backend/sql/vhv/get_patient_address.php?patient_id=${patient_id}`);
                 } else {
                     console.error(data.message);
                     alert('ไม่สามารถดึงข้อมูลผู้ป่วยได้: ' + data.message);
@@ -158,8 +157,8 @@
                     document.getElementById('address').textContent = 'ไม่มีข้อมูลที่อยู่';
                 }
 
-                // ดึงข้อมูลประเภทโรคและกลุ่มผู้ป่วย
-                return fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php');
+                // ดึงข้อมูลทางการแพทย์
+                return fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php?patient_id=${patient_id}`);
             })
             .then(response => response.json())
             .then(medicalData => {
@@ -173,15 +172,16 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.getElementById('address').textContent = 'เกิดข้อผิดพลาดในการดึงข้อมูลที่อยู่';
+                document.getElementById('address').textContent = 'เกิดข้อผิดพลาดในการดึงข้อมูล';
             });
     }
 
-    // เรียกใช้ฟังก์ชันเมื่อเริ่มโหลดหน้า
+    // เรียกใช้ฟังก์ชันเมื่อเริ่มโหลดหน้า พร้อมระบุ patient_id ที่ต้องการดึงข้อมูล
     window.onload = function() {
-        fetchPatientData();
+        fetchPatientData('12345'); // ใส่ patient_id ที่ต้องการ
     };
 </script>
+
 
   <script>
     // ดึงข้อมูลการติดตามจาก PHP
