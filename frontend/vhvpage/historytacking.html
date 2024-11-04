@@ -14,10 +14,14 @@
   <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
   <link rel="stylesheet" href="../../frontend/vhvpage/css/fittermenu.css">
   <link rel="stylesheet" href="../../frontend/vhvpage/css/moredetail.css">
-
-
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <script src="../method/logout.js"></script>
+  <script src="../method/user.js"></script>
+  <script src="../method/loadSidebarScript.js"></script>
+  <script src="../method/checkAuth.js"></script>
 </head>
 
 <body style="background-color:#edeff1;">
@@ -117,26 +121,6 @@
       const moreDetails = button.nextElementSibling;
       moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
     }
-  </script>
-
-
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
-
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา'; // Set page title for the history page
-      });
-
     function toggleDetails(button) {
       const details = button.nextElementSibling;
       if (details.style.display === "block") {
@@ -147,27 +131,33 @@
         button.textContent = "ซ้อนข้อมูล";
       }
     }
+  </script>
 
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
+  <script>
+    checkAuth();
 
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
+    // Load sidebar
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+        loadSidebarScript();
       });
 
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+    // Load topbar and set the page title
+    fetch('topbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('topbar-container').innerHTML = data;
+        const pageTitle = document.getElementById('page-title');
+        if (pageTitle) {
+          pageTitle.textContent = 'รายงานผลการติดตาม';
         }
-      }
-      document.getElementById('edit-button').addEventListener('click', function () {
-        window.location.href = 'listhistoty.html';
+
+        const script = document.createElement('script');
+        script.src = '../method/user.js';
+        document.body.appendChild(script);
       });
-    }
   </script>
 </body>
 
