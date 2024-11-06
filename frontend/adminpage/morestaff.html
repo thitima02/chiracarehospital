@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/datatable.css">
+    
     <!-- Import icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <script src="../method/logout.js"></script>
@@ -54,6 +55,25 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="search-bar">
+            <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
+            <input type="search" placeholder="เขตที่รับผิดชอบ" id="responsibility-area" oninput="filterData()">
+            <input type="search" placeholder="สถานะการติดตาม" id="tracking" oninput="filterData()">
+            <select id="treatmentStatusFilter" onchange="filterData()">
+                <option value="">สถานะผู้ป่วย</option>
+                <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+                <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+            </select>
+            <button class="add-icon">
+                <a href="addinfo.html">
+                    <i class='bx bx-user-plus'></i>
+                </a>
+            </button>
+
+            <button onclick="sortNames()">
+                <i class='bx bx-filter'></i>
+            </button>
         </div>
     </container>
 
