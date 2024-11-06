@@ -9,16 +9,32 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
 }
 
-.patient-profile {
+.back-button {
+    margin-bottom: 20px;
+}
+
+.profile-section, .follow-up-info, .treatment-info, .follow-up-history {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 25%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Profile Section */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.patient-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .patient-profile img {
@@ -27,22 +43,30 @@ body {
     border-radius: 50%;
 }
 
-.patient-details {
-    display: flex;
-    gap: 20px;
-    width: 100%;
+.patient-profile div {
+    line-height: 1.6;
 }
 
-.follow-up-info, .treatment-info {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 50%;
+/* Section Headers */
+h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
 }
 
-.follow-up-info h3, .treatment-info h3 {
-    color: #2d72b5;
+.follow-up-info h3 {
+    color: #4CAF50;
+    border-bottom: 2px solid #4CAF50;
+}
+
+.treatment-info h3 {
+    color: #FF5252;
+    border-bottom: 2px solid #FF5252;
+}
+
+.follow-up-history h3 {
+    color: #2196F3;
+    border-bottom: 2px solid #2196F3;
 }
 
 .green-status {
@@ -53,13 +77,7 @@ body {
     color: #2196F3;
 }
 
-.follow-up-history {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
+/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -75,3 +93,36 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+
+/* Dropdown Styling */
+.dropdown {
+    background: #f2f2f2;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Back Button */
+.back-button button {
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.back-button button i {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.back-button button:hover {
+    color: #343a40;
+}
+
+
+
+

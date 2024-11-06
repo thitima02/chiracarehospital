@@ -1,9 +1,9 @@
-<?php
-// รวมการเชื่อมต่อฐานข้อมูลด้วย PDO
+<?php 
+// Include the database connection using PDO
 include 'db_connection.php';
 
 try {
-    // เตรียมคำสั่ง SQL เพื่อนับจำนวน monitor_status และดึงค่าที่เหลือ
+    // Prepare the SQL query to fetch additional fields along with aggregated counts for each monitor status by patient_id
     $stmt = $conn->prepare("
         SELECT 
             id,
@@ -11,39 +11,50 @@ try {
             monitor_date,
             monitor_round,
             monitor_status,
-            last_update,
+            MAX(monitor_date) AS last_update,
             id_patient_information,
             id_user_info,
             id_monitor_form,
             id_treatment_information,
-            COUNT(*) AS status_count
+            COUNT(CASE WHEN monitor_status = 'ติดตามแล้ว' THEN 1 END) AS followed_count,
+            COUNT(CASE WHEN monitor_status = 'กำลังติดตาม' THEN 1 END) AS following_count,
+            COUNT(CASE WHEN monitor_status = 'ยังไม่ได้ติดตาม' THEN 1 END) AS not_followed_count
         FROM monitor_information
-        GROUP BY monitor_status
+        GROUP BY 
+            id, 
+            patient_id, 
+            monitor_round,
+            monitor_status,
+            id_patient_information,
+            id_user_info,
+            id_monitor_form,
+            id_treatment_information
     ");
     
-    // ดำเนินการคำสั่ง SQL
+    // Execute the SQL query
     $stmt->execute();
 
-    // ดึงข้อมูลทั้งหมดในรูปแบบอาร์เรย์แบบ associative
+    // Fetch all data as an associative array
     $monitor_information = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // ตรวจสอบว่ามีข้อมูลหรือไม่
+    // Check if data exists
     if (count($monitor_information) > 0) {
-        // แสดงผลข้อมูลในรูปแบบ JSON
-        header('Content-Type: application/json'); // ตั้งค่า Content-Type เป็น JSON
+        // Set content type to JSON
+        header('Content-Type: application/json');
+        // Output the data in JSON format
         echo json_encode($monitor_information);
     } else {
-        // ข้อความถ้าไม่พบข้อมูล
-        header('Content-Type: application/json'); // ตั้งค่า Content-Type เป็น JSON
+        // If no data found, return a message
+        header('Content-Type: application/json');
         echo json_encode(array("message" => "No data found."));
     }
     
 } catch (PDOException $e) {
-    // จัดการกับข้อผิดพลาด
-    header('Content-Type: application/json'); // ตั้งค่า Content-Type เป็น JSON
+    // Handle any errors
+    header('Content-Type: application/json');
     echo json_encode(array("error" => $e->getMessage()));
 }
 
-// ปิดการเชื่อมต่อ
+// Close the connection
 $conn = null;
 ?>
