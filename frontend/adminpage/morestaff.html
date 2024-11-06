@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Main Page</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/topbar.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/filltermenu.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/datatable.css">
+    
+    <!-- Import icon -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="../method/logout.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+    <script src="../method/user.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+    <script src="../method/loadSidebarScript.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+    <script src="../method/checkAuth.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
+
+</head>
+
+<body>
+
+    <!-- Sidebar will be loaded here -->
+    <div id="sidebar-container"></div>
+
+    <!-- Topbar will be loaded here -->
+    <div id="topbar-container"></div>
+
+    <!-- the result of many patients -->
+    <container>
+        <div class="stats-container">
+            <div class="box new">
+                <img style="width: 40px; height: 40px; border-radius: 50%;" src="../../assets/images/cat.jpg"
+                    alt="avatar">
+                <h2 id="staff-name">สมหมาย มีสุข</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="padding-right: 5px;">สถานะ</th>
+                            <th style="padding-right: 5px;">เขตที่รับผิดชอบ</th>
+                            <th style="padding-right: 5px;">เบอร์โทรศัพท์</th>
+                        </tr>
+                    </thead>
+                    <tbody id="staff-details">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
+            <input type="search" placeholder="เขตที่รับผิดชอบ" id="responsibility-area" oninput="filterData()">
+            <input type="search" placeholder="สถานะการติดตาม" id="tracking" oninput="filterData()">
+            <select id="treatmentStatusFilter" onchange="filterData()">
+                <option value="">สถานะผู้ป่วย</option>
+                <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+                <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+            </select>
+            <button class="add-icon">
+                <a href="addinfo.html">
+                    <i class='bx bx-user-plus'></i>
+                </a>
+            </button>
+
+            <button onclick="sortNames()">
+                <i class='bx bx-filter'></i>
+            </button>
+        </div>
+    </container>
+
+    <!-- the datatable  -->
+    <div class="table-container">
+        <table class="patient-table">
+            <thead>
+                <tr>
+                    <th>รายชื่อผู้ป่วย</th>
+                    <th>รหัสไอดี</th>
+                    <th>ที่อยู่</th>
+                    <th>สถานะการรักษา</th>
+                    <th>สถานะการติดตาม</th>
+                    <th>จัดการ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function editStaff(id) {
+            window.location.href = `editaddstaff.html?id=${id}`;
+        }
+
+        function moreStaff(id) {
+            window.location.href = `morestaff.html?id=${id}`;
+        }
+
+        function getUserIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        function loadUserData() {
+            const userId = getUserIdFromURL();
+            if (userId) {
+                fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser.php?id=${userId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            const user = data.data;
+                            document.getElementById('staff-name').textContent = user.full_name;
+
+                            const tbody = document.getElementById('staff-details');
+                            tbody.innerHTML = `
+                            <tr>
+                            <td>${user.department}</td>
+                            <td>${user.responsibility_area}</td>
+                            <td>${user.phone_number}</td>
+                            </tr>
+                        `;
+                        } else {
+                            alert(data.message); // แจ้งเตือนถ้าข้อมูลผิดพลาด
+                        }
+                    })
+                    .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+            } else {
+                document.getElementById('staff-name').textContent = 'ไม่พบข้อมูลผู้ใช้';
+            }
+        }
+
+        // เรียกใช้เมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', loadUserData);
+    </script>
+
+    <script>
+        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+        checkAuth();
+
+        // Load sidebar
+        fetch('sidebar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+                loadSidebarScript();
+                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+            });
+
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+                document.getElementById('page-title').textContent = 'หน้าหลัก';
+                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+                // Re-run user.js script after loading topbar
+                const script = document.createElement('script');
+                // สร้างแท็ก script ใหม่
+                script.src = '../method/user.js';
+                // กำหนดแหล่งที่มาของ script เป็น user.js
+                document.body.appendChild(script);
+                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+            });
+    </script>
+
+</body>
+
+</html>
