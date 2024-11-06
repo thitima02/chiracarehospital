@@ -75,40 +75,44 @@
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            const historyElement = document.getElementById('historyElement'); // ใช้ ID ของ element ที่แสดงประวัติ
+            const historyElement = document.getElementById('historyElement');
             historyElement.innerHTML = ''; // ล้างข้อมูลเก่า
+
+            // จัดเรียงข้อมูลตามวันที่จากล่าสุดไปหาเก่าสุด
+            data.data.sort((a, b) => new Date(b.form_submission_date) - new Date(a.form_submission_date));
+
             data.data.forEach(history => {
-              const formattedDate = new Date(history.form_submission_date).toLocaleDateString('th-TH'); // ปรับวันที่ตามที่ต้องการ
-              const formattedTime = new Date(history.form_submission_date).toLocaleTimeString('th-TH'); // ปรับเวลา
+              const formattedDate = new Date(history.form_submission_date).toLocaleDateString('th-TH');
+              const formattedTime = new Date(history.form_submission_date).toLocaleTimeString('th-TH');
 
               historyElement.innerHTML += `
-                          <div class="activity">
-                              <div class="left">
-                                  <img src="images/amuro.jpg" alt="icon" class="activity-icon">
-                                  <div class="details">
-                                      <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
-                                      <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
-                                  </div>
-                              </div>
-                              <div class="right">
-                                  <p class="update">${formattedDate}</p>
-                                  <p class="time">${formattedTime}</p>
-                              </div>
-                              <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
-                              <div class="more-details" style="display: none;">
-                                  <div class="detail">
-                                      <p>ชื่อผู้ป่วย : ${history.full_name}</p>
-                                      <p>โรคประจำตัว : ${history.disease_type}</p>
-                                      <p>อาการทั่วไป : ${history.general_symptoms}</p>
-                                      <p>ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร) : ${history.blood_sugar_level}</p>
-                                      <p>ค่าสัญญาณชีพ (ครั้ง/นาที) : ${history.vital_signs}</p>
-                                      <p>สาเหตุที่ไม่มารับการรักษา : ${history.reason_for_missed_treatment}</p>
-                                      <p>วันที่กรอกฟอร์ม : ${formattedDate}</p>
-                                      <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.id_user_info}</p>
-                                  </div>
-                              </div>
-                          </div>
-                      `;
+                <div class="activity">
+                    <div class="left">
+                        <img src="images/amuro.jpg" alt="icon" class="activity-icon">
+                        <div class="details">
+                            <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
+                            <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <p class="update">${formattedDate}</p>
+                        <p class="time">${formattedTime}</p>
+                    </div>
+                    <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                    <div class="more-details" style="display: none;">
+                        <div class="detail">
+                            <p>ชื่อผู้ป่วย : ${history.full_name}</p>
+                            <p>โรคประจำตัว : ${history.disease_type}</p>
+                            <p>อาการทั่วไป : ${history.general_symptoms}</p>
+                            <p>ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร) : ${history.blood_sugar_level}</p>
+                            <p>ค่าสัญญาณชีพ (ครั้ง/นาที) : ${history.vital_signs}</p>
+                            <p>สาเหตุที่ไม่มารับการรักษา : ${history.reason_for_missed_treatment}</p>
+                            <p>วันที่กรอกฟอร์ม : ${formattedDate}</p>
+                            <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.id_user_info}</p>
+                        </div>
+                    </div>
+                </div>
+              `;
             });
           } else {
             console.error('Error fetching data:', data.error);
@@ -117,10 +121,6 @@
         .catch(error => console.error('Fetch error:', error));
     });
 
-    function toggleDetails(button) {
-      const moreDetails = button.nextElementSibling;
-      moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
-    }
     function toggleDetails(button) {
       const details = button.nextElementSibling;
       if (details.style.display === "block") {
