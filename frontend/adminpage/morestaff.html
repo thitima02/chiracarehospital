@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/datatable.css">
+    
     <!-- Import icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <script src="../method/logout.js"></script>
@@ -38,15 +39,41 @@
     <container>
         <div class="stats-container">
             <div class="box new">
-            <img style ="width: 40px; height: 40px; border-radius: 50%;" src="../../assets/images/cat.jpg" alt="avatar">
+                <img style="width: 40px; height: 40px; border-radius: 50%;" src="../../assets/images/cat.jpg"
+                    alt="avatar">
+                <h2 id="staff-name">สมหมาย มีสุข</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="padding-right: 5px;">สถานะ</th>
+                            <th style="padding-right: 5px;">เขตที่รับผิดชอบ</th>
+                            <th style="padding-right: 5px;">เบอร์โทรศัพท์</th>
+                        </tr>
+                    </thead>
+                    <tbody id="staff-details">
 
-                <div style="display: flex;">
-                    <h2 id="totalAppointments">สมหมาย มีสุข</h2>
-                    <p>สถานะ</p>
-                    <p>เขตที่รับผิดชอบ</p>
-                    <p>เบอร์โทรศัพท์</p>
-                </div>
+                    </tbody>
+                </table>
             </div>
+        </div>
+        <div class="search-bar">
+            <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
+            <input type="search" placeholder="เขตที่รับผิดชอบ" id="responsibility-area" oninput="filterData()">
+            <input type="search" placeholder="สถานะการติดตาม" id="tracking" oninput="filterData()">
+            <select id="treatmentStatusFilter" onchange="filterData()">
+                <option value="">สถานะผู้ป่วย</option>
+                <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+                <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+            </select>
+            <button class="add-icon">
+                <a href="addinfo.html">
+                    <i class='bx bx-user-plus'></i>
+                </a>
+            </button>
+
+            <button onclick="sortNames()">
+                <i class='bx bx-filter'></i>
+            </button>
         </div>
     </container>
 
@@ -69,73 +96,50 @@
         </table>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
-            // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
-            $.getJSON('http://localhost/chiracarehospital/backend/sql/users/getAlluser.php', function (response) {
-                if (response.status === 'success') {
-                    var staffs = response.data;
-                    var rows = '';
-
-                    // วนลูปข้อมูลผู้ใช้เพื่อแสดงในตาราง
-                    staffs.forEach(function (staff) {
-                        // กรองเฉพาะผู้ที่มีสถานะเป็น 'อาสาสมัครสาธารณะสุข' หรือ 'เสนารักษ์'
-                        if (staff.department === 'อาสาสมัครสาธารณสุข' || staff.department === 'เสนารักษ์') {
-                            rows += '<tr>';
-                            rows += '<td><img src="../../assets/images/cat.jpg" alt="avatar"> ' + staff.full_name + '</td>';
-                            rows += '<td>' + staff.department + '</td>';
-                            rows += '<td>' + staff.responsibility_area + '</td>';
-                            rows += '<td>' + (staff.id_card ? staff.id_card : '-') + '</td>';
-                            rows += '<td>' + (staff.id_card_number ? staff.id_card_number : '-') + '</td>';
-                            rows += '<td>' + staff.phone_number + '</td>';
-                            rows += '<td>';
-                            rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editStaff(\'' + staff.id + '\')"><i class="bx bxs-edit"></i></button>';
-                            rows += '<button class="action-btn" title="ดูเพิ่มเติม" onclick="moreStaff(\'' + staff.id + '\')"><i class="bx bx-right-arrow-alt"></i></button>';
-                            rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deleteStaff(\'' + staff.id + '\')"><i class="bx bx-trash"></i></button>';
-                            rows += '</td>';
-                            rows += '</tr>';
-                        }
-                    });
-
-                    // แทรกข้อมูลในตาราง
-                    $('#patient-info-body').html(rows);
-                } else {
-                    alert(response.message);
-                }
-            });
-        });
-
-
-        // ฟังก์ชันแก้ไขข้อมูล
         function editStaff(id) {
-            // กำหนดให้ฟังก์ชันทำการแก้ไขข้อมูลตาม ID
-            window.location.href = 'editaddstaff.html?id=' + id;
+            window.location.href = `editaddstaff.html?id=${id}`;
         }
 
         function moreStaff(id) {
-            window.location.href = 'morestaff.html?id=' + id;
+            window.location.href = `morestaff.html?id=${id}`;
         }
 
-        // ฟังก์ชันลบข้อมูล
-        function deleteStaff(id) {
-            if (confirm('คุณแน่ใจว่าต้องการลบข้อมูลนี้?')) {
-                // ส่งคำขอลบไปยัง API
-                $.ajax({
-                    url: 'http://localhost/chiracarehospital/backend/sql/staff_information/delete_staff.php',
-                    method: 'POST',
-                    data: { id: id },
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            // รีโหลดหน้าเว็บหลังจากลบสำเร็จ
-                            location.reload();
+        function getUserIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        function loadUserData() {
+            const userId = getUserIdFromURL();
+            if (userId) {
+                fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser.php?id=${userId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            const user = data.data;
+                            document.getElementById('staff-name').textContent = user.full_name;
+
+                            const tbody = document.getElementById('staff-details');
+                            tbody.innerHTML = `
+                            <tr>
+                            <td>${user.department}</td>
+                            <td>${user.responsibility_area}</td>
+                            <td>${user.phone_number}</td>
+                            </tr>
+                        `;
                         } else {
-                            alert(response.message);
+                            alert(data.message); // แจ้งเตือนถ้าข้อมูลผิดพลาด
                         }
-                    }
-                });
+                    })
+                    .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+            } else {
+                document.getElementById('staff-name').textContent = 'ไม่พบข้อมูลผู้ใช้';
             }
         }
+
+        // เรียกใช้เมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', loadUserData);
     </script>
 
     <script>

@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
 
     try {
         // คำสั่ง SQL สำหรับดึงข้อมูลผู้ใช้ตาม id จากตาราง user_info
-        $stmt = $conn->prepare("SELECT id, role, username, responsibility_area, user_image, full_name, phone_number FROM user_info WHERE id = :id");
+        $stmt = $conn->prepare("SELECT id, role, department, username, responsibility_area, user_image, full_name, phone_number FROM user_info WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT); // ผูกค่า id กับคำสั่ง SQL
         $stmt->execute();
 
