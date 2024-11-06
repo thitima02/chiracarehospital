@@ -14,10 +14,14 @@
   <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
   <link rel="stylesheet" href="../../frontend/vhvpage/css/fittermenu.css">
   <link rel="stylesheet" href="../../frontend/vhvpage/css/moredetail.css">
-
-
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <script src="../method/logout.js"></script>
+  <script src="../method/user.js"></script>
+  <script src="../method/loadSidebarScript.js"></script>
+  <script src="../method/checkAuth.js"></script>
 </head>
 
 <body style="background-color:#edeff1;">
@@ -71,40 +75,46 @@
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            const historyElement = document.getElementById('historyElement'); // ใช้ ID ของ element ที่แสดงประวัติ
+            const historyElement = document.getElementById('historyElement');
             historyElement.innerHTML = ''; // ล้างข้อมูลเก่า
+
+            // จัดเรียงข้อมูลตามวันที่และเวลาล่าสุดก่อน
+            data.data.sort((a, b) => new Date(b.form_submission_date) - new Date(a.form_submission_date));
+
             data.data.forEach(history => {
-              const formattedDate = new Date(history.form_submission_date).toLocaleDateString('th-TH'); // ปรับวันที่ตามที่ต้องการ
-              const formattedTime = new Date(history.form_submission_date).toLocaleTimeString('th-TH'); // ปรับเวลา
+              // ตรวจสอบว่ามีการเก็บทั้งวันที่และเวลาใน form_submission_date
+              const formSubmissionDate = new Date(history.form_submission_date);
+              const formattedDate = formSubmissionDate.toLocaleDateString('th-TH');
+              const formattedTime = formSubmissionDate.toLocaleTimeString('th-TH');
 
               historyElement.innerHTML += `
-                          <div class="activity">
-                              <div class="left">
-                                  <img src="images/amuro.jpg" alt="icon" class="activity-icon">
-                                  <div class="details">
-                                      <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
-                                      <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
-                                  </div>
-                              </div>
-                              <div class="right">
-                                  <p class="update">${formattedDate}</p>
-                                  <p class="time">${formattedTime}</p>
-                              </div>
-                              <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
-                              <div class="more-details" style="display: none;">
-                                  <div class="detail">
-                                      <p>ชื่อผู้ป่วย : ${history.full_name}</p>
-                                      <p>โรคประจำตัว : ${history.disease_type}</p>
-                                      <p>อาการทั่วไป : ${history.general_symptoms}</p>
-                                      <p>ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร) : ${history.blood_sugar_level}</p>
-                                      <p>ค่าสัญญาณชีพ (ครั้ง/นาที) : ${history.vital_signs}</p>
-                                      <p>สาเหตุที่ไม่มารับการรักษา : ${history.reason_for_missed_treatment}</p>
-                                      <p>วันที่กรอกฟอร์ม : ${formattedDate}</p>
-                                      <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.id_user_info}</p>
-                                  </div>
-                              </div>
-                          </div>
-                      `;
+                <div class="activity">
+                    <div class="left">
+                        <img src="images/amuro.jpg" alt="icon" class="activity-icon">
+                        <div class="details">
+                            <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
+                            <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <p class="update">${formattedDate}</p>
+                        <p class="time">${formattedTime}</p>
+                    </div>
+                    <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                    <div class="more-details" style="display: none;">
+                        <div class="detail">
+                            <p>ชื่อผู้ป่วย : ${history.full_name}</p>
+                            <p>โรคประจำตัว : ${history.disease_type}</p>
+                            <p>อาการทั่วไป : ${history.general_symptoms}</p>
+                            <p>ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร) : ${history.blood_sugar_level}</p>
+                            <p>ค่าสัญญาณชีพ (ครั้ง/นาที) : ${history.vital_signs}</p>
+                            <p>สาเหตุที่ไม่มารับการรักษา : ${history.reason_for_missed_treatment}</p>
+                            <p>วันที่กรอกฟอร์ม : ${formattedDate}</p>
+                            <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.id_user_info}</p>
+                        </div>
+                    </div>
+                </div>
+              `;
             });
           } else {
             console.error('Error fetching data:', data.error);
@@ -112,30 +122,6 @@
         })
         .catch(error => console.error('Fetch error:', error));
     });
-
-    function toggleDetails(button) {
-      const moreDetails = button.nextElementSibling;
-      moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
-    }
-  </script>
-
-
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
-
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา'; // Set page title for the history page
-      });
 
     function toggleDetails(button) {
       const details = button.nextElementSibling;
@@ -147,27 +133,33 @@
         button.textContent = "ซ้อนข้อมูล";
       }
     }
+  </script>
 
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
+  <script>
+    checkAuth();
 
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
+    // Load sidebar
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+        loadSidebarScript();
       });
 
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+    // Load topbar and set the page title
+    fetch('topbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('topbar-container').innerHTML = data;
+        const pageTitle = document.getElementById('page-title');
+        if (pageTitle) {
+          pageTitle.textContent = 'รายงานผลการติดตาม';
         }
-      }
-      document.getElementById('edit-button').addEventListener('click', function () {
-        window.location.href = 'listhistoty.html';
+
+        const script = document.createElement('script');
+        script.src = '../method/user.js';
+        document.body.appendChild(script);
       });
-    }
   </script>
 </body>
 

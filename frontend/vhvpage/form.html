@@ -170,24 +170,21 @@
       document.getElementById("popup").style.display = "none";
     }
 
-    function submitForm() {
-      closePopup(); // ปิดป๊อปอัพก่อนส่งข้อมูล
+    let isSubmitting = false; // ตัวแปรเพื่อเก็บสถานะการส่ง
 
-      // เก็บข้อมูลจากฟอร์ม
+    function submitForm() {
+      if (isSubmitting) return; // ป้องกันการส่งซ้ำ
+      isSubmitting = true; // ตั้งค่าสถานะการส่งเป็น true
+
+      closePopup();
+
       const patientId = new URLSearchParams(window.location.search).get("patient_id");
       const generalSymptoms = document.getElementById("symptoms").value.trim();
       const bloodSugarLevel = document.getElementById("Blood-sugar").value.trim();
       const vitalSigns = document.getElementById("vital-signs").value.trim();
       const reasonForMissedTreatment = document.getElementById("not-receiving-treatment").value.trim();
-      const formSubmissionDate = document.getElementById("date").value.trim();
 
-      // ตรวจสอบให้แน่ใจว่าข้อมูลที่จำเป็นถูกกรอกครบถ้วน
-      if (!patientId || !generalSymptoms || !bloodSugarLevel || !vitalSigns || !reasonForMissedTreatment || !formSubmissionDate) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วนทุกฟิลด์');
-        return; // ถ้าฟิลด์ใด ๆ ว่างอยู่จะไม่ให้ส่งข้อมูล
-      }
-
-      // ส่งข้อมูลไปยัง PHP ผ่าน fetch
+      // ส่งข้อมูล
       fetch('http://localhost/chiracarehospital/backend/sql/vhv/submit_form.php', {
         method: 'POST',
         headers: {
@@ -198,37 +195,33 @@
           general_symptoms: generalSymptoms,
           blood_sugar_level: bloodSugarLevel,
           vital_signs: vitalSigns,
-          reason_for_missed_treatment: reasonForMissedTreatment,
-          form_submission_date: formSubmissionDate
+          reason_for_missed_treatment: reasonForMissedTreatment
         })
       })
         .then(response => {
           if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
-          return response.text(); // อ่านข้อมูลเป็นข้อความ
+          return response.json();
         })
         .then(data => {
-          console.log(data); // แสดงข้อมูลที่ได้รับจากเซิร์ฟเวอร์
-          try {
-            const jsonData = JSON.parse(data); // แปลงเป็น JSON
-            if (jsonData.success) {
-              alert('ข้อมูลบันทึกสำเร็จ');
-              window.location.href = 'main.html'; // เปลี่ยนไปยัง main.html
-            } else {
-              alert('การบันทึกข้อมูลล้มเหลว: ' + jsonData.error);
-            }
-          } catch (error) {
-            console.error('Error parsing JSON:', error);
-            alert('เกิดข้อผิดพลาดในการประมวลผลข้อมูล');
+          console.log('Response Data:', data);
+          if (data.success) {
+            alert('การบันทึกสำเร็จ');
+            window.location.href = 'main.html';
+          } else {
+            throw new Error(data.error || 'การบันทึกข้อมูลล้มเหลว');
           }
         })
         .catch(error => {
           console.error('Error:', error);
-          alert('เกิดข้อผิดพลาดในการส่งข้อมูล');
+          alert('เกิดข้อผิดพลาด: ' + error.message);
+        })
+        .finally(() => {
+          isSubmitting = false; // ตั้งค่าสถานะการส่งกลับเป็น false หลังจากทำงานเสร็จ
         });
     }
-
+    
     function loadFormData() {
       const urlParams = new URLSearchParams(window.location.search);
       const fullName = urlParams.get("full_name");
@@ -259,7 +252,6 @@
     document.addEventListener("DOMContentLoaded", function () {
       loadFormData(); // โหลดข้อมูลจาก URL
     });
-
   </script>
 
   <script>

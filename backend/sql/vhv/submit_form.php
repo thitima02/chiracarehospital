@@ -1,80 +1,81 @@
 <?php
-require_once '../db_connection.php'; // เปลี่ยนเป็นไฟล์เชื่อมต่อของคุณ
+header('Content-Type: application/json');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-header('Content-Type: application/json'); // ตั้งค่าหัวเรื่องให้เป็น JSON
-
-// รับข้อมูลจากฟอร์ม
-$data = json_decode(file_get_contents("php://input"), true);
-
-// ตรวจสอบว่ามีข้อมูลหรือไม่
-if ($data === null) {
-    echo json_encode(['success' => false, 'error' => 'Invalid JSON input.']);
-    exit;
-}
-
-// ตรวจสอบว่ามีข้อมูลที่จำเป็นหรือไม่
-if (!isset($data['patient_id'], $data['general_symptoms'], $data['blood_sugar_level'], $data['vital_signs'], $data['reason_for_missed_treatment'], $data['form_submission_date'])) {
-    echo json_encode(['success' => false, 'error' => 'Missing required fields.']);
-    exit;
-}
-
-// รับค่าจากข้อมูล
-$patientId = $data['patient_id'];
-$generalSymptoms = $data['general_symptoms'];
-$bloodSugarLevel = $data['blood_sugar_level'];
-$vitalSigns = $data['vital_signs'];
-$reasonForMissedTreatment = $data['reason_for_missed_treatment'];
-$formSubmissionDate = $data['form_submission_date'];
-$userId = 1; // เปลี่ยนให้เป็น ID ของผู้ใช้ที่ส่งข้อมูล
+// เชื่อมต่อกับฐานข้อมูล
+$servername = "localhost";
+$username = "root"; 
+$password = ""; 
+$dbname = "chiracare_follow_up_db";
 
 try {
-    // เริ่มต้นการทำงานกับฐานข้อมูล
-    $conn->beginTransaction();
+    // เชื่อมต่อกับฐานข้อมูล
+    $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // คำสั่ง SQL สำหรับบันทึกข้อมูลใหม่ใน monitor_form
-    $insertSql = "INSERT INTO monitor_form (patient_id, general_symptoms, blood_sugar_level, vital_signs, reason_for_missed_treatment, form_submission_date) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($insertSql);
-    $stmt->execute([$patientId, $generalSymptoms, $bloodSugarLevel, $vitalSigns, $reasonForMissedTreatment, $formSubmissionDate]);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // อ่านข้อมูล JSON ที่ส่งเข้ามา
+        $data = json_decode(file_get_contents('php://input'), true);
 
-    // ดึง ID ล่าสุดที่ถูกสร้างขึ้น
-    $monitorFormId = $conn->lastInsertId();
+        // Log the incoming data
+        error_log("Incoming data: " . print_r($data, true));
 
-    // ดึงข้อมูลเก่าจาก monitor_information
-    $selectOldDataSql = "SELECT id_patient_information, monitor_round FROM monitor_information WHERE patient_id = ? ORDER BY monitor_date DESC LIMIT 1";
-    $stmt = $conn->prepare($selectOldDataSql);
-    $stmt->execute([$patientId]);
-
-    // ตรวจสอบว่ามีข้อมูลเก่าหรือไม่
-    if ($oldData = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // เพิ่มข้อมูลใหม่ใน monitor_information
-        $insertStatusSql = "INSERT INTO monitor_information (patient_id, monitor_status, monitor_round, id_patient_information, id_user_info, monitor_date, id_monitor_form) 
-                            VALUES (?, 'ติดตามแล้ว', ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($insertStatusSql);
-
-        // เพิ่มจำนวน monitor_round
-        $newMonitorRound = $oldData['monitor_round'] + 1; // เพิ่มจำนวนการติดตาม
-        $stmt->execute([$patientId, $newMonitorRound, $oldData['id_patient_information'], $userId, $formSubmissionDate, $monitorFormId]);
-
-        // ตรวจสอบว่าการเพิ่มข้อมูลสำเร็จหรือไม่
-        if ($stmt->rowCount() > 0) {
-            // ยืนยันการทำธุรกรรม
-            $conn->commit();
-            echo json_encode(['success' => true]);
-        } else {
-            $conn->rollBack();
-            echo json_encode(['success' => false, 'error' => 'Unable to insert status.']);
+        // ตรวจสอบ JSON ว่าถูกต้องหรือไม่
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(['success' => false, 'message' => 'ข้อมูล JSON ไม่ถูกต้อง']);
+            exit();
         }
-    } else {
-        $conn->rollBack();
-        echo json_encode(['success' => false, 'error' => 'No old data found.']);
-    }
-} catch (Exception $e) {
-    // หากเกิดข้อผิดพลาดให้ทำการ rollback
-    $conn->rollBack();
-    echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
-}
 
-// ปิดการเชื่อมต่อ
-$stmt = null; // set statement to null to free resources
-$conn = null; // close connection
-?>
+        // Proceed with extracting data and inserting into the database
+        $patient_id = $data['patient_id'] ?? null; 
+        $general_symptoms = $data['general_symptoms'] ?? null;
+        $blood_sugar_level = $data['blood_sugar_level'] ?? null;
+        $vital_signs = $data['vital_signs'] ?? null;
+        $reason_for_missed_treatment = $data['reason_for_missed_treatment'] ?? null;
+        $form_submission_date = date('Y-m-d'); // คุณไม่ต้องส่ง form_submission_date เนื่องจากให้เซิร์ฟเวอร์ตั้งค่าเอง
+
+        // ตรวจสอบค่าที่จำเป็น
+        if (empty($patient_id) || empty($general_symptoms) || empty($blood_sugar_level) || empty($vital_signs) || empty($reason_for_missed_treatment)) {
+            echo json_encode(['success' => false, 'message' => 'ข้อมูลไม่ครบถ้วน']);
+            exit();
+        }        
+
+        // เพิ่มข้อมูลใน monitor_form
+        $sqlInsert = "INSERT INTO monitor_form (patient_id, general_symptoms, blood_sugar_level, vital_signs, reason_for_missed_treatment, form_submission_date) 
+                      VALUES (:patient_id, :general_symptoms, :blood_sugar_level, :vital_signs, :reason_for_missed_treatment, :form_submission_date)";
+        $stmtInsert = $pdo->prepare($sqlInsert);
+        try {
+            $stmtInsert->execute([
+                ':patient_id' => $patient_id,
+                ':general_symptoms' => $general_symptoms,
+                ':blood_sugar_level' => $blood_sugar_level,
+                ':vital_signs' => $vital_signs,
+                ':reason_for_missed_treatment' => $reason_for_missed_treatment,
+                ':form_submission_date' => $form_submission_date,
+            ]);
+        } catch (PDOException $e) {
+            error_log("Insert Error: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'การบันทึกข้อมูลล้มเหลว: ' . $e->getMessage()]);
+            exit();
+        }
+
+        // อัปเดตสถานะใน monitor_information
+        $sqlUpdate = "UPDATE monitor_information SET monitor_status = 'ติดตามแล้ว' WHERE patient_id = :patient_id";
+        $stmtUpdate = $pdo->prepare($sqlUpdate);
+        try {
+            $stmtUpdate->execute([ ':patient_id' => $patient_id ]);
+        } catch (PDOException $e) {
+            error_log("Update Error: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'การอัปเดตสถานะล้มเหลว: ' . $e->getMessage()]);
+            exit();
+        }
+
+        // ส่ง response สำเร็จ
+        echo json_encode(['success' => true]);
+        exit();
+    }
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'error' => 'เกิดข้อผิดพลาด: ' . $e->getMessage()]);
+    exit();
+}
