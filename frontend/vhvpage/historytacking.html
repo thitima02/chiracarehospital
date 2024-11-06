@@ -78,12 +78,14 @@
             const historyElement = document.getElementById('historyElement');
             historyElement.innerHTML = ''; // ล้างข้อมูลเก่า
 
-            // จัดเรียงข้อมูลตามวันที่จากล่าสุดไปหาเก่าสุด
+            // จัดเรียงข้อมูลตามวันที่และเวลาล่าสุดก่อน
             data.data.sort((a, b) => new Date(b.form_submission_date) - new Date(a.form_submission_date));
 
             data.data.forEach(history => {
-              const formattedDate = new Date(history.form_submission_date).toLocaleDateString('th-TH');
-              const formattedTime = new Date(history.form_submission_date).toLocaleTimeString('th-TH');
+              // ตรวจสอบว่ามีการเก็บทั้งวันที่และเวลาใน form_submission_date
+              const formSubmissionDate = new Date(history.form_submission_date);
+              const formattedDate = formSubmissionDate.toLocaleDateString('th-TH');
+              const formattedTime = formSubmissionDate.toLocaleTimeString('th-TH');
 
               historyElement.innerHTML += `
                 <div class="activity">
