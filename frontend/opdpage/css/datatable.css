@@ -48,47 +48,41 @@
     border-bottom: 2px solid #f4f4f4;
   }
 
+  .patient-table img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
   .status {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 5px;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  .status.uncomplete {
-    background-color: #F4E1E1;
-    color: #BB4242;
-  }
-
-  .status.in-progress {
-    background-color: #FFF5C2;
-    color: #E99050;
+    font-size: 13px;
   }
 
   .status.continue {
     background-color: #F4E1ED;
     color: #BB4292;
-  }
-
-  .status.completed {
-    background-color: #E1F4E1;
-    color: #5F8D4E;
+    font-weight: bold;
   }
 
   .status.sucess {
     background-color: #E3F5FF;
     color: #5D97EF;
+    font-weight: bold;
   }
 
   .status.unsucess {
     background-color: #dddddd;
     color: #626262;
+    font-weight: bold;
   }
 
   .status.other {
-    background-color: #e5e1f4;
-    color: #634e8d;
+    color: #000000;
   }
   
   .action-btn {
