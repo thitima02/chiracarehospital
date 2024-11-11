@@ -239,9 +239,10 @@
     <td><span class="status ${treatmentStatusClass}">${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>
     <td>
         <div class="Actionbutton" data-patient-id="${patient.patient_id}" ${isTreated ? 'disabled style="opacity: 0.5;"' : ''}>
-            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" onclick="window.location.href='test.html?name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'">
-                <i class='bx bx-file'></i>
-                </button>
+            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" 
+        onclick="window.location.href='addappointment.html?patient_id=${encodeURIComponent(patient.patient_id)}&name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'">
+    <i class='bx bx-file'></i>
+</button>
             <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmMakeDone(${patient.patient_id})">
                                 <i class='bx bx-check'></i>
                             </button>

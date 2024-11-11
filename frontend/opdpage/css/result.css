@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   padding-top: 20px;
-  padding-left: 5%;
+  padding-left: 4%;
   width: 100%;
   align-items: center;
 
@@ -30,7 +30,7 @@
   border-radius: 15px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  min-width: 500px;
+  min-width: 505px;
   margin: 0 10px;
 
 }
