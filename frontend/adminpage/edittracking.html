@@ -23,7 +23,7 @@
     <div class="container">
         <div class="profile-header">
             <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
-            <div class="profile-name">นายสามสี ดื้อมาก</div>
+            <div class="profile-name"></div>
         </div>
 
         <div class="step-indicator">
@@ -64,6 +64,63 @@
             </div>
         </form>
     </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const patientId = getPatientIdFromURL(); // ดึง patient_id จาก URL หรือฟังก์ชันที่กำหนดเอง
+    fetchPatientInformation(patientId);
+    fetchMonitorFormData(patientId);
+});
+
+function getPatientIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('patient_id'); // ดึง patient_id จาก query string ของ URL
+}
+
+function fetchPatientInformation(patientId) {
+    fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                displayPatientInformation(data.data[0]); // แสดงข้อมูลผู้ป่วยรายแรก
+            } else {
+                console.error('ไม่พบข้อมูลผู้ป่วย');
+            }
+        })
+        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+}
+
+function displayPatientInformation(patient) {
+    document.querySelector('.profile-name').textContent = patient.full_name;
+    document.querySelector('#reason').value = patient.reason || '';
+    document.querySelector('#occupation').value = patient.occupation || '';
+    document.querySelector('#blood-level').value = patient.blood_level || '';
+    document.querySelector('#symptoms').value = patient.symptoms || '';
+}
+
+function fetchMonitorFormData(patientId) {
+    fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                displayMonitorFormData(data.data[0]); // แสดงข้อมูลจากรายการแรก
+            } else {
+                console.error('ไม่พบข้อมูล');
+            }
+        })
+        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+}
+
+function displayMonitorFormData(monitorData) {
+    document.querySelector('#reason').value = monitorData.reason_for_missed_treatment || '';
+    document.querySelector('#occupation').value = monitorData.vital_signs || '';
+    document.querySelector('#blood-level').value = monitorData.blood_sugar_level || '';
+    document.querySelector('#symptoms').value = monitorData.general_symptoms || '';
+}
+
+
+
+    </script>
+
 
     <!-- JavaScript สำหรับการเปลี่ยนหน้า -->
     <script>
