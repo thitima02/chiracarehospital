@@ -4,7 +4,7 @@
     align-items: center;
     padding: 20px;
     border-radius: 8px;
-    margin-left: 6%;
+    margin-left: 5%;
     width: 100;
 }
 
@@ -69,3 +69,91 @@
     color: #5D97EF;
     pointer-events: none; /* Prevent clicking the icon */
   }
+
+  .statustracking-container {
+    width: 93.5%;
+    margin: auto;
+    padding: 20px;
+    margin-left: 89px;
+  }
+  
+  .search-box {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-box:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  }
+  
+  .search-box {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-box:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  }
+  
+  /* ปรับให้ฟอร์มค้นหาดูดีขึ้น */
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .filter:hover {
+    border-color: #007bff;
+  }
+  
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .filter:hover {
+    border-color: #007bff;
+  }
+
+  

@@ -10,8 +10,18 @@
   <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
   <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
   <link rel="stylesheet" href="../../frontend/opdpage/css/form.css">
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <script src="../method/logout.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+  <script src="../method/user.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+  <script src="../method/loadSidebarScript.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+  <script src="../method/checkAuth.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
 </head>
 
 <body style="background-color:#edeff1;">
@@ -23,73 +33,129 @@
   <div id="topbar-container"></div>
 
   <div class="form-section">
-    <form action="submit.php" method="post">
+    <form id="appointment-form">
       <!-- Topic -->
-      <divc class="Topic">
+      <div class="Topic">
         <p>เพิ่มนัดการรักษา</p>
-      </divc>
+      </div>
 
-      <form>
-        <label for="name">ชื่อ – นามสกุล</label>
-        <input type="text" id="name" placeholder="นายเบชา สงกรานต์">
+      <!-- name -->
+      <label for="name">ชื่อ – นามสกุล</label>
+      <input type="text" id="name" readonly>
 
-        <label for="disease">โรคของผู้ป่วยที่รักษา</label>
-        <select id="disease">
-          <option value="">ความดันโลหิตสูง</option>
-          <option value="โรคหัวใจ">โรคอ้วน</option>
-          <option value="มะเร็ง">มะเร็ง</option>
-          <option value="">ไขมันในเลือดสูง</option>
-          <option value="โรคหัวใจ">โรคเบาหวาน</option>
-          <option value="มะเร็ง">CVS Risk</option>
-          <option value="มะเร็ง">โรคไต</option>
-        </select>
+      <label for="disease">โรคของผู้ป่วยที่รักษา</label>
+      <input type="text" id="disease" readonly>
 
-        <label for="symptoms">อาการทั่วไป</label>
-        <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+      <label for="general_symptoms">อาการทั่วไป</label>
+      <input type="text" id="general_symptoms" name="general_symptoms" placeholder="กรุณากรอกอาการทั่วไป">
 
-        <label for="treatment-plan">ประเด็นการรักษา</label>
-        <select id="treatment-plan">
-          <option value="">กรุณากรอกอาการทั่วไป</option>
-          <!-- <option value="ยา">ยา</option>
-          <option value="ผ่าตัด">ผ่าตัด</option> -->
-        </select>
+      <label for="treatment_issue">ประเด็นการรักษา</label>
+      <input type="text" id="treatment_issue" name="treatment_issue" placeholder="กรุณากรอกประเด็นการรักษา">
 
-        <label for="start-date">วันที่เข้ารับการรักษา</label>
-        <input type="date" id="start-date">
+      <label for="date_of_treatment">วันที่เข้ารับการรักษา</label>
+      <input type="date" id="date_of_treatment" name="date_of_treatment">
 
-        <label for="next-visit-date">วันที่นัดครั้งถัดไป</label>
-        <input type="date" id="next-visit-date">
+      <label for="next_appointment_date">วันที่นัดครั้งถัดไป</label>
+      <input type="date" id="next_appointment_date" name="next_appointment_date">
 
-        <label for="notes">หมายเหตุ</label>
-        <input type="text" id="notes" placeholder="กรุณากรอกหมายเหตุ">
-      </form>
+      <label for="notes">หมายเหตุ (ถ้ามี)</label>
+      <input type="text" id="notes" placeholder="กรุณากรอกหมายเหตุ">
+
+      <input type="hidden" id="patient_id" name="patient_id" value="">
 
       <!-- Submit Button -->
       <div class="button-group">
-        <button type="submit" onclick="confirmSubmission()">บันทึก</button>
-        <button type="back" id="back">ย้อนกลับ</button>
+        <button type="button" id="submit-btn">บันทึก</button>
+        <button type="button" id="back">ย้อนกลับ</button>
       </div>
     </form>
   </div>
 
+  <!-- Popup for confirmation -->
   <div id="popup" class="popup">
     <div class="popup-content">
       <h3>คุณแน่ใจหรือไม่ว่าจะส่งแบบฟอร์มนี้?</h3>
       <p>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้องก่อนส่ง</p>
       <div class="button-popup">
-        <button type="Yes" onclick="submitForm()">ใช่</button>
-        <button type="No" onclick="closePopup()">ไม่</button>
+        <button type="button" onclick="submitForm()">ใช่</button>
+        <button type="button" onclick="closePopup()">ไม่</button>
       </div>
     </div>
   </div>
 
   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const nameElement = document.getElementById("name");
+      const diseaseElement = document.getElementById("disease");
+      const symptomsElement = document.getElementById("general_symptoms");
+      const treatmentPlanElement = document.getElementById("treatment_issue");
+      const startDateElement = document.getElementById("date_of_treatment");
+      const nextVisitDateElement = document.getElementById("next_appointment_date");
+      const patientIdElement = document.getElementById("patient_id");
+      const notesElement = document.getElementById("notes");
+
+      // ดึงข้อมูลจาก URL และกำหนดค่าให้ฟิลด์
+      const urlParams = new URLSearchParams(window.location.search);
+      if (nameElement) nameElement.value = urlParams.get("name") || '';
+      if (diseaseElement) diseaseElement.value = urlParams.get("disease") || '';
+      if (symptomsElement) symptomsElement.value = urlParams.get("general_symptoms") || '';
+      if (treatmentPlanElement) treatmentPlanElement.value = urlParams.get("treatment_issue") || '';
+      if (startDateElement) startDateElement.value = urlParams.get("date_of_treatment") || '';
+      if (nextVisitDateElement) nextVisitDateElement.value = urlParams.get("next_appointment_date") || '';
+      if (patientIdElement) patientIdElement.value = urlParams.get("patient_id") || '';
+
+      // ฟังก์ชันการส่งฟอร์ม
+      document.getElementById("submit-btn").addEventListener("click", function (event) {
+        event.preventDefault(); // หยุดการทำงานของฟอร์มที่เป็นค่าเริ่มต้น
+
+        // ดึงข้อมูลจากฟอร์ม
+        const formData = {
+          patient_id: patientIdElement ? patientIdElement.value : '',
+          general_symptoms: symptomsElement ? symptomsElement.value : '',
+          treatment_issue: treatmentPlanElement ? treatmentPlanElement.value : '',
+          date_of_treatment: startDateElement ? startDateElement.value : '',
+          next_appointment_date: nextVisitDateElement ? nextVisitDateElement.value : '',
+          notes: notesElement ? notesElement.value : '' // ตรวจสอบฟิลด์ notes
+        };
+
+        // แสดงผล formData ใน console เพื่อการตรวจสอบ
+        console.log("FormData:", formData);
+
+        // ส่งข้อมูลไปยังเซิร์ฟเวอร์
+        fetch('http://localhost/chiracarehospital/backend/sql/opd/summit.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("บันทึกข้อมูลสำเร็จ!");
+              window.location.href = 'main.html'; // ถ้าบันทึกสำเร็จแล้วเปลี่ยนเส้นทาง
+            } else {
+              alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + data.error);
+            }
+          })
+          .catch(error => {
+            console.error('เกิดข้อผิดพลาด:', error);
+            alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
+          });
+      });
+    });
+  </script>
+
+  <script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
+
     // Load sidebar
     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
+        loadSidebarScript();
       });
 
     // Load topbar and set the page title
@@ -97,61 +163,27 @@
       .then(response => response.text())
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'การแจ้งเตือน'; // Set page title for the main page
-      });
+        document.getElementById('page-title').textContent = 'หน้าหลัก';
 
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
+        const script = document.createElement('script');
+        script.src = '../method/user.js';
+        document.body.appendChild(script);
       });
-
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-      document.getElementById('back').addEventListener('click', function () {
-        window.location.href = 'main.html';
-      });
-    }
   </script>
-
-  <script>
-    // Show the confirmation pop-up
-    function confirmSubmission() {
-      document.getElementById("popup").style.display = "flex";
-    }
-
-    // Close the pop-up
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
-    }
-
-    // Submit the form and go back to the previous page
-    function submitForm() {
-      // You can add form validation logic here if needed
-      closePopup();
-
-      // Simulate form submission or redirect to the previous page
-      alert('Form submitted successfully!');
-      window.history.back();  // Go back to the previous page
-    }
-  </script>
-
 </body>
 
 </html>
 
 <style>
+  input[readonly] {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+</style>
+
+<style>
   .popup {
     display: none;
-    /* Hidden by default */
     position: fixed;
     top: 0;
     left: 0;
