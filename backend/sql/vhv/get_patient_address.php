@@ -13,7 +13,7 @@ if ($conn) {
                        a.soi, 
                        a.moo, 
                        a.number, 
-                       m.monitor_date, 
+                       m.monitor_deadline, 
                        m.monitor_status, 
                        m.monitor_round 
                 FROM patient_information p

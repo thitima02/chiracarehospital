@@ -49,7 +49,7 @@
             <div class="filter-item">
                 <h5>โรคประจำตัว</h5>
                 <select class="dropdown-filter" id="diseaseTypeFilter">
-                    <option value="ทั้งหมด">ทั้งหมด</option>
+                    <option value="">ทั้งหมด</option>
                     <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
                     <option value="โรคอ้วน">โรคอ้วน</option>
                     <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
@@ -70,20 +70,25 @@
             fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_history.php")
                 .then(response => response.json())
                 .then(data => {
-                    // จัดเรียงข้อมูลตามวันที่และเวลาใหม่ล่าสุดมากที่สุด
+                    const historyContainer = document.querySelector(".history-container");
+
+                    // ตรวจสอบว่ามีข้อมูลหรือไม่
+                    if (data.length === 0) {
+                        historyContainer.innerHTML = "<p>ยังไม่มีข้อมูลในส่วนนี้</p>";
+                        return;
+                    }
+
+                    // ถ้ามีข้อมูล ให้จัดเรียงและแสดงข้อมูล
                     data.sort((a, b) => {
                         const dateA = new Date(a.newupdate);
                         const dateB = new Date(b.newupdate);
                         return dateB - dateA;
                     });
 
-                    const historyContainer = document.querySelector(".history-container");
-
                     data.forEach(history => {
                         const historyElement = document.createElement("div");
                         historyElement.classList.add("history");
 
-                        // ฟังก์ชันเพื่อจัดรูปแบบวันที่และเวลา
                         const formatDateTime = (dateTime) => {
                             const date = new Date(dateTime);
                             const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -93,47 +98,42 @@
                         };
 
                         const { formattedDate, formattedTime } = formatDateTime(history.newupdate);
-
-                        // ตรวจสอบว่ามี patient_image หรือไม่ หากไม่มีให้ใช้ภาพเริ่มต้น
-                        const imageUrl = history.patient_image
-                            ? `data:image/jpeg;base64,${history.patient_image}`
-                            : '../../assets/images/cat.jpg';
+                        const imageUrl = history.patient_image ? `data:image/jpeg;base64,${history.patient_image}` : '../../assets/images/cat.jpg';
 
                         historyElement.innerHTML = `
-                    <div class="activity">
-                        <div class="left">
-                           <img src="${imageUrl}" alt="patient image" class="activity-icon" style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
-                            <div class="details">
-                                <p class="title">เพิ่มนัดการรักษาของ คุณ "${history.full_name}" เสร็จสิ้น</p>
-                                <p class="subtitle">ข้อมูลการนัดรักษาถูกบันทึกเรียบร้อย ท่านสามารถตรวจสอบย้อนหลังเพื่อเช็คความถูกต้องได้ (หากเกิดข้อผิดพลาดโปรดแจ้งกับทางแอดมินโดยตรง)</p>
+                        <div class="activity">
+                            <div class="left">
+                               <img src="${imageUrl}" alt="patient image" class="activity-icon" style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
+                                <div class="details">
+                                    <p class="title">เพิ่มนัดการรักษาของ คุณ "${history.full_name}" เสร็จสิ้น</p>
+                                    <p class="subtitle">ข้อมูลการนัดรักษาถูกบันทึกเรียบร้อย ท่านสามารถตรวจสอบย้อนหลังเพื่อเช็คความถูกต้องได้ (หากเกิดข้อผิดพลาดโปรดแจ้งกับทางแอดมินโดยตรง)</p>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <p class="update">${formattedDate}</p>
+                                <p class="time">${formattedTime}</p>
+                            </div>
+                            <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                            <div class="more-details" style="display: none;">
+                                <div class="detail">
+                                    <p>ชื่อ - นามสกุล : ${history.full_name}</p>
+                                    <p>โรคประจำตัว : ${history.disease_type}</p>
+                                    <p>อาการทั่วไป : ${history.general_symptoms}</p>
+                                    <p>ประเด็นการรักษา : ${history.treatment_issue}</p>
+                                    <p>วันที่นัดครั้งถัดไป : ${history.next_appointment_date}</p>
+                                    <p>หมายเหตุ : ${history.notes}</p>
+                                    <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.user_fullname}</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="right">
-                            <p class="update">${formattedDate}</p>
-                            <p class="time">${formattedTime}</p>
-                        </div>
-                        <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
-                        <div class="more-details" style="display: none;">
-                            <div class="detail">
-                                <p>ชื่อ - นามสกุล : ${history.full_name}</p>
-                                <p>โรคประจำตัว : ${history.disease_type}</p>
-                                <p>อาการทั่วไป : ${history.general_symptoms}</p>
-                                <p>ประเด็นการรักษา : ${history.treatment_issue}</p>
-                                <p>วันที่เข้ารับการรักษา : ${history.date_of_treatment}</p>
-                                <p>วันที่นัดครั้งถัดไป : ${history.next_appointment_date}</p>
-                                <p>หมายเหตุ : ${history.notes}</p>
-                                <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.user_fullname}</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                        `;
 
                         historyContainer.appendChild(historyElement);
                     });
                 })
                 .catch(error => console.error("Error fetching data:", error));
 
-            // การกรองข้อมูล (ตามโค้ดที่มีอยู่)
+            // การกรองข้อมูล
             const searchInput = document.getElementById('searchPatientInput');
             const updatedDateFilter = document.getElementById('updatedDateFilter');
             const diseaseTypeFilter = document.getElementById('diseaseTypeFilter');
@@ -141,7 +141,7 @@
             function filterData() {
                 const searchTerm = searchInput.value.toLowerCase();
                 const updatedDate = updatedDateFilter.value;
-                const diseaseType = diseaseTypeFilter.value;
+                const selectedDisease = diseaseTypeFilter.value; // เปลี่ยนเป็นรับค่าที่เลือกแค่ 1 ตัว
 
                 const activities = document.querySelectorAll('.activity');
 
@@ -162,8 +162,8 @@
                         isVisible = false;
                     }
 
-                    // กรองตามประเภทโรค
-                    if (diseaseType !== 'ทั้งหมด' && diseaseTypeValue !== diseaseType) {
+                    // กรองตามโรคประจำตัว
+                    if (selectedDisease && selectedDisease !== "" && !diseaseTypeValue.includes(selectedDisease)) {
                         isVisible = false;
                     }
 

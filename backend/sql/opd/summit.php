@@ -24,22 +24,25 @@ if (is_null($data)) {
 $patient_id = isset($data['patient_id']) ? $data['patient_id'] : '';
 $general_symptoms = isset($data['general_symptoms']) ? $data['general_symptoms'] : '';
 $treatment_issue = isset($data['treatment_issue']) ? $data['treatment_issue'] : '';
-$date_of_treatment = isset($data['date_of_treatment']) ? $data['date_of_treatment'] : '';
 $next_appointment_date = isset($data['next_appointment_date']) ? $data['next_appointment_date'] : '';
 $notes = isset($data['notes']) ? $data['notes'] : '';
 $user_fullname = isset($data['user_fullname']) ? $data['user_fullname'] : '';  // รับข้อมูลชื่อผู้ใช้
 
-if ($patient_id == '' || $general_symptoms == '' || $treatment_issue == '' || $date_of_treatment == '' || $next_appointment_date == '') {
+if ($patient_id == '' || $general_symptoms == '' || $treatment_issue == '' || $next_appointment_date == '') {
     echo json_encode(["error" => "กรุณากรอกข้อมูลให้ครบถ้วน"]);
     exit;
 }
 
-$sql = "INSERT INTO treatment_form (patient_id, general_symptoms, treatment_issue, date_of_treatment, next_appointment_date, notes, user_fullname, newupdate)
-        VALUES ('$patient_id', '$general_symptoms', '$treatment_issue', '$date_of_treatment', '$next_appointment_date', '$notes', '$user_fullname', NOW())";
+$sql = "INSERT INTO treatment_form (patient_id, general_symptoms, treatment_issue, next_appointment_date, notes, user_fullname, newupdate)
+        VALUES ('$patient_id', '$general_symptoms', '$treatment_issue', '$next_appointment_date', '$notes', '$user_fullname', NOW())";
 
 if ($conn->query($sql) === TRUE) {
+    // อัปเดตข้อมูลใน treatment_information
     $updateStatusSql = "UPDATE treatment_information 
-                        SET treatment_status = 'นัดติดตามต่อเนื่อง', treatment_round = treatment_round + 1 
+                        SET appointment_date = '$next_appointment_date', 
+                            last_update = NOW(), 
+                            treatment_status = 'นัดติดตามต่อเนื่อง', 
+                            treatment_round = treatment_round + 1 
                         WHERE patient_id = '$patient_id'";
 
     if ($conn->query($updateStatusSql) === TRUE) {
