@@ -133,7 +133,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Total Patients Data:", data); // Log data for debugging
                     const todayPatientsCount = document.querySelector('.new-order h2');
                     todayPatientsCount.textContent = data.total || 0;
                 })
@@ -148,7 +147,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Patient Address Data:", data);
                     const tbody = document.getElementById("patient-tbody");
 
                     // Filter data to get only patients with status "กำลังติดตาม"
