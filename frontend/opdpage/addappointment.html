@@ -55,15 +55,15 @@
       <label for="next_appointment_date">วันที่นัดครั้งถัดไป</label>
       <input type="date" id="next_appointment_date" name="next_appointment_date">
 
-      <label for="notes">หมายเหตุ (ถ้าไม่มีใส่ "-")</label>
+      <label for="notes">หมายเหตุ (ถ้าไม่มีใส่"-")</label>
       <input type="text" id="notes" placeholder="กรุณากรอกหมายเหตุ">
 
       <input type="hidden" id="patient_id" name="patient_id" value="">
 
       <!-- Submit Button -->
       <div class="button-group">
+        <button type="button" id="back" style="padding: 6px 25px;">ย้อนกลับ</button>
         <button type="button" id="submit-btn">บันทึก</button>
-        <button type="button" id="back">ย้อนกลับ</button>
       </div>
     </form>
   </div>
@@ -142,6 +142,10 @@
             alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
           });
       });
+      // เพิ่มเหตุการณ์ให้กับปุ่มย้อนกลับ
+      document.getElementById("back").addEventListener("click", function () {
+        window.location.href = 'main.html'; // เมื่อคลิกปุ่มย้อนกลับ ให้ไปที่หน้า main.html
+      });
     });
   </script>
 
@@ -208,5 +212,16 @@
 
   .button-popup {
     margin-left: 20px;
+  }
+
+  /* Button styling */
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    /* Align buttons to the right */
+    margin-top: 30px;
+    margin-bottom: 20px;
+    gap: 10px;
+    /* เพิ่มระยะห่างระหว่างปุ่ม */
   }
 </style>
