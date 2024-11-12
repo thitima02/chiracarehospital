@@ -307,11 +307,12 @@
                 <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status ? patient.treatment_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
                 <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status ? patient.monitor_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
                 <td>
+                
                     <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}';">
   <i class='bx bx-edit'></i>
 </button>
 
-                    <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html?patient_id=?';"><i class='bx bx-right-arrow-alt'></i></button>
+                    <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}';"><i class='bx bx-right-arrow-alt'></i></button>
                 </td>`;
             tbody.appendChild(row);
           });

@@ -189,8 +189,13 @@ async function fetchTreatmentFormData(patientId) {
       }
     }
     document.getElementById('backBtn').addEventListener('click', function() {
-            window.location.href = 'edittracking.html';
-        });
+        const patientId = getPatientIdFromURL();
+        if (patientId) {
+            // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html พร้อมส่งค่า patient_id ใน URL
+            window.location.href = `edittracking.html?patient_id=${patientId}`;
+        } else {
+            alert('ไม่พบข้อมูลผู้ป่วย กรุณาลองอีกครั้ง');
+        }});
     
         // เมื่อผู้ใช้กดปุ่มบันทึก จะเปลี่ยนเส้นทางไปที่หน้า statustracking.html
         document.getElementById('saveBtn').addEventListener('click', function(event) {

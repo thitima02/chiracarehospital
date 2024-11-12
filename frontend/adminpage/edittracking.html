@@ -23,7 +23,7 @@
     <div class="container">
         <div class="profile-header">
             <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
-            <div class="profile-name"></div>
+            <div class="full_name"></div>
         </div>
     
         <div class="step-indicator">
@@ -58,79 +58,80 @@
     </div>
     
     <script>
-      document.addEventListener('DOMContentLoaded', function () { 
+      document.addEventListener('DOMContentLoaded', function () {
         const patientId = getPatientIdFromURL();
-        fetchPatientMedicalData(patientId);
-        fetchPatientInformation(patientId);
-        fetchMonitorFormData(patientId);
+        if (patientId) {
+            fetchPatientMedicalData(patientId);
+            fetchPatientInformation(patientId);
+            fetchMonitorFormData(patientId);
+        } else {
+            alert('ไม่พบข้อมูลผู้ป่วย');
+        }
     });
-    
+
     function getPatientIdFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
-        // ถ้า patient_id ไม่มีใน URL ให้ใช้ค่าเริ่มต้น 101
-        return urlParams.get('patient_id') || '101';
+        return urlParams.get('patient_id');
     }
-    
-    async function fetchPatientMedicalData(patientId) {
-        try {
-            const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
-            const medicalData = await medicalResponse.json();
-    
-            if (medicalData.patient_data && medicalData.patient_data.length > 0) {
-                const patientMedicalInfo = medicalData.patient_data[0];
-    
-                // Update elements with patient medical information
-                document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
-            } else {
-                console.error('No medical data found.');
-                document.getElementById('diseaseType').value = 'ไม่มีข้อมูลโรค';
-            }
-        } catch (error) {
-            console.error('Error fetching patient data:', error);
-            alert('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย');
+async function fetchPatientMedicalData(patientId) {
+    try {
+        const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+        const medicalData = await medicalResponse.json();
+
+        if (medicalData.patient_data && medicalData.patient_data.length > 0) {
+            const patientMedicalInfo = medicalData.patient_data[0];
+            document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
+        } else {
+            console.error('No medical data found.');
+            document.getElementById('diseaseType').value = 'ไม่มีข้อมูลโรค';
         }
+    } catch (error) {
+        console.error('Error fetching patient data:', error);
+        alert('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย');
     }
-    
-    function fetchPatientInformation(patientId) {
-        fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    displayPatientInformation(data.data[0]);
-                } else {
-                    console.error('ไม่พบข้อมูลผู้ป่วย');
-                }
-            })
-            .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-    }
-    
-    function displayPatientInformation(patient) {
-        document.querySelector('.profile-name').textContent = patient.full_name || 'ไม่มีชื่อผู้ป่วย';
-        document.querySelector('#reason').value = patient.reason || '';
-        document.querySelector('#occupation').value = patient.occupation || '';
-        document.querySelector('#blood-level').value = patient.blood_level || '';
-        document.querySelector('#symptoms').value = patient.symptoms || '';
-    }
-    
-    function fetchMonitorFormData(patientId) {
-        fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    displayMonitorFormData(data.data[0]);
-                } else {
-                    console.error('ไม่พบข้อมูล');
-                }
-            })
-            .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-    }
-    
-    function displayMonitorFormData(monitorData) {
-        document.querySelector('#reason').value = monitorData.reason_for_missed_treatment || '';
-        document.querySelector('#occupation').value = monitorData.vital_signs || '';
-        document.querySelector('#blood-level').value = monitorData.blood_sugar_level || '';
-        document.querySelector('#symptoms').value = monitorData.general_symptoms || '';
-    }
+}
+
+function fetchPatientInformation(patientId) {
+    fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                displayPatientInformation(data.data[0]);
+            } else {
+                console.error('ไม่พบข้อมูลผู้ป่วย');
+            }
+        })
+        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+}
+
+function displayPatientInformation(patient) {
+    document.querySelector('.full_name').textContent = patient.full_name || 'ไม่มีชื่อผู้ป่วย';
+    document.querySelector('#reason').value = patient.reason || '';
+    document.querySelector('#occupation').value = patient.occupation || '';
+    document.querySelector('#blood-level').value = patient.blood_level || '';
+    document.querySelector('#symptoms').value = patient.symptoms || '';
+}
+
+function fetchMonitorFormData(patientId) {
+    fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                displayMonitorFormData(data.data[0]);
+            } else {
+                console.error('ไม่พบข้อมูล');
+            }
+        })
+        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+}
+
+function displayMonitorFormData(monitorData) {
+    document.querySelector('#reason').value = monitorData.reason_for_missed_treatment || '';
+    document.querySelector('#occupation').value = monitorData.vital_signs || '';
+    document.querySelector('#blood-level').value = monitorData.blood_sugar_level || '';
+    document.querySelector('#symptoms').value = monitorData.general_symptoms || '';
+}
+
     </script>
     <!-- JavaScript สำหรับการเปลี่ยนหน้า -->
     <script>
@@ -166,10 +167,14 @@
         }
       }
     }
-        document.getElementById('nextBtn').addEventListener('click', function() {
-            // เปลี่ยนเส้นทางไปที่หน้า edittracking2.html
-            window.location.href = 'edittracking3.html';
-        });
+    document.getElementById('nextBtn').addEventListener('click', function() {
+        const patientId = getPatientIdFromURL();
+        if (patientId) {
+            // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html พร้อมส่งค่า patient_id ใน URL
+            window.location.href = `edittracking3.html?patient_id=${patientId}`;
+        } else {
+            alert('ไม่พบข้อมูลผู้ป่วย กรุณาลองอีกครั้ง');
+        }});
     </script>
 </body>
 </html>
