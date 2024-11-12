@@ -80,7 +80,7 @@ h1 {
     vertical-align: middle;
 }
 
-.progress {
+/* .progress {
     height: 20px;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -102,7 +102,7 @@ h1 {
 
 .progress-bar.bg-warning {
     background-color: #ffc107;
-}
+} */
 
 .text-right {
     text-align: right;
@@ -233,15 +233,15 @@ h1 {
 }
 
 #followed-bar {
-    background-color: #4CAF50; /* Green */
+    background-color: #62B661; /* Green */
 }
 
 #following-bar {
-    background-color: #FF9800; /* Orange */
+    background-color: #F39B33; /* Orange */
 }
 
 #not-followed-bar {
-    background-color: #F44336; /* Red */
+    background-color: #BB4242; /* Red */
 }
 .follow-up-status-card {
     margin: 20px auto;
@@ -294,6 +294,17 @@ h1 {
     font-size: 0.9rem; /* ลดขนาดวันที่ */
     color: #888;
 }
+.patient-count-treatment {
+    font-size: 1.3rem; /* ปรับขนาดให้ใหญ่ขึ้น */
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.latest-update-date {
+    font-size: 0.9rem; /* ลดขนาดวันที่ */
+    color: #888;
+}
 
 
+  
 

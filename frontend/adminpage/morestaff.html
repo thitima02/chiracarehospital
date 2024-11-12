@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Main Page</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/topbar.css">
+    <link rel="stylesheet" href="../../css/popuppatient.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/filltermenu.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/datatable.css">
+
+    <!-- Import icon -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="../method/logout.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+    <script src="../method/user.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+    <script src="../method/loadSidebarScript.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+    <script src="../method/checkAuth.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
+
+</head>
+
+<body>
+
+    <!-- Sidebar will be loaded here -->
+    <div id="sidebar-container"></div>
+
+    <!-- Topbar will be loaded here -->
+    <div id="topbar-container"></div>
+
+    <!-- the result of many patients -->
+    <container>
+        <div class="stats-container">
+            <div class="box new">
+                <img style="width: 40px; height: 40px; border-radius: 50%;" src="../../assets/images/cat.jpg"
+                    alt="avatar">
+                <h2 id="staff-name">สมหมาย มีสุข</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="padding-right: 5px;">สถานะ</th>
+                            <th style="padding-right: 5px;">เขตที่รับผิดชอบ</th>
+                            <th style="padding-right: 5px;">เบอร์โทรศัพท์</th>
+                        </tr>
+                    </thead>
+                    <tbody id="staff-details">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="filter-section" style="justify-content: center;">
+            <div class="filter-container">
+                <div class="filter-item search-bar">
+                    <h5>ค้นหารายชื่อ</h5>
+                    <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+                    <i class='bx bx-search search-icon'></i>
+                </div>
+                <div class="filter-item">
+                    <h5>โรค</h5>
+                    <select class="dropdown-filter" id="treatmentCountFilter">
+                        <option value="ทั้งหมด">ทั้งหมด</option>
+                        <option value="1">ความดันโลหิตสูง</option>
+                        <option value="2">โรคอ้วน</option>
+                        <option value="3">ไขมันในเลือดสูง</option>
+                        <option value="4">โรคเบาหวาน</option>
+                        <option value="5">CVD Risk</option>
+                        <option value="6">โรคไต</option>
+                        <!-- Add other options as needed -->
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <h5>ประเภทผู้ป่วย</h5>
+                    <select class="dropdown-filter" id="treatmentCountFilter">
+                        <option value="ทั้งหมด">ทั้งหมด</option>
+                        <option value="1">กำลังพล</option>
+                        <option value="2">ประชาชน</option>
+                        <option value="3">ครอบครัว</option>
+                        <!-- Add other options as needed -->
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <h5>กลุ่มผู้ป่วย</h5>
+                    <select class="dropdown-filter" id="followUpStatusFilter">
+                        <option value="ทั้งหมด">กลุ่มผู้ป่วย</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <h5>เขตที่รับผิดชอบ</h5>
+                    <select class="dropdown-filter" id="treatmentStatusFilter">
+                        <option value="ทั้งหมด">ทั้งหมด</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <button class="add-icon">
+                    <a href="#" onclick="openPopup()">
+                        <i class='bx bx-user-plus'></i>
+                    </a>
+                </button>
+            </div>
+        </div>
+    </container>
+
+
+    <!-- Popup -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-content">
+            <div class="popup-header">
+                <input type="text" placeholder="ค้นหารายชื่อ">
+                <select>
+                    <option value="เขต 1">เขต 1</option>
+                    <option value="เขต 2">เขต 2</option>
+                    <option value="เขต 3">เขต 3</option>
+                    <!-- เพิ่มเขตอื่น ๆ ได้ตามต้องการ -->
+                </select>
+            </div>
+            <h3>รายชื่อผู้ป่วย</h3>
+            <div class="patient-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>รหัสไอดี</th>
+                            <th>รายชื่อผู้ป่วย</th>
+                            <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PT1001</td>
+                            <td>นายเอ</td>
+                            <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
+                        </tr>
+                        <tr>
+                            <td>PT1002</td>
+                            <td>นายบี</td>
+                            <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
+                        </tr>
+                        <tr>
+                            <td>PT1003</td>
+                            <td>นายซี</td>
+                            <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
+                        </tr>
+                        <tr>
+                            <td>PT1004</td>
+                            <td>นายดี</td>
+                            <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="popup-footer">
+                <p id="selectedCount">เลือกเพิ่มทั้งหมด 0 รายการ</p>
+                <button class="close-btn" onclick="closePopup()">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- the datatable  -->
+    <div class="table-container">
+        <table class="patient-table">
+            <thead>
+                <tr>
+                    <th>รายชื่อผู้ป่วย</th>
+                    <th>ไอดี</th>
+                    <th>โรค</th>
+                    <th>ประเภทผู้ป่วย</th>
+                    <th>กลุ่มผู้ป่วย</th>
+                    <th>เขตที่รับผิดชอบ</th>
+                    <th>จัดการ</th>
+                </tr>
+            </thead>
+            <tbody id="patient-info-body">
+                <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function editStaff(id) {
+            window.location.href = `editaddstaff.html?id=${id}`;
+        }
+
+        function moreStaff(id) {
+            window.location.href = `morestaff.html?id=${id}`;
+        }
+
+        function getUserIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        function loadUserData() {
+            const userId = getUserIdFromURL();
+            if (userId) {
+                fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser.php?id=${userId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            const user = data.data;
+                            document.getElementById('staff-name').textContent = user.full_name;
+
+                            const tbody = document.getElementById('staff-details');
+                            tbody.innerHTML = `
+                            <tr>
+                            <td>${user.department}</td>
+                            <td>${user.responsibility_area}</td>
+                            <td>${user.phone_number}</td>
+                            </tr>
+                        `;
+                        } else {
+                            alert(data.message); // แจ้งเตือนถ้าข้อมูลผิดพลาด
+                        }
+                    })
+                    .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+            } else {
+                document.getElementById('staff-name').textContent = 'ไม่พบข้อมูลผู้ใช้';
+            }
+        }
+
+        // เรียกใช้เมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', loadUserData);
+    </script>
+
+    <script>
+        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+        checkAuth();
+
+        // Load sidebar
+        fetch('sidebar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+                loadSidebarScript();
+                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+            });
+
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+                document.getElementById('page-title').textContent = 'หน้าหลัก';
+                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+                // Re-run user.js script after loading topbar
+                const script = document.createElement('script');
+                // สร้างแท็ก script ใหม่
+                script.src = '../method/user.js';
+                // กำหนดแหล่งที่มาของ script เป็น user.js
+                document.body.appendChild(script);
+                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+            });
+    </script>
+
+
+    <script>
+        // Open Popup
+        function openPopup() {
+            document.getElementById("popupOverlay").style.display = "flex";
+        }
+
+        // Close Popup
+        function closePopup() {
+            document.getElementById("popupOverlay").style.display = "none";
+        }
+
+        // Toggle All Checkbox
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById("selectAll");
+            const checkboxes = document.querySelectorAll('.patient-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+            updateSelectedCount();
+        }
+
+        // Update Selected Count
+        function updateSelectedCount() {
+            const checkboxes = document.querySelectorAll('.patient-checkbox');
+            const selectedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+            const selectedCountText = document.getElementById("selectedCount");
+
+            // Update the select-all checkbox based on individual checkboxes
+            const selectAllCheckbox = document.getElementById("selectAll");
+            selectAllCheckbox.checked = selectedCount === checkboxes.length;
+
+            if (selectedCount === checkboxes.length) {
+                selectedCountText.textContent = "เลือกทั้งหมด";
+            } else {
+                selectedCountText.textContent = `เลือกเพิ่มทั้งหมด ${selectedCount} รายการ`;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

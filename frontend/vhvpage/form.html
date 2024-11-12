@@ -14,6 +14,13 @@
   <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <script src="../method/logout.js"></script>
+  <script src="../method/user.js"></script>
+  <script src="../method/loadSidebarScript.js"></script>
+  <script src="../method/checkAuth.js"></script>
 </head>
 
 <body style="background-color:#edeff1;">
@@ -24,77 +31,238 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
+  <!-- ฟอร์มแสดงข้อมูล -->
   <div class="form-section">
-    <form action="submit.php" method="post">
-      <!-- Topic -->
-      <divc class="Topic">
+    <form id="trackingForm">
+      <div class="Topic">
         <p>ข้อมูลการติดตาม</p>
-      </divc>
-
-      <form>
-        <label for="name">ชื่อ – นามสกุล</label>
-        <input type="text" id="name" ${patient.full_name}/>  
-
-        <label for="disease">โรคของผู้ป่วยที่ติดตาม</label>
-        <select id="disease">
-          <option value="">เบาหวาน</option>
-          <option value="โรคหัวใจ">โรคหัวใจ</option>
-          <option value="มะเร็ง">มะเร็ง</option>
-        </select>
-
-        <label for="symptoms">อาการทั่วไป</label>
-        <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
-
-        <label for="treatment-plan">ค่าระดับน้ำตาลในเลือด</label>
-        <input type="text" id="Blood-sugar" placeholder="70">
-
-        <label for="treatment-plan">ค่าสัญญาณชีพ</label>
-        <input type="text" id="vital-signs" placeholder="130">
-
-        <label for="disease">สาเหตุที่ไม่มารับการรักษา</label>
-        <select id="not-receiving-treatment">
-          <option value="">กรุณาเลือกสาเหตุ</option>
-          <option value="ลืมนัด/จำวันนัดผิด">ลืมนัด/จำวันนัดผิด</option>
-          <option value="ใบนัดหาย">ใบนัดหาย</option>
-          <option value="ตั้งใจมาหลังนัด">ตั้งใจมาหลังนัด</option>
-          <option value="ยาเหลือ">ยาเหลือ</option>
-          <option value="มีปัญหาด้านการเดินทาง">มีปัญหาด้านการเดินทาง</option>
-          <option value="ติดธุระจำเป็นอื่นๆ">ติดธุระจำเป็นอื่นๆ</option>
-          <option value="ไม่มีอาการผิดปกติ ">ไม่มีอาการผิดปกติ </option>
-        </select>
-
-        <label for="Date ">วันที่กรอกฟอร์ม</label>
-        <input type="date" class="date-filter">
-      </form>
-      <div id="popup-card" class="popup hidden">
-        <div class="popup-content">
-          <h2>คุณแน่ใจหรือไม่ว่าจะส่งฟอร์มนี้?</h2>
-          <p>กรุณาตรวจสอบข้อมูลก่อนทำการยืนยันข้อมูล</p>
-          <div class="popup-buttons">
-            <button id="confirm-btn" class="btn confirm-btn">ยืนยันการส่ง</button>
-            <button id="cancel-btn" class="btn cancel-btn">ยกเลิก</button>
-          </div>
-        </div>
       </div>
+
+      <input type="hidden" id="patient-id" name="patient_id">
+
+      <label for="name">ชื่อ – นามสกุล</label>
+      <input type="text" id="name" readonly />
+
+      <label for="disease">โรคประจำตัว</label>
+      <input type="text" id="disease" readonly />
+
+      <label for="symptoms">อาการทั่วไป</label>
+      <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+
+      <label for="Blood-sugar">ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร)</label>
+      <input type="text" id="Blood-sugar" placeholder="กรุณากรอกตัวเลขค่าระดับน้ำตาลในเลือด">
+
+      <label for="vital-signs">ค่าสัญญาณชีพ (ครั้ง/นาที)</label>
+      <input type="text" id="vital-signs" placeholder="กรุณากรอกตัวเลขค่าสัญญาณชีพ">
+
+      <label for="not-receiving-treatment">สาเหตุที่ไม่มารับการรักษา</label>
+      <select id="not-receiving-treatment">
+        <option value="" disabled selected>กรุณาเลือกสาเหตุ</option>
+        <option value="ลืมนัด/จำวันนัดผิด">ลืมนัด/จำวันนัดผิด</option>
+        <option value="ใบนัดหาย">ใบนัดหาย</option>
+        <option value="ตั้งใจมาหลังนัด">ตั้งใจมาหลังนัด</option>
+        <option value="ยาเหลือ">ยาเหลือ</option>
+        <option value="มีปัญหาด้านการเดินทาง">มีปัญหาด้านการเดินทาง</option>
+        <option value="ติดธุระจำเป็นอื่นๆ">ติดธุระจำเป็นอื่นๆ</option>
+        <option value="ไม่มีอาการผิดปกติ">ไม่มีอาการผิดปกติ</option>
+      </select>
+
+      <label for="date">วันที่กรอกฟอร์ม</label>
+      <input type="date" class="date-filter" id="date" min="" required />
+
       <!-- Submit Button -->
       <div class="button-group">
-        <!-- <button type="submit">บันทึก</button> -->
-        <button type="back" id="submit-btn">ยืนยัน</button>
+        <!-- ปุ่มยกเลิก -->
+        <button type="button" id="back" onclick="goBack();">ยกเลิก</button>
+        <button type="button" id="saveBtn" onclick="confirmSubmission(event)">บันทึก</button>
+
       </div>
-
-
-
+    </form>
   </div>
-  </form>
+
+  <div id="popup" class="popup" style="display: none;"> <!-- เริ่มต้นซ่อนป๊อปอัพ -->
+    <div class="popup-content">
+      <h3>คุณแน่ใจหรือไม่ว่าจะส่งแบบฟอร์มนี้?</h3>
+      <p>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้องก่อนส่ง</p>
+      <div class="button-popup">
+        <button type="button" onclick="submitForm()">ใช่</button>
+        <button type="button" onclick="closePopup()">ไม่</button>
+      </div>
+    </div>
   </div>
 
   <script>
+    // เมื่อโหลดหน้าฟอร์ม
+    window.onload = function () {
+      const patientId = new URLSearchParams(window.location.search).get("patient_id") || '';
+      const generalSymptoms = localStorage.getItem("general_symptoms") || '';
+      const bloodSugarLevel = localStorage.getItem("blood_sugar_level") || '';
+      const vitalSigns = localStorage.getItem("vital_signs") || '';
+      const reasonForMissedTreatment = localStorage.getItem("reason_for_missed_treatment") || '';
+      const formSubmissionDate = localStorage.getItem("form_submission_date") || '';
+
+      document.getElementById("symptoms").value = generalSymptoms;
+      document.getElementById("Blood-sugar").value = bloodSugarLevel;
+      document.getElementById("vital-signs").value = vitalSigns;
+      document.getElementById("not-receiving-treatment").value = reasonForMissedTreatment;
+      document.getElementById("date").value = formSubmissionDate;
+
+      // แสดง patient_id ในฟอร์ม
+      document.getElementById("patient-id").value = patientId; // ตั้งค่าค่า patient_id
+    }
+
+    // ฟังก์ชันสำหรับเก็บข้อมูลเมื่อกรอกฟอร์ม
+    function storeFormData() {
+      localStorage.setItem("patient_id", new URLSearchParams(window.location.search).get("patient_id"));
+      localStorage.setItem("general_symptoms", document.getElementById("symptoms").value.trim());
+      localStorage.setItem("blood_sugar_level", document.getElementById("Blood-sugar").value.trim());
+      localStorage.setItem("vital_signs", document.getElementById("vital-signs").value.trim());
+      localStorage.setItem("reason_for_missed_treatment", document.getElementById("not-receiving-treatment").value.trim());
+      localStorage.setItem("form_submission_date", document.getElementById("date").value.trim());
+    }
+
+    // เพิ่ม event listener เพื่อเก็บข้อมูลเมื่อมีการกรอก
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("symptoms").addEventListener("input", storeFormData);
+      document.getElementById("Blood-sugar").addEventListener("input", storeFormData);
+      document.getElementById("vital-signs").addEventListener("input", storeFormData);
+      document.getElementById("not-receiving-treatment").addEventListener("input", storeFormData);
+      document.getElementById("date").addEventListener("input", storeFormData);
+    });
+
+    // ไม่ให้เลือกวันที่ย้อนหลัง
+    document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
+    // ฟังก์ชันย้อนกลับ
+    function goBack() {
+      window.location.href = 'http://localhost/chiracarehospital/frontend/vhvpage/main.html'; // ย้อนกลับไปยังหน้าที่แล้ว
+    }
+
+    function confirmSubmission(event) {
+      event.preventDefault(); // ป้องกันการส่งฟอร์ม
+
+      const form = document.getElementById("trackingForm");
+
+      // ตรวจสอบให้แน่ใจว่าฟอร์มถูกกรอกครบถ้วน
+      if (!form.checkValidity()) {
+        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+        return; // ถ้าฟอร์มไม่ครบถ้วนไม่ให้แสดงป๊อปอัพ
+      }
+
+      // เช็คว่าฟิลด์อื่น ๆ ถูกกรอกหรือไม่
+      const generalSymptoms = document.getElementById("symptoms").value;
+      const bloodSugarLevel = document.getElementById("Blood-sugar").value;
+      const vitalSigns = document.getElementById("vital-signs").value;
+      const reasonForMissedTreatment = document.getElementById("not-receiving-treatment").value;
+      const formSubmissionDate = document.getElementById("date").value;
+
+      if (!generalSymptoms || !bloodSugarLevel || !vitalSigns || !reasonForMissedTreatment || !formSubmissionDate) {
+        alert('กรุณากรอกข้อมูลในทุกฟิลด์ให้ครบถ้วน');
+        return; // ถ้าฟิลด์ใด ๆ ว่างอยู่จะไม่ให้แสดงป๊อปอัพ
+      }
+
+      // แสดงป๊อปอัพ
+      const popup = document.getElementById("popup");
+      popup.style.display = "flex";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    let isSubmitting = false; // ตัวแปรเพื่อเก็บสถานะการส่ง
+
+    function submitForm() {
+      if (isSubmitting) return; // ป้องกันการส่งซ้ำ
+      isSubmitting = true; // ตั้งค่าสถานะการส่งเป็น true
+
+      closePopup();
+
+      const patientId = new URLSearchParams(window.location.search).get("patient_id");
+      const generalSymptoms = document.getElementById("symptoms").value.trim();
+      const bloodSugarLevel = document.getElementById("Blood-sugar").value.trim();
+      const vitalSigns = document.getElementById("vital-signs").value.trim();
+      const reasonForMissedTreatment = document.getElementById("not-receiving-treatment").value.trim();
+
+      // ส่งข้อมูล
+      fetch('http://localhost/chiracarehospital/backend/sql/vhv/submit_form.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          patient_id: patientId,
+          general_symptoms: generalSymptoms,
+          blood_sugar_level: bloodSugarLevel,
+          vital_signs: vitalSigns,
+          reason_for_missed_treatment: reasonForMissedTreatment
+        })
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Response Data:', data);
+          if (data.success) {
+            alert('การบันทึกสำเร็จ');
+            window.location.href = 'main.html';
+          } else {
+            throw new Error(data.error || 'การบันทึกข้อมูลล้มเหลว');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('เกิดข้อผิดพลาด: ' + error.message);
+        })
+        .finally(() => {
+          isSubmitting = false; // ตั้งค่าสถานะการส่งกลับเป็น false หลังจากทำงานเสร็จ
+        });
+    }
+    
+    function loadFormData() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fullName = urlParams.get("full_name");
+      const disease = urlParams.get("disease");
+
+      if (fullName) {
+        document.getElementById("name").value = fullName;
+        document.getElementById("name").readOnly = true;
+      } else {
+        console.error("Full name not found in URL");
+        // เปลี่ยนเส้นทางไปยัง main.html ถ้าไม่พบชื่อ
+        window.location.href = "main.html";
+        return; // ออกจากฟังก์ชัน
+      }
+
+      if (disease) {
+        document.getElementById("disease").value = disease;
+        document.getElementById("disease").readOnly = true;
+      } else {
+        console.error("Disease not found in URL");
+        // เปลี่ยนเส้นทางไปยัง main.html ถ้าไม่พบโรค
+        window.location.href = "main.html";
+        return; // ออกจากฟังก์ชัน
+      }
+    }
+
+    // ตรวจสอบให้แน่ใจว่า DOM โหลดเสร็จแล้ว
+    document.addEventListener("DOMContentLoaded", function () {
+      loadFormData(); // โหลดข้อมูลจาก URL
+    });
+  </script>
+
+  <script>
+    checkAuth();
+
     // Load sidebar
     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
+        loadSidebarScript();
       });
 
     // Load topbar and set the page title
@@ -102,44 +270,69 @@
       .then(response => response.text())
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'การแจ้งเตือน'; // Set page title for the main page
-      });
-
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+        const pageTitle = document.getElementById('page-title');
+        if (pageTitle) {
+          pageTitle.textContent = 'รายงานผลการติดตาม';
         }
-      }
 
-      // เมื่อกดปุ่มยืนยันแล้วจะมี pop up เด้งขึ้น ถามความชัวร์ว่า ยืนยันการส่งฟอร์ม จะมีปุ่ม แก้ไข กับ ยืนยันส่งฟอร์ม
-      document.getElementById('submit-btn').addEventListener('click', function () {
-        document.getElementById('popup-card').classList.remove('hidden');
+        const script = document.createElement('script');
+        script.src = '../method/user.js';
+        document.body.appendChild(script);
       });
-
-      document.getElementById('confirm-btn').addEventListener('click', function () {
-        // alert('ฟอร์มถูกส่งแล้ว!');
-        document.getElementById('popup-card').classList.add('hidden');
-        window.location.href = 'main.html';
-      });
-
-      document.getElementById('cancel-btn').addEventListener('click', function () {
-        document.getElementById('popup-card').classList.add('hidden');
-      });
-
-    
-    }
   </script>
 </body>
+
+<style>
+  input[readonly] {
+    background-color: #f0f0f0;
+    color: #666;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+  }
+</style>
+
+<style>
+  #not-receiving-treatment {
+    color: #000000;
+  }
+
+  #not-receiving-treatment option {
+    color: #000000;
+  }
+
+  #not-receiving-treatment option:disabled {
+    color: #999;
+  }
+</style>
+
+<style>
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .popup-content p {
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .button-popup {
+    margin-left: 20px;
+  }
+</style>
 
 </html>

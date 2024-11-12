@@ -40,21 +40,21 @@
                 <i class='bx bx-user'></i>
                 <div>
                     <h2>0</h2>
-                    <p>ผู้ป่วยที่ต้องติดตามวันนี้</p>
+                    <p>จำนวนการกรอกข้อมูลการติดตามที่ยังไม่เสร็จสิ้น</p>
                 </div>
             </div>
             <div class="box box2 visitors">
                 <i class='bx bx-smile'></i>
                 <div>
                     <h2>0</h2>
-                    <p>ติดตามเสร็จสิ้น</p>
+                    <p>ผู้ป่วยทั้งหมดที่ติดตามแล้ว</p>
                 </div>
             </div>
             <div class="box box3 total-sales">
                 <i class='bx bx-tired'></i>
                 <div>
                     <h2>0</h2>
-                    <p>ยังไม่ได้ติดตาม</p>
+                    <p>ผู้ป่วยทั้งหมดที่ยังไม่ได้ติดตาม</p>
                 </div>
             </div>
         </div>
@@ -106,7 +106,7 @@
                 <tr>
                     <th>รายชื่อผู้ป่วย</th>
                     <th>วันที่เริ่มติดตาม</th>
-                    <th>วันที่สิ้นสุด</th>
+                    <th>โรคประจำตัว</th>
                     <th>ที่อยู่</th>
                     <th>สถานะการติดตาม</th>
                     <th>ครั้งที่ติดตาม</th>
@@ -121,12 +121,11 @@
         </table>
     </div>
 
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
             // Fetch total patients count from PHP
-            fetch("../../backend/sql/vhv/get_total_patients.php")
+            fetch("http://localhost/chiracarehospital/backend/sql/vhv/get_patient_address.php")
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -135,9 +134,8 @@
                 })
                 .then(data => {
                     console.log("Total Patients Data:", data); // Log data for debugging
-                    // Update the corresponding stat box with the total patient count
                     const todayPatientsCount = document.querySelector('.new-order h2');
-                    todayPatientsCount.textContent = data.total || 0; // Default to 0 if no data.total
+                    todayPatientsCount.textContent = data.total || 0;
                 })
                 .catch(error => console.error("Error fetching total patients count:", error));
 
@@ -150,45 +148,53 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Patient Address Data:", data); // Log data for debugging
+                    console.log("Patient Address Data:", data);
                     const tbody = document.getElementById("patient-tbody");
 
-                    // Check if there is any data
-                    if (data.length > 0) {
-                        data.forEach((patient, index) => {
-                            // Create a new row for each patient
+                    // Filter data to get only patients with status "กำลังติดตาม"
+                    const filteredData = data.filter(patient => patient.monitor_status === "กำลังติดตาม");
+
+                    // Check if there is any filtered data
+                    if (filteredData.length > 0) {
+                        filteredData.forEach(patient => {
                             const row = document.createElement("tr");
+
+                            const imageUrl = patient.patient_image
+                                ? `data:image/jpeg;base64,${patient.patient_image}`
+                                : '../../assets/images/cat.jpg';
+
+                            // Check if the monitor_status is "ติดตามแล้ว"
+                            const actionButton = patient.monitor_status === "ติดตามแล้ว"
+                                ? `<span style="color:#16bc19;">รายงานผลเรียบร้อยแล้ว</span>`
+                                : `<a href="form.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}" class="formbutton" title="กรอกข้อมูลการติดตาม">
+                                <i class='bx bxs-edit'></i> กรอกข้อมูลการติดตาม
+                                 </a>`;
 
                             // Populate the row with patient data
                             row.innerHTML = `
-          <td><img src='/assets/images/cat.jpg' alt='patient image'> ${patient.full_name}</td>
-          <td id='startDate'>${patient.monitor_date || 'ไม่มีข้อมูล'}</td>
-          <td id='endDate'>${patient.last_update || 'ไม่มีข้อมูล'}</td>
-          <td id='address'>${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
-          <td id='timesFollowed'>${patient.monitor_status || 'ไม่มีข้อมูล'}</td>
-          <td id='timesFollowed'>${patient.times_followed || '2'}</td>
-          <td>
-            <a href="../../frontend/vhvpage/form.html" class="formbutton" title="คลิกเพื่อกรอกฟอร์ม">
-              <i class='bx bxs-edit'></i> คลิกเพื่อกรอกฟอร์ม
-            </a>
-          </td>
-        `;
-
-                            // Append the new row to the table body
+                                <td style="text-align: left; padding-left: 40px">
+                                    <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px;"> ${patient.full_name}
+                                </td>
+                                <td id='startDate'>${patient.monitor_date}</td>
+                                <td id='endDate'>${patient.disease_type}</td>
+                                <td id='address' style="width:20%">${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
+                                <td id='timesFollowed'>${patient.monitor_status}</td>
+                                <td id='timesFollowed'>${patient.monitor_round}</td>
+                                <td>${actionButton}</td>
+                            `;
                             tbody.appendChild(row);
                         });
                     } else {
-                        tbody.innerHTML = "<tr><td colspan='6'>ไม่พบข้อมูลผู้ป่วย</td></tr>";
+                        tbody.innerHTML = "<tr><td colspan='6'>ไม่พบข้อมูลผู้ป่วยที่กำลังติดตาม</td></tr>";
                     }
                 })
                 .catch(error => console.error("Error fetching patient data:", error));
 
         });
-
     </script>
 
     <script>
-        //function for filter the name
+        // Function for filter the name
         document.addEventListener("DOMContentLoaded", function () {
             // Get the search input field
             const searchInput = document.getElementById('searchInput');
@@ -255,147 +261,5 @@
     </script>
 
 </body>
-<style>
-    .formbutton {
-        display: inline-flex;
-        /* Keeps icon and text aligned in a single row */
-        align-items: center;
-        /* Vertically centers content */
-        justify-content: center;
-        /* Horizontally centers content */
-        padding: 15px 60px;
-        /* Adjust padding for a larger button */
-        background-color: #5D97EF;
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        text-decoration: none;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-right: 20px;
-        white-space: normal;
-        /* Allows wrapping but tries to fit on two lines */
-        width: 260px;
-        /* Let the button expand to fit the content */
-        max-width: 400px;
-        /* Set a maximum width so the text doesn't go too wide */
-    }
-
-    /* Hover state for .formbutton */
-    .formbutton:hover {
-        background-color: #4a7bce;
-        /* Slightly darker blue on hover */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* Increase shadow on hover */
-    }
-
-    /* Icon styling inside the button */
-    .formbutton i {
-        margin-right: 8px;
-        /* Space between icon and text */
-        font-size: 18px;
-        /* Icon size */
-        vertical-align: middle;
-        /* Align icon with the text */
-    }
-
-    /* Ensure the button and text are horizontally aligned */
-    .formbutton {
-        display: inline-flex;
-        /* Align text and icon in one line */
-        align-items: center;
-        /* Vertically center the content */
-    }
-</style>
-
-<style>
-    .stats-container {
-        display: flex;
-        justify-content: space-between;
-        padding-left: 6.7%;
-        padding-right: 10%;
-        padding-top: 20px;
-
-        @media (max-width: 600px) {
-            justify-content: center;
-            /* Center for mobile */
-            padding-left: 3%;
-            padding-right: 3%;
-            flex-wrap: wrap;
-            /* Wrap the boxes on small screens */
-        }
-
-        @media (min-width: 601px) and (max-width: 1024px) {
-            justify-content: space-around;
-            /* Adjust for tablets */
-            padding-left: 20%;
-            flex-wrap: wrap;
-        }
-    }
-
-    .box {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        border-radius: 15px;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        min-width: 370px;
-        /* Reduce the minimum width */
-        margin: 10px;
-        flex-grow: 1;
-        /* Allow it to expand to fill available space */
-
-        @media (max-width: 600px) {
-            flex-direction: column;
-            /* Stack content vertically on small screens */
-            min-width: 100%;
-            /* Full width for mobile */
-            text-align: center;
-            /* Center the text */
-        }
-    }
-
-    .box i {
-        font-size: 40px;
-        margin-right: 20px;
-        /* Reduce the space between icon and text */
-
-        @media (max-width: 600px) {
-            margin-right: 0;
-            margin-bottom: 10px;
-        }
-    }
-
-    .box h2 {
-        margin: 10px;
-        font-size: 22px;
-        /* Slightly smaller font size */
-        color: #333;
-    }
-
-    .box p {
-        margin: 5px 0 0 0;
-        color: #525252;
-        margin: 10px;
-    }
-
-    .new-order i {
-        color: #5DA3FA;
-        margin: 0 10px;
-    }
-
-    .visitors i {
-        color: #16bc19;
-        margin: 0 10px;
-    }
-
-    .total-sales i {
-        color: #FA5A7D;
-        margin: 0 10px;
-    }
-</style>
 
 </html>

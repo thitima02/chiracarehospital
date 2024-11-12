@@ -1,2 +1,122 @@
-/* General button styling for .formbutton */
+button[type="button"] {
+    padding: 6px 35px;
+    background-color: #5D97EF;
+    border: 2px solid #5D97EF;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    /* font-weight: bold; */
+}
 
+button[type="button"]:hover {
+    background-color: #4a7bce;
+}
+
+button[type="cancelBtn"] {
+    padding: 5px 25px;
+    background-color: #F0F0F0;
+    border: 2px solid #CECECE;
+    border-radius: 4px;
+    color: #8E8E8E;
+    cursor: pointer;
+    font-size: 16px;
+    /* font-weight: bold; */
+    margin-right: 20px; /* Adds spacing between the buttons */
+}
+
+button[type="cancelBtn"]:hover {
+    background-color: #cecece;
+}
+
+/* Button styling */
+.button-group {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+button[type="Yes"]{
+    padding: 6px 35px;
+    background-color: #27AE60;
+    border: 2px solid #27AE60;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    /* font-weight: bold; */
+    margin-right: 20px; /* Adds spacing between the buttons */
+}
+
+button[type="Yes"]:hover {
+    background-color: #157d41;
+}
+
+button[type="No"]{
+    padding: 6px 35px;
+    background-color: #DD0E0E;
+    border: 2px solid #DD0E0E;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    /* font-weight: bold; */
+    margin-right: 20px; /* Adds spacing between the buttons */
+}
+
+button[type="No"]:hover {
+    background-color: #b40000;
+}
+
+.formbutton {
+    display: inline-flex;
+    /* Keeps icon and text aligned in a single row */
+    align-items: center;
+    /* Vertically centers content */
+    justify-content: center;
+    /* Horizontally centers content */
+    padding: 15px 15px;
+    /* Adjust padding for a larger button */
+    background-color: #5D97EF;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: none;
+    text-decoration: none;
+    width: 200px;
+    /* Let the button expand to fit the content */
+    max-width: 400px;
+    /* Set a maximum width so the text doesn't go too wide */
+}
+
+/* Hover state for .formbutton */
+.formbutton:hover {
+    background-color: #4a7bce;
+    /* Slightly darker blue on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Increase shadow on hover */
+}
+
+/* Icon styling inside the button */
+.formbutton i {
+    margin-right: 8px;
+    /* Space between icon and text */
+    font-size: 18px;
+    /* Icon size */
+    vertical-align: middle;
+    /* Align icon with the text */
+}
+
+/* Ensure the button and text are horizontally aligned */
+.formbutton {
+    display: inline-flex;
+    /* Align text and icon in one line */
+    align-items: center;
+    /* Vertically center the content */
+}

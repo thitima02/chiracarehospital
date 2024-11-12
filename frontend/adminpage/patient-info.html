@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
+  <script src="../method/logout.js"></script>
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,19 +26,23 @@
 
   <div class="patientinfo-container">
     <div class="search-bar">
-      <input type="search" placeholder="ค้นหาชื่อ">
-      <input type="search" placeholder="เบอร์โทรศัพท์">
-      <input type="search" placeholder="เลขบัตรประชาชน">
-      <input type="search" placeholder="เบอร์โทรศัพท์ญาติ...">
-      <select>
-        <option>สถานะผู้ป่วย</option>
-        <option>นัดติดตามต่อเนื่อง</option>
-        <option>รักษาเสร็จสิ้น</option>
+      <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
+      <input type="search" placeholder="เบอร์โทรศัพท์" id="phoneFilter" oninput="filterData()">
+      <input type="search" placeholder="เลขบัตรประชาชน" id="idCardFilter" oninput="filterData()">
+      <input type="search" placeholder="เบอร์โทรศัพท์ญาติ..." id="relativePhoneFilter" oninput="filterData()">
+      <select id="treatmentStatusFilter" onchange="filterData()">
+        <option value="">สถานะผู้ป่วย</option>
+        <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+        <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
       </select>
       <button class="add-icon">
         <a href="addinfo.html">
           <i class='bx bx-user-plus'></i>
         </a>
+      </button>
+
+      <button onclick="sortNames()">
+        <i class='bx bx-filter'></i>
       </button>
     </div>
 
@@ -53,12 +58,59 @@
           <th>จัดการ</th>
         </tr>
       </thead>
-
       <tbody id="patient-info-body">
         <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
       </tbody>
     </table>
   </div>
+
+  <script>
+    // ฟังก์ชันกรองข้อมูล
+    function filterData() {
+      const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
+      const phone = document.getElementById('phoneFilter').value;
+      const idCard = document.getElementById('idCardFilter').value;
+      const relativePhone = document.getElementById('relativePhoneFilter').value;
+
+      const rows = document.querySelectorAll('#patient-info-body tr');
+
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase(); // Assuming name is in the first cell
+        const phoneValue = row.cells[3].textContent; // Assuming phone is in the fourth cell
+        const idCardValue = row.cells[2].textContent; // Assuming ID card is in the third cell
+        const relativePhoneValue = row.cells[4].textContent; // Assuming relative phone is in the fifth cell
+
+        let isVisible = true;
+
+        // Filter based on name
+        if (searchName && !name.includes(searchName)) {
+          isVisible = false;
+        }
+        // Filter based on phone
+        if (phone && !phoneValue.includes(phone)) {  // Use includes for partial matches
+          isVisible = false;
+        }
+        // Filter based on ID card
+        if (idCard && idCardValue !== idCard) {
+          isVisible = false;
+        }
+        // Filter based on relative phone
+        if (relativePhone && !relativePhoneValue.includes(relativePhone)) { // Use includes for partial matches
+          isVisible = false;
+        }
+
+        // Set the display property based on visibility
+        row.style.display = isVisible ? '' : 'none'; // Show or hide the row based on visibility
+      });
+    }
+
+    // เรียกใช้ filterData เมื่อโหลดหน้า
+    document.addEventListener('DOMContentLoaded', function () {
+      filterData();
+    });
+
+  </script>
+
 
   <script>
     // Load sidebar
@@ -157,20 +209,90 @@
     });
 
     // ฟังก์ชันแก้ไขข้อมูลผู้ป่วย
-    function editPatient(patientId) {
-      alert('แก้ไขข้อมูลผู้ป่วย ID: ' + patientId);
+    function editPatient(id) {
+      // alert('แก้ไขข้อมูลผู้ป่วย ID: ' + patientId);
+      window.location.href = `editaddinfo.html?id=${id}`;
       // ใส่ logic การแก้ไขที่นี่
     }
 
     // ฟังก์ชันลบข้อมูลผู้ป่วย
-    function deletePatient(patientId) {
-      if (confirm('คุณต้องการลบผู้ป่วย ID: ' + patientId + ' ใช่หรือไม่?')) {
+    function deletePatient(id) {
+      if (confirm('คุณต้องการลบผู้ป่วย ID: ' + id + ' ใช่หรือไม่?')) {
         // ใส่ logic การลบที่นี่
         alert('ลบข้อมูลผู้ป่วยเรียบร้อย');
       }
     }
 
   </script>
+
+
+  <!-- fitter เรียงชื่อ  -->
+  <script>
+    // ฟังก์ชันสำหรับกรองชื่อ
+    function filterNames() {
+      const input = document.getElementById('nameSearch').value.toLowerCase();
+      const rows = document.querySelectorAll('#patient-info-body tr');
+
+      rows.forEach(row => {
+        const name = row.querySelector('td').innerText.toLowerCase();
+        if (name.includes(input)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // ฟังก์ชันสำหรับเรียงชื่อ
+    function sortNames() {
+      const tbody = document.getElementById('patient-info-body');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+      rows.sort((a, b) => {
+        const nameA = a.querySelector('td').innerText;
+        const nameB = b.querySelector('td').innerText;
+        return nameA.localeCompare(nameB, 'th');
+      });
+
+      rows.forEach(row => tbody.appendChild(row));
+    }
+
+  </script>
+
+  <script>
+    function filterData() {
+      const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
+      const phone = document.getElementById('phoneFilter').value;
+      const idCard = document.getElementById('idCardFilter').value.trim();
+      const relativePhone = document.getElementById('relativePhoneFilter').value;
+      const treatmentStatus = document.getElementById('treatmentStatusFilter').value;
+
+      const rows = document.querySelectorAll('#patient-info-body tr');
+
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        const phoneValue = row.cells[3].textContent.trim();
+        const idCardValue = row.cells[2].textContent.trim();
+        const relativePhoneValue = row.cells[4].textContent.trim();
+        const treatmentStatusValue = row.cells[5].textContent.trim();
+
+        console.log('Comparing idCard:', idCard, 'with idCardValue:', idCardValue); // Debug line
+
+        let isVisible = true;
+
+        if (searchName && !name.includes(searchName)) isVisible = false;
+        if (phone && !phoneValue.includes(phone)) isVisible = false;
+        if (idCard && !idCardValue.includes(idCard)) isVisible = false;
+        if (relativePhone && !relativePhoneValue.includes(relativePhone)) isVisible = false;
+        if (treatmentStatus && treatmentStatusValue !== treatmentStatus) isVisible = false;
+
+        row.style.display = isVisible ? '' : 'none';
+      });
+    }
+
+  </script>
+
+
 </body>
 
 </html>

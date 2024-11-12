@@ -1,0 +1,89 @@
+.stats-container {
+    /* display: flex;
+    justify-content: space-between;
+    padding-left: 6.7%;
+    padding-right: 10%;
+    padding-top: 20px; */
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-left: 5%;
+    width: 100%;
+    align-items: center;
+
+    @media (max-width: 600px) {
+        justify-content: center;
+        /* Center for mobile */
+        padding-left: 3%;
+        padding-right: 3%;
+        flex-wrap: wrap;
+        /* Wrap the boxes on small screens */
+    }
+
+    @media (min-width: 601px) and (max-width: 1024px) {
+        justify-content: space-around;
+        /* Adjust for tablets */
+        padding-left: 20%;
+        flex-wrap: wrap;
+    }
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 500px;
+    /* Reduce the minimum width */
+    margin: 0 10px;
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        /* Stack content vertically on small screens */
+        min-width: 100%;
+        /* Full width for mobile */
+        text-align: center;
+        /* Center the text */
+    }
+}
+
+.box i {
+    font-size: 40px;
+    margin-right: 30px;
+    /* Reduce the space between icon and text */
+
+    @media (max-width: 600px) {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+.box h2 {
+    margin: 10px;
+    font-size: 24px;
+    /* Slightly smaller font size */
+    color: #333;
+}
+
+.box p {
+    margin: 5px 0 0 0;
+    color: #525252;
+    margin: 10px;
+}
+
+.new-order i {
+    color: #5DA3FA;
+    margin: 0 10px;
+}
+
+.visitors i {
+    color: #16bc19;
+    margin: 0 10px;
+}
+
+.total-sales i {
+    color: #FA5A7D;
+    margin: 0 10px;
+}

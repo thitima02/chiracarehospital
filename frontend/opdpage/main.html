@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Main Page</title>
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="../../css/sidebar.css">
@@ -13,6 +12,8 @@
     <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/datatable.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- Import icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <script src="../method/logout.js"></script>
@@ -41,7 +42,7 @@
                 <i class='bx bx-user'></i>
                 <div>
                     <h2 id="totalAppointments">0 คน</h2>
-                    <p>จำนวนผู้ป่วยที่มีนัดวันนี้</p>
+                    <p>ผู้ป่วยทั้งหมดที่ต้องเข้ารักษาการรักษาวันนี้</p>
                 </div>
             </div>
             <!-- จำนวนที่รักษาและไม่รักษา -->
@@ -49,14 +50,14 @@
                 <i class='bx bx-smile'></i>
                 <div>
                     <h2 id="totalTreated">0 คน</h2>
-                    <p>รักษาเสร็จสิ้น</p>
+                    <p>ผู้ป่วยทั้งหมดที่รักษาเสร็จสิ้น</p>
                 </div>
             </div>
             <div class="box box3 unsuccess">
                 <i class='bx bx-tired'></i>
                 <div>
                     <h2 id="totalUntreated">0 คน</h2>
-                    <p>ยังไม่ได้รักษา</p>
+                    <p>ผู้ป่วยทั้งหมดที่ยังไม่ได้รับการรักษา</p>
                 </div>
             </div>
             <!-- จำนวนที่รักษาและไม่รักษา -->
@@ -98,23 +99,18 @@
                 <input type="date" class="date-filter" id="appointmentDateFilter">
             </div>
             <div class="filter-item">
+                <h5>วันที่นัดครั้งถัดไป</h5>
+                <input type="date" class="date-filter" id="treatmentDateFilter">
+            </div>
+            <div class="filter-item">
                 <h5>ครั้งที่รักษา</h5>
                 <select class="dropdown-filter" id="treatmentCountFilter">
                     <option value="ทั้งหมด">ทั้งหมด</option>
+                    <option value="0">0</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <!-- Add other options as needed -->
-                </select>
-            </div>
-            <div class="filter-item">
-                <h5>สถานะการติดตาม</h5>
-                <select class="dropdown-filter" id="followUpStatusFilter">
-                    <option value="ทั้งหมด">ทั้งหมด</option>
-                    <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
-                    <option value="กำลังติดตาม">กำลังติดตาม</option>
-                    <option value="ติดตามแล้ว">ติดตามแล้ว</option>
-                    <option value="ติดตามล้มเหลว">ติดตามล้มเหลว</option>
                 </select>
             </div>
             <div class="filter-item">
@@ -135,8 +131,8 @@
             const searchInput = document.getElementById('searchPatientInput');
             const appointmentDateFilter = document.getElementById('appointmentDateFilter');
             const treatmentCountFilter = document.getElementById('treatmentCountFilter');
-            const followUpStatusFilter = document.getElementById('followUpStatusFilter');
             const treatmentStatusFilter = document.getElementById('treatmentStatusFilter');
+            const treatmentDateFilter = document.getElementById('treatmentDateFilter');
             const patientTableBody = document.querySelector('.patient-table tbody');
 
             // Filter Function
@@ -144,16 +140,16 @@
                 const searchTerm = searchInput.value.toLowerCase();
                 const appointmentDate = appointmentDateFilter.value;
                 const treatmentCount = treatmentCountFilter.value;
-                const followUpStatus = followUpStatusFilter.value;
                 const treatmentStatus = treatmentStatusFilter.value;
+                const treatmentDate = treatmentDateFilter.value;
 
                 const rows = patientTableBody.getElementsByTagName('tr');
 
                 for (let i = 0; i < rows.length; i++) {
                     const name = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
                     const appointmentDateValue = rows[i].getElementsByTagName('td')[1].textContent;
+                    const nextAppointmentDateValue = rows[i].getElementsByTagName('td')[3].textContent;
                     const treatmentCountValue = rows[i].getElementsByTagName('td')[4].textContent;
-                    const followUpStatusValue = rows[i].getElementsByTagName('td')[5].textContent;
                     const treatmentStatusValue = rows[i].getElementsByTagName('td')[6].textContent;
 
                     let isVisible = true;
@@ -167,10 +163,10 @@
                     if (treatmentCount !== 'ทั้งหมด' && treatmentCountValue !== treatmentCount) {
                         isVisible = false;
                     }
-                    if (followUpStatus !== 'ทั้งหมด' && followUpStatusValue !== followUpStatus) {
+                    if (treatmentStatus !== 'ทั้งหมด' && treatmentStatusValue !== treatmentStatus) {
                         isVisible = false;
                     }
-                    if (treatmentStatus !== 'ทั้งหมด' && treatmentStatusValue !== treatmentStatus) {
+                    if (treatmentDate && nextAppointmentDateValue !== treatmentDate) {
                         isVisible = false;
                     }
 
@@ -182,8 +178,8 @@
             searchInput.addEventListener('input', filterData);
             appointmentDateFilter.addEventListener('change', filterData);
             treatmentCountFilter.addEventListener('change', filterData);
-            followUpStatusFilter.addEventListener('change', filterData);
             treatmentStatusFilter.addEventListener('change', filterData);
+            treatmentDateFilter.addEventListener('change', filterData);
         });
     </script>
 
@@ -192,7 +188,7 @@
         <table class="patient-table">
             <thead>
                 <tr>
-                    <th>รายชื่อผู้ป่วย</th>
+                    <th style="text-align: left; padding-left: 100px">รายชื่อผู้ป่วย</th>
                     <th>วันนัดหมาย</th>
                     <th>วันที่เข้ารักษา</th>
                     <th>วันที่นัดครั้งถัดไป</th>
@@ -216,38 +212,43 @@
                     const tbody = document.querySelector(".patient-table tbody");
                     tbody.innerHTML = ""; // Clear existing rows
 
-                    data.forEach(patient => {
+                    // กรองข้อมูลเพื่อแสดงเฉพาะคนที่สถานะการติดตามเป็น "ติดตามแล้ว"
+                    const filteredData = data.filter(patient => patient.follow_up_status === "ติดตามแล้ว");
+
+                    // วนลูปข้อมูลที่กรองแล้วเพื่อแสดงในตาราง patient_name
+                    filteredData.forEach(patient => {
                         const followUpStatusClass = getStatusClass(patient.follow_up_status);
                         const treatmentStatusClass = getStatusClass(patient.treatment_status);
+
+                        const imageUrl = patient.patient_image
+                            ? `data:image/jpeg;base64,${patient.patient_image}`
+                            : '../../assets/images/cat.jpg';
 
                         const row = document.createElement("tr");
                         const isTreated = patient.treatment_status === "รักษาเสร็จสิ้น";
                         row.innerHTML = `
-                    <td>${patient.patient_name}</td>
-                    <td>${patient.appointment_date}</td>
-                    <td>${patient.treatment_date}</td>
-                    <td>${patient.next_appointment_date}</td>
-                    <td>${patient.treatment_round}</td>
-                    <td><span class="status ${followUpStatusClass}">${patient.follow_up_status}</span></td>
-                    <td><span class="status ${treatmentStatusClass}">${patient.treatment_status}</span></td>
-                    <td>
-                        <div class="Actionbutton">
-                           <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" onclick="window.location.href='test.html?name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'">
-                                <i class='bx bx-file'></i>
+    <td style="text-align: left; padding-left: 40px">
+        <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
+        ${patient.patient_name || 'ไม่มีข้อมูล'}
+    </td>
+    <td>${patient.appointment_date || 'ไม่มี'}</td>
+    <td>${patient.treatment_date || 'ไม่มี'}</td>
+    <td>${patient.next_appointment_date || 'ไม่มี'}</td>
+    <td>${patient.treatment_round || 'ไม่มีข้อมูล'}</td>
+    <td><span class="status ${followUpStatusClass}">${patient.follow_up_status || 'ไม่มีข้อมูล'}</span></td>
+    <td><span class="status ${treatmentStatusClass}">${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>
+    <td>
+        <div class="Actionbutton" data-patient-id="${patient.patient_id}" ${isTreated ? 'disabled style="opacity: 0.5;"' : ''}>
+            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" 
+        onclick="window.location.href='addappointment.html?patient_id=${encodeURIComponent(patient.patient_id)}&name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'">
+    <i class='bx bx-file'></i>
+</button>
+            <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmMakeDone(${patient.patient_id})">
+                                <i class='bx bx-check'></i>
                             </button>
-                            <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmMakeDone(${patient.id_patient_information})"
-                data-patient-id="${patient.id_patient_information}" ${isTreated ? 'disabled style="opacity: 0.5;"' : ''}>
-                <i class='bx bx-check'></i>
-            </button>
-                        </div>
-                        <div class="Greenbutton">
-                            <button class="green-button" style="display: none;">
-                                <p>เสร็จสิ้น</p>
-                                <i class='bx bxs-check-circle'></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
+        </div>
+    </td>
+`;
                         tbody.appendChild(row);
                     });
                 })
@@ -256,26 +257,28 @@
 
         // action add 
         function confirmAction(patientId) {
-            console.log(patientId); // เพิ่มบรรทัดนี้เพื่อตรวจสอบ
-            fetch(`http://localhost/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
+            console.log(patientId); // ตรวจสอบว่ามี patientId หรือไม่
+            fetch(`http://localhost:8080/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
                 .then(response => response.json())
                 .then(patient => {
                     const name = encodeURIComponent(patient.patient_name);
                     const disease = encodeURIComponent(patient.disease);
-                    window.location.href = `test.html?name=${name}&disease=${disease}`;
+                    window.location.href = `test.html?name=${name}&disease=${disease}&id=${patientId}`; // ส่ง patient_id ไปด้วย
                 })
-                .catch(error => console.error("Error fetching patient data:", error));
+                .catch(error => {
+                    console.error("Error fetching patient data:", error);
+                    alert("เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย");
+                });
         }
-
         // Status color
         function getStatusClass(status) {
             switch (status) {
                 case 'ยังไม่ได้ติดตาม':
-                    return 'uncomplete';
+                    return 'other';
                 case 'กำลังติดตาม':
-                    return 'in-progress';
+                    return 'other';
                 case 'ติดตามแล้ว':
-                    return 'completed';
+                    return 'other';
                 case 'ติดตามล้มเหลว':
                     return 'other';
                 case 'ยังไม่ได้รักษา':
@@ -284,8 +287,6 @@
                     return 'continue';
                 case 'รักษาเสร็จสิ้น':
                     return 'sucess';
-                default:
-                    return 'other';
             }
         }
 
@@ -295,45 +296,50 @@
         function confirmMakeDone(patientId) {
             // แสดงกล่องยืนยัน
             const confirmation = confirm("คุณต้องการยืนยันสถานะการรักษาว่า 'รักษาเสร็จสิ้น' หรือไม่?");
-
             if (confirmation) {
-                // ถ้ายืนยัน ให้ทำการเปลี่ยนสถานะในระบบ
-                updateTreatmentStatus(patientId);
+                // ตรวจสอบว่า patientId ถูกส่งมา
+                console.log(patientId); // พิมพ์ค่า patientId เพื่อดูว่ามีค่าหรือไม่
+                const currentTime = new Date().toISOString(); // เก็บเวลาปัจจุบัน
+                const incrementRound = true; // ตั้งค่าให้เพิ่มรอบการรักษา
+                updateTreatmentStatus(patientId, currentTime, incrementRound); // ส่งเวลาและข้อมูล incrementRound ไปด้วย
             } else {
                 console.log("Cancelled");
             }
         }
 
-        function updateTreatmentStatus(patientId) {
-            // ส่งข้อมูลผ่าน AJAX ไปยัง PHP เพื่ออัปเดตสถานะ
+        function updateTreatmentStatus(patientId, confirmationTime, incrementRound) {
+            if (!patientId) {
+                alert("ไม่พบ patient_id");
+                return;
+            }
+
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "http://localhost/chiracarehospital/backend/sql/opd/update_treatment_status.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.setRequestHeader("Content-Type", "application/json");
 
-            const params = `patient_id=${patientId}`;
+            const params = JSON.stringify({
+                patient_id: patientId,
+                confirmed_at: confirmationTime,
+                increment_round: incrementRound // ส่งข้อมูลเพิ่มรอบการรักษา
+            });
 
             xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    if (response.status === "success") {
-                        alert(response.message);
-
-                        // อัปเดตสถานะใน UI และล็อคปุ่ม action
-                        const statusSpan = document.querySelector(`span[data-patient-id="${patientId}"]`);
-                        const button = document.querySelector(`button[data-patient-id="${patientId}"]`);
-
-                        if (statusSpan) {
-                            statusSpan.textContent = "รักษาเสร็จสิ้น"; // เปลี่ยนสถานะในตาราง
-                            statusSpan.classList.add("done-status"); // เพิ่มคลาสสำหรับสถานะที่เสร็จแล้ว
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.status === "success") {
+                                alert(response.message);
+                                // รีเฟรชหน้าเว็บเมื่อสถานะการรักษาอัปเดตสำเร็จ
+                                window.location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        } catch (error) {
+                            alert("เกิดข้อผิดพลาดในการประมวลผลข้อมูล: " + error.message);
                         }
-
-                        if (button) {
-                            button.disabled = true; // ล็อคปุ่ม
-                            button.style.opacity = 0.5; // เปลี่ยนลักษณะปุ่มให้ดูเหมือนปิดใช้งาน
-                        }
-
                     } else {
-                        alert(response.message);
+                        alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์: " + xhr.status);
                     }
                 }
             };
