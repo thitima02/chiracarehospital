@@ -173,30 +173,39 @@
     let isSubmitting = false; // ตัวแปรเพื่อเก็บสถานะการส่ง
 
     function submitForm() {
-      if (isSubmitting) return; // ป้องกันการส่งซ้ำ
-      isSubmitting = true; // ตั้งค่าสถานะการส่งเป็น true
+      if (isSubmitting) return;
+      isSubmitting = true;
 
       closePopup();
 
+      // Extract the patient data from the form
       const patientId = new URLSearchParams(window.location.search).get("patient_id");
       const generalSymptoms = document.getElementById("symptoms").value.trim();
       const bloodSugarLevel = document.getElementById("Blood-sugar").value.trim();
       const vitalSigns = document.getElementById("vital-signs").value.trim();
       const reasonForMissedTreatment = document.getElementById("not-receiving-treatment").value.trim();
 
-      // ส่งข้อมูล
+      // Extract `full_name` from localStorage
+      const userData = JSON.parse(localStorage.getItem("user"));
+      const userFullName = userData ? userData.full_name : null;
+
+      // Create the data object to be sent to the server
+      const formData = {
+        patient_id: patientId,
+        general_symptoms: generalSymptoms,
+        blood_sugar_level: bloodSugarLevel,
+        vital_signs: vitalSigns,
+        reason_for_missed_treatment: reasonForMissedTreatment,
+        user_fullname: userFullName // Add user_fullname here
+      };
+
+      // Send data to the server
       fetch('http://localhost/chiracarehospital/backend/sql/vhv/submit_form.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          patient_id: patientId,
-          general_symptoms: generalSymptoms,
-          blood_sugar_level: bloodSugarLevel,
-          vital_signs: vitalSigns,
-          reason_for_missed_treatment: reasonForMissedTreatment
-        })
+        body: JSON.stringify(formData)
       })
         .then(response => {
           if (!response.ok) {
@@ -218,10 +227,10 @@
           alert('เกิดข้อผิดพลาด: ' + error.message);
         })
         .finally(() => {
-          isSubmitting = false; // ตั้งค่าสถานะการส่งกลับเป็น false หลังจากทำงานเสร็จ
+          isSubmitting = false;
         });
     }
-    
+
     function loadFormData() {
       const urlParams = new URLSearchParams(window.location.search);
       const fullName = urlParams.get("full_name");

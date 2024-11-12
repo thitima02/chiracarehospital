@@ -43,7 +43,7 @@
       <label for="name">ชื่อ – นามสกุล</label>
       <input type="text" id="name" readonly>
 
-      <label for="disease">โรคของผู้ป่วยที่รักษา</label>
+      <label for="disease">โรคประจำตัว</label>
       <input type="text" id="disease" readonly>
 
       <label for="general_symptoms">อาการทั่วไป</label>
@@ -104,6 +104,10 @@
       if (nextVisitDateElement) nextVisitDateElement.value = urlParams.get("next_appointment_date") || '';
       if (patientIdElement) patientIdElement.value = urlParams.get("patient_id") || '';
 
+      // ดึงข้อมูลชื่อผู้ใช้จาก localStorage
+      const userData = JSON.parse(localStorage.getItem("user"));
+      const userFullName = userData ? userData.full_name : '';  // ถ้าไม่พบข้อมูลจะตั้งเป็นค่าว่าง
+
       // ฟังก์ชันการส่งฟอร์ม
       document.getElementById("submit-btn").addEventListener("click", function (event) {
         event.preventDefault(); // หยุดการทำงานของฟอร์มที่เป็นค่าเริ่มต้น
@@ -115,7 +119,8 @@
           treatment_issue: treatmentPlanElement ? treatmentPlanElement.value : '',
           date_of_treatment: startDateElement ? startDateElement.value : '',
           next_appointment_date: nextVisitDateElement ? nextVisitDateElement.value : '',
-          notes: notesElement ? notesElement.value : '' // ตรวจสอบฟิลด์ notes
+          notes: notesElement ? notesElement.value : '', // ตรวจสอบฟิลด์ notes
+          user_fullname: userFullName // ส่งชื่อผู้ใช้ไปในฟอร์ม
         };
 
         // แสดงผล formData ใน console เพื่อการตรวจสอบ
