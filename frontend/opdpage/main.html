@@ -189,9 +189,9 @@
             <thead>
                 <tr>
                     <th style="text-align: left; padding-left: 100px">รายชื่อผู้ป่วย</th>
+                    <th>โรคประจำตัว</th> 
+                    <th>ประเภทผู้ป่วย</th>
                     <th>วันนัดหมาย</th>
-                    <th>วันที่เข้ารักษา</th>
-                    <th>วันที่นัดครั้งถัดไป</th>
                     <th>ครั้งที่รักษา</th>
                     <th>สถานะการติดตาม</th>
                     <th>สถานะการรักษา</th>
@@ -231,9 +231,9 @@
         <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
         ${patient.patient_name || 'ไม่มีข้อมูล'}
     </td>
+    <td>${patient.disease_type || 'ไม่ทราบ'}</td>
+    <td>${patient.patient_type || 'ไม่มี'}</td>
     <td>${patient.appointment_date || 'ไม่มี'}</td>
-    <td>${patient.treatment_date || 'ไม่มี'}</td>
-    <td>${patient.next_appointment_date || 'ไม่มี'}</td>
     <td>${patient.treatment_round || 'ไม่มีข้อมูล'}</td>
     <td><span class="status ${followUpStatusClass}">${patient.follow_up_status || 'ไม่มีข้อมูล'}</span></td>
     <td><span class="status ${treatmentStatusClass}">${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>

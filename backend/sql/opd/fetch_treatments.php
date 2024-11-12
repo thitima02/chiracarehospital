@@ -17,13 +17,12 @@ $sql = "
 SELECT 
     p.full_name AS patient_name,
     p.patient_image,
-    t.appointment_date,
     p.patient_id,
+    t.appointment_date,
+    pm.patient_type,
     pm.disease_type,
     t.treatment_round,
     t.treatment_status,
-    t.date_of_treatment AS treatment_date,  
-    t.next_appointment_date,
     m.monitor_status AS follow_up_status
 FROM 
     treatment_information t

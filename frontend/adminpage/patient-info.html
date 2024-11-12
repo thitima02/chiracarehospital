@@ -46,7 +46,8 @@
       </button>
     </div>
 
-    <table class="patienttable">
+    <div class="table-container">
+    <table class="patient-table">
       <thead>
         <tr>
           <th>ชื่อ - นามสกุล</th>
@@ -54,7 +55,7 @@
           <th>เลขบัตรประชาชน</th>
           <th>เบอร์โทรศัพท์</th>
           <th>เบอร์โทรศัพท์ญาติ</th>
-          <th>สถานะการรักษา</th>
+          <th>สถานะปัจจุบัน</th>
           <th>จัดการ</th>
         </tr>
       </thead>
@@ -63,6 +64,7 @@
       </tbody>
     </table>
   </div>
+</div>
 
   <script>
     // ฟังก์ชันกรองข้อมูล
@@ -167,11 +169,10 @@
             rows += '<td>' + patient.id_card + '</td>';
             rows += '<td>' + patient.phone_number + '</td>';
             rows += '<td>' + patient.emergency_phone + '</td>';
-            rows += '<td><span class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</span></td>';
-
+            rows += '<td class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</td>';
 
             rows += '<td>';
-            rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.id + '\')"><i class="bx bxs-edit"></i></button>';
+            rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
             rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
             rows += '</td>';
             rows += '</tr>';
@@ -195,7 +196,7 @@
 
 
       function getStatusColor(status) {
-        if (status === 'ปกติ') {
+        if (status === 'ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)') {
           return 'green'; // สถานะสีเขียวสำหรับปกติ
         } else if (status === 'เสียชีวิต') {
           return 'red'; // สถานะสีแดงสำหรับเสียชีวิต
@@ -209,20 +210,48 @@
     });
 
     // ฟังก์ชันแก้ไขข้อมูลผู้ป่วย
-    function editPatient(id) {
-      // alert('แก้ไขข้อมูลผู้ป่วย ID: ' + patientId);
-      window.location.href = `editaddinfo.html?id=${id}`;
-      // ใส่ logic การแก้ไขที่นี่
+
+    function editPatient(patient_id) {
+      window.location.href = `editaddinfo.html?patient_id=${patient_id}`; // ส่ง patient_id ไปที่ URL
     }
 
     // ฟังก์ชันลบข้อมูลผู้ป่วย
-    function deletePatient(id) {
-      if (confirm('คุณต้องการลบผู้ป่วย ID: ' + id + ' ใช่หรือไม่?')) {
+    function deletePatient(patient_id) {
+      if (confirm('คุณต้องการลบผู้ป่วย ID: ' + patient_id + ' ใช่หรือไม่?')) {
         // ใส่ logic การลบที่นี่
         alert('ลบข้อมูลผู้ป่วยเรียบร้อย');
       }
     }
 
+  </script>
+
+  <script>
+    function getUserIdFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('patient_id');
+    }
+
+    function loadUserData() {
+      const userId = getUserIdFromURL();
+      if (userId) {
+        fetch(`http://localhost/chiracarehospital/backend/sql/users/getAll_patient_information.php?id=${userId}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              // แสดงข้อมูลในฟอร์ม เช่น
+              document.getElementById('name').value = data.data.full_name;
+              document.getElementById('idcard').value = data.data.id;
+              document.getElementById('phonenumber').value = data.data.phone_number;
+              // กำหนดข้อมูลอื่น ๆ
+            } else {
+              alert(data.message); // แจ้งเตือนถ้าข้อมูลผิดพลาด
+            }
+          })
+          .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+      }
+    }
+
+  
   </script>
 
 
@@ -289,7 +318,7 @@
         row.style.display = isVisible ? '' : 'none';
       });
     }
-
+    document.addEventListener('DOMContentLoaded', loadUserData);
   </script>
 
 

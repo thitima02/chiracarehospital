@@ -65,7 +65,7 @@
                     <i class='bx bx-search search-icon'></i>
                 </div>
                 <div class="filter-item">
-                    <h5>โรค</h5>
+                    <h5>โรคของผู้ป่วย</h5>
                     <select class="dropdown-filter" id="treatmentCountFilter">
                         <option value="ทั้งหมด">ทั้งหมด</option>
                         <option value="1">ความดันโลหิตสูง</option>
@@ -128,10 +128,8 @@
                     <option value="เขต 1">เขต 1</option>
                     <option value="เขต 2">เขต 2</option>
                     <option value="เขต 3">เขต 3</option>
-                    <!-- เพิ่มเขตอื่น ๆ ได้ตามต้องการ -->
                 </select>
             </div>
-            <h3>รายชื่อผู้ป่วย</h3>
             <div class="patient-list">
                 <table>
                     <thead>
@@ -141,27 +139,8 @@
                             <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>PT1001</td>
-                            <td>นายเอ</td>
-                            <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
-                        </tr>
-                        <tr>
-                            <td>PT1002</td>
-                            <td>นายบี</td>
-                            <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
-                        </tr>
-                        <tr>
-                            <td>PT1003</td>
-                            <td>นายซี</td>
-                            <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
-                        </tr>
-                        <tr>
-                            <td>PT1004</td>
-                            <td>นายดี</td>
-                            <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
-                        </tr>
+                    <tbody id="patient-info-body">
+                        <!-- Patient rows will be dynamically inserted here -->
                     </tbody>
                 </table>
             </div>
@@ -173,15 +152,14 @@
     </div>
 
 
-
     <!-- the datatable  -->
     <div class="table-container">
         <table class="patient-table">
             <thead>
                 <tr>
                     <th>รายชื่อผู้ป่วย</th>
-                    <th>ไอดี</th>
-                    <th>โรค</th>
+                    <th>รหัสไอดีผู้ป่วย</th>
+                    <th>โรคของผู้ป่วย</th>
                     <th>ประเภทผู้ป่วย</th>
                     <th>กลุ่มผู้ป่วย</th>
                     <th>เขตที่รับผิดชอบ</th>
@@ -220,12 +198,11 @@
 
                             const tbody = document.getElementById('staff-details');
                             tbody.innerHTML = `
-                            <tr>
+                        <tr>
                             <td>${user.department}</td>
                             <td>${user.responsibility_area}</td>
                             <td>${user.phone_number}</td>
-                            </tr>
-                        `;
+                        </tr>`;
                         } else {
                             alert(data.message); // แจ้งเตือนถ้าข้อมูลผิดพลาด
                         }
@@ -236,9 +213,15 @@
             }
         }
 
+
         // เรียกใช้เมื่อโหลดหน้า
         document.addEventListener('DOMContentLoaded', loadUserData);
+
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 
     <script>
         // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
@@ -315,6 +298,83 @@
                 selectedCountText.textContent = `เลือกเพิ่มทั้งหมด ${selectedCount} รายการ`;
             }
         }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Fetch data from API once the page is loaded
+            $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+                if (response.status === 'success') {
+                    var patients = response.data;
+                    var rows = '';
+
+                    // Loop through each patient data to create table rows
+                    patients.forEach(function (patient) {
+                        rows += '<tr>';
+                        rows += '<td>' + patients.full_name + '</td>';
+                        rows += '<td>' + patients.birth_date+ '</td>';
+                        rows += '<td>' + patients.id_card + '</td>';
+                        rows += '<td>' + patients.phone_number + '</td>';
+                        rows += '<td>' + patients.emergency_phone + '</td>';
+
+                        rows += '<td>';
+                        
+                        rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
+                        rows += '</td>';
+                        rows += '</tr>';
+                    });
+
+                    // Insert the rows into the table body
+                    $('#patient-info-body').html(rows);
+                } else {
+                    alert(response.message);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Fetch data from API when page loads
+            $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+                if (response.status === 'success') {
+                    var patients = response.data;
+                    var rows = '';
+
+                    // Loop through each patient data to create table rows
+                    patients.forEach(function (patient) {
+                        rows += '<tr>';
+                        rows += '<td>' + patient.patient_id + '</td>';  // Patient ID
+                        rows += '<td>' + patient.full_name + '</td>';     // Full name
+                        rows += '<td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>';
+                        rows += '</tr>';
+                    });
+
+                    // Insert the rows into the table body
+                    $('#patient-info-body').html(rows);
+                } else {
+                    alert(response.message);
+                }
+            });
+        });
+
+        // Update selected count based on checkbox clicks
+        function updateSelectedCount() {
+            var selectedCount = document.querySelectorAll('.patient-checkbox:checked').length;
+            document.getElementById('selectedCount').innerText = 'เลือกเพิ่มทั้งหมด ' + selectedCount + ' รายการ';
+        }
+
+        // Select or deselect all checkboxes
+        function toggleSelectAll() {
+            var checkboxes = document.querySelectorAll('.patient-checkbox');
+            var selectAllCheckbox = document.getElementById('selectAll');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+            updateSelectedCount();
+        }
+
     </script>
 
 </body>

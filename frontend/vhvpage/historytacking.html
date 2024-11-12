@@ -65,62 +65,98 @@
     <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
   </div>
 
-  <div class="history-container" id="historyElement">
-    <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
-  </div>
-
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      let historyData = [];  // To store the fetched data
+
+      // Function to filter and render data
+      function filterAndRenderData() {
+        const searchQuery = document.getElementById('searchPatientInput').value.toLowerCase();
+        const updatedDate = document.getElementById('updatedDateFilter').value;
+        const diseaseType = document.getElementById('diseaseTypeFilter').value;
+
+        // Filter the data based on search query, date, and disease type
+        const filteredData = historyData.filter(history => {
+          // Filter by patient name search
+          const matchesSearch = history.full_name.toLowerCase().includes(searchQuery);
+
+          // Filter by update date
+          const matchesDate = updatedDate ? history.newupdate.startsWith(updatedDate) : true;
+
+          // Filter by disease type
+          const matchesDisease = diseaseType === "ทั้งหมด" || history.disease_type === diseaseType;
+
+          return matchesSearch && matchesDate && matchesDisease;
+        });
+
+        renderData(filteredData);
+      }
+
+      // Fetch data
       fetch('http://localhost/chiracarehospital/backend/sql/vhv/fetch_monitor_history.php')
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            const historyElement = document.getElementById('historyElement');
-            historyElement.innerHTML = ''; // ล้างข้อมูลเก่า
-
-            // จัดเรียงข้อมูลตามวันที่และเวลาล่าสุดก่อน
-            data.data.sort((a, b) => new Date(b.form_submission_date) - new Date(a.form_submission_date));
-
-            data.data.forEach(history => {
-              // ตรวจสอบว่ามีการเก็บทั้งวันที่และเวลาใน form_submission_date
-              const formSubmissionDate = new Date(history.form_submission_date);
-              const formattedDate = formSubmissionDate.toLocaleDateString('th-TH');
-              const formattedTime = formSubmissionDate.toLocaleTimeString('th-TH');
-
-              historyElement.innerHTML += `
-                <div class="activity">
-                    <div class="left">
-                        <img src="images/amuro.jpg" alt="icon" class="activity-icon">
-                        <div class="details">
-                            <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
-                            <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <p class="update">${formattedDate}</p>
-                        <p class="time">${formattedTime}</p>
-                    </div>
-                    <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
-                    <div class="more-details" style="display: none;">
-                        <div class="detail">
-                            <p>ชื่อผู้ป่วย : ${history.full_name}</p>
-                            <p>โรคประจำตัว : ${history.disease_type}</p>
-                            <p>อาการทั่วไป : ${history.general_symptoms}</p>
-                            <p>ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร) : ${history.blood_sugar_level}</p>
-                            <p>ค่าสัญญาณชีพ (ครั้ง/นาที) : ${history.vital_signs}</p>
-                            <p>สาเหตุที่ไม่มารับการรักษา : ${history.reason_for_missed_treatment}</p>
-                            <p>วันที่กรอกฟอร์ม : ${formattedDate}</p>
-                            <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.id_user_info}</p>
-                        </div>
-                    </div>
-                </div>
-              `;
-            });
+            historyData = data.data;
+            // Sort the data by newupdate date (latest first)
+            historyData.sort((a, b) => new Date(b.newupdate) - new Date(a.newupdate));
+            filterAndRenderData(); // Initial render with no filters applied
           } else {
             console.error('Error fetching data:', data.error);
           }
         })
         .catch(error => console.error('Fetch error:', error));
+
+      // Render filtered data into the DOM
+      function renderData(filteredData) {
+        const historyElement = document.getElementById('historyElement');
+        historyElement.innerHTML = ''; // Clear previous data
+
+        if (filteredData.length === 0) {
+          // If no data matches the filter, show a message
+          historyElement.innerHTML = '<p>ยังไม่มีข้อมูลในส่วนนี้</p>';
+        } else {
+          filteredData.forEach(history => {
+            const updateDate = new Date(history.newupdate);
+            const formattedDate = updateDate.toLocaleDateString('th-TH');
+            const formattedTime = updateDate.toLocaleTimeString('th-TH');
+
+            historyElement.innerHTML += `
+              <div class="activity">
+                <div class="left">
+                  <img src="images/amuro.jpg" alt="icon" class="activity-icon">
+                  <div class="details">
+                    <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
+                    <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+                  </div>
+                </div>
+                <div class="right">
+                  <p class="update">${formattedDate}</p>
+                  <p class="time">${formattedTime}</p>
+                </div>
+                <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                <div class="more-details" style="display: none;">
+                  <div class="detail">
+                    <p>ชื่อผู้ป่วย : ${history.full_name}</p>
+                    <p>โรคประจำตัว : ${history.disease_type}</p>
+                    <p>อาการทั่วไป : ${history.general_symptoms}</p>
+                    <p>ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร) : ${history.blood_sugar_level}</p>
+                    <p>ค่าสัญญาณชีพ (ครั้ง/นาที) : ${history.vital_signs}</p>
+                    <p>สาเหตุที่ไม่มารับการรักษา : ${history.reason_for_missed_treatment}</p>
+                    <p>วันที่กรอกฟอร์ม : ${formattedDate}</p>
+                    <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.user_fullname}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+        }
+      }
+
+      // Event listeners for filters
+      document.getElementById('searchPatientInput').addEventListener('input', filterAndRenderData);
+      document.getElementById('updatedDateFilter').addEventListener('change', filterAndRenderData);
+      document.getElementById('diseaseTypeFilter').addEventListener('change', filterAndRenderData);
     });
 
     function toggleDetails(button) {

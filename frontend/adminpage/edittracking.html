@@ -23,57 +23,72 @@
     <div class="container">
         <div class="profile-header">
             <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
-            <div class="profile-name"></div>
+            <div class="full_name"></div>
         </div>
-
+    
         <div class="step-indicator">
             <div class="step active">1 ข้อมูลการติดตาม</div>
-            <div class="step">2 การติดตาม</div>
-            <div class="step">3 ข้อมูลการรักษา</div>
-            <div class="step">4 การรักษา</div>
+            <div class="step">2 ข้อมูลการรักษา</div>
         </div>
-
+    
         <form class="follow-up-form">
             <h2>ข้อมูลการติดตาม</h2>
-
-            <label for="disease">โรคของผู้ป่วยที่ติดตาม</label>
-            <select id="disease">
-                <option>ความดันโลหิตสูง</option>
-                <option>โรคอ้วน</option>
-                <option>ไขมันในเลือดสูง</option>
-                <option>โรคเบาหวาน</option>
-                <option>CVS Risk</option>
-                <option>โรคไต</option>
-            </select>
-
-            <label for="reason">สาเหตุที่ไม่รับการรักษา</label>
-            <input type="text" id="reason" placeholder="กรุณากรอกสาเหตุที่ไม่รับการรักษา">
-
-            <label for="occupation">ค่าสัญญาณชีพ</label>
-            <input type="text" id="occupation" placeholder="กรุณากรอกค่าสัญญาณชีพ">
-
-            <label for="blood-level">ค่าระดับน้ำตาลในเลือด</label>
-            <input type="text" id="blood-level" placeholder="กรุณากรอกค่าระดับน้ำตาลในเลือด">
-
-            <label for="symptoms">อาการทั่วไป</label>
-            <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
-
-            <!-- ปุ่มอยู่ใน div ที่มีคลาส .buttons -->
+    
+            <div class="patient-info">
+                <label for="diseaseType">โรคประจำตัว</label>
+                <input type="text" id="diseaseType" readonly>
+    
+                <label for="reason">สาเหตุที่ไม่รับการรักษา</label>
+                <input type="text" id="reason" placeholder="กรุณากรอกสาเหตุที่ไม่รับการรักษาหากยังไม่ได้กรอก">
+    
+                <label for="occupation">ค่าสัญญาณชีพ</label>
+                <input type="text" id="occupation" placeholder="กรุณากรอกค่าสัญญาณชีพหากยังไม่ได้กรอก">
+    
+                <label for="blood-level">ค่าระดับน้ำตาลในเลือด</label>
+                <input type="text" id="blood-level" placeholder="กรุณากรอกค่าระดับน้ำตาลในเลือดหากยังไม่ได้กรอก">
+    
+                <label for="symptoms">อาการทั่วไป</label>
+                <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไปหากยังไม่ได้กรอก">
+            </div>
+    
             <div class="buttons">
                 <button type="button" class="next-btn" id="nextBtn">ถัดไป</button>
             </div>
         </form>
     </div>
+    
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const patientId = getPatientIdFromURL(); // ดึง patient_id จาก URL หรือฟังก์ชันที่กำหนดเอง
-    fetchPatientInformation(patientId);
-    fetchMonitorFormData(patientId);
-});
+      document.addEventListener('DOMContentLoaded', function () {
+        const patientId = getPatientIdFromURL();
+        if (patientId) {
+            fetchPatientMedicalData(patientId);
+            fetchPatientInformation(patientId);
+            fetchMonitorFormData(patientId);
+        } else {
+            alert('ไม่พบข้อมูลผู้ป่วย');
+        }
+    });
 
-function getPatientIdFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('patient_id'); // ดึง patient_id จาก query string ของ URL
+    function getPatientIdFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('patient_id');
+    }
+async function fetchPatientMedicalData(patientId) {
+    try {
+        const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+        const medicalData = await medicalResponse.json();
+
+        if (medicalData.patient_data && medicalData.patient_data.length > 0) {
+            const patientMedicalInfo = medicalData.patient_data[0];
+            document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
+        } else {
+            console.error('No medical data found.');
+            document.getElementById('diseaseType').value = 'ไม่มีข้อมูลโรค';
+        }
+    } catch (error) {
+        console.error('Error fetching patient data:', error);
+        alert('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย');
+    }
 }
 
 function fetchPatientInformation(patientId) {
@@ -81,7 +96,7 @@ function fetchPatientInformation(patientId) {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                displayPatientInformation(data.data[0]); // แสดงข้อมูลผู้ป่วยรายแรก
+                displayPatientInformation(data.data[0]);
             } else {
                 console.error('ไม่พบข้อมูลผู้ป่วย');
             }
@@ -90,7 +105,7 @@ function fetchPatientInformation(patientId) {
 }
 
 function displayPatientInformation(patient) {
-    document.querySelector('.profile-name').textContent = patient.full_name;
+    document.querySelector('.full_name').textContent = patient.full_name || 'ไม่มีชื่อผู้ป่วย';
     document.querySelector('#reason').value = patient.reason || '';
     document.querySelector('#occupation').value = patient.occupation || '';
     document.querySelector('#blood-level').value = patient.blood_level || '';
@@ -102,7 +117,7 @@ function fetchMonitorFormData(patientId) {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                displayMonitorFormData(data.data[0]); // แสดงข้อมูลจากรายการแรก
+                displayMonitorFormData(data.data[0]);
             } else {
                 console.error('ไม่พบข้อมูล');
             }
@@ -117,11 +132,7 @@ function displayMonitorFormData(monitorData) {
     document.querySelector('#symptoms').value = monitorData.general_symptoms || '';
 }
 
-
-
     </script>
-
-
     <!-- JavaScript สำหรับการเปลี่ยนหน้า -->
     <script>
         // Load sidebar
@@ -156,10 +167,14 @@ function displayMonitorFormData(monitorData) {
         }
       }
     }
-        document.getElementById('nextBtn').addEventListener('click', function() {
-            // เปลี่ยนเส้นทางไปที่หน้า edittracking2.html
-            window.location.href = 'edittracking2.html';
-        });
+    document.getElementById('nextBtn').addEventListener('click', function() {
+        const patientId = getPatientIdFromURL();
+        if (patientId) {
+            // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html พร้อมส่งค่า patient_id ใน URL
+            window.location.href = `edittracking3.html?patient_id=${patientId}`;
+        } else {
+            alert('ไม่พบข้อมูลผู้ป่วย กรุณาลองอีกครั้ง');
+        }});
     </script>
 </body>
 </html>

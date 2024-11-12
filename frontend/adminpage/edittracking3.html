@@ -28,86 +28,132 @@
         
         <div class="steps">
             <div class="step">1 ข้อมูลการติดตาม</div>
-            <div class="step">2 การติดตาม</div>
-            <div class="step active">3 ข้อมูลการรักษา</div>
-            <div class="step">4 การรักษา</div>
+            <div class="step active">2 ข้อมูลการรักษา</div>
         </div>
 
         <div class="form-section">
             <h3>ข้อมูลการรักษา</h3>
             <form>
-                <label for="disease">โรคของผู้ป่วยที่รักษา</label>
-                <input type="text" id="disease" value="เบาหวาน" readonly>
+                <label for="diseaseType">โรคประจำตัว</label>
+                <input type="text" id="diseaseType" readonly>
 
                 <label for="symptoms">อาการทั่วไป</label>
-                <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+                <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไปหากยังไม่ได้กรอก">
 
                 <label for="treatmentIssues">ประเด็นการรักษา</label>
-                <input type="text" id="treatmentIssues" placeholder="กรุณากรอกประเด็นการรักษา">
+<input type="text" id="treatmentIssues" placeholder="กรุณากรอกประเด็นการรักษา">
 
                 <div class="buttons">
                     <button type="button" class="btn back" id="backBtn">ย้อนกลับ</button>
-                    <button type="button" class="btn next" id="nextBtn">ถัดไป</button>
+                    <button type="submit" class="btn save" id="saveBtn">บันทึก</button>
                 </div>
             </form>
         </div>
     </div>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          const patientId = getPatientIdFromURL(); // ดึง patient_id จาก URL หรือฟังก์ชันที่กำหนดเอง
-          fetchPatientInformation(patientId);
-          fetchMonitorFormData(patientId);
-      });
-      
-      function getPatientIdFromURL() {
-          const urlParams = new URLSearchParams(window.location.search);
-          return urlParams.get('patient_id'); // ดึง patient_id จาก query string ของ URL
-      }
-      
-      function fetchPatientInformation(patientId) {
-          fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
-              .then(response => response.json())
-              .then(data => {
-                  if (data.status === 'success') {
-                      displayPatientInformation(data.data[0]); // แสดงข้อมูลผู้ป่วยรายแรก
-                  } else {
-                      console.error('ไม่พบข้อมูลผู้ป่วย');
-                  }
-              })
-              .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-      }
-      
-      function displayPatientInformation(patient) {
-          document.querySelector('.profile-name').textContent = patient.full_name;
-          document.querySelector('#reason').value = patient.reason || '';
-          document.querySelector('#occupation').value = patient.occupation || '';
-          document.querySelector('#blood-level').value = patient.blood_level || '';
-          document.querySelector('#symptoms').value = patient.symptoms || '';
-      }
-      
-      function fetchMonitorFormData(patientId) {
-          fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
-              .then(response => response.json())
-              .then(data => {
-                  if (data.status === 'success') {
-                      displayMonitorFormData(data.data[0]); // แสดงข้อมูลจากรายการแรก
-                  } else {
-                      console.error('ไม่พบข้อมูล');
-                  }
-              })
-              .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-      }
-      
-      function displayMonitorFormData(monitorData) {
-          document.querySelector('#reason').value = monitorData.reason_for_missed_treatment || '';
-          document.querySelector('#occupation').value = monitorData.vital_signs || '';
-          document.querySelector('#blood-level').value = monitorData.blood_sugar_level || '';
-          document.querySelector('#symptoms').value = monitorData.general_symptoms || '';
-      }
-      
-      
-      
-          </script>
+        document.addEventListener('DOMContentLoaded', function () { 
+            const patientId = getPatientIdFromURL();
+            fetchPatientMedicalData(patientId);
+            fetchPatientInformation(patientId);
+            fetchMonitorFormData(patientId);
+            fetchTreatmentFormData(patientId); // Fetch treatment form data
+        });
+    
+        // Retrieve patient ID from URL
+        function getPatientIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('patient_id') || '101'; // Default to 101 if no ID in URL
+        }
+        
+    
+        // Fetch and display patient medical data
+        async function fetchPatientMedicalData(patientId) {
+            try {
+                const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+                const medicalData = await medicalResponse.json();
+    
+                if (medicalData.patient_data && medicalData.patient_data.length > 0) {
+                    const patientMedicalInfo = medicalData.patient_data[0];
+                    document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
+                } else {
+                    console.error('No medical data found.');
+                    document.getElementById('diseaseType').value = 'ไม่มีข้อมูลโรค';
+                }
+            } catch (error) {
+                console.error('Error fetching patient data:', error);
+                alert('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย');
+            }
+        }
+    
+        // Fetch and display patient information
+        function fetchPatientInformation(patientId) {
+            fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        displayPatientInformation(data.data[0]);
+                    } else {
+                        console.error('ไม่พบข้อมูลผู้ป่วย');
+                    }
+                })
+                .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+        }
+    
+        function displayPatientInformation(patient) {
+            document.querySelector('.profile-name').textContent = patient.full_name;
+            document.querySelector('#reason').value = patient.reason || '';
+            document.querySelector('#occupation').value = patient.occupation || '';
+            document.querySelector('#blood-level').value = patient.blood_level || '';
+            document.querySelector('#symptoms').value = patient.symptoms || '';
+        }
+    
+        // Fetch and display monitor form data
+        function fetchMonitorFormData(patientId) {
+            fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        displayMonitorFormData(data.data[0]);
+                    } else {
+                        console.error('ไม่พบข้อมูล');
+                    }
+                })
+                .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+        }
+    
+        function displayMonitorFormData(monitorData) {
+            if (!document.querySelector('#symptoms').value) {
+                document.querySelector('#symptoms').value = monitorData.general_symptoms || '';
+            }
+        }
+    
+        // ดึงข้อมูลจาก get_treatment_form.php และแสดงในฟอร์ม
+async function fetchTreatmentFormData(patientId) {
+    try {
+        // ส่งคำขอ GET ไปยัง get_treatment_form.php
+        const response = await fetch(`http://localhost/chiracarehospital/backend/sql/get_treatment_form.php?patient_id=${patientId}`);
+        const data = await response.json();
+
+        // ตรวจสอบข้อมูลที่ได้จาก API
+        console.log(data); // ล็อกข้อมูลที่ได้รับจาก API
+
+        if (Array.isArray(data) && data.length > 0) {
+            // สมมติว่าเราเลือกข้อมูลแถวแรกจากข้อมูลที่ได้
+            const treatmentInfo = data[0];
+            console.log('Treatment Issue:', treatmentInfo.treatment_issue); // ล็อกค่าของ treatment_issue ที่ดึงมา
+            document.getElementById('treatmentIssues').value = treatmentInfo.treatment_issue || 'ไม่มีข้อมูลประเด็นการรักษา';
+        } else {
+            console.error('ไม่พบข้อมูลการรักษา');
+            document.getElementById('treatmentIssues').value = 'ไม่มีข้อมูลประเด็นการรักษา';
+        }
+    } catch (error) {
+        console.error('เกิดข้อผิดพลาดในการดึงข้อมูลการรักษา:', error);
+        alert('เกิดข้อผิดพลาดในการดึงข้อมูลการรักษา');
+    }
+}
+    </script>
+    
+    
 
     <script>
         // Load sidebar
@@ -142,12 +188,21 @@
         }
       }
     }
-        document.getElementById('backBtn').addEventListener('click', function() {
-            window.location.href = 'edittracking2.html';
-        });
-        document.getElementById('nextBtn').addEventListener('click', function() {
-            window.location.href = 'edittracking4.html';
-        });
+    document.getElementById('backBtn').addEventListener('click', function() {
+        const patientId = getPatientIdFromURL();
+        if (patientId) {
+            // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html พร้อมส่งค่า patient_id ใน URL
+            window.location.href = `edittracking.html?patient_id=${patientId}`;
+        } else {
+            alert('ไม่พบข้อมูลผู้ป่วย กรุณาลองอีกครั้ง');
+        }});
+    
+        // เมื่อผู้ใช้กดปุ่มบันทึก จะเปลี่ยนเส้นทางไปที่หน้า statustracking.html
+        document.getElementById('saveBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // ป้องกันการส่งฟอร์ม
+        alert('บันทึกข้อมูลสำเร็จ!'); // แสดงข้อความเพื่อให้แน่ใจว่าโค้ดทำงาน
+        window.location.href = 'statustracking.html'; // ระบุเส้นทางที่ถูกต้อง
+});
 
     </script>
 </body>

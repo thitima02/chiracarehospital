@@ -72,7 +72,7 @@
               <input type="checkbox" id="select-all" class="select-all">
             </th>
             <th>ชื่อผู้ป่วย</th>
-            <th>ประเภทโรค</th>
+            <th>โรคประจำตัว</th>
             <th>ประเภทผู้ป่วย</th>
             <th>วันที่เริ่มติดตาม</th>
             <th>กำหนดส่งงาน</th>
@@ -91,9 +91,21 @@
 
   <div id="confirmation-popup" style="display:none;">
     <div class="popup-content">
-      <h2>กรุณาตรวจสอบก่อนยืนยันเพื่อติดตามผู้ป่วย</h2>
+      <h2>กรุณาตรวจสอบรายชื่อผู้ป่วยที่ต้องการติดตาม</h2>
       <p id="patient-count"></p>
-      <ul id="patient-list"></ul>
+      <!-- เรียกใช้ตารางแทนรายการผู้ป่วย -->
+      <div id="patient-table-wrapper">
+        <table id="patient-table">
+          <thead>
+            <tr>
+              <th>ID ผู้ป่วย</th>
+              <th>ชื่อผู้ป่วย</th>
+              <th>โรคประจำตัว</th>
+            </tr>
+          </thead>
+          <tbody id="patient-list"></tbody>
+        </table>
+      </div>
       <div class="text">
         <label for="monitor-start-date">วันที่เริ่มติดตาม:</label>
         <input type="date" id="monitor-start-date" required>
@@ -144,7 +156,11 @@
 
       assignButton.addEventListener('click', function () {
         const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
-          return parseInt(checkbox.value);
+          return {
+            patientId: parseInt(checkbox.value),
+            fullName: checkbox.getAttribute('data-full-name'),
+            diseaseType: checkbox.getAttribute('data-disease-type')
+          };
         });
 
         if (selectedPatients.length === 0) {
@@ -158,10 +174,14 @@
 
         if (patientList) {
           patientList.innerHTML = '';
-          selectedPatients.forEach(patientId => {
-            const li = document.createElement('li');
-            li.textContent = `ผู้ป่วย ID: ${patientId}`;
-            patientList.appendChild(li);
+          selectedPatients.forEach(patient => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+        <td>${patient.patientId}</td>
+        <td>${patient.fullName}</td>
+        <td>${patient.diseaseType}</td>
+      `;
+            patientList.appendChild(tr);
           });
         }
 
@@ -277,7 +297,7 @@
 
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-patient-name='${patient.full_name}'>` : `<div class="unselectable-box"></div>`}</td>
+                <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-full-name='${patient.full_name}' data-disease-type='${patient.disease_type}'>` : `<div class="unselectable-box"></div>`}</td>
                 <td>${patient.full_name ? patient.full_name : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
                 <td>${patient.disease_type ? patient.disease_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
                 <td>${patient.patient_type ? patient.patient_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
@@ -287,8 +307,12 @@
                 <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status ? patient.treatment_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
                 <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status ? patient.monitor_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
                 <td>
-                    <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html';"><i class='bx bx-edit'></i></button>
-                    <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html';"><i class='bx bx-right-arrow-alt'></i></button>
+                
+                    <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}';">
+  <i class='bx bx-edit'></i>
+</button>
+
+                    <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}';"><i class='bx bx-right-arrow-alt'></i></button>
                 </td>`;
             tbody.appendChild(row);
           });
@@ -301,6 +325,7 @@
           document.getElementById('assign-button').style.display = 'none';
         }
       }
+      
 
       function updateAssignButtonVisibility() {
         const selectedPatients = document.querySelectorAll('.patient-checkbox:checked');
@@ -382,6 +407,7 @@
         }
       });
     });
+
   </script>
 
   <script>
@@ -451,6 +477,75 @@
     width: 20px;
     height: 20px;
     border-radius: 4px;
+  }
+
+  /* การตั้งค่ารูปแบบของตาราง */
+  #patient-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* รวมเส้นขอบให้ดูเรียบ */
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
+
+  /* การตั้งค่าของแต่ละเซลล์ในตาราง */
+  #patient-table th,
+  #patient-table td {
+    padding: 10px;
+    /* เพิ่มช่องว่างในเซลล์ */
+    text-align: left;
+    /* จัดการข้อความในแต่ละเซลล์ให้ชิดซ้าย */
+    border: 1px solid #ddd;
+    /* เส้นขอบที่อ่อน */
+  }
+
+  /* การตั้งค่าให้แถวที่เป็น header มีลักษณะเด่น */
+  #patient-table th {
+    background-color: #f2f2f2;
+    /* พื้นหลังสีอ่อน */
+    font-weight: bold;
+    /* ตัวหนาสำหรับหัวตาราง */
+  }
+
+  /* การตั้งค่าของแถวที่มีเส้นขอบหนา */
+  #patient-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+    /* สีพื้นหลังของแถวคู่ */
+  }
+
+  #patient-table tbody tr:nth-child(odd) {
+    background-color: #fff;
+    /* สีพื้นหลังของแถวคี่ */
+  }
+
+  /* ทำให้ตารางมีลูกเลื่อนแนวตั้ง */
+  #patient-table-wrapper {
+    display: block;
+    max-height: 300px;
+    /* กำหนดความสูงสูงสุด */
+    overflow-y: auto;
+    /* เพิ่มลูกเลื่อนแนวตั้ง */
+  }
+
+  /* ปรับให้ <thead> และ <tbody> แสดงเป็นตารางเดียวกัน */
+  #patient-table thead,
+  #patient-table tbody {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+
+  /* ทำให้คอลัมน์ header (thead) ติดอยู่ด้านบน */
+  #patient-table thead {
+    z-index: 2;
+    /* ให้แน่ใจว่าหัวตารางจะอยู่ด้านบน */
+    background-color: #f2f2f2;
+    /* ทำให้หัวตารางมีพื้นหลัง */
+  }
+
+  #patient-count{
+    margin-top: 20px;
   }
 </style>
 

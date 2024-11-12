@@ -70,28 +70,51 @@ table th {
   margin-left: 89px;
 }
 
-.patienttable {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
+/* ตารางผู้ป่วย */
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 91%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  width: 100%;
 }
 
-.patienttable th, .patienttable td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
+.patient-table {
+  width: 100%;
+  table-layout: fixed;
+  /* ให้ความกว้างของคอลัมน์เท่ากัน */
+  border-collapse: collapse;
   font-size: 14px;
+  text-align: center;
+  overflow-x: auto;
 }
 
-.patienttable th {
-  background-color: #f4f7fa;
-  font-weight: 600;
+.patient-table thead tr {
+  background-color: #ececec;
+  color: #5D97EF;
 }
 
-.patienttable tr:hover {
-  background-color: #f1f1f1;
+.patient-table th,
+.patient-table td {
+  padding: 15px 10px;
+  padding-right: 33px;
+  border-bottom: 1px solid #F4F4F4;
+
+}
+
+.patient-table tbody tr {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.patient-table tbody tr:last-of-type {
+  border-bottom: 2px solid #f4f4f4;
 }
 
 img {
@@ -160,36 +183,24 @@ img {
   background-color: rgb(241, 241, 241);
   margin-left: 15px;
 }
-/* .status-label {
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  color: white;
-  display: inline-block;
-}
-.status-label.red {
-  background-color: #c52525;
-}
-.status-label.green {
-  background-color: #28a745;
-} */
+
 .status-label {
+  text-align: center;
   padding: 5px 10px;
   border-radius: 5px;
-  color: white; /* ข้อความในสถานะ */
-  background-color: green;
+  color: rgb(0, 0, 0); /* ข้อความในสถานะ */
 }
 
 .status-label.green {
-  background-color: green;
+  color:  rgb(0, 154, 0);
 }
 
 .status-label.red {
-  background-color: red;
+  color:  rgb(255, 0, 0);
 }
 
 .status-label.blue {
-  background-color: blue;
+  color:  rgb(0, 13, 255);
 }
 
 

@@ -33,17 +33,18 @@ try {
         $blood_sugar_level = $data['blood_sugar_level'] ?? null;
         $vital_signs = $data['vital_signs'] ?? null;
         $reason_for_missed_treatment = $data['reason_for_missed_treatment'] ?? null;
+        $user_fullname = $data['user_fullname'] ?? null; // Retrieve user_fullname
         $form_submission_date = date('Y-m-d'); // คุณไม่ต้องส่ง form_submission_date เนื่องจากให้เซิร์ฟเวอร์ตั้งค่าเอง
 
         // ตรวจสอบค่าที่จำเป็น
-        if (empty($patient_id) || empty($general_symptoms) || empty($blood_sugar_level) || empty($vital_signs) || empty($reason_for_missed_treatment)) {
+        if (empty($patient_id) || empty($general_symptoms) || empty($blood_sugar_level) || empty($vital_signs) || empty($reason_for_missed_treatment) || empty($user_fullname)) {
             echo json_encode(['success' => false, 'message' => 'ข้อมูลไม่ครบถ้วน']);
             exit();
         }        
 
         // เพิ่มข้อมูลใน monitor_form
-        $sqlInsert = "INSERT INTO monitor_form (patient_id, general_symptoms, blood_sugar_level, vital_signs, reason_for_missed_treatment, form_submission_date) 
-                      VALUES (:patient_id, :general_symptoms, :blood_sugar_level, :vital_signs, :reason_for_missed_treatment, :form_submission_date)";
+        $sqlInsert = "INSERT INTO monitor_form (patient_id, general_symptoms, blood_sugar_level, vital_signs, reason_for_missed_treatment, user_fullname, form_submission_date) 
+                      VALUES (:patient_id, :general_symptoms, :blood_sugar_level, :vital_signs, :reason_for_missed_treatment, :user_fullname, :form_submission_date)";
         $stmtInsert = $pdo->prepare($sqlInsert);
         try {
             $stmtInsert->execute([
@@ -52,6 +53,7 @@ try {
                 ':blood_sugar_level' => $blood_sugar_level,
                 ':vital_signs' => $vital_signs,
                 ':reason_for_missed_treatment' => $reason_for_missed_treatment,
+                ':user_fullname' => $user_fullname, // เพิ่ม user_fullname
                 ':form_submission_date' => $form_submission_date,
             ]);
         } catch (PDOException $e) {
@@ -79,3 +81,4 @@ try {
     echo json_encode(['success' => false, 'error' => 'เกิดข้อผิดพลาด: ' . $e->getMessage()]);
     exit();
 }
+?>
