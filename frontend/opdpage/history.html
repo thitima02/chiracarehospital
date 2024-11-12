@@ -10,9 +10,18 @@
     <link rel="stylesheet" href="../../frontend/opdpage/css/filltermenu.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/moredetail.css">
-
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Import icon -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="../method/logout.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+    <script src="../method/user.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+    <script src="../method/loadSidebarScript.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+    <script src="../method/checkAuth.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
 </head>
 
 <body style="background-color:#edeff1;">
@@ -61,6 +70,13 @@
             fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_history.php")
                 .then(response => response.json())
                 .then(data => {
+                    // จัดเรียงข้อมูลตามวันที่และเวลาใหม่ล่าสุดมากที่สุด
+                    data.sort((a, b) => {
+                        const dateA = new Date(a.newupdate);
+                        const dateB = new Date(b.newupdate);
+                        return dateB - dateA;
+                    });
+
                     const historyContainer = document.querySelector(".history-container");
 
                     data.forEach(history => {
@@ -78,40 +94,45 @@
 
                         const { formattedDate, formattedTime } = formatDateTime(history.newupdate);
 
+                        // ตรวจสอบว่ามี patient_image หรือไม่ หากไม่มีให้ใช้ภาพเริ่มต้น
+                        const imageUrl = history.patient_image
+                            ? `data:image/jpeg;base64,${history.patient_image}`
+                            : '../../assets/images/cat.jpg';
+
                         historyElement.innerHTML = `
-                        <div class="activity">
-                            <div class="left">
-                                <img src="images/amuro.jpg" alt="icon" class="activity-icon">
-                                <div class="details">
-                                    <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
-                                    <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
-                                </div>
-                            </div>
-                            <div class="right">
-                                <p class="update">${formattedDate}</p>
-                                <p class="time">${formattedTime}</p>
-                            </div>
-                            <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
-                            <div class="more-details" style="display: none;">
-                                <div class="detail">
-                                    <p>ชื่อ - นามสกุล : ${history.full_name}</p>
-                                    <p>โรคของผู้ป่วยที่รักษา : ${history.disease_type}</p>
-                                    <p>อาการทั่วไป : ${history.general_symptoms}</p>
-                                    <p>ประเด็นการรักษา : ${history.treatment_issue}</p>
-                                    <p>วันที่เข้ารับการรักษา : ${history.date_of_treatment}</p>
-                                    <p>วันที่นัดครั้งถัดไป : ${history.next_appointment_date}</p>
-                                    <p>หมายเหตุ : ${history.notes}</p>
-                                </div>
+                    <div class="activity">
+                        <div class="left">
+                           <img src="${imageUrl}" alt="patient image" class="activity-icon" style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
+                            <div class="details">
+                                <p class="title">เพิ่มนัดการรักษาของ คุณ "${history.full_name}" เสร็จสิ้น</p>
+                                <p class="subtitle">ข้อมูลการนัดรักษาถูกบันทึกเรียบร้อย ท่านสามารถตรวจสอบย้อนหลังเพื่อเช็คความถูกต้องได้ (หากเกิดข้อผิดพลาดโปรดแจ้งกับทางแอดมินโดยตรง)</p>
                             </div>
                         </div>
-                    `;
+                        <div class="right">
+                            <p class="update">${formattedDate}</p>
+                            <p class="time">${formattedTime}</p>
+                        </div>
+                        <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                        <div class="more-details" style="display: none;">
+                            <div class="detail">
+                                <p>ชื่อ - นามสกุล : ${history.full_name}</p>
+                                <p>โรคประจำตัว : ${history.disease_type}</p>
+                                <p>อาการทั่วไป : ${history.general_symptoms}</p>
+                                <p>ประเด็นการรักษา : ${history.treatment_issue}</p>
+                                <p>วันที่เข้ารับการรักษา : ${history.date_of_treatment}</p>
+                                <p>วันที่นัดครั้งถัดไป : ${history.next_appointment_date}</p>
+                                <p>หมายเหตุ : ${history.notes}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
 
                         historyContainer.appendChild(historyElement);
                     });
                 })
                 .catch(error => console.error("Error fetching data:", error));
 
-            // การกรองข้อมูล
+            // การกรองข้อมูล (ตามโค้ดที่มีอยู่)
             const searchInput = document.getElementById('searchPatientInput');
             const updatedDateFilter = document.getElementById('updatedDateFilter');
             const diseaseTypeFilter = document.getElementById('diseaseTypeFilter');
@@ -126,7 +147,6 @@
                 activities.forEach(activity => {
                     const name = activity.querySelector('.title').textContent.toLowerCase();
                     const updateDateValue = activity.querySelector('.update').textContent;
-                    console.log('Update Date Value:', updateDateValue);
                     const diseaseTypeValue = activity.querySelector('.detail').children[1].textContent.split(' : ')[1];
 
                     let isVisible = true;
@@ -163,53 +183,40 @@
     </script>
 
     <script>
+        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+        checkAuth();
+
         // Load sidebar
         fetch('sidebar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
             .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
             .then(data => {
                 document.getElementById('sidebar-container').innerHTML = data;
-                loadSidebarScript(); // Initialize sidebar toggle after loading
+                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+                loadSidebarScript();
+                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
             });
 
         // Load topbar and set the page title
         fetch('topbar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
             .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
             .then(data => {
                 document.getElementById('topbar-container').innerHTML = data;
-                document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา'; // Set page title for the history page
+                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+                document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา';
+                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+                // Re-run user.js script after loading topbar
+                const script = document.createElement('script');
+                // สร้างแท็ก script ใหม่
+                script.src = '../method/user.js';
+                // กำหนดแหล่งที่มาของ script เป็น user.js
+                document.body.appendChild(script);
+                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
             });
-
-        function toggleDetails(button) {
-            const details = button.nextElementSibling;
-            if (details.style.display === "block") {
-                details.style.display = "none";
-                button.textContent = "เพิ่มเติม";
-            } else {
-                details.style.display = "block";
-                button.textContent = "ซ่อนข้อมูล";
-            }
-        }
-
-        function loadSidebarScript() {
-            let sidebar = document.querySelector(".sidebar");
-            let closeBtn = document.querySelector("#btn");
-
-            closeBtn.addEventListener("click", () => {
-                sidebar.classList.toggle("open");
-                menuBtnChange();
-            });
-
-            function menuBtnChange() {
-                if (sidebar.classList.contains("open")) {
-                    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-                } else {
-                    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-                }
-            }
-            document.getElementById('edit-button').addEventListener('click', function () {
-                window.location.href = 'listhistoty.html';
-            });
-        }
     </script>
 </body>
 

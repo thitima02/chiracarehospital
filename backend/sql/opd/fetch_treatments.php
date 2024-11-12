@@ -23,7 +23,6 @@ SELECT
     t.treatment_round,
     t.treatment_status,
     t.date_of_treatment AS treatment_date,  
-    t.next_appointment_date,
     m.monitor_status AS follow_up_status
 FROM 
     treatment_information t
