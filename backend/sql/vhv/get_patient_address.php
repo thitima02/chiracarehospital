@@ -4,7 +4,6 @@ include '../db_connection.php'; // รวมไฟล์การเชื่อ
 // ตรวจสอบว่าเชื่อมต่อสำเร็จหรือไม่
 if ($conn) {
     try {
-<<<<<<< HEAD
         // รับค่า patient_id จาก GET หรือ POST (เปลี่ยนตามที่คุณต้องการ)
         $patient_id = isset($_GET['patient_id']) ? $_GET['patient_id'] : null;
 
@@ -45,24 +44,6 @@ if ($conn) {
                     JOIN patient_medical_information pm ON p.id_patient_medical_information = pm.id
                     JOIN monitor_information m ON p.patient_id = m.patient_id"; // ดึงข้อมูลทั้งหมดหากไม่ได้ระบุ patient_id
         }
-=======
-        // เตรียมคำสั่ง SQL เพื่อดึงข้อมูลจากตาราง patient_address
-        $sql = "SELECT p.full_name, p.patient_image, pm.disease_type, p.patient_id,
-                       a.postal_code,
-                       a.province, 
-                       a.amphur, 
-                       a.tambon, 
-                       a.soi, 
-                       a.moo, 
-                       a.number, 
-                       m.monitor_deadline, 
-                       m.monitor_status, 
-                       m.monitor_round 
-                FROM patient_information p
-                JOIN patient_address a ON p.id_patient_address = a.id
-                JOIN patient_medical_information pm ON p.id_patient_medical_information = pm.id
-                JOIN monitor_information m ON p.patient_id = m.patient_id"; // ใช้ id_patient เพื่อเชื่อมต่อกับ monitor_information
->>>>>>> 080b0c8628045c60bac7f704cf153dde8638c0e1
 
         $stmt = $conn->prepare($sql);
 
