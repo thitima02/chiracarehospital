@@ -27,14 +27,15 @@ $treatment_issue = isset($data['treatment_issue']) ? $data['treatment_issue'] : 
 $date_of_treatment = isset($data['date_of_treatment']) ? $data['date_of_treatment'] : '';
 $next_appointment_date = isset($data['next_appointment_date']) ? $data['next_appointment_date'] : '';
 $notes = isset($data['notes']) ? $data['notes'] : '';
+$user_fullname = isset($data['user_fullname']) ? $data['user_fullname'] : '';  // รับข้อมูลชื่อผู้ใช้
 
 if ($patient_id == '' || $general_symptoms == '' || $treatment_issue == '' || $date_of_treatment == '' || $next_appointment_date == '') {
     echo json_encode(["error" => "กรุณากรอกข้อมูลให้ครบถ้วน"]);
     exit;
 }
 
-$sql = "INSERT INTO treatment_form (patient_id, general_symptoms, treatment_issue, date_of_treatment, next_appointment_date, notes, newupdate)
-        VALUES ('$patient_id', '$general_symptoms', '$treatment_issue', '$date_of_treatment', '$next_appointment_date', '$notes', NOW())";
+$sql = "INSERT INTO treatment_form (patient_id, general_symptoms, treatment_issue, date_of_treatment, next_appointment_date, notes, user_fullname, newupdate)
+        VALUES ('$patient_id', '$general_symptoms', '$treatment_issue', '$date_of_treatment', '$next_appointment_date', '$notes', '$user_fullname', NOW())";
 
 if ($conn->query($sql) === TRUE) {
     $updateStatusSql = "UPDATE treatment_information 
