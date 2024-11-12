@@ -46,7 +46,8 @@
       </button>
     </div>
 
-    <table class="patienttable">
+    <div class="table-container">
+    <table class="patient-table">
       <thead>
         <tr>
           <th>ชื่อ - นามสกุล</th>
@@ -54,7 +55,7 @@
           <th>เลขบัตรประชาชน</th>
           <th>เบอร์โทรศัพท์</th>
           <th>เบอร์โทรศัพท์ญาติ</th>
-          <th>สถานะการรักษา</th>
+          <th>สถานะปัจจุบัน</th>
           <th>จัดการ</th>
         </tr>
       </thead>
@@ -63,6 +64,7 @@
       </tbody>
     </table>
   </div>
+</div>
 
   <script>
     // ฟังก์ชันกรองข้อมูล
@@ -167,7 +169,7 @@
             rows += '<td>' + patient.id_card + '</td>';
             rows += '<td>' + patient.phone_number + '</td>';
             rows += '<td>' + patient.emergency_phone + '</td>';
-            rows += '<td><span class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</span></td>';
+            rows += '<td class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</td>';
 
 
             rows += '<td>';
@@ -195,7 +197,7 @@
 
 
       function getStatusColor(status) {
-        if (status === 'ปกติ') {
+        if (status === 'ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)') {
           return 'green'; // สถานะสีเขียวสำหรับปกติ
         } else if (status === 'เสียชีวิต') {
           return 'red'; // สถานะสีแดงสำหรับเสียชีวิต
