@@ -1,68 +1,87 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Patient Information</title> 
-        <link rel="stylesheet" href="../../css/addinfo.css">
-        <link rel="stylesheet" href="../../styles.css">
-        <link rel="stylesheet" href="../../css/sidebar.css">
-        <link rel="stylesheet" href="../../css/topbar.css">
-        <link rel="stylesheet" href="../../css/logo.css">
-        <!-- Import icon -->
-        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body style="background-color:#edeff1;">
-        <!-- Sidebar will be loaded here -->
-      <div id="sidebar-container"></div>
-    
-      <!-- Topbar will be loaded here -->
-      <div id="topbar-container"></div>
 
-      <div class="container">
-        <div class="step-indicator">
-            <div class="step active">1 ข้อมูลส่วนตัว</div>
-            <div class="step">2 ข้อมูลที่อยู่</div>
-            <div class="step">3 ข้อมูลทางการแพทย์</div>
-        </div>
-        <form class="addinfo">
-            <h2>ข้อมูลส่วนตัว</h2> 
-            <div class="addimage">
-                <label for="profile-image" class="image-label">
-                    <img src="camera-icon.png" alt="Upload Profile Image" id="image-preview"/>
-                    <input type="file" id="profile-image" class="image-input" onchange="previewImage(event)" hidden>
-                    <span>Upload Profile</span>
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="name">ชื่อ - นามสกุล</label>
-                <input type="text" id="name" placeholder="นายมีมาก มีน้อย">
-            
-                <label for="id-number">เลขบัตรประชาชน</label>
-                <input type="text" id="id-number" placeholder="1-66-66-66666-66-6">
-            
-                <label for="age">อายุ</label>
-                <input type="text" id="age" placeholder="ปปป">
-            
-                <label for="birthdate">วันเกิด</label>
-                <input type="date" id="birthdate">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Information</title>
+  <link rel="stylesheet" href="../../css/addinfo.css">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/sidebar.css">
+  <link rel="stylesheet" href="../../css/topbar.css">
+  <link rel="stylesheet" href="../../css/logo.css">
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-                <label for="phone">เบอร์โทรศัพท์</label>
-                <input type="text" id="phone" placeholder="080-000-0000">
+<body style="background-color:#edeff1;">
+  <!-- Sidebar will be loaded here -->
+  <div id="sidebar-container"></div>
 
-                <label for="phone-number">เบอร์โทรศัพท์ฉุกเฉิน</label>
-                <input type="text" id="phone-number" placeholder="080-000-0000">
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
 
-                <div class="button">
-                    <button type="button" class="next-btn" id="nextBtn">ถัดไป</button>
-                </div>
-            </div>
-        </form>
+  <div class="container">
+    <div class="step-indicator">
+      <div class="step active">1 ข้อมูลส่วนตัว</div>
+      <div class="step">2 ข้อมูลที่อยู่</div>
+      <div class="step">3 ข้อมูลทางการแพทย์</div>
+    </div>
+    <form class="addinfo">
+      <h2>ข้อมูลส่วนตัว</h2>
+      <div class="addimage">
+        <label for="profile-image" class="image-label">
+          <img src="camera-icon.png" alt="Upload Profile Image" id="image-preview" />
+          <input type="file" id="profile-image" class="image-input" onchange="previewImage(event)" hidden>
+          <span>Upload Profile</span>
+        </label>
       </div>
-      <script>
-          // Load sidebar
-     fetch('sidebar.html')
+      <div class="form-group">
+        <label for="name">ชื่อ - นามสกุล</label>
+        <input type="text" id="name" readonly>
+
+        <label for="id-number">เลขบัตรประชาชน</label>
+        <input type="text" id="id-card" readonly>
+
+        <label for="age">อายุ</label>
+        <input type="text" id="age" placeholder="ปปป">
+
+        <label for="birthdate">วันเกิด</label>
+        <input type="date" id="birthdate" >
+
+        <label for="phonenumber">เบอร์โทรศัพท์</label>
+        <input type="text" id="phonenumber" readonly>
+
+        <label for="emergency-phone">เบอร์โทรศัพท์ฉุกเฉิน</label>
+        <input type="text" id="emergency-phone" readonly>
+
+        <div class="button">
+          <button type="button" class="next-btn" id="nextBtn">ถัดไป</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // ฟังก์ชันแก้ไขข้อมูล
+    function editPatient(id) {
+      if (id) {
+        console.log("Editing Patient ID:", patient_id);  // เช็คค่า ID ที่ส่งเข้ามา
+        window.location.href = `editaddinfo.html?patient_id=${patient_id}`;
+
+      } else {
+        console.error("ไม่พบ ID ของผู้ป่วย"); // แจ้งเตือนหาก id ไม่ถูกต้อง
+      }
+    }
+
+
+    function morePatient(id) {
+      window.location.href = `morestaff.html?id=${id}`;
+    }
+
+    // Load sidebar
+    fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('sidebar-container').innerHTML = data;
@@ -77,7 +96,7 @@
         document.getElementById('page-title').textContent = 'แก้ไขข้อมูลผู้ป่วย'; // Set page title for the history page
       });
 
-      function loadSidebarScript() {
+    function loadSidebarScript() {
       let sidebar = document.querySelector(".sidebar");
       let closeBtn = document.querySelector("#btn");
 
@@ -94,14 +113,64 @@
       }
       //acton image
       function previewImage(event) {
-            const imagePreview = document.getElementById('image-preview');
-            imagePreview.src = URL.createObjectURL(event.target.files[0]);
-        }
+        const imagePreview = document.getElementById('image-preview');
+        imagePreview.src = URL.createObjectURL(event.target.files[0]);
+      }
     }
-    document.getElementById('nextBtn').addEventListener('click', function() {
-            // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html
-            window.location.href = 'editaddinfo2.html';
-        });
-      </script>
-    </body>
+    document.getElementById('nextBtn').addEventListener('click', function () {
+      // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html
+      window.location.href = 'editaddinfo2.html';
+    });
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const patientId = getPatientIdFromURL(); // ดึง patient_id จาก URL หรือฟังก์ชันที่กำหนดเอง
+      fetchPatientInformation(patientId);
+    });
+
+    function getPatientIdFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('patient_id'); // ดึง patient_id จาก query string ของ URL
+    }
+
+    function fetchPatientInformation(patientId) {
+      fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getOnePatients.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            displayPatientInformation(data.data); // แสดงข้อมูลผู้ป่วยรายแรก
+          } else {
+            console.error('ไม่พบข้อมูลผู้ป่วย');
+          }
+        })
+        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+    }
+
+    function displayPatientInformation(patient) {
+      document.getElementById('name').value = patient.full_name;
+      document.querySelector('#phonenumber').value = patient.phone_number || '';
+      document.querySelector('#emergency-phone').value = patient.emergency_phone || '';
+      document.querySelector('#id-card').value = patient.id_card || '';
+    }
+
+    function fetchMonitorFormData(patientId) {
+      fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getOnePatients.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            displayMonitorFormData(data.data); // แสดงข้อมูลจากรายการแรก
+          } else {
+            console.error('ไม่พบข้อมูล');
+          }
+        })
+        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+    }
+
+  </script>
+
+
+</body>
+
 </html>
