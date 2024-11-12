@@ -4,17 +4,19 @@ require_once '../db_connection.php';
 
 $response = [];
 
-$patient_id = isset($_GET['patient_id']) ? $_GET['patient_id'] : null; // ใช้ patient_id แทน id
+// รับค่าจาก URL ที่ใช้เป็น patient_id
+$patient_id = isset($_GET['patient_id']) ? $_GET['patient_id'] : null;
 
 if ($patient_id === null) {
+    // ถ้าไม่มี patient_id ใน URL
     $response = [
         'status' => 'error',
-        'message' => 'ไม่พบรหัสผู้ป่วย'
+        'message' => 'ไม่พบ patient_id'
     ];
 } else {
     try {
         // SQL สำหรับค้นหาผู้ป่วยโดยใช้ patient_id
-        $stmt = $conn->prepare("SELECT id, patient_id, full_name, birth_date, id_card, phone_number, emergency_phone, current_status FROM patient_information WHERE patient_id = :patient_id");
+        $stmt = $conn->prepare("SELECT id, patient_id, full_name, birth_date, id_card, phone_number, emergency_phone FROM patient_information WHERE patient_id = :patient_id");
         $stmt->bindParam(':patient_id', $patient_id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -40,5 +42,6 @@ if ($patient_id === null) {
     }
 }
 
+// ส่งผลลัพธ์กลับในรูปแบบ JSON
 echo json_encode($response);
 ?>
