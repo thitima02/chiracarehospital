@@ -73,20 +73,19 @@
       <!-- Submit Button -->
       <div class="button-group">
         <!-- ปุ่มยกเลิก -->
-        <button type="button" id="back" onclick="goBack();">ยกเลิก</button>
+        <button type="cancelBtn" id="back" onclick="goBack();">ยกเลิก</button>
         <button type="button" id="saveBtn" onclick="confirmSubmission(event)">บันทึก</button>
-
       </div>
     </form>
   </div>
 
   <div id="popup" class="popup" style="display: none;"> <!-- เริ่มต้นซ่อนป๊อปอัพ -->
     <div class="popup-content">
-      <h3>คุณแน่ใจหรือไม่ว่าจะส่งแบบฟอร์มนี้?</h3>
-      <p>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้องก่อนส่ง</p>
+      <h3>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้อง</h3>
+      <p>หากท่านมั่นใจว่าข้อมูลถูกต้องทั้งหมดให้กดยืนยันเพื่อส่งผลการติดตามให้กับผู้รับผิดชอบ</p>
       <div class="button-popup">
-        <button type="button" onclick="submitForm()">ใช่</button>
-        <button type="button" onclick="closePopup()">ไม่</button>
+        <button type="No" onclick="closePopup()">ไม่</button>
+        <button type="Yes" onclick="submitForm()">ใช่</button>
       </div>
     </div>
   </div>
