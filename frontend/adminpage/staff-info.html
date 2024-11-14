@@ -47,6 +47,7 @@
           <th>ชื่อ - นามสกุล</th>
           <th>สถานะ</th>
           <th>เขตที่รับผิดชอบ</th>
+          <th>เลขบัตรประชาชน</th>
           <th>เบอร์โทรศัพท์</th>
           <th>จัดการ</th>
         </tr>
@@ -112,6 +113,7 @@
               rows += '<td><img src="../../assets/images/cat.jpg" alt="avatar"> ' + staff.full_name + '</td>';
               rows += '<td>' + staff.department + '</td>';
               rows += '<td>' + staff.responsibility_area + '</td>';
+              rows += '<td>' + (staff.id_card ? staff.id_card : '-') + '</td>';
               rows += '<td>' + staff.phone_number + '</td>';
               rows += '<td>'+'<button class="action-btn" title="แก้ไขข้อมูล" onclick="editStaff(\'' + staff.id + '\')"><i class="bx bxs-edit"></i></button>';
               rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deleteStaff(\'' + staff.id + '\')"><i class="bx bx-trash"></i></button>';
