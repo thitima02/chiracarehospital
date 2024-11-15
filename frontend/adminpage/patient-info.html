@@ -143,16 +143,9 @@
             rows += '<td>' + patient.emergency_phone + '</td>';
             rows += '<td class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</td>';
 
-<<<<<<< HEAD
-            // แก้ไขจาก patient.id เป็น patient.patient_id หรือชื่อที่ตรงกับฐานข้อมูลจริง
-            rows += '<td>';
-            rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
-            rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.patient_id + '\')"><i class="bx bx-trash"></i></button>';
-=======
             rows += '<td>';
             rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
             rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
->>>>>>> dca6474a504e4996439d093456a970c986004e9f
             rows += '</td>';
             rows += '</tr>';
           });
@@ -188,14 +181,9 @@
     });
 
     // ฟังก์ชันแก้ไขข้อมูลผู้ป่วย
-<<<<<<< HEAD
-    function editPatient(patient_id) {
-      window.location.href = `editaddinfo.html?patient_id=${patient_id}`;
-=======
 
     function editPatient(patient_id) {
       window.location.href = `editaddinfo.html?patient_id=${patient_id}`; // ส่ง patient_id ไปที่ URL
->>>>>>> dca6474a504e4996439d093456a970c986004e9f
     }
 
     // ฟังก์ชันลบข้อมูลผู้ป่วย
@@ -207,9 +195,6 @@
     }
   </script>
 
-<<<<<<< HEAD
-  <!-- filter และเรียงข้อมูล -->
-=======
   <script>
     function getUserIdFromURL() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -241,7 +226,6 @@
 
 
   <!-- fitter เรียงชื่อ  -->
->>>>>>> dca6474a504e4996439d093456a970c986004e9f
   <script>
     // ฟังก์ชันสำหรับกรองชื่อ
     function filterNames() {
@@ -303,10 +287,7 @@
         row.style.display = isVisible ? '' : 'none';
       });
     }
-<<<<<<< HEAD
-=======
     document.addEventListener('DOMContentLoaded', loadUserData);
->>>>>>> dca6474a504e4996439d093456a970c986004e9f
   </script>
 
   <script>
