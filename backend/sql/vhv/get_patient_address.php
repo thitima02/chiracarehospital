@@ -18,12 +18,13 @@ if ($conn) {
                            a.soi, 
                            a.moo, 
                            a.number, 
-                           m.monitor_date, 
+                           a.area,
+                           m.monitor_deadline, 
                            m.monitor_status, 
                            m.monitor_round 
                     FROM patient_information p
-                    JOIN patient_address a ON p.id_patient_address = a.id
-                    JOIN patient_medical_information pm ON p.id_patient_medical_information = pm.id
+                    JOIN patient_address a ON p.patient_id = a.patient_id
+                    JOIN patient_medical_information pm ON p.patient_id = pm.patient_id
                     JOIN monitor_information m ON p.patient_id = m.patient_id
                     WHERE p.patient_id = :patient_id"; // เพิ่ม WHERE เพื่อกรองตาม patient_id
         } else {
@@ -35,8 +36,9 @@ if ($conn) {
                            a.tambon, 
                            a.soi, 
                            a.moo, 
-                           a.number, 
-                           m.monitor_date, 
+                           a.number,
+                           a.area, 
+                           m.monitor_deadline, 
                            m.monitor_status, 
                            m.monitor_round 
                     FROM patient_information p

@@ -153,7 +153,8 @@
                 <tr>
                     <th>รายชื่อผู้ป่วย</th>
                     <th>โรคประจำตัว</th>
-                    <th>กำหนดส่งผลการติดตาม</th>
+                    <th>เขตที่อยู่อาศัย</th>
+                    <th>กำหนดส่งรายงาน</th>
                     <th>ที่อยู่</th>
                     <th>สถานะการติดตาม</th>
                     <th>ครั้งที่ติดตาม</th>
@@ -248,17 +249,20 @@
                                     : patient.monitor_status === "ติดตามล้มเหลว"
                                         ? `<span style="color:red;">ไม่สามารถกรอกข้อมูลได้แล้ว</span>`
                                         : `<a href="form.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}" class="formbutton" title="กรอกข้อมูลการติดตาม">
-                                <i class='bx bxs-edit'></i> กรอกข้อมูลการติดตาม
+                                <i class='bx bxs-report'></i> กรอกข้อมูลการติดตาม
                             </a>`;
+
+                                const statusClass = getStatusClass(patient.monitor_status); // ใช้ฟังก์ชันกำหนดคลาส
 
                                 row.innerHTML = `
                         <td style="text-align: left; padding-left: 40px">
                             <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px;"> ${patient.full_name}
                         </td>
                         <td id='endDate'>${patient.disease_type}</td>
-                        <td id='startDate'>${patient.monitor_deadline}</td>
+                        <td id='Area'>${patient.area}</td>
+                        <td id='Deadline'>${patient.monitor_deadline}</td>
                         <td id='address' style="width:20%">${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
-                        <td id='timesFollowed'>${patient.monitor_status}</td>
+                        <td><span class="status ${statusClass}">${patient.monitor_status || 'ไม่มีข้อมูล'}</span></td>
                         <td id='timesFollowed'>${patient.monitor_round}</td>
                         <td>${actionButton}</td>
                     `;
@@ -266,6 +270,21 @@
                             });
                         } else {
                             tbody.innerHTML = "<tr><td colspan='6'>ยังไม่มีให้กรอกรายงานผลการติดตาม</td></tr>";
+                        }
+                    }
+
+                    function getStatusClass(status) {
+                        switch (status) {
+                            case 'ติดตามแล้ว':
+                                return 'completed';
+                            case 'กำลังติดตาม':
+                                return 'in-progress';
+                            case 'ยังไม่ได้ติดตาม':
+                                return 'uncompleted';
+                            case 'ติดตามล้มเหลว':
+                                return 'failed';
+                            default:
+                                return 'status-unknown'; // กรณีไม่มีข้อมูล
                         }
                     }
 
@@ -358,7 +377,7 @@
             .then(data => {
                 document.getElementById('topbar-container').innerHTML = data;
                 // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-                document.getElementById('page-title').textContent = 'หน้าหลัก';
+                document.getElementById('page-title').textContent = 'รายงานผลการติดตาม';
                 // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
                 // Re-run user.js script after loading topbar
