@@ -70,14 +70,14 @@
   }
 
   .status.sucess {
-    background-color: #E3F5FF;
-    color: #5D97EF;
+    background-color: #d4f7ff;
+    color: #2f7d8f;
     font-weight: bold;
   }
 
   .status.unsucess {
-    background-color: #dddddd;
-    color: #626262;
+    background-color: #ffdfe4;
+    color: #ae5c67;
     font-weight: bold;
   }
 

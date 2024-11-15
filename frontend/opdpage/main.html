@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/datatable.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
 
     <!-- Import icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -193,8 +194,7 @@
                     <th>ประเภทผู้ป่วย</th>
                     <th>วันนัดหมาย</th>
                     <th>ครั้งที่รักษา</th>
-                    <th>สถานะการติดตาม</th>
-                    <th>สถานะการรักษา</th>
+                    <th>สถานะเข้ารับการรักษา</th>
                     <th>จัดการ</th>
                 </tr>
             </thead>
@@ -212,8 +212,7 @@
                     const tbody = document.querySelector(".patient-table tbody");
                     tbody.innerHTML = ""; // Clear existing rows
 
-                    // กรองข้อมูลเพื่อแสดงเฉพาะคนที่สถานะการติดตามเป็น "ติดตามแล้ว"
-                    const filteredData = data.filter(patient => patient.follow_up_status === "ติดตามแล้ว");
+                    const filteredData = data; // แสดงข้อมูลทั้งหมดโดยไม่กรอง
 
                     // วนลูปข้อมูลที่กรองแล้วเพื่อแสดงในตาราง patient_name
                     filteredData.forEach(patient => {
@@ -235,13 +234,12 @@
     <td>${patient.patient_type || 'ไม่มี'}</td>
     <td>${patient.appointment_date || 'ไม่มี'}</td>
     <td>${patient.treatment_round || 'ไม่มีข้อมูล'}</td>
-    <td><span class="status ${followUpStatusClass}">${patient.follow_up_status || 'ไม่มีข้อมูล'}</span></td>
     <td><span class="status ${treatmentStatusClass}">${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>
     <td>
         <div class="Actionbutton" data-patient-id="${patient.patient_id}" ${isTreated ? 'disabled style="opacity: 0.5;"' : ''}>
             <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" 
         onclick="window.location.href='addappointment.html?patient_id=${encodeURIComponent(patient.patient_id)}&name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'">
-    <i class='bx bx-file'></i>
+    <span class="mdi mdi-file-edit"></span>
 </button>
             <button class="action-btn" title="คลิกเพื่อยืนยัน" onclick="confirmMakeDone(${patient.patient_id})">
                                 <i class='bx bx-check'></i>
@@ -273,19 +271,9 @@
         // Status color
         function getStatusClass(status) {
             switch (status) {
-                case 'ยังไม่ได้ติดตาม':
-                    return 'other';
-                case 'กำลังติดตาม':
-                    return 'other';
-                case 'ติดตามแล้ว':
-                    return 'other';
-                case 'ติดตามล้มเหลว':
-                    return 'other';
-                case 'ยังไม่ได้รักษา':
+                case 'ไม่มาตามนัด':
                     return 'unsucess';
-                case 'นัดติดตามต่อเนื่อง':
-                    return 'continue';
-                case 'รักษาเสร็จสิ้น':
+                case 'มาตามนัด':
                     return 'sucess';
             }
         }
