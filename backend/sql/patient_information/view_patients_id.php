@@ -3,6 +3,7 @@ header('Content-Type: application/json'); // กำหนดให้ response �
 require_once '../db_connection.php'; // นำเข้าไฟล์เชื่อมต่อฐานข้อมูล
 
 $response = []; // ตัวแปรสำหรับเก็บข้อมูล response
+$user_id = $_GET['user_id'];
 
 try {
     // คำสั่ง SQL สำหรับดึงข้อมูลที่ต้องการจากตาราง patient_information
@@ -26,6 +27,12 @@ try {
         patient_address pa ON pi.patient_id = pa.patient_id
     JOIN
         patient_medical_information pm ON pi.patient_id = pm.patient_id
+    
+   WHERE NOT EXISTS (
+    SELECT 1
+    FROM assign_patients_to_vhv ap WHERE ap.user_id = {$user_id}
+    AND pi.patient_id = ap.patient_id
+);
     ");
 
     $stmt->execute();

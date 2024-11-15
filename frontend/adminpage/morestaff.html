@@ -47,12 +47,12 @@
                     <thead>
                         <tr>
                             <th style="padding-right: 5px;">สถานะ</th>
-                            <th style="padding-right: 5px;">เขตที่รับผิดชอบ</th>
+                            <th style="padding-right: 5px; ">เขตที่รับผิดชอบ</th>
                             <th style="padding-right: 5px;">เบอร์โทรศัพท์</th>
                         </tr>
                     </thead>
                     <tbody id="staff-details">
-
+                        
                     </tbody>
                 </table>
             </div>
@@ -61,52 +61,44 @@
             <div class="filter-container">
                 <div class="filter-item search-bar">
                     <h5>ค้นหารายชื่อ</h5>
-                    <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+                    <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientTable" oninput="filterDatatable()">
                     <i class='bx bx-search search-icon'></i>
                 </div>
                 <div class="filter-item">
                     <h5>โรคของผู้ป่วย</h5>
-                    <select class="dropdown-filter" id="treatmentCountFilter">
+                    <select class="dropdown-filter" id="diseaseFilter" onchange="filterDatatable()">
                         <option value="ทั้งหมด">ทั้งหมด</option>
-                        <option value="1">ความดันโลหิตสูง</option>
-                        <option value="2">โรคอ้วน</option>
-                        <option value="3">ไขมันในเลือดสูง</option>
-                        <option value="4">โรคเบาหวาน</option>
-                        <option value="5">CVD Risk</option>
-                        <option value="6">โรคไต</option>
+                        <option value="โรคความดันโลหิตสูง">โรคความดันโลหิตสูง</option>
+                        <option value="โรคอ้วน">โรคอ้วน</option>
+                        <option value="โรคไขมันในเลือดสูง">โรคไขมันในเลือดสูง</option>
+                        <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+                        <option value="CVD Risk">CVD Risk</option>
+                        <option value="โรคไต">โรคไต</option>
                         <!-- Add other options as needed -->
                     </select>
                 </div>
                 <div class="filter-item">
                     <h5>ประเภทผู้ป่วย</h5>
-                    <select class="dropdown-filter" id="treatmentCountFilter">
+                    <select class="dropdown-filter" id="typepatientFilter" onchange="filterDatatable()"> 
                         <option value="ทั้งหมด">ทั้งหมด</option>
-                        <option value="1">กำลังพล</option>
-                        <option value="2">ประชาชน</option>
-                        <option value="3">ครอบครัว</option>
+                        <option value="กำลังพล">กำลังพล</option>
+                        <option value="ประชาชน">ประชาชน</option>
+                        <option value="ครอบครัว">ครอบครัว</option>
                         <!-- Add other options as needed -->
                     </select>
                 </div>
                 <div class="filter-item">
                     <h5>กลุ่มผู้ป่วย</h5>
-                    <select class="dropdown-filter" id="followUpStatusFilter">
+                    <select class="dropdown-filter" id="patientgroupFilter" onchange="filterDatatable()">
                         <option value="ทั้งหมด">กลุ่มผู้ป่วย</option>
                     </select>
                 </div>
                 <div class="filter-item">
                     <h5>เขตที่รับผิดชอบ</h5>
-                    <select class="dropdown-filter" id="treatmentStatusFilter">
+                    <select class="dropdown-filter" id="searchArea" onchange="filterDatatable()">
                         <option value="ทั้งหมด">ทั้งหมด</option>
                         <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
+                        <option value="นอกเขต">นอกเขต</option>
                     </select>
                 </div>
                 <button class="add-icon">
@@ -114,20 +106,26 @@
                         <i class='bx bx-user-plus'></i>
                     </a>
                 </button>
+                <tbody id="patient-info-body">
+                    <!-- Patient rows will be dynamically inserted here -->
+                </tbody>
             </div>
         </div>
     </container>
 
 
     <!-- Popup -->
-    <div class="popup-overlay" id="popupOverlay">
+    <div class="popup-overlay" id="popupOverlay" >
         <div class="popup-content">
+            <div style="text-align: right;">
+                <button class="close-btn" onclick="outsideClosePopup()">X</button>
+            </div>
             <div class="popup-header">
-                <input type="text" placeholder="ค้นหารายชื่อ">
-                <select>
-                    <option value="เขต 1">เขต 1</option>
-                    <option value="เขต 2">เขต 2</option>
-                    <option value="เขต 3">เขต 3</option>
+                <input type="text" placeholder="ค้นหารายชื่อ" id="searchPatientInput" oninput="filterData()">
+                <select id="areaSelect" onchange="filterData()">
+                    <option value="ทั้งหมด">เขตทั้งหมด</option>
+                    <option value="1">เขต 1</option>
+                    <option value="นอกเขต">นอกเขต</option>
                 </select>
             </div>
             <div class="patient-list">
@@ -136,6 +134,10 @@
                         <tr>
                             <th>รหัสไอดี</th>
                             <th>รายชื่อผู้ป่วย</th>
+                            <th style="display:none;">โรคของผู้ป่วย</th>
+                            <th style="display:none;">ประเภทผู้ป่วย</th>
+                            <th style="display:none;">กลุ่มผู้ป่วย</th>
+                            <th>เขต</th>
                             <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
                         </tr>
                     </thead>
@@ -157,8 +159,8 @@
         <table class="patient-table">
             <thead>
                 <tr>
-                    <th>รายชื่อผู้ป่วย</th>
                     <th>รหัสไอดีผู้ป่วย</th>
+                    <th>รายชื่อผู้ป่วย</th>
                     <th>โรคของผู้ป่วย</th>
                     <th>ประเภทผู้ป่วย</th>
                     <th>กลุ่มผู้ป่วย</th>
@@ -166,34 +168,32 @@
                     <th>จัดการ</th>
                 </tr>
             </thead>
-            <tbody id="patient-info-body">
+            <tbody id="patient-info-table">
                 <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
             </tbody>
         </table>
     </div>
 
     <script>
-        function editStaff(id) {
-            window.location.href = `editaddstaff.html?id=${id}`;
-        }
-
-        function moreStaff(id) {
-            window.location.href = `morestaff.html?id=${id}`;
-        }
-
         function getUserIdFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('id');
         }
 
+        var departmentname = "-";
+        var responsibility_vhv ="";
+
         function loadUserData() {
             const userId = getUserIdFromURL();
             if (userId) {
-                fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser.php?id=${userId}`)
+                fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser_vhv.php?id=${userId}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
                             const user = data.data;
+                            departmentname = user.department;
+                            responsibility_vhv = user.responsibility_area;
+
                             document.getElementById('staff-name').textContent = user.full_name;
 
                             const tbody = document.getElementById('staff-details');
@@ -205,6 +205,30 @@
                         </tr>`;
                         } else {
                             alert(data.message); // แจ้งเตือนถ้าข้อมูลผิดพลาด
+                        }
+                    })
+                    .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+
+                fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/viewAll_patients_id.php?user_id=${userId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            const patients = data.data;
+                            let rows = "";
+                            patients.forEach(patient => {
+                                rows += `
+                            <tr>
+                                <td>${patient.patient_id}</td>
+                                <td>${patient.full_name}</td>
+                                <td>${patient.disease_type}</td>
+                                <td>${patient.patient_type}</td>
+                                <td>${patient.patient_group}</td>
+                                <td>${patient.Area}</td>
+                                <td><button class="action-btn" title="แก้ไขข้อมูล" onclick="deleteAssign(${patient.patient_id})"><i class="bx bx-trash"></i></button></td>
+                            </tr>
+                        `;
+                            });
+                            document.getElementById("patient-info-table").innerHTML = rows;
                         }
                     })
                     .catch(error => console.error('เกิดข้อผิดพลาด:', error));
@@ -264,108 +288,164 @@
     <script>
         // Open Popup
         function openPopup() {
+           
             document.getElementById("popupOverlay").style.display = "flex";
+
+            const userId = getUserIdFromURL();
+            // เรียกข้อมูลจาก API เมื่อเปิด Popup
+            fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/view_patients_id.php?user_id=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const patients = data.data;
+                        let rows = "";
+                        patients.forEach(patient => {
+                            rows += `
+                            <tr>
+                                <td>${patient.patient_id}</td>
+                                <td>${patient.full_name}</td>
+                                <td style="display:none;">${patient.disease_type}</td>
+                                <td style="display:none;">${patient.patient_type}</td>
+                                <td style="display:none;">${patient.patient_group}</td>
+                                <td>${patient.Area}</td>
+                                <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
+                            </tr>
+                        `;
+                        });
+                        document.getElementById("patient-info-body").innerHTML = rows;
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+
         }
 
-        // Close Popup
-        function closePopup() {
+        function outsideClosePopup() {
             document.getElementById("popupOverlay").style.display = "none";
         }
 
-        // Toggle All Checkbox
-        function toggleSelectAll() {
-            const selectAllCheckbox = document.getElementById("selectAll");
-            const checkboxes = document.querySelectorAll('.patient-checkbox');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = selectAllCheckbox.checked;
+        function closePopup() {
+            // ตรวจสอบว่าเมื่อมีการกดปุ่มยืนยันใน popupOverlay
+            const popupOverlay = document.getElementById("popupOverlay");
+            const checkboxes = popupOverlay.querySelectorAll(".patient-checkbox:checked"); // เลือกเฉพาะ checkbox ที่ถูกเลือก
+            let rows = "";
+
+            checkboxes.forEach((checkbox) => {
+                const row = checkbox.closest('tr'); // หาแถวที่ checkbox อยู่
+                const patientID = row.cells[0].textContent;  // ID ผู้ป่วย
+                const patientName = row.cells[1].textContent; // ชื่อผู้ป่วย
+                const disease_type = row.cells[2].textContent; // กลุ่มโรคผู้ป่วย
+                const patient_type = row.cells[3].textContent; // ประเภทผู้ป่วย
+                const patient_group = row.cells[4].textContent; // กลุ่มผู้ป่วย
+                const patientArea = row.cells[5].textContent; // เขตที่รับผิดชอบ
+
+                const userId = getUserIdFromURL();
+                fetch(`http://localhost/chiracarehospital/backend/sql/users/addAssign_vhv.php?user_id=${userId}&patient_id=${patientID}&user_department=${departmentname}&user_responsibility_area=${responsibility_vhv}&patient_address_area=${patientArea}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const patient = data.data.find(p => p.patient_id === patientID);
+                        return patient || {}; // ส่งคืนข้อมูลที่ตรงกับ ID
+                    })
+                    .catch(error => console.error('Error fetching patient data:', error));
+
+                // ดึงข้อมูลเพิ่มเติมจาก API
+                // const patientData = fetchPatientData(patientID);
+
+                // สร้างแถวใหม่สำหรับแสดงในตารางหลัก
+                rows += `
+                <tr>
+                    <td>${patientID}</td>
+                    <td>${patientName}</td>
+                    <td>${disease_type}</td>
+                    <td>${patient_type}</td>
+                    <td>${patient_group}</td>
+                    <td>${patientArea}</td>
+                    <td><button class="action-btn" title="แก้ไขข้อมูล" onclick="deleteAssign(${patientID})"><i class="bx bx-trash"></i></button></td>
+                </tr>
+            `;
             });
-            updateSelectedCount();
+
+            // แสดงข้อมูลที่เลือกใน datatable #patient-info-body
+            document.getElementById("patient-info-table").innerHTML = rows;
+
+            // ปิด popupOverlay
+            popupOverlay.style.display = "none";
+            location.reload();
         }
 
-        // Update Selected Count
-        function updateSelectedCount() {
-            const checkboxes = document.querySelectorAll('.patient-checkbox');
-            const selectedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
-            const selectedCountText = document.getElementById("selectedCount");
+        // Function to fetch patient data based on patient ID
+        function fetchPatientData(patientID) {
+            fetch('http://localhost/chiracarehospital/backend/sql/users/addAssign_vhv.php')
+                .then(response => response.json())
+                .then(data => {
+                    const patient = data.data.find(p => p.patient_id === patientID);
+                    return patient || {}; // ส่งคืนข้อมูลที่ตรงกับ ID
+                })
+                .catch(error => console.error('Error fetching patient data:', error));
+        }
 
-            // Update the select-all checkbox based on individual checkboxes
-            const selectAllCheckbox = document.getElementById("selectAll");
-            selectAllCheckbox.checked = selectedCount === checkboxes.length;
+        function deleteAssign(patientID) {
+            if (confirm('คุณแน่ใจว่าต้องการลบข้อมูลนี้?')) {
+                const userId = getUserIdFromURL();
 
-            if (selectedCount === checkboxes.length) {
-                selectedCountText.textContent = "เลือกทั้งหมด";
-            } else {
-                selectedCountText.textContent = `เลือกเพิ่มทั้งหมด ${selectedCount} รายการ`;
+                // ส่งคำขอลบไปยัง API
+                $.ajax({
+                    url: 'http://localhost/chiracarehospital/backend/sql/users/deleteAssign_vhv.php',
+                    method: 'GET',
+                    data: {
+                        patient_id: patientID,
+                        user_id: userId,
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            // รีโหลดหน้าเว็บหลังจากลบสำเร็จ
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
             }
         }
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            // Fetch data from API once the page is loaded
-            $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
-                if (response.status === 'success') {
-                    var patients = response.data;
-                    var rows = '';
-
-                    // Loop through each patient data to create table rows
-                    patients.forEach(function (patient) {
-                        rows += '<tr>';
-                        rows += '<td>' + patients.full_name + '</td>';
-                        rows += '<td>' + patients.birth_date+ '</td>';
-                        rows += '<td>' + patients.id_card + '</td>';
-                        rows += '<td>' + patients.phone_number + '</td>';
-                        rows += '<td>' + patients.emergency_phone + '</td>';
-
-                        rows += '<td>';
-                        
-                        rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
-                        rows += '</td>';
-                        rows += '</tr>';
-                    });
-
-                    // Insert the rows into the table body
-                    $('#patient-info-body').html(rows);
-                } else {
-                    alert(response.message);
-                }
-            });
-        });
 
     </script>
 
+
+    <!-- ของ อสม ข้างบน ที่เป็น Card  -->
     <script>
         $(document).ready(function () {
             // Fetch data from API when page loads
-            $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
-                if (response.status === 'success') {
-                    var patients = response.data;
-                    var rows = '';
+            // $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+            //     if (response.status === 'success') {
+            //         var patients = response.data;
+            //         var rows = '';
 
-                    // Loop through each patient data to create table rows
-                    patients.forEach(function (patient) {
-                        rows += '<tr>';
-                        rows += '<td>' + patient.patient_id + '</td>';  // Patient ID
-                        rows += '<td>' + patient.full_name + '</td>';     // Full name
-                        rows += '<td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>';
-                        rows += '</tr>';
-                    });
+            //         // Loop through each patient data to create table rows
+            //         patients.forEach(function (patient) {
+            //             rows += '<tr>';
+            //             rows += '<td>' + patient.patient_id + '</td>';  // Patient ID
+            //             rows += '<td>' + patient.full_name + '</td>';     // Full name
+            //             rows += '<td>' + patient.Area + '</td>';     // address_area
+            //             rows += '<td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>';
+            //             rows += '</tr>';
+            //         });
 
-                    // Insert the rows into the table body
-                    $('#patient-info-body').html(rows);
-                } else {
-                    alert(response.message);
-                }
-            });
+            //         // Insert the rows into the table body
+            //         $('#patient-info-body').html(rows);
+            //     } else {
+            //         alert(response.message);
+            //     }
+            // });
         });
 
         // Update selected count based on checkbox clicks
         function updateSelectedCount() {
+            
             var selectedCount = document.querySelectorAll('.patient-checkbox:checked').length;
             document.getElementById('selectedCount').innerText = 'เลือกเพิ่มทั้งหมด ' + selectedCount + ' รายการ';
         }
 
-        // Select or deselect all checkboxes
         function toggleSelectAll() {
             var checkboxes = document.querySelectorAll('.patient-checkbox');
             var selectAllCheckbox = document.getElementById('selectAll');
@@ -375,7 +455,81 @@
             updateSelectedCount();
         }
 
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.patient-checkbox').forEach(function (checkbox) {
+                checkbox.addEventListener('change', updateSelectedCount);
+            });
+            filterData();
+        });
+
+        // filter data 
+
+        function filterData() {
+            // รับค่า input ของชื่อที่ต้องการค้นหา
+            var searchValue = document.getElementById('searchPatientInput').value.toLowerCase();
+
+            // รับค่าของ option ที่เลือกใน select
+            var selectedArea = document.getElementById('areaSelect').value;
+
+            // ดึงข้อมูลผู้ป่วยทั้งหมดในตาราง
+            var rows = document.querySelectorAll('#patient-info-body tr');
+
+            rows.forEach(function (row) {
+                var patientName = row.cells[1].innerText.toLowerCase(); // ชื่อผู้ป่วย
+                var area = row.cells[5].innerText; // เขตที่ผู้ป่วยอาศัย
+
+                // ตรวจสอบเงื่อนไขการค้นหาและกรองข้อมูล
+                var isNameMatch = patientName.includes(searchValue);
+                var isAreaMatch = selectedArea === "ทั้งหมด" || area === selectedArea;
+
+                // แสดงหรือซ่อนแถวตามเงื่อนไขการกรอง
+                if (isNameMatch && isAreaMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterDatatable() {
+            // รับค่า input ของชื่อที่ต้องการค้นหา
+            var searchValue = document.getElementById('searchPatientTable').value.toLowerCase();
+
+            // รับค่าของ option ที่เลือกใน select
+            var selectAreas = document.getElementById('searchArea').value;
+            var selectDisease = document.getElementById('diseaseFilter').value;
+            var selectTypepatient = document.getElementById('typepatientFilter').value;
+            var selectGrouppatient = document.getElementById('patientgroupFilter').value;
+
+            // ดึงข้อมูลผู้ป่วยทั้งหมดในตาราง
+            var rows = document.querySelectorAll('#patient-info-table tr');
+
+            rows.forEach(function (row) {
+                var patientName = row.cells[1].innerText.toLowerCase(); // ชื่อผู้ป่วย
+                var disease = row.cells[2].innerText; // เขตที่ผู้ป่วยอาศัย
+                var typepatient = row.cells[3].innerText; // เขตที่ผู้ป่วยอาศัย
+                var grouppatient = row.cells[4].innerText; // เขตที่ผู้ป่วยอาศัย
+                var area = row.cells[5].innerText; // เขตที่ผู้ป่วยอาศัย
+
+                // ตรวจสอบเงื่อนไขการค้นหาและกรองข้อมูล
+                var isNameMatch = patientName.includes(searchValue);
+                var isAreaMatch = selectAreas === "ทั้งหมด" || area === selectAreas;
+                var isDiseaseMatch = selectDisease === "ทั้งหมด" || disease === selectDisease;
+                var isTypepatientMatch = selectTypepatient === "ทั้งหมด" || typepatient === selectTypepatient;
+                var isGrouppatientMatch = selectGrouppatient === "ทั้งหมด" || grouppatient === selectGrouppatient;
+
+                // แสดงหรือซ่อนแถวตามเงื่อนไขการกรอง
+                if (isNameMatch && isAreaMatch && isDiseaseMatch && isTypepatientMatch && isGrouppatientMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
     </script>
+
+
 
 </body>
 
