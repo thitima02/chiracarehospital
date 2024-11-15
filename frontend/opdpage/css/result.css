@@ -71,3 +71,90 @@
   color: #FA5A7D;
   margin: 0 10px;
 }
+
+/* Popup modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+}
+
+/* คอนเทนเนอร์ของ Modal */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ปุ่มปิด Modal */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* จัดสไตล์ตารางใน Modal */
+.patientTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.patientTable th,
+.patientTable td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+/* สำหรับตารางในป๊อปอัพผู้ป่วยที่รักษาเสร็จสิ้น */
+.treatedModal .patientTable th {
+  background-color: #16bc19; /* สีเขียว */
+  color: white;
+}
+
+/* สำหรับตารางในป๊อปอัพผู้ป่วยที่ยังไม่ได้รับการรักษา */
+.untreatedModal .patientTable th {
+  background-color: #FA5A7D; /* สีแดง */
+  color: white;
+}
+
+.patientTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.patientTable tr:hover {
+  background-color: #ddd;
+}
+
+/* เพิ่ม cursor เป็นรูปมือ */
+.stats-container .box {
+  cursor: pointer;
+}
+
+.box.new {
+  cursor: default;
+  /* ไม่มีการเปลี่ยนแปลงเคอร์เซอร์ */
+}
+
+
