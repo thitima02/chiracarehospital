@@ -42,7 +42,7 @@
                 <i class='bx bx-user'></i>
                 <div>
                     <h2 id="totalAppointments">0 คน</h2>
-                    <p>ผู้ป่วยทั้งหมดที่ต้องเข้ารักษาการรักษาวันนี้</p>
+                    <p></p>
                 </div>
             </div>
 
@@ -106,6 +106,24 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // ฟังก์ชันแปลงวันที่เป็นรูปแบบ "วันที่ เดือน ปี"
+            function formatDateThai(date) {
+                const months = [
+                    "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+                    "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+                ];
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                const year = date.getFullYear() + 543; // เพิ่ม 543 เพื่อแปลงเป็นปี พ.ศ.
+                return `วันที่ ${day} ${month} ${year}`;
+            }
+
+            // แสดงวันที่ปัจจุบันในข้อความ
+            const currentDate = new Date();
+            const formattedDate = formatDateThai(currentDate);
+            const totalAppointmentsText = document.querySelector("#totalAppointmentsBox p");
+            totalAppointmentsText.textContent = `ผู้ป่วยทั้งหมดที่มีนัดรักษา${formattedDate}`;
+
             // ดึงข้อมูลจำนวนผู้ป่วยทั้งหมด
             fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_appointments.php")
                 .then(response => response.json())
@@ -301,50 +319,74 @@
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.querySelector(".patient-table tbody");
-                    tbody.innerHTML = ""; // Clear existing rows
+                    tbody.innerHTML = ""; // ล้างข้อมูลที่มีอยู่ในตาราง
 
-                    // กรองข้อมูลตามวันที่ปัจจุบัน
-                    const today = new Date().toISOString().split('T')[0]; // วันที่ปัจจุบันในรูปแบบ YYYY-MM-DD
+                    // กรองข้อมูลตามวันที่ปัจจุบัน 
+                    const today = new Date(); // วันที่ปัจจุบัน
+                    const formattedDate = formatDateThai(today); // แปลงวันที่ปัจจุบันเป็น "วันที่ เดือน ปี"
+                    const todayISO = today.toISOString().split('T')[0]; // วันที่ในรูปแบบ ISO YYYY-MM-DD
                     const filteredData = data.filter(patient => {
                         const appointmentDate = new Date(patient.appointment_date).toISOString().split('T')[0];
-                        return appointmentDate === today; // ตรวจสอบว่า appointment_date ตรงกับวันที่ปัจจุบันหรือไม่
+                        return appointmentDate === todayISO; // ตรวจสอบว่า appointment_date ตรงกับวันที่ปัจจุบันหรือไม่
                     });
 
-                    // วนลูปข้อมูลที่กรองแล้วเพื่อแสดงในตาราง patient_name
-                    filteredData.forEach(patient => {
-                        const followUpStatusClass = getStatusClass(patient.follow_up_status);
-                        const treatmentStatusClass = getStatusClass(patient.treatment_status);
+                    // ตรวจสอบว่ามีข้อมูลที่กรองหรือไม่
+                    if (filteredData.length > 0) {
+                        // วนลูปข้อมูลที่กรองแล้วเพื่อแสดงในตาราง
+                        filteredData.forEach(patient => {
+                            const followUpStatusClass = getStatusClass(patient.follow_up_status);
+                            const treatmentStatusClass = getStatusClass(patient.treatment_status);
 
-                        const imageUrl = patient.patient_image
-                            ? `data:image/jpeg;base64,${patient.patient_image}`
-                            : '../../assets/images/cat.jpg';
+                            const imageUrl = patient.patient_image
+                                ? `data:image/jpeg;base64,${patient.patient_image}`
+                                : '../../assets/images/cat.jpg';
 
-                        const row = document.createElement("tr");
-                        const isTreated = patient.treatment_status === "รักษาเสร็จสิ้น";
-                        row.innerHTML = `
-                    <td style="text-align: left; padding-left: 40px">
-                        <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
-                        ${patient.patient_name || 'ไม่มีข้อมูล'}
-                    </td>
-                    <td>${patient.disease_type || 'ไม่ทราบ'}</td>
-                    <td>${patient.patient_type || 'ไม่มี'}</td>
-                    <td>${patient.appointment_date || 'ไม่มี'}</td>
-                    <td>${patient.treatment_round || 'ไม่มีข้อมูล'}</td>
-                    <td><span class="status ${treatmentStatusClass}">${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>
-                    <td>
-                        <div class="Actionbutton" data-patient-id="${patient.patient_id}" ${isTreated ? 'disabled style="opacity: 0.5;"' : ''}>
-                            <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" 
-                                onclick="window.location.href='addappointment.html?patient_id=${encodeURIComponent(patient.patient_id)}&name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'">
-                                <span class="mdi mdi-file-edit"></span>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                        tbody.appendChild(row);
-                    });
+                            const appointmentDateTime = new Date(patient.appointment_date); // เวลานัดหมาย
+                            const currentDateTime = new Date(); // เวลาปัจจุบัน
+                            const isActionEnabled = currentDateTime >= appointmentDateTime && patient.treatment_status === "ไม่มาตามนัด";
+
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+        <td style="text-align: left; padding-left: 40px">
+            <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
+            ${patient.patient_name || 'ไม่มีข้อมูล'}
+        </td>
+        <td>${patient.disease_type || 'ไม่ทราบ'}</td>
+        <td>${patient.patient_type || 'ไม่มี'}</td>
+        <td>${patient.appointment_date || 'ไม่มี'}</td>
+        <td>${patient.treatment_round || 'ไม่มีข้อมูล'}</td>
+        <td><span class="status ${treatmentStatusClass}">${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>
+        <td>
+            <div class="Actionbutton" data-patient-id="${patient.patient_id}" 
+                ${isActionEnabled ? "" : 'style="opacity: 0.5;" disabled'}>
+                <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" 
+                    ${isActionEnabled ? `onclick="window.location.href='addappointment.html?patient_id=${encodeURIComponent(patient.patient_id)}&name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'"` : ''}>
+                    <span class="mdi mdi-file-edit"></span>
+                </button>
+            </div>
+        </td>
+    `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        // กรณีไม่มีข้อมูล แสดงข้อความในตาราง
+                        tbody.innerHTML = `<tr><td colspan='7' style='text-align: center;'>ไม่มีผู้ป่วยที่ต้องเข้ารับการรักษาใน${formattedDate}</td></tr>`;
+                    }
                 })
                 .catch(error => console.error("Error fetching data:", error));
         });
+
+        // ฟังก์ชันแปลงวันที่เป็น "วันที่ เดือน ปี"
+        function formatDateThai(date) {
+            const months = [
+                "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+                "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+            ];
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear() + 543; // แปลงปีเป็น พ.ศ.
+            return `วันที่ ${day} ${month} ${year}`;
+        }
 
         // action add 
         function confirmAction(patientId) {
@@ -371,48 +413,6 @@
             }
         }
 
-    </script>
-
-    <script>
-        function updateTreatmentStatus(patientId, confirmationTime, incrementRound) {
-            if (!patientId) {
-                alert("ไม่พบ patient_id");
-                return;
-            }
-
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost/chiracarehospital/backend/sql/opd/update_treatment_status.php", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            const params = JSON.stringify({
-                patient_id: patientId,
-                confirmed_at: confirmationTime,
-                increment_round: incrementRound // ส่งข้อมูลเพิ่มรอบการรักษา
-            });
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        try {
-                            const response = JSON.parse(xhr.responseText);
-                            if (response.status === "success") {
-                                alert(response.message);
-                                // รีเฟรชหน้าเว็บเมื่อสถานะการรักษาอัปเดตสำเร็จ
-                                window.location.reload();
-                            } else {
-                                alert(response.message);
-                            }
-                        } catch (error) {
-                            alert("เกิดข้อผิดพลาดในการประมวลผลข้อมูล: " + error.message);
-                        }
-                    } else {
-                        alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์: " + xhr.status);
-                    }
-                }
-            };
-
-            xhr.send(params);
-        }
     </script>
 
     <script>

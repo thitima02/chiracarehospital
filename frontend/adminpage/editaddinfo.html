@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +12,6 @@
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
@@ -35,17 +33,6 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-=======
-</head>
-
-<body style="background-color:#edeff1;">
-  <!-- Sidebar will be loaded here -->
-  <div id="sidebar-container"></div>
-
-  <!-- Topbar will be loaded here -->
-  <div id="topbar-container"></div>
-
->>>>>>> dca6474a504e4996439d093456a970c986004e9f
   <div class="container">
     <div class="step-indicator">
       <div class="step active">1 ข้อมูลส่วนตัว</div>
@@ -63,7 +50,6 @@
       </div>
       <div class="form-group">
         <label for="name">ชื่อ - นามสกุล</label>
-<<<<<<< HEAD
         <input type="text" id="name" required>
 
         <label for="id-number">เลขบัตรประชาชน</label>
@@ -83,26 +69,6 @@
 
         <div class="button">
           <button type="button" onclick="savePatientInfo()">บันทึก</button>
-=======
-        <input type="text" id="name" readonly>
-
-        <label for="id-number">เลขบัตรประชาชน</label>
-        <input type="text" id="id-card" readonly>
-
-        <label for="age">อายุ</label>
-        <input type="text" id="age" placeholder="ปปป">
-
-        <label for="birthdate">วันเกิด</label>
-        <input type="date" id="birthdate" >
-
-        <label for="phonenumber">เบอร์โทรศัพท์</label>
-        <input type="text" id="phonenumber" readonly>
-
-        <label for="emergency-phone">เบอร์โทรศัพท์ฉุกเฉิน</label>
-        <input type="text" id="emergency-phone" readonly>
-
-        <div class="button">
->>>>>>> dca6474a504e4996439d093456a970c986004e9f
           <button type="button" class="next-btn" id="nextBtn">ถัดไป</button>
         </div>
       </div>
@@ -110,7 +76,6 @@
   </div>
 
   <script>
-<<<<<<< HEAD
     // แสดงตัวอย่างรูปภาพที่อัปโหลด
     function previewImage(event) {
       const imagePreview = document.getElementById('image-preview');
@@ -200,26 +165,6 @@
     // Load sidebar
     fetch('sidebar.html')
       // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
-=======
-    // ฟังก์ชันแก้ไขข้อมูล
-    function editPatient(id) {
-      if (id) {
-        console.log("Editing Patient ID:", patient_id);  // เช็คค่า ID ที่ส่งเข้ามา
-        window.location.href = `editaddinfo.html?patient_id=${patient_id}`;
-
-      } else {
-        console.error("ไม่พบ ID ของผู้ป่วย"); // แจ้งเตือนหาก id ไม่ถูกต้อง
-      }
-    }
-
-
-    function morePatient(id) {
-      window.location.href = `morestaff.html?id=${id}`;
-    }
-
-    // Load sidebar
-    fetch('sidebar.html')
->>>>>>> dca6474a504e4996439d093456a970c986004e9f
       .then(response => response.text())
       // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
@@ -240,7 +185,6 @@
         document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย';
         // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
-<<<<<<< HEAD
         // Re-run user.js script after loading topbar
         const script = document.createElement('script');
         // สร้างแท็ก script ใหม่
@@ -250,83 +194,6 @@
         // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
       });
   </script>
-=======
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-      //acton image
-      function previewImage(event) {
-        const imagePreview = document.getElementById('image-preview');
-        imagePreview.src = URL.createObjectURL(event.target.files[0]);
-      }
-    }
-    document.getElementById('nextBtn').addEventListener('click', function () {
-      // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html
-      window.location.href = 'editaddinfo2.html';
-    });
-  </script>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const patientId = getPatientIdFromURL(); // ดึง patient_id จาก URL หรือฟังก์ชันที่กำหนดเอง
-      fetchPatientInformation(patientId);
-    });
-
-    function getPatientIdFromURL() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('patient_id'); // ดึง patient_id จาก query string ของ URL
-    }
-
-    function fetchPatientInformation(patientId) {
-      fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getOnePatients.php?patient_id=${patientId}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success') {
-            displayPatientInformation(data.data); // แสดงข้อมูลผู้ป่วยรายแรก
-          } else {
-            console.error('ไม่พบข้อมูลผู้ป่วย');
-          }
-        })
-        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-    }
-
-    function displayPatientInformation(patient) {
-      document.getElementById('name').value = patient.full_name;
-      document.querySelector('#phonenumber').value = patient.phone_number || '';
-      document.querySelector('#emergency-phone').value = patient.emergency_phone || '';
-      document.querySelector('#id-card').value = patient.id_card || '';
-    }
-
-    function fetchMonitorFormData(patientId) {
-      fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getOnePatients.php?patient_id=${patientId}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success') {
-            displayMonitorFormData(data.data); // แสดงข้อมูลจากรายการแรก
-          } else {
-            console.error('ไม่พบข้อมูล');
-          }
-        })
-        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-    }
-
-  </script>
-
-
->>>>>>> dca6474a504e4996439d093456a970c986004e9f
 </body>
 
 </html>
