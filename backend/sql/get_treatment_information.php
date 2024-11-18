@@ -13,10 +13,9 @@ try {
             id_patient_information, 
             id_user_info, 
             id_treatment_form, 
-            id_monitor_information, 
-            is_cure_done
+            id_monitor_information
         FROM treatment_information
-        GROUP BY patient_id, treatment_status, id_patient_information, id_user_info, id_treatment_form, id_monitor_information, is_cure_done
+        GROUP BY patient_id, treatment_status, id_patient_information, id_user_info, id_treatment_form, id_monitor_information
     ");
     $stmt->execute();
 
