@@ -134,7 +134,7 @@
 
     // ฟังก์ชันย้อนกลับ
     function goBack() {
-      window.location.href = 'http://localhost/chiracarehospital/frontend/vhvpage/main.html'; // ย้อนกลับไปยังหน้าที่แล้ว
+      window.location.href = '/chiracarehospital/frontend/vhvpage/main.html'; // ย้อนกลับไปยังหน้าที่แล้ว
     }
 
     function confirmSubmission(event) {
@@ -199,7 +199,7 @@
       };
 
       // Send data to the server
-      fetch('http://localhost/chiracarehospital/backend/sql/vhv/submit_form.php', {
+      fetch('/chiracarehospital/backend/sql/vhv/submit_form.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

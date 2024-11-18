@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>โรงพยาบาลค่ายจิรประวัติ</title>
   <link rel="stylesheet" href="../../css/statustracking.css">
+  <link rel="stylesheet" href="../../css/filltermenu.css">
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
@@ -13,7 +14,6 @@
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
@@ -30,34 +30,55 @@
   <div id="topbar-container"></div>
 
   <div class="statustracking-container">
-    <div class="filter-bar">
-      <input type="text" class="search-box" placeholder="ค้นหา...">
-      <select class="filter">
-        <option>ประเภทโรค</option>
-        <option>ความดันโลหิตสูง</option>
-        <option>โรคอ้วน</option>
-        <option>ไขมันในเลือดสูง</option>
-        <option>โรคเบาหวาน</option>
-        <option>CVS Risk</option>
-        <option>โรคไต</option>
-      </select>
-      <select class="filter">
-        <option>สถานะผู้ป่วย</option>
-        <option>ปกติ</option>
-        <option>เสียชีวิต</option>
-      </select>
-      <select class="filter">
-        <option>สถานะการรักษา</option>
-        <option>รักษาเสร็จสิ้น</option>
-        <option>ยังไม่ได้รับการรักษา</option>
-      </select>
-      <select class="filter">
-        <option>สถานะการติดตาม</option>
-        <option>ติดตามแล้ว</option>
-        <option>ยังไม่ได้ติดตาม</option>
-      </select>
-      <button class="search-btn">ค้นหา</button>
-    </div>
+       <!-- Filters -->
+    <section class="filter-section" style="justify-content: center;">
+      <div class="filter-container">
+          <div class="filter-item search-bar">
+              <h5>ค้นหารายชื่อ</h5>
+              <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+              <i class='bx bx-search search-icon'></i>
+          </div>
+          <div class="filter-item">
+            <h5>โรคประจำตัว</h5>
+            <select class="dropdown-filter" id="treatmentCountFilter">
+                <option value="ทั้งหมด">ทั้งหมด</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <!-- Add other options as needed -->
+            </select>
+        </div>
+          <div class="filter-item">
+              <h5>วันที่นัดหมาย</h5>
+              <input type="date" class="date-filter" id="appointmentDateFilter">
+          </div>
+          <div class="filter-item">
+              <h5>วันที่นัดครั้งถัดไป</h5>
+              <input type="date" class="date-filter" id="treatmentDateFilter">
+          </div>
+          <div class="filter-item">
+              <h5>ครั้งที่รักษา</h5>
+              <select class="dropdown-filter" id="treatmentCountFilter">
+                  <option value="ทั้งหมด">ทั้งหมด</option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <!-- Add other options as needed -->
+              </select>
+          </div>
+          <div class="filter-item">
+              <h5>สถานะการรักษา</h5>
+              <select class="dropdown-filter" id="treatmentStatusFilter">
+                  <option value="ทั้งหมด">ทั้งหมด</option>
+                  <option value="ยังไม่ได้รักษา">ยังไม่ได้รักษา</option>
+                  <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+                  <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+              </select>
+          </div>
+      </div>
+  </section>
 
     <div id="button-container">
       <button id="assign-button" style="display: none;">มอบหมายงาน</button>
@@ -77,7 +98,7 @@
             <th>วันที่เริ่มติดตาม</th>
             <th>กำหนดส่งงาน</th>
             <th>ครั้งที่ติดตาม</th>
-            <th>สถานะการรักษา</th>
+            <th>สถานะเข้ารับการรักษา</th>
             <th>สถานะการติดตาม</th>
             <th>การจัดการ</th>
           </tr>
@@ -208,7 +229,7 @@
         console.log('Monitor Start Date:', monitorStartDate);
 
         try {
-          const response = await fetch('http://localhost/chiracarehospital/backend/sql/monitoring/update_patient_status.php', {
+          const response = await fetch('/chiracarehospital/backend/sql/monitoring/update_patient_status.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -263,7 +284,7 @@
       async function fetchPatientData() {
         const tbody = document.querySelector('.patient-table tbody');
         try {
-          const response = await fetch('http://localhost/chiracarehospital/backend/sql/monitoring/patient_list.php');
+          const response = await fetch('/chiracarehospital/backend/sql/monitoring/patient_list.php');
           if (!response.ok) throw new Error('Network response was not ok: ' + response.statusText);
 
           let data = await response.json();
@@ -434,7 +455,7 @@
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
         // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-        document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย';
+        document.getElementById('page-title').textContent = 'ติดตามผู้ป่วยที่ไม่มาเข้ารับการรักษา';
         // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
         // Re-run user.js script after loading topbar

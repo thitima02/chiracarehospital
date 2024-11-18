@@ -87,7 +87,7 @@
 
     // แสดงข้อมูลผู้ป่วยหลังจากดึงจาก API
     if (patientId) {
-      $.getJSON(`http://localhost/chiracarehospital/backend/sql/patient_info/get_patient_by_id.php?patient_id=${patientId}`, function (response) {
+      $.getJSON(`/chiracarehospital/backend/sql/patient_info/get_patient_by_id.php?patient_id=${patientId}`, function (response) {
         if (response.status === 'success') {
           const patient = response.data;
           console.log("ข้อมูลผู้ป่วยที่ดึงมา:", patient);  // ดูข้อมูลผู้ป่วย

@@ -72,7 +72,7 @@
     async function fetchPatientData(patientId) {
         try {
             // Fetch patient information
-            const response = await fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
+            const response = await fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
             const data = await response.json();
             if (data.status === 'success') {
                 const patient = data.data[0]; // Get the first patient's data
@@ -81,7 +81,7 @@
                 document.getElementById('fullName').textContent = patient.full_name || '-';
 
                 // Fetch medical information
-                const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+                const medicalResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
                 const medicalData = await medicalResponse.json();
 
                 // Check for patient medical info
@@ -118,7 +118,7 @@
     // Function to ข้อมูลการติดตามล่าสุด
     async function fetchMonitorInformation() {
         try {
-            const response = await fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php');
+            const response = await fetch('/chiracarehospital/backend/sql/get_monitor_information.php');
             const data = await response.json();
     
             if (data.length > 0) {
@@ -137,7 +137,7 @@
     // Function to ข้อมูลการติดตามล่าสุด
     async function fetchMonitorFormData(patientId) {
         try {
-            const response = await fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`);
+            const response = await fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`);
             const data = await response.json();
     
             if (data.status === 'success' && data.data.length > 0) {
@@ -167,7 +167,7 @@
 <script>
     // Function to fetch monitor data from PHP and display in HTML
     function loadMonitorData(patientId) {
-        fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+        fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
@@ -193,7 +193,7 @@
 
     // Function to fetch user data from PHP and display in HTML
     function loadUserData() {
-        fetch('http://localhost/chiracarehospital/backend/sql/users/getAlluser.php')
+        fetch('/chiracarehospital/backend/sql/users/getAlluser.php')
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {

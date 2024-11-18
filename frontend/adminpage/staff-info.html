@@ -102,7 +102,7 @@
   <script>
     $(document).ready(function () {
       // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
-      $.getJSON('http://localhost/chiracarehospital/backend/sql/users/getAlluser.php', function (response) {
+      $.getJSON('/chiracarehospital/backend/sql/users/getAlluser.php', function (response) {
         if (response.status === 'success') {
           var staffs = response.data;
           var rows = '';
@@ -150,7 +150,7 @@
       if (confirm('คุณแน่ใจว่าต้องการลบข้อมูลนี้?')) {
         // ส่งคำขอลบไปยัง API
         $.ajax({
-          url: 'http://localhost/chiracarehospital/backend/sql/staff_information/delete_staff.php',
+          url: '/chiracarehospital/backend/sql/staff_information/delete_staff.php',
           method: 'POST',
           data: { id: id },
           success: function (response) {
@@ -175,7 +175,7 @@
     function loadUserData() {
       const userId = getUserIdFromURL();
       if (userId) {
-        fetch(`http://localhost/chiracarehospital/backend/sql/users/getAlluser.php?id=${userId}`)
+        fetch(`/chiracarehospital/backend/sql/users/getAlluser.php?id=${userId}`)
           .then(response => response.json())
           .then(data => {
             if (data.status === 'success') {

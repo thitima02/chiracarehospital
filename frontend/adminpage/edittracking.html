@@ -75,7 +75,7 @@
     }
 async function fetchPatientMedicalData(patientId) {
     try {
-        const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+        const medicalResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
         const medicalData = await medicalResponse.json();
 
         if (medicalData.patient_data && medicalData.patient_data.length > 0) {
@@ -92,7 +92,7 @@ async function fetchPatientMedicalData(patientId) {
 }
 
 function fetchPatientInformation(patientId) {
-    fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
+    fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
@@ -113,7 +113,7 @@ function displayPatientInformation(patient) {
 }
 
 function fetchMonitorFormData(patientId) {
-    fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+    fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {

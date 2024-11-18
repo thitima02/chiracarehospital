@@ -243,7 +243,7 @@
     <script>
         // อันดับสาเหตุของการขาดนัด
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_form.php') 
+            fetch('/chiracarehospital/backend/sql/get_monitor_form.php') 
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -292,7 +292,7 @@
 
 <script>
     function fetchStatusData() {
-        fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php')
+        fetch('/chiracarehospital/backend/sql/get_monitor_information.php')
             .then(response => response.json())
             .then(data => {
                 let totalPatients = 0;
@@ -375,7 +375,7 @@
 <script>
     //สถานะการรักษาล่าสุด
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('http://localhost/chiracarehospital/backend/sql/get_treatment_information.php')
+        fetch('/chiracarehospital/backend/sql/get_treatment_information.php')
         .then(response => response.json())
         .then(data => {
             // Initialize counters and follow-up dates array
@@ -440,7 +440,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+        fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok: ' + response.statusText);
@@ -508,7 +508,7 @@
     <!-- // ดึงข้อมูลจาก กราฟแสดงสถิติของกลุ่มผู้ป่วย -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+        fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
@@ -631,7 +631,7 @@
     // Function to fetch data from PHP and update the dashboard
     function updateDashboard() {
         const currentYear = new Date().getFullYear(); // Get the current year
-        fetch('http://localhost/chiracarehospital/backend/sql/get_patient_medical_information.php')
+        fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
             .then(response => response.json())
             .then(data => {
                 // Check if data for the current year exists

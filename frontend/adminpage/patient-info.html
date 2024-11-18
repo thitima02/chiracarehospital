@@ -125,7 +125,7 @@
   <script>
     $(document).ready(function () {
       // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
-      $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+      $.getJSON('/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
         console.log("Response from API:", response); // ดูข้อมูลที่ได้จาก API
         if (response.status === 'success') {
           var patients = response.data;
@@ -204,7 +204,7 @@
     function loadUserData() {
       const userId = getUserIdFromURL();
       if (userId) {
-        fetch(`http://localhost/chiracarehospital/backend/sql/users/getAll_patient_information.php?id=${userId}`)
+        fetch(`/chiracarehospital/backend/sql/users/getAll_patient_information.php?id=${userId}`)
           .then(response => response.json())
           .then(data => {
             if (data.status === 'success') {
@@ -314,7 +314,7 @@
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
         // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-        document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย';
+        document.getElementById('page-title').textContent = 'จัดการข้อมูลผู้ป่วย';
         // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
         // Re-run user.js script after loading topbar

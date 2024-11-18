@@ -93,7 +93,7 @@
       }
 
       // Fetch data
-      fetch('http://localhost/chiracarehospital/backend/sql/vhv/fetch_monitor_history.php')
+      fetch('/chiracarehospital/backend/sql/vhv/fetch_monitor_history.php')
         .then(response => response.json())
         .then(data => {
           if (data.success) {

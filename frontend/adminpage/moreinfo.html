@@ -153,7 +153,7 @@
         // Main function to fetch patient data and address information
         async function fetchPatientData(patientId) {
             try {
-                const response = await fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
+                const response = await fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
                 const data = await response.json();
                 if (data.status === 'success') {
                     const patient = data.data[0];
@@ -167,7 +167,7 @@
                     document.getElementById('additionalInfo').textContent = patient.additional_info || '-';
     
                     // Fetch address information
-                    const addressResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/vhv/get_patient_address.php?patient_id=${patientId}`);
+                    const addressResponse = await fetch(`/chiracarehospital/backend/sql/vhv/get_patient_address.php?patient_id=${patientId}`);
                     const addresses = await addressResponse.json();
                     if (addresses.length > 0) {
                         const address = addresses[0];
@@ -177,7 +177,7 @@
                     }
     
                     // Fetch medical information
-                    const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+                    const medicalResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
                     const medicalData = await medicalResponse.json();
                     if (medicalData.patient_data && medicalData.patient_data.length > 0) {
                         const patientMedicalInfo = medicalData.patient_data[0];
@@ -208,7 +208,7 @@
         // Function to fetch latest monitor information
         async function fetchMonitorInformation() {
             try {
-                const response = await fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php');
+                const response = await fetch('/chiracarehospital/backend/sql/get_monitor_information.php');
                 const data = await response.json();
                 if (data.length > 0) {
                     const latestRecord = data[0];
@@ -226,7 +226,7 @@
         // Function to fetch latest monitor form data
         async function fetchMonitorFormData(patientId) {
             try {
-                const response = await fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`);
+                const response = await fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`);
                 const data = await response.json();
                 if (data.status === 'success' && data.data.length > 0) {
                     const monitorFormRecord = data.data[0];
@@ -254,7 +254,7 @@ function loadFollowUpHistory() {
         return;
     }
 
-    fetch(`http://localhost/chiracarehospital/backend/sql/users/getAlluser.php?department=${department}`)
+    fetch(`/chiracarehospital/backend/sql/users/getAlluser.php?department=${department}`)
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById('followUpHistoryTable');
