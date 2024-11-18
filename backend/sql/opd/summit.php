@@ -41,7 +41,7 @@ if ($conn->query($sql) === TRUE) {
     $updateStatusSql = "UPDATE treatment_information 
                         SET appointment_date = '$next_appointment_date', 
                             last_update = NOW(), 
-                            treatment_status = 'นัดติดตามต่อเนื่อง', 
+                            treatment_status = 'มาตามนัด', 
                             treatment_round = treatment_round + 1 
                         WHERE patient_id = '$patient_id'";
 
