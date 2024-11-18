@@ -1,5 +1,8 @@
 .right-section {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
     display: flex;
     align-items: center;
     gap: 20px; /* Adjust the spacing between the bell icon and profile details */
@@ -59,6 +62,7 @@
     height: 50px;
     min-width: 190px;
     padding: 0 15px 0 2px;
+<<<<<<< HEAD
   }
 =======
   display: flex;
@@ -122,3 +126,6 @@
   padding: 0 15px 0 2px;
 }
 >>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
+=======
+  }
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2

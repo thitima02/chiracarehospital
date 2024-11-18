@@ -208,6 +208,105 @@ h1 {
 .status-bar {
     margin-bottom: 10px;
 }
+<<<<<<< HEAD
+=======
+
+.status-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    position: relative;
+    height: 25px;
+    overflow: hidden;
+}
+
+.progress-bar span {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+    z-index: 1;
+}
+
+#followed-bar {
+    background-color: #62B661; /* Green */
+}
+
+#following-bar {
+    background-color: #F39B33; /* Orange */
+}
+
+#not-followed-bar {
+    background-color: #BB4242; /* Red */
+}
+.follow-up-status-card {
+    margin: 20px auto;
+    max-width: 300px; /* ลดขนาดให้เล็กลง */
+}
+
+.card {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 15px; /* ปรับ padding ให้น้อยลง */
+    background-color: #fff;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.2rem; /* ลดขนาดหัวข้อ */
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.card-text h5 {
+    font-size: 0.9rem; /* ลดขนาดข้อความใน progress */
+    color: #555;
+}
+
+.progress {
+    height: 20px; /* ลดความสูงของ progress bar */
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.progress-bar {
+    font-weight: bold;
+    line-height: 20px; /* ลดขนาดให้เหมาะกับความสูง */
+    text-align: center;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.patient-count {
+    font-size: 1.3rem; /* ปรับขนาดให้ใหญ่ขึ้น */
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.follow-up-dates {
+    font-size: 0.9rem; /* ลดขนาดวันที่ */
+    color: #888;
+}
+.patient-count-treatment {
+    font-size: 1.3rem; /* ปรับขนาดให้ใหญ่ขึ้น */
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.latest-update-date {
+    font-size: 0.9rem; /* ลดขนาดวันที่ */
+    color: #888;
+}
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
 
 .status-label {
     margin-bottom: 5px;
@@ -320,5 +419,7 @@ h1 {
     background-color: #fff;
     text-align: center;
 }
+  
+
   
 

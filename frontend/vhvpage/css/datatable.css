@@ -1,5 +1,8 @@
 .table-container {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,6 +128,7 @@
 .action-btn:hover {
   background-color: #5D97EF;
   color: #F4F4F4;
+<<<<<<< HEAD
 } 
 =======
     display: flex;
@@ -244,3 +248,6 @@
     color: #F4F4F4;
   } 
 >>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
+=======
+} 
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
