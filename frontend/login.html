@@ -45,15 +45,7 @@
     // ตรวจสอบว่าผู้ใช้ล็อกอินอยู่แล้วหรือไม่
     if (localStorage.getItem('token')) {
       // ถ้าอยู่แล้วให้เปลี่ยนเส้นทางไปที่ index.html
-<<<<<<< HEAD
-<<<<<<< HEAD
       window.location.href = "/chiracarehospital/index.html";
-=======
-      window.location.href = "http://localhost/chiracarehospital/index.html";
->>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
-=======
-      window.location.href = "/chiracarehospital/index.html";
->>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
     }
 
     // ฟังก์ชันสำหรับสลับการแสดง/ซ่อนรหัสผ่าน
@@ -92,15 +84,7 @@
             // บันทึกข้อมูลผู้ใช้ลง localStorage หรือจัดการตามต้องการ
             localStorage.setItem('user', JSON.stringify(data.user));
             // เปลี่ยนหน้าไปยัง index.html
-<<<<<<< HEAD
-<<<<<<< HEAD
             window.location.href = "/chiracarehospital/index.html";
-=======
-            window.location.href = "http://localhost/chiracarehospital/index.html";
->>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
-=======
-            window.location.href = "/chiracarehospital/index.html";
->>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
           } else {
             alert(data.message);
           }

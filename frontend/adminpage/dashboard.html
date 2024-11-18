@@ -128,17 +128,19 @@
                     </div>
                 </div>
             </div>
-            <div class="row chart"> <!-- Use a row to align columns side by side -->
-                <div class="col-12 col-md-6 mb-2">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h4 class="card-title">สถิติของประเภทผู้ป่วย</h4>
-                            <div class="chart-container">
-                                <canvas id="patient-type-chart" width="400" height="200"></canvas>
-                            </div>
+            <div class="col-12 col-md-6 mb-2"> <!-- Second chart container -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">สถิติของกลุ่มผู้ป่วย</h4>
+                        <!-- Export Button -->
+                        <button id="exportButton" class="btn btn-primary mb-3">ดาวน์โหลดข้อมูลเป็น Excel</button>
+                        <div class="chart-container">
+                            <canvas id="patient-group-chart" class="chart-canvas" width="400" height="200"></canvas>
                         </div>
                     </div>
                 </div>
+            </div>
+            
 
                 <div class="col-12 col-md-6 mb-2"> <!-- Second chart container -->
                     <div class="card mb-4">
