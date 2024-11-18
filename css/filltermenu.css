@@ -2,10 +2,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
-    margin-left: 6%;
-    width: 100;
+    width: 100%;
 }
 
 .filter-item {
@@ -22,7 +21,7 @@
 }
 
 .search-input {
-    width: 95%;
+    width: 96%;
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ccc;
@@ -32,7 +31,7 @@
 
 .date-filter,
 .dropdown-filter {
-    width: 95%;
+    width: 96%;
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ccc;
@@ -52,10 +51,10 @@
 
 .search-icon {
     position: absolute;
-    left: 10px;
+    left: 12px;
     top: 67%;
     transform: translateY(-50%);
-    font-size: 20px;
+    font-size: 12px;
     color: #5D97EF;
 }
 
@@ -65,7 +64,95 @@
     right: 30px;
     top: 67%;
     transform: translateY(-50%);
-    font-size: 20px;
+    font-size: 12px;
     color: #5D97EF;
     pointer-events: none; /* Prevent clicking the icon */
   }
+
+  .statustracking-container {
+    width: 93.5%;
+    margin: auto;
+    padding: 20px;
+    margin-left: 89px;
+  }
+  
+  .search-box {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-box:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  }
+  
+  .search-box {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-box:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  }
+  
+  /* ปรับให้ฟอร์มค้นหาดูดีขึ้น */
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .filter:hover {
+    border-color: #007bff;
+  }
+  
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .filter:hover {
+    border-color: #007bff;
+  }
+
+  

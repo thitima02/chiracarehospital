@@ -77,7 +77,7 @@
       }
       
       function fetchPatientInformation(patientId) {
-          fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
+          fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
               .then(response => response.json())
               .then(data => {
                   if (data.status === 'success') {
@@ -98,7 +98,7 @@
       }
       
       function fetchMonitorFormData(patientId) {
-          fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+          fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
               .then(response => response.json())
               .then(data => {
                   if (data.status === 'success') {

@@ -173,7 +173,7 @@
         document.addEventListener("DOMContentLoaded", function () {
 
             // Fetch total patients count from PHP
-            fetch("http://localhost/chiracarehospital/backend/sql/vhv/get_patient_address.php")
+            fetch("/chiracarehospital/backend/sql/vhv/get_patient_address.php")
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);

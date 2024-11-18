@@ -69,7 +69,7 @@
         // Fetch and display patient medical data
         async function fetchPatientMedicalData(patientId) {
             try {
-                const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+                const medicalResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
                 const medicalData = await medicalResponse.json();
     
                 if (medicalData.patient_data && medicalData.patient_data.length > 0) {
@@ -87,7 +87,7 @@
     
         // Fetch and display patient information
         function fetchPatientInformation(patientId) {
-            fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
+            fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
@@ -109,7 +109,7 @@
     
         // Fetch and display monitor form data
         function fetchMonitorFormData(patientId) {
-            fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+            fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
@@ -131,7 +131,7 @@
 async function fetchTreatmentFormData(patientId) {
     try {
         // ส่งคำขอ GET ไปยัง get_treatment_form.php
-        const response = await fetch(`http://localhost/chiracarehospital/backend/sql/get_treatment_form.php?patient_id=${patientId}`);
+        const response = await fetch(`/chiracarehospital/backend/sql/get_treatment_form.php?patient_id=${patientId}`);
         const data = await response.json();
 
         // ตรวจสอบข้อมูลที่ได้จาก API

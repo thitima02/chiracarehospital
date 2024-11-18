@@ -248,7 +248,11 @@
     <script>
         // อันดับสาเหตุของการขาดนัด
         document.addEventListener('DOMContentLoaded', () => {
+<<<<<<< HEAD
             fetch('/chiracarehospital/backend/sql/get_monitor_form.php')
+=======
+            fetch('/chiracarehospital/backend/sql/get_monitor_form.php') 
+>>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -295,6 +299,7 @@
         });
     </script>
 
+<<<<<<< HEAD
     <script>
         // สถานะการติดตามล่าสุด
         function fetchStatusData() {
@@ -303,6 +308,15 @@
                 .then(data => {
                     let totalPatients = 0;
                     let followed = 0, following = 0, notFollowed = 0;
+=======
+<script>
+    function fetchStatusData() {
+        fetch('/chiracarehospital/backend/sql/get_monitor_information.php')
+            .then(response => response.json())
+            .then(data => {
+                let totalPatients = 0;
+                let followed = 0, following = 0, notFollowed = 0;
+>>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
 
                     // Check if data has a message indicating no data
                     if (data.message) {
@@ -433,6 +447,7 @@
                     // Update the patient count
                     document.querySelector('.patient-count-treatment').textContent = `${totalPatients} คน`;
 
+<<<<<<< HEAD
                     // Update the last update date with formatted Thai date
                     if (latestUpdate) {
                         const date = new Date(latestUpdate); // Convert to Date object
@@ -444,6 +459,19 @@
                 .catch(error => console.error('Error fetching data:', error));
         });
     </script>
+=======
+<script>
+    //สถานะการรักษาล่าสุด
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/chiracarehospital/backend/sql/get_treatment_information.php')
+        .then(response => response.json())
+        .then(data => {
+            // Initialize counters and follow-up dates array
+            let totalPatients = data.length;
+            let successCount = 0, failCount = 0, followUpCount = 0;
+            let followUpDates = [];
+            let latestUpdate = null;  // Variable to hold the latest update date
+>>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
 
     <!-- Include scripts for Bootstrap, Chart.js, and other libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -635,6 +663,21 @@
             })
             .catch(error => console.error('Error fetching data:', error));
     </script>
+<<<<<<< HEAD
+=======
+    
+    
+<script>
+    // Function to fetch data from PHP and update the dashboard
+    function updateDashboard() {
+        const currentYear = new Date().getFullYear(); // Get the current year
+        fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
+            .then(response => response.json())
+            .then(data => {
+                // Check if data for the current year exists
+                if (data.yearlyTotals[currentYear]) {
+                    const yearlyData = data.yearlyTotals[currentYear];
+>>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
 
 
     <script>
