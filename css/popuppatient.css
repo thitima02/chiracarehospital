@@ -25,6 +25,7 @@
   display: none;
   justify-content: center;
   align-items: center;
+  z-index: 10000;
 }
 
 /* Popup Box */
@@ -77,6 +78,7 @@
   padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  
 }
 
 .patient-list th {
@@ -104,9 +106,15 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 /* Checkbox Styling */
 .patient-list input[type="checkbox"] {
   cursor: pointer;
+}
+
+#staff-details td {
+  padding-right: 5px;
+  text-align: center;
 }

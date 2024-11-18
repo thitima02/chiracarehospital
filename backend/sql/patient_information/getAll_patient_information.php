@@ -5,6 +5,7 @@ require_once '../db_connection.php'; // นำเข้าไฟล์เชื�
 $response = []; // ตัวแปรสำหรับเก็บข้อมูล response
 
 try {
+<<<<<<< HEAD
     if (isset($_GET['patient_id'])) {
         // กรณีที่ได้รับ patient_id
         $patient_id = $_GET['patient_id'];
@@ -13,6 +14,32 @@ try {
         $stmt = $conn->prepare("SELECT patient_id, full_name, birth_date, id_card, phone_number, emergency_phone, current_status FROM patient_information WHERE patient_id = :patient_id");
         $stmt->bindParam(':patient_id', $patient_id, PDO::PARAM_INT);
         $stmt->execute();
+=======
+    // คำสั่ง SQL สำหรับดึงข้อมูลที่ต้องการจากตาราง patient_information
+    $stmt = $conn->prepare("
+    SELECT 
+        pi.id, 
+        pi.patient_id, 
+        pi.full_name, 
+        pi.birth_date, 
+        pi.id_card, 
+        pi.phone_number, 
+        pi.emergency_phone, 
+        pi.current_status,
+        pa.Area,
+        pm.patient_type,
+        pm.patient_group,
+        pm.disease_type
+    FROM 
+        patient_information pi
+    JOIN 
+        patient_address pa ON pi.patient_id = pa.patient_id
+    JOIN
+        patient_medical_information pm ON pi.patient_id = pm.patient_id
+    ");
+
+    $stmt->execute();
+>>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
 
         // ดึงข้อมูลผู้ป่วยตาม patient_id
         $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);

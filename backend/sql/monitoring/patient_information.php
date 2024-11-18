@@ -36,4 +36,8 @@ if ($conn->query($sql) === TRUE) {
 
 // ปิดการเชื่อมต่อ
 $conn->close();
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d

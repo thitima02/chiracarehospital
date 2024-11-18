@@ -78,7 +78,7 @@
     });
 
     function loadUserData(id) {
-      fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser.php?id=${id}`)
+      fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser_vhv.php?id=${id}`)
         .then(response => response.json())
         .then(data => {
           console.log(data); // ตรวจสอบข้อมูลที่ได้รับจาก API
