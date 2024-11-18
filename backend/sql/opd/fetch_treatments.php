@@ -14,22 +14,24 @@ if ($conn->connect_error) {
 
 // SQL query เพื่อดึงข้อมูลจากตารางต่างๆ
 $sql = "
-    SELECT 
-        p.full_name AS patient_name,
-        t.appointment_date, 
-        tf.date_of_treatment AS treatment_date,  
-        tf.next_appointment_date,  
-        t.treatment_round, 
-        m.monitor_status AS follow_up_status, 
-        t.treatment_status
-    FROM 
-        treatment_information t
-    JOIN 
-        patient_information p ON t.id_patient_information = p.id  -- แก้ไขตามชื่อคอลัมน์ที่ถูกต้อง
-    JOIN 
-        treatment_form tf ON t.id_treatment_form = tf.id
-    JOIN 
-        monitor_information m ON t.id_monitor_information = m.id
+SELECT 
+    p.full_name AS patient_name,
+    p.patient_image,
+    p.patient_id,
+    t.appointment_date,
+    pm.patient_type,
+    pm.disease_type,
+    t.treatment_round,
+    t.treatment_status,
+    m.monitor_status AS follow_up_status
+FROM 
+    treatment_information t
+JOIN 
+    patient_information p ON t.patient_id = p.patient_id
+LEFT JOIN 
+    patient_medical_information pm ON t.patient_id = pm.patient_id
+LEFT JOIN 
+    monitor_information m ON t.patient_id = m.patient_id
 ";
 
 $result = $conn->query($sql);

@@ -97,20 +97,9 @@
 
     }
     const userData = JSON.parse(localStorage.user);
-    // console.log(userData.role);
-    // console.log(localStorage.user);
 
-
-    // ตรวจสอบว่า userData.role เป็น "แอดมิน" หรือไม่
-    if (userData.role === "admin") {
-      window.location.href = "/chiracarehospital/frontend/adminpage/dashboard.html"; // เปลี่ยนเส้นทางไปที่หน้า /home
-    }
-
-    // ตรวจสอบว่า userData.role เป็น "แอดมิน" หรือไม่
-    if (userData.role === "user") {
-      window.location.href = "/chiracarehospital/frontend/opdpage/main.html"; // เปลี่ยนเส้นทางไปที่หน้า /home
-    }
-
+    
+   
 
   </script>
 </body>

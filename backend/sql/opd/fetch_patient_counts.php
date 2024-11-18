@@ -9,8 +9,8 @@ if ($conn->connect_error) {
 
 // สร้าง SQL Query เพื่อนับจำนวนผู้ป่วยที่รักษาเสร็จสิ้นและยังไม่ได้รักษา
 $sql = "SELECT 
-            SUM(CASE WHEN t.treatment_status = 'รักษาเสร็จสิ้น' THEN 1 ELSE 0 END) AS totalTreated,
-            SUM(CASE WHEN t.treatment_status = 'ยังไม่ได้รักษา' THEN 1 ELSE 0 END) AS totalUntreated 
+            SUM(CASE WHEN t.treatment_status = 'มาตามนัด' THEN 1 ELSE 0 END) AS totalTreated,
+            SUM(CASE WHEN t.treatment_status = 'ไม่มาตามนัด' THEN 1 ELSE 0 END) AS totalUntreated 
         FROM patient_information p
         JOIN treatment_information t ON t.id_patient_information = p.id";  // เปลี่ยน m เป็น t ที่นี่
 
