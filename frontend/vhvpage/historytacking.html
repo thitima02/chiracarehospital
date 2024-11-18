@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>History Page</title>
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/sidebar.css">
+  <link rel="stylesheet" href="css/topbar.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/menubar.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/logo.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/button.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/result.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/fittermenu.css">
+  <link rel="stylesheet" href="../../frontend/vhvpage/css/moredetail.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <script src="../method/logout.js"></script>
+  <script src="../method/user.js"></script>
+  <script src="../method/loadSidebarScript.js"></script>
+  <script src="../method/checkAuth.js"></script>
+</head>
+
+<body style="background-color:#edeff1;">
+
+  <!-- Sidebar will be loaded here -->
+  <div id="sidebar-container"></div>
+
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
+
+  <!-- Filters -->
+  <section class="filter-section" style="justify-content: center;">
+    <div class="filter-container">
+      <div class="filter-item search-bar">
+        <h5>ค้นหารายชื่อ</h5>
+        <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+        <i class='bx bx-search search-icon'></i>
+      </div>
+
+      <div class="filter-item">
+        <h5>วันที่อัปเดตล่าสุด</h5>
+        <input type="date" class="date-filter" id="updatedDateFilter">
+      </div>
+
+      <div class="filter-item">
+        <h5>โรคประจำตัว</h5>
+        <select class="dropdown-filter" id="diseaseTypeFilter">
+          <option value="ทั้งหมด">ทั้งหมด</option>
+          <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+          <option value="โรคอ้วน">โรคอ้วน</option>
+          <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+          <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+          <option value="CVD Risk">CVD Risk</option>
+          <option value="โรคไต">โรคไต</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <div class="history-container" id="historyElement">
+    <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let historyData = [];  // To store the fetched data
+
+      // Function to filter and render data
+      function filterAndRenderData() {
+        const searchQuery = document.getElementById('searchPatientInput').value.toLowerCase();
+        const updatedDate = document.getElementById('updatedDateFilter').value;
+        const diseaseType = document.getElementById('diseaseTypeFilter').value;
+
+        // Filter the data based on search query, date, and disease type
+        const filteredData = historyData.filter(history => {
+          // Filter by patient name search
+          const matchesSearch = history.full_name.toLowerCase().includes(searchQuery);
+
+          // Filter by update date
+          const matchesDate = updatedDate ? history.newupdate.startsWith(updatedDate) : true;
+
+          // Filter by disease type
+          const matchesDisease = diseaseType === "ทั้งหมด" || history.disease_type === diseaseType;
+
+          return matchesSearch && matchesDate && matchesDisease;
+        });
+
+        renderData(filteredData);
+      }
+
+      // Fetch data
+      fetch('http://localhost/chiracarehospital/backend/sql/vhv/fetch_monitor_history.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            historyData = data.data;
+            // Sort the data by newupdate date (latest first)
+            historyData.sort((a, b) => new Date(b.newupdate) - new Date(a.newupdate));
+            filterAndRenderData(); // Initial render with no filters applied
+          } else {
+            console.error('Error fetching data:', data.error);
+          }
+        })
+        .catch(error => console.error('Fetch error:', error));
+
+      // Render filtered data into the DOM
+      function renderData(filteredData) {
+        const historyElement = document.getElementById('historyElement');
+        historyElement.innerHTML = ''; // Clear previous data
+
+        if (filteredData.length === 0) {
+          // If no data matches the filter, show a message
+          historyElement.innerHTML = '<p>ยังไม่มีข้อมูลในส่วนนี้</p>';
+        } else {
+          filteredData.forEach(history => {
+            const updateDate = new Date(history.newupdate);
+            const formattedDate = updateDate.toLocaleDateString('th-TH');
+            const formattedTime = updateDate.toLocaleTimeString('th-TH');
+
+            historyElement.innerHTML += `
+              <div class="activity">
+                <div class="left">
+                  <img src="images/amuro.jpg" alt="icon" class="activity-icon">
+                  <div class="details">
+                    <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
+                    <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+                  </div>
+                </div>
+                <div class="right">
+                  <p class="update">${formattedDate}</p>
+                  <p class="time">${formattedTime}</p>
+                </div>
+                <button class="details-btn" onclick="toggleDetails(this)">เพิ่มเติม</button>
+                <div class="more-details" style="display: none;">
+                  <div class="detail">
+                    <p>ชื่อผู้ป่วย : ${history.full_name}</p>
+                    <p>โรคประจำตัว : ${history.disease_type}</p>
+                    <p>อาการทั่วไป : ${history.general_symptoms}</p>
+                    <p>ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร) : ${history.blood_sugar_level}</p>
+                    <p>ค่าสัญญาณชีพ (ครั้ง/นาที) : ${history.vital_signs}</p>
+                    <p>สาเหตุที่ไม่มารับการรักษา : ${history.reason_for_missed_treatment}</p>
+                    <p>วันที่กรอกฟอร์ม : ${formattedDate}</p>
+                    <p>ชื่อเจ้าหน้าที่ที่รับผิดชอบ : ${history.user_fullname}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+        }
+      }
+
+      // Event listeners for filters
+      document.getElementById('searchPatientInput').addEventListener('input', filterAndRenderData);
+      document.getElementById('updatedDateFilter').addEventListener('change', filterAndRenderData);
+      document.getElementById('diseaseTypeFilter').addEventListener('change', filterAndRenderData);
+    });
+
+    function toggleDetails(button) {
+      const details = button.nextElementSibling;
+      if (details.style.display === "block") {
+        details.style.display = "none";
+        button.textContent = "เพิ่มเติม";
+      } else {
+        details.style.display = "block";
+        button.textContent = "ซ่อนข้อมูล";
+      }
+    }
+  </script>
+
+  <script>
+    checkAuth();
+
+    // Load sidebar
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+        loadSidebarScript();
+      });
+
+    // Load topbar and set the page title
+    fetch('topbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('topbar-container').innerHTML = data;
+        const pageTitle = document.getElementById('page-title');
+        if (pageTitle) {
+          pageTitle.textContent = 'ประวัติการติดตาม';
+        }
+
+        const script = document.createElement('script');
+        script.src = '../method/user.js';
+        document.body.appendChild(script);
+      });
+  </script>
+</body>
+
+</html>

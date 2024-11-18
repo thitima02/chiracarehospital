@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="css/topbar.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/menubar.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/logo.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/button.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/result.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Import icon -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="../method/logout.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+    <script src="../method/user.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+    <script src="../method/loadSidebarScript.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+    <script src="../method/checkAuth.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
+</head>
+
+<body>
+
+
+    <div id="sidebar-container"></div>
+
+    <!-- Topbar will be loaded here -->
+    <div id="topbar-container"></div>
+
+    <!-- the resule of many patient -->
+    <div>
+        <div class="stats-container">
+            <div class="box new-order">
+                <i class='bx bx-user'></i>
+                <div>
+                    <h2 id="pending-count">0</h2>
+                    <p>จำนวนการกรอกข้อมูลการติดตามที่ยังไม่เสร็จสิ้น</p>
+                </div>
+            </div>
+            <div class="box box2 visitors">
+                <i class='bx bx-smile'></i>
+                <div>
+                    <h2 id="completed-count">0</h2>
+                    <p>ผู้ป่วยทั้งหมดที่ติดตามแล้ว</p>
+                </div>
+            </div>
+            <div class="box box3 total-sales">
+                <i class='bx bx-tired'></i>
+                <div>
+                    <h2 id="not-monitored-count">0</h2>
+                    <p>ผู้ป่วยทั้งหมดที่ยังไม่ได้ติดตาม</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch patient data from PHP
+            fetch("../../backend/sql/vhv/get_patient_address.php")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Check if data is not empty or null
+                    if (Array.isArray(data) && data.length > 0) {
+                        // Filter data based on different monitor statuses
+                        const pendingPatients = data.filter(patient =>
+                            patient.monitor_status === "กำลังติดตาม" || patient.monitor_status === "ติดตามล้มเหลว"
+                        );
+
+                        const completedPatients = data.filter(patient =>
+                            patient.monitor_status === "ติดตามแล้ว"
+                        );
+
+                        const notMonitoredPatients = data.filter(patient =>
+                            patient.monitor_status === "ยังไม่ได้ติดตาม"
+                        );
+
+                        // Update the counts on the page
+                        document.getElementById('pending-count').textContent = pendingPatients.length || 0;
+                        document.getElementById('completed-count').textContent = completedPatients.length || 0;
+                        document.getElementById('not-monitored-count').textContent = notMonitoredPatients.length || 0;
+                    } else {
+                        console.error("Invalid data structure or empty response received");
+                        document.getElementById('pending-count').textContent = "0";
+                        document.getElementById('completed-count').textContent = "0";
+                        document.getElementById('not-monitored-count').textContent = "0";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching patient data:", error);
+                    // Set counts to 0 in case of error
+                    document.getElementById('pending-count').textContent = "0";
+                    document.getElementById('completed-count').textContent = "0";
+                    document.getElementById('not-monitored-count').textContent = "0";
+                });
+        });
+    </script>
+
+    <!-- ฟิลเตอร์ในการกรองข้อมูล -->
+    <div class="filter-container">
+        <div class="filter-item search-bar">
+            <h5>ค้นหารายชื่อ</h5>
+            <input type="text" id="searchInput" placeholder="ค้นหาที่นี่..." class="search-input">
+            <i class='bx bx-search search-icon'></i>
+        </div>
+
+        <div class="filter-item">
+            <h5>กำหนดส่งผลการติดตาม</h5>
+            <input type="date" class="date-filter">
+        </div>
+
+        <div class="filter-item">
+            <h5>ครั้งที่ติดตาม</h5>
+            <select class="dropdown-filter" id="monitorRoundFilter">
+                <option value="ทั้งหมด">ทั้งหมด</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <!-- เพิ่มตัวเลือกตามที่ต้องการ -->
+            </select>
+            <i class='bx bx-chevron-down dropdown-icon'></i>
+        </div>
+
+        <div class="filter-item">
+            <h5>โรคประจำตัว</h5>
+            <select class="dropdown-filter" id="diseaseTypeFilter">
+                <option value="">ทั้งหมด</option>
+                <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+                <option value="โรคอ้วน">โรคอ้วน</option>
+                <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+                <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+                <option value="CVD Risk">CVD Risk</option>
+                <option value="โรคไต">โรคไต</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- the datatable  -->
+    <div class="table-container">
+        <table class="patient-table">
+            <thead>
+                <tr>
+                    <th>รายชื่อผู้ป่วย</th>
+                    <th>โรคประจำตัว</th>
+                    <th>เขตที่อยู่อาศัย</th>
+                    <th>กำหนดส่งรายงาน</th>
+                    <th>ที่อยู่</th>
+                    <th>สถานะการติดตาม</th>
+                    <th>ครั้งที่ติดตาม</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="patient-tbody"></tbody>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Fetch total patients count from PHP
+            fetch("http://localhost/chiracarehospital/backend/sql/vhv/get_patient_address.php")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const todayPatientsCount = document.querySelector('.new-order h2');
+                    todayPatientsCount.textContent = data.total || 0;
+                })
+                .catch(error => console.error("Error fetching total patients count:", error));
+
+            // Fetch patient address data
+            fetch("../../backend/sql/vhv/get_patient_address.php")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const tbody = document.getElementById("patient-tbody");
+
+                    // Filter data to get only patients with status "กำลังติดตาม" or "ติดตามล้มเหลว"
+                    let filteredData = data.filter(patient =>
+                        patient.monitor_status === "กำลังติดตาม" ||
+                        patient.monitor_status === "ติดตามล้มเหลว"
+                    );
+
+                    // Function to filter data based on user input
+                    function filterData(patients) {
+                        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+                        const dateFilter = document.querySelector(".date-filter").value;
+                        const timesFollowedFilter = document.querySelector(".dropdown-filter").value;
+                        const diseaseTypeFilter = document.getElementById("diseaseTypeFilter").value.toLowerCase();
+
+                        return patients.filter(patient => {
+                            const matchesName = patient.full_name.toLowerCase().includes(searchInput);
+                            const matchesDate = dateFilter ? patient.monitor_deadline === dateFilter : true;
+                            const matchesTimesFollowed = timesFollowedFilter === "ทั้งหมด" || patient.monitor_round.toString() === timesFollowedFilter;
+                            const matchesDisease = diseaseTypeFilter ? patient.disease_type.toLowerCase().includes(diseaseTypeFilter) : true;
+
+                            return matchesName && matchesDate && matchesTimesFollowed && matchesDisease;
+                        });
+                    }
+
+                    // Function to sort data
+                    function sortData(patients, column) {
+                        return patients.sort((a, b) => {
+                            if (column === 'monitor_deadline') {
+                                return new Date(a[column]) - new Date(b[column]); // Sort by date
+                            } else if (column === 'monitor_round') {
+                                return a[column] - b[column]; // Sort by round number
+                            } else {
+                                return a[column].localeCompare(b[column]); // Default sorting (alphabetically)
+                            }
+                        });
+                    }
+
+                    // Render filtered and sorted patients
+                    function renderPatients(patients) {
+                        tbody.innerHTML = ''; // Clear previous rows
+                        if (patients.length > 0) {
+                            patients.forEach(patient => {
+                                const row = document.createElement("tr");
+
+                                const imageUrl = patient.patient_image
+                                    ? `data:image/jpeg;base64,${patient.patient_image}`
+                                    : '../../assets/images/cat.jpg';
+
+                                const actionButton = patient.monitor_status === "ติดตามแล้ว"
+                                    ? `<span style="color:#16bc19;">รายงานผลเรียบร้อยแล้ว</span>`
+                                    : patient.monitor_status === "ติดตามล้มเหลว"
+                                        ? `<span style="color:red;">ไม่สามารถกรอกข้อมูลได้แล้ว</span>`
+                                        : `<a href="form.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}" class="formbutton" title="กรอกข้อมูลการติดตาม">
+                                <i class='bx bxs-report'></i> กรอกข้อมูลการติดตาม
+                            </a>`;
+
+                                const statusClass = getStatusClass(patient.monitor_status); // ใช้ฟังก์ชันกำหนดคลาส
+
+                                row.innerHTML = `
+                        <td style="text-align: left; padding-left: 40px">
+                            <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px;"> ${patient.full_name}
+                        </td>
+                        <td id='endDate'>${patient.disease_type}</td>
+                        <td id='Area'>${patient.area}</td>
+                        <td id='Deadline'>${patient.monitor_deadline}</td>
+                        <td id='address' style="width:20%">${patient.number} หมู่ ${patient.moo || '-'} ซอย ${patient.soi || '-'} ตำบล/แขวง ${patient.tambon} อำเภอ/เขต ${patient.amphur} จังหวัด ${patient.province} เลขไปรษณีย์ ${patient.postal_code}</td>
+                        <td><span class="status ${statusClass}">${patient.monitor_status || 'ไม่มีข้อมูล'}</span></td>
+                        <td id='timesFollowed'>${patient.monitor_round}</td>
+                        <td>${actionButton}</td>
+                    `;
+                                tbody.appendChild(row);
+                            });
+                        } else {
+                            tbody.innerHTML = "<tr><td colspan='6'>ยังไม่มีให้กรอกรายงานผลการติดตาม</td></tr>";
+                        }
+                    }
+
+                    function getStatusClass(status) {
+                        switch (status) {
+                            case 'ติดตามแล้ว':
+                                return 'completed';
+                            case 'กำลังติดตาม':
+                                return 'in-progress';
+                            case 'ยังไม่ได้ติดตาม':
+                                return 'uncompleted';
+                            case 'ติดตามล้มเหลว':
+                                return 'failed';
+                            default:
+                                return 'status-unknown'; // กรณีไม่มีข้อมูล
+                        }
+                    }
+
+                    // Initial render of filtered and sorted patients
+                    let filteredAndSortedData = filterData(filteredData);
+                    filteredAndSortedData = sortData(filteredAndSortedData, 'monitor_deadline'); // Sort by date as default
+                    renderPatients(filteredAndSortedData);
+
+                    // Event listeners for filters and sorting
+                    document.getElementById("searchInput").addEventListener("input", function () {
+                        let filtered = filterData(filteredData); // Filter data based on input
+                        filtered = sortData(filtered, 'monitor_deadline'); // Sort by date
+                        renderPatients(filtered); // Render updated data
+                    });
+
+                    document.querySelector(".date-filter").addEventListener("change", function () {
+                        let filtered = filterData(filteredData); // Filter data based on date
+                        filtered = sortData(filtered, 'monitor_deadline'); // Sort by date
+                        renderPatients(filtered);
+                    });
+
+                    document.querySelector(".dropdown-filter").addEventListener("change", function () {
+                        let filtered = filterData(filteredData); // Filter data based on monitor round
+                        filtered = sortData(filtered, 'monitor_round'); // Sort by round
+                        renderPatients(filtered);
+                    });
+
+                    document.getElementById("diseaseTypeFilter").addEventListener("change", function () {
+                        let filtered = filterData(filteredData); // Filter data based on disease
+                        filtered = sortData(filtered, 'disease_type'); // Sort by disease type
+                        renderPatients(filtered);
+                    });
+                })
+                .catch(error => console.error("Error fetching patient data:", error));
+
+        });
+    </script>
+
+    <script>
+        // Function for filter the name
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the search input field
+            const searchInput = document.getElementById('searchInput');
+
+            // Add event listener to the search input
+            searchInput.addEventListener('keyup', function () {
+                // Get the value of the search input and convert to lowercase
+                let searchTerm = searchInput.value.toLowerCase();
+
+                // Get all the rows of the table
+                const rows = document.querySelectorAll("#patient-tbody tr");
+
+                // Loop through the rows to find matches
+                rows.forEach(row => {
+                    // Find the cell that contains the patient's name
+                    let nameCell = row.querySelector("td:first-child").innerText.toLowerCase();
+
+                    // Check if the search term is found in the name
+                    if (nameCell.includes(searchTerm)) {
+                        row.style.display = ""; // Show row if there's a match
+                    } else {
+                        row.style.display = "none"; // Hide row if there's no match
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+        checkAuth();
+
+        // Load sidebar
+        fetch('sidebar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+                loadSidebarScript();
+                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+            });
+
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+                document.getElementById('page-title').textContent = 'รายงานผลการติดตาม';
+                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+                // Re-run user.js script after loading topbar
+                const script = document.createElement('script');
+                // สร้างแท็ก script ใหม่
+                script.src = '../method/user.js';
+                // กำหนดแหล่งที่มาของ script เป็น user.js
+                document.body.appendChild(script);
+                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+            });
+    </script>
+
+</body>
+
+</html>

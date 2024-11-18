@@ -48,10 +48,15 @@
         <img id="profile-image" src="" alt="Profile Image" class="profile-image">
         <h2 id="full-name">ชื่อผู้ใช้</h2>
         <div class="profile-info">
+            <p><strong>ตำแหน่ง:</strong> <span id="rank"></span></p>
+            <p><strong>แผนก:</strong> <span id="department"></span></p>
             <p><strong>พื้นที่รับผิดชอบ:</strong> <span id="responsibility-area"></span></p>
             <p><strong>เบอร์โทรศัพท์:</strong> <span id="phone-number"></span></p>
+<<<<<<< HEAD
+=======
             <p><strong>สถานะ:</strong> <span id="role"></span></p>
 
+>>>>>>> 421a8b371440d4a1c877cd663c73144f792252ce
 
         </div>
     </div>
@@ -75,16 +80,14 @@
 
                             // แสดงข้อมูลในหน้า HTML
                             document.getElementById('full-name').textContent = userData.full_name;
+                            document.getElementById('rank').textContent = userData.rank;
+                            document.getElementById('department').textContent = userData.department;
                             document.getElementById('responsibility-area').textContent = userData.responsibility_area;
                             document.getElementById('phone-number').textContent = userData.phone_number;
-                            document.getElementById('role').textContent = userData.role;
 
-                            // ตรวจสอบว่ามีรูปภาพผู้ใช้หรือไม่
-                            if (user.user_image) {
-                                document.getElementById('profile-image').src = `data:image/jpeg;base64,${user.user_image}`;
-                            } else {
-                                // ถ้าไม่มีรูปภาพ ให้ใช้รูปภาพเริ่มต้น
-                                document.getElementById('profile-image').src = '../assets/images/cat.jpg'; // รูปภาพเริ่มต้น
+                            // แสดงรูปภาพจาก Base64
+                            if (userData.image_base64) {
+                                document.getElementById('profile-image').src = `data:image/jpeg;base64,${userData.image_base64}`;
                             }
                         } else {
                             console.error('ไม่พบข้อมูลผู้ใช้');
