@@ -284,9 +284,11 @@
 
           // สร้างเอกสาร PDF ใหม่
           const doc = new jsPDF();
-          doc.addFileToVFS("THSarabunNew-Regular.ttf", "Base64EncodedFontHere"); // ใส่ Base64 ฟอนต์ที่แปลงแล้ว
-          doc.addFont("THSarabunNew-Regular.ttf", "THSarabunNew", "normal");
-          doc.setFont("THSarabunNew", "normal");
+
+          // การเพิ่มฟอนต์จากไฟล์ (ที่อยู่ในโฟลเดอร์ fonts)
+          // คำแนะนำ: ฟอนต์ต้องสามารถเข้าถึงได้จาก URL ที่ใช้งานได้ในเว็บบราวเซอร์
+          doc.addFont('../../assets/font/THSarabunNew.ttf', 'THSarabunNew', 'normal');
+          doc.setFont('THSarabunNew', 'normal');
 
           doc.text('รายชื่อผู้ป่วย', 14, 10);
 
