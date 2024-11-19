@@ -59,7 +59,7 @@
   border: 2px solid #EFEEF1;
   border-radius: 6px;
   height: 50px;
-  min-width: 190px;
+  /* min-width: 190px; */
   padding: 0 15px 0 2px;
 }
 
@@ -98,4 +98,15 @@
 .profile-details:hover .tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+@media only screen and (max-width: 767px) {
+  .top .text {
+    display: flex;
+    font-size: 14px;
+  }
+
+  .top nav {
+    position: fixed;
+  }
 }

@@ -260,13 +260,15 @@ nav .profile-details i {
   color: #333;
 }
 
-@media (max-width: 550px) {
+/* @media (max-width: 767px) {
   .overview-boxes .box {
     width: 100%;
     margin-bottom: 15px;
-  }
+  } */
+
+  
 
   .sidebar.active ~ .home-section nav .profile-details {
     display: none;
   }
-}
+

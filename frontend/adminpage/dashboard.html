@@ -301,15 +301,6 @@
         });
     </script>
 
-<<<<<<< HEAD
-<script>
-    function fetchStatusData() {
-        fetch('/chiracarehospital/backend/sql/get_monitor_information.php')
-            .then(response => response.json())
-            .then(data => {
-                let totalPatients = 0;
-                let followed = 0, following = 0, notFollowed = 0;
-=======
     <script>
         // สถานะการติดตามล่าสุด
         function fetchStatusData() {
@@ -318,7 +309,6 @@
                 .then(data => {
                     let totalPatients = 0;
                     let followed = 0, following = 0, notFollowed = 0;
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
                     // Check if data has a message indicating no data
                     if (data.message) {
@@ -461,15 +451,11 @@
                 .catch(error => console.error('Error fetching data:', error));
         });
     </script>
-<<<<<<< HEAD
 
     <!-- Include scripts for Bootstrap, Chart.js, and other libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-=======
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
     <script>
         // Declare chartInstance globally to track the chart
         let chartInstance;  // Keep track of the chart instance
@@ -730,23 +716,6 @@
                         yearlyData.group_totals['กลุ่มสงสัยป่วย'] || 0
                     ]);
                 });
-<<<<<<< HEAD
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    </script>
-    
-    
-<script>
-    // Function to fetch data from PHP and update the dashboard
-    function updateDashboard() {
-        const currentYear = new Date().getFullYear(); // Get the current year
-        fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
-            .then(response => response.json())
-            .then(data => {
-                // Check if data for the current year exists
-                if (data.yearlyTotals[currentYear]) {
-                    const yearlyData = data.yearlyTotals[currentYear];
-=======
 
                 const ws = XLSX.utils.aoa_to_sheet(exportData);
                 const wb = XLSX.utils.book_new();
@@ -773,7 +742,6 @@
                     // Check if data for the current year exists
                     if (data.yearlyTotals[currentYear]) {
                         const yearlyData = data.yearlyTotals[currentYear];
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
                         // Update hypertension
                         document.getElementById('public_hypertension').innerText = yearlyData.hypertension['ประชาชน'];

@@ -4,11 +4,11 @@
     align-items: center;
     padding: 20px;
     border-radius: 8px;
-    margin-left: 90px;
+    /* margin-left: 90px; */
     gap: 10px; /* เพิ่มช่องว่างระหว่าง filter-item */
   }
   
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 767px) {
     .filter-container {
       flex-wrap: wrap;
       flex-direction: column;
@@ -17,7 +17,7 @@
     }
   
     .filter-item {
-      width: 50%; /* ยืดแต่ละ filter item ให้เต็ม */
+      width: 100%; /* ยืดแต่ละ filter item ให้เต็ม */
       margin-bottom: 15px; /* เพิ่มช่องว่างระหว่าง item */
       align-items: center;
     }
@@ -31,35 +31,6 @@
     }
   }
   
-  @media only screen and (max-width: 480px) {
-    .filter-container {
-      gap: 8px; /* ลดช่องว่างระหว่าง item */
-    }
-  
-    .filter-item {
-      margin-bottom: 10px;
-    }
-  }
-  
-  @media only screen and (max-width: 320px) {
-    .filter-container {
-      padding: 5px; /* ลด padding เพื่อให้เหมาะกับหน้าจอขนาดเล็ก */
-      gap: 5px;
-    }
-  
-    .filter-item {
-      margin-bottom: 8px;
-    }
-  
-    .search-bar .search-input {
-      font-size: 14px; /* ลดขนาดตัวอักษรใน input */
-    }
-  
-    .date-filter,
-    .dropdown-filter {
-      font-size: 14px;
-    }
-  }
   
   .filter-item {
     flex: 1;

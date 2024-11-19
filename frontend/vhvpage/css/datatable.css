@@ -1,14 +1,8 @@
 .table-container {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
-  display: flex;
+
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   width: 91%;
   padding: 20px;
   box-sizing: border-box;
@@ -16,6 +10,7 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
+  overflow: hidden;
   /* Center the container */
 }
 
@@ -63,7 +58,7 @@
 }
 
 /* Responsive styles */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .patient-table {
     font-size: 12px; /* ลดขนาดตัวอักษร */
   }
@@ -79,7 +74,7 @@
   }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 767px) {
   .table-container {
     padding: 5px;
   }
@@ -161,29 +156,12 @@
 }
 
 .action-btn:hover {
-<<<<<<< HEAD
+
   background-color: #5d97ef;
   color: #f4f4f4;
 }
-=======
-  background-color: #5D97EF;
-  color: #F4F4F4;
-<<<<<<< HEAD
-} 
-=======
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 91%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    /* Center the container */
-    margin-left: 110px;
-  }
+
+ 
   
   .datatable {
     min-width: 100%;
@@ -287,8 +265,5 @@
     background-color: #5D97EF;
     color: #F4F4F4;
   } 
->>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
-=======
-} 
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
+
+  

@@ -15,29 +15,52 @@
   border-radius: 15px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  min-width: 300px;
-  max-width: 500px;
+  /* min-width: 300px;
+  max-width: 500px; */
   flex: 1 1 calc(33.33% - 20px);
   margin: 10px;
 }
 
-/* Responsive สำหรับหน้าจอขนาด max-width: 600px */
-@media only screen and (max-width: 600px) {
-  .stats-container {
-    flex-direction: column;
+
+#main {
+  margin-left: 78px;
+  
+}
+
+@media(max-width: 767px) {
+  #main {
+    margin-left: 0;
+    margin-top: 80px;
+  }
+  .sidebar {
+    left: -78px;
+  }
+  .sidebar.open {
+    left: 0;
+  }
+  .sidebar:not(.open) .logo-details #btn {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: unset;
+    transform: none;
+    width: 78px;
+    height: 80px;
+    background-color: white;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    display: flex;
     align-items: center;
-    margin-left: 50px ; 
+    justify-content: center;
   }
 
-  .box {
-    width: 20%; /* ให้กล่องใช้พื้นที่เต็มหน้าจอ */
-    max-width: 20%; /* จำกัดความกว้างกล่อง */
-    text-align: center;
-    
+  .admin_name {
+    display: none;
   }
 }
 
-@media only screen and (max-width: 480px) {
+
+@media only screen and (max-width: 767px) {
+  
   .stats-container {
     flex-direction: column; /* จัดกล่องในแนวตั้ง */
     align-items: center; /* จัดให้อยู่กึ่งกลาง */
@@ -49,42 +72,7 @@
     max-width: 90%; /* จำกัดความกว้างกล่อง */
     text-align: center;
   }
-}
-
-@media only screen and (max-width: 320px) {
   
-  .stats-container {
-    flex-direction: column; /* จัดกล่องในแนวตั้ง */
-    align-items: center; /* จัดให้อยู่กึ่งกลาง */
-    gap: 10px; /* เพิ่มระยะห่างระหว่างกล่อง */
-    margin-left: 100px;
-  }
-
-  .box {
-    width: 70%; /* ให้กล่องใช้พื้นที่เต็มหน้าจอ */
-    max-width: 90%; /* จำกัดความกว้างกล่อง */
-    text-align: center;
-  }
-  
-}
-
-@media only screen and (max-width: 768) {
-}
-
-@media only screen and (max-width: 900) {
-}
-
-.box {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  border-radius: 15px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  min-width: 300px; /* ลดขนาดขั้นต่ำสำหรับ Desktop */
-  max-width: 500px; /* จำกัดขนาดสูงสุด */
-  flex: 1 1 calc(33.33% - 20px); /* กล่องใช้พื้นที่ 1/3 ของหน้าจอ */
-  margin: 10px;
 }
 
 .box i {
@@ -104,12 +92,6 @@
 }
 
 /* Responsive สำหรับหน้าจอขนาด 601px - 1024px */
-@media (min-width: 601px) and (max-width: 1024px) {
-  .box {
-    flex: 1 1 calc(50% - 20px); /* กล่องใช้พื้นที่ 50% ของหน้าจอ */
-    min-width: 45%; /* ลดขนาด */
-  }
-}
 
 .new-order i {
   color: #5da3fa;
