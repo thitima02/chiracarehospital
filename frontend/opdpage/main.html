@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/datatable.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
 
@@ -321,18 +322,20 @@
                     const tbody = document.querySelector(".patient-table tbody");
                     tbody.innerHTML = ""; // ล้างข้อมูลที่มีอยู่ในตาราง
 
-                    // กรองข้อมูลตามวันที่ปัจจุบัน 
-                    const today = new Date(); // วันที่ปัจจุบัน
-                    const formattedDate = formatDateThai(today); // แปลงวันที่ปัจจุบันเป็น "วันที่ เดือน ปี"
-                    const todayISO = today.toISOString().split('T')[0]; // วันที่ในรูปแบบ ISO YYYY-MM-DD
+                    const today = new Date();
+                    const todayISO = today.toISOString().split('T')[0];
+
+                    // กรองข้อมูลตามวันที่ปัจจุบัน
                     const filteredData = data.filter(patient => {
                         const appointmentDate = new Date(patient.appointment_date).toISOString().split('T')[0];
-                        return appointmentDate === todayISO; // ตรวจสอบว่า appointment_date ตรงกับวันที่ปัจจุบันหรือไม่
+                        if (appointmentDate === todayISO && patient.treatment_status !== "ไม่มาตามนัด") {
+                            resetTreatmentStatus(patient.patient_id);
+                        }
+                        return appointmentDate === todayISO;
                     });
 
                     // ตรวจสอบว่ามีข้อมูลที่กรองหรือไม่
                     if (filteredData.length > 0) {
-                        // วนลูปข้อมูลที่กรองแล้วเพื่อแสดงในตาราง
                         filteredData.forEach(patient => {
                             const followUpStatusClass = getStatusClass(patient.follow_up_status);
                             const treatmentStatusClass = getStatusClass(patient.treatment_status);
@@ -341,40 +344,60 @@
                                 ? `data:image/jpeg;base64,${patient.patient_image}`
                                 : '../../assets/images/cat.jpg';
 
-                            const appointmentDateTime = new Date(patient.appointment_date); // เวลานัดหมาย
-                            const currentDateTime = new Date(); // เวลาปัจจุบัน
+                            const appointmentDateTime = new Date(patient.appointment_date);
+                            const currentDateTime = new Date();
                             const isActionEnabled = currentDateTime >= appointmentDateTime && patient.treatment_status === "ไม่มาตามนัด";
 
                             const row = document.createElement("tr");
                             row.innerHTML = `
-        <td style="text-align: left; padding-left: 40px">
-            <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
-            ${patient.patient_name || 'ไม่มีข้อมูล'}
-        </td>
-        <td>${patient.disease_type || 'ไม่ทราบ'}</td>
-        <td>${patient.patient_type || 'ไม่มี'}</td>
-        <td>${patient.appointment_date || 'ไม่มี'}</td>
-        <td>${patient.treatment_round || 'ไม่มีข้อมูล'}</td>
-        <td><span class="status ${treatmentStatusClass}">${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>
-        <td>
-            <div class="Actionbutton" data-patient-id="${patient.patient_id}" 
-                ${isActionEnabled ? "" : 'style="opacity: 0.5;" disabled'}>
-                <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" 
-                    ${isActionEnabled ? `onclick="window.location.href='addappointment.html?patient_id=${encodeURIComponent(patient.patient_id)}&name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'"` : ''}>
-                    <span class="mdi mdi-file-edit"></span>
-                </button>
-            </div>
-        </td>
-    `;
+                        <td style="text-align: left; padding-left: 40px">
+                            <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
+                            ${patient.patient_name || 'ไม่มีข้อมูล'}
+                        </td>
+                        <td>${patient.disease_type || 'ไม่ทราบ'}</td>
+                        <td>${patient.patient_type || 'ไม่มี'}</td>
+                        <td>${patient.appointment_date || 'ไม่มี'}</td>
+                        <td>${patient.treatment_round || 'ไม่มีข้อมูล'}</td>
+                        <td><span class="status ${treatmentStatusClass}">${patient.treatment_status || 'ไม่มีข้อมูล'}</span></td>
+                        <td>
+                            <div class="Actionbutton" data-patient-id="${patient.patient_id}" 
+                                ${isActionEnabled ? "" : 'style="opacity: 0.5;" disabled'}>
+                                <button class="action-btn" title="คลิกเพื่อเพิ่มนัด" 
+                                    ${isActionEnabled ? `onclick="window.location.href='addappointment.html?patient_id=${encodeURIComponent(patient.patient_id)}&name=${encodeURIComponent(patient.patient_name)}&disease=${encodeURIComponent(patient.disease_type)}'"` : ''}>
+                                    <span class="mdi mdi-file-edit"></span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
                             tbody.appendChild(row);
                         });
                     } else {
-                        // กรณีไม่มีข้อมูล แสดงข้อความในตาราง
-                        tbody.innerHTML = `<tr><td colspan='7' style='text-align: center;'>ไม่มีผู้ป่วยที่ต้องเข้ารับการรักษาใน${formattedDate}</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan='7' style='text-align: center;'>ไม่มีผู้ป่วยที่ต้องเข้ารับการรักษาในวันนี้</td></tr>`;
                     }
                 })
                 .catch(error => console.error("Error fetching data:", error));
         });
+
+        // ฟังก์ชันรีเซ็ตสถานะ
+        function resetTreatmentStatus(patientId) {
+            fetch(`/chiracarehospital/backend/sql/opd/reset_treatment_status.php`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ patient_id: patientId }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error resetting treatment status");
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    console.log(`Treatment status reset for patient ID: ${patientId}`);
+                })
+                .catch(error => console.error("Error resetting treatment status:", error));
+        }
 
         // ฟังก์ชันแปลงวันที่เป็น "วันที่ เดือน ปี"
         function formatDateThai(date) {
@@ -451,8 +474,87 @@
                 // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
             });
     </script>
-
 </body>
+
+<style>
+    /* For small screens like smartphones */
+    @media only screen and (max-width: 600px) {
+
+        /* Sidebar adjustments */
+        #sidebar-container {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Make the topbar more compact */
+        #topbar-container {
+            height: 50px;
+        }
+
+        /* Adjust the stats boxes */
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .box {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .box i {
+            font-size: 24px;
+        }
+
+        /* Adjust table in modal */
+        .patientTable {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        /* Filter section */
+        .filter-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-item {
+            margin-bottom: 10px;
+        }
+
+        .search-input,
+        .date-filter,
+        .dropdown-filter {
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .search-icon {
+            font-size: 20px;
+        }
+    }
+
+    /* For tablets and larger screens */
+    @media only screen and (min-width: 601px) and (max-width: 1024px) {
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .filter-item {
+            width: 20%;
+        }
+    }
+</style>
 
 
 </html>
