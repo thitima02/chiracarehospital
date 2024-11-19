@@ -277,7 +277,6 @@
 
           displayTable(filteredData);
         }
-
         // ฟังก์ชันสร้าง PDF
         function generatePdf() {
           const { jsPDF } = window.jspdf;
@@ -286,7 +285,6 @@
           const doc = new jsPDF();
 
           // การเพิ่มฟอนต์จากไฟล์ (ที่อยู่ในโฟลเดอร์ fonts)
-          // คำแนะนำ: ฟอนต์ต้องสามารถเข้าถึงได้จาก URL ที่ใช้งานได้ในเว็บบราวเซอร์
           doc.addFont('../../assets/font/THSarabunNew.ttf', 'THSarabunNew', 'normal');
           doc.setFont('THSarabunNew', 'normal');
 
@@ -294,11 +292,14 @@
 
           const tableData = [];
           const selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
+
+          // ตรวจสอบว่าไม่มีแถวที่ถูกเลือก
           if (selectedRows.length === 0) {
             console.log("ไม่มีแถวที่ถูกเลือก");
             return;
           }
 
+          // ประมวลผลแถวที่ถูกเลือก
           selectedRows.forEach(checkbox => {
             const row = checkbox.closest('tr');
             if (!row) {
@@ -306,27 +307,70 @@
               return;
             }
 
-            const rowData = Array.from(row.querySelectorAll('td')).map(cell => {
-              let cellText = cell.textContent.trim(); // ใช้ textContent เพื่อดึงข้อความที่ไม่มี HTML tag
+            // สร้างออบเจ็กต์สำหรับแต่ละแถว
+            const rowData = {
+              'ชื่อผู้ป่วย': '',          // กำหนดค่าพื้นฐาน
+              'ประเภทโรค': '',
+              'ประเภทผู้ป่วย': '',
+              'วันที่เริ่มติดตาม': '',
+              'กำหนดส่งงาน': '',
+              'สถานะการติดตาม': ''
+            };
 
-              // ตรวจสอบว่า cellText มีค่าว่างหรือไม่
-              if (cellText === "" || cellText === null) {
-                cellText = "ข้อมูลไม่มี";
+            // เก็บข้อมูลจากแต่ละเซลล์ของแถวในออบเจ็กต์
+            Array.from(row.querySelectorAll('td')).forEach((cell, index) => {
+              const cellText = cell.textContent.trim();
+
+              console.log(`Index: ${index}, Cell Text: ${cellText}`); // ตรวจสอบข้อมูลที่ดึงออกมาจากเซลล์
+
+              // กำหนดค่าที่จะเก็บในออบเจ็กต์ตามลำดับที่ถูกต้อง
+              switch (index) {
+                case 1:
+                  rowData['ชื่อผู้ป่วย'] = cellText || "ชื่อผู้ป่วยไม่มี";
+                  break;
+                case 2:
+                  rowData['ประเภทโรค'] = cellText || "ประเภทโรคไม่มี";
+                  break;
+                case 3:
+                  rowData['ประเภทผู้ป่วย'] = cellText || "ประเภทผู้ป่วยไม่มี";
+                  break;
+                case 4:
+                  rowData['วันที่เริ่มติดตาม'] = cellText || "วันที่เริ่มติดตามไม่มี";
+                  break;
+                case 5:
+                  rowData['กำหนดส่งงาน'] = cellText || "กำหนดส่งงานไม่มี";
+                  break;
+                case 6:
+                  rowData['สถานะการติดตาม'] = cellText || "สถานะการติดตามไม่มี";
+                  break;
+                default:
+                  break;
               }
-
-              return cellText;
             });
 
+            // เพิ่มข้อมูลแถวที่ประมวลผลแล้วไปยัง tableData
             tableData.push(rowData);
           });
 
-          console.log("Table data:", tableData);
+          // Log the table data to the console
+          console.log("Table Data (as Objects):", tableData);
 
           // สร้างตารางใน PDF
           if (typeof doc.autoTable === "function") {
+            // Log the transformed data that will be passed to autoTable (converted to an array of values)
+            const tableValues = tableData.map(row => [
+              row['ชื่อผู้ป่วย'],
+              row['ประเภทโรค'],
+              row['ประเภทผู้ป่วย'],
+              row['วันที่เริ่มติดตาม'],
+              row['กำหนดส่งงาน'],
+              row['สถานะการติดตาม']
+            ]);
+            console.log("Table Data (as Array of Values):", tableValues);
+
             doc.autoTable({
               head: [['ชื่อผู้ป่วย', 'ประเภทโรค', 'ประเภทผู้ป่วย', 'วันที่เริ่มติดตาม', 'กำหนดส่งงาน', 'สถานะการติดตาม']], // กำหนดหัวตาราง
-              body: tableData, // ข้อมูลตาราง
+              body: tableValues, // ข้อมูลตาราง
               theme: 'grid',
               styles: { font: 'THSarabunNew' },
             });
