@@ -18,6 +18,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
   <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+  <!-- นำเข้า jsPDF และฟอนต์ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.16/jspdf.plugin.autotable.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../method/logout.js"></script>
   <script src="../method/user.js"></script>
@@ -78,7 +83,7 @@
           </select>
         </div>
 
-        <div id="download-pdf-button-container" title='ดาวน์โหลดPDF'>
+        <div id="download-pdf-button" title='ดาวน์โหลดPDF' style="height: 25px; width: 30px;">
           <button id="download-pdf-button">
             <i class='bx bxs-file-pdf'></i>
           </button>
@@ -88,11 +93,61 @@
     </section>
 
     <!-- Overlay สำหรับป๊อปอัป -->
-    <div id="popup-overlay"></div>
+    <div id="popup-overlay" style="display: none;"></div>
 
-    <!-- ป๊อปอัป -->
-    <div id="popup-modal">
+    <!-- Modal Popup -->
+    <div id="popup-modal" style="display: none;">
+      <span id="close-popup-icon" class="close-icon">&times;</span>
       <h2>เลือกผู้ป่วยที่ต้องการดาวน์โหลดข้อมูล</h2>
+
+      <!-- ฟิลเตอร์ -->
+      <div class="filter-container" style="margin-bottom: 10px; display: flex; gap: 5px; flex-wrap: wrap;">
+        <div>
+          <label for="filter-patient-name">ชื่อผู้ป่วย:</label>
+          <input type="text" id="filter-patient-name" placeholder="กรอกชื่อผู้ป่วย" />
+        </div>
+        <div>
+          <label for="filter-disease-type">โรคประจำตัว:</label>
+          <select id="filter-disease-type">
+            <option value="">ทั้งหมด</option>
+            <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+            <option value="โรคอ้วน">โรคอ้วน</option>
+            <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+            <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+            <option value="CVD Risk">CVD Risk</option>
+            <option value="โรคไต">โรคไต</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-patient-type">ประเภทผู้ป่วย:</label>
+          <select id="filter-patient-type">
+            <option value="">ทั้งหมด</option>
+            <option value="ประชาชน">ประชาชน</option>
+            <option value="กำลังพล">กำลังพล</option>
+            <option value="ครอบครัว">ครอบครัว</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-monitor-start-date">วันที่เริ่มติดตาม:</label>
+          <input type="date" id="filter-monitor-start-date" />
+        </div>
+        <div>
+          <label for="filter-monitor-deadline">กำหนดส่งงาน:</label>
+          <input type="date" id="filter-monitor-deadline" />
+        </div>
+        <div>
+          <label for="filter-monitor-status">สถานะการติดตาม:</label>
+          <select id="filter-monitor-status">
+            <option value="">ทั้งหมด</option>
+            <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
+            <option value="กำลังติดตาม">กำลังติดตาม</option>
+            <option value="ติดตามแล้ว">ติดตามแล้ว</option>
+            <option value="ยังไม่ได้ติดตาม">ติดตามล้มเหลว</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ตาราง -->
       <table id="popup-table" border="1" style="width: 100%; text-align: left;">
         <thead>
           <tr>
@@ -109,125 +164,192 @@
           <!-- ตารางข้อมูลผู้ป่วยจะแสดงในนี้ -->
         </tbody>
       </table>
+
       <div class="button_popup" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
         <button id="generate-pdf-button">สร้าง PDF</button>
-        <button id="close-popup-button">ปิด</button>
       </div>
-
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const downloadPdfButton = document.getElementById('download-pdf-button');
         const popupModal = document.getElementById('popup-modal');
-        const popupOverlay = document.getElementById('popup-overlay');  // Reference to overlay
+        const popupOverlay = document.getElementById('popup-overlay');
         const popupTableBody = document.querySelector('#popup-table tbody');
         const generatePdfButton = document.getElementById('generate-pdf-button');
-        const closePopupButton = document.getElementById('close-popup-button');
+        const closePopupIcon = document.getElementById('close-popup-icon');
+
+        const patientNameFilter = document.getElementById('filter-patient-name');
+        const diseaseFilter = document.getElementById('filter-disease-type');
+        const patientTypeFilter = document.getElementById('filter-patient-type');
+        const monitorStartDateFilter = document.getElementById('filter-monitor-start-date');
+        const monitorDeadlineFilter = document.getElementById('filter-monitor-deadline');
+        const statusFilter = document.getElementById('filter-monitor-status');
+
+        let patientData = []; // เก็บข้อมูลผู้ป่วยทั้งหมด
 
         // ฟังก์ชันเปิดป๊อปอัปและดึงข้อมูลจาก API
         async function openPopup() {
-          popupOverlay.style.display = 'block';  // Show overlay
-          popupModal.style.display = 'block';   // Show modal
-
-          // ล้างข้อมูลในตารางป๊อปอัป
+          popupOverlay.style.display = 'block';
+          popupModal.style.display = 'block';
           popupTableBody.innerHTML = '';
 
           try {
-            // ดึงข้อมูลผู้ป่วยจาก API
-            const response = await fetch('/chiracarehospital/backend/sql/monitoring/patient_list.php');
+            const response = await fetch('/chiracarehospital/backend/sql/monitoring/pdf.php');
             const data = await response.json();
 
-            // ตรวจสอบหากไม่มีข้อมูล
-            if (!data || data.length === 0) {
-              alert('ไม่มีข้อมูลผู้ป่วย');
-              popupModal.style.display = 'none';
-              popupOverlay.style.display = 'none';  // Hide overlay
+            if (data.error) {
+              alert('ไม่สามารถดึงข้อมูลผู้ป่วยได้');
+              closePopup();
               return;
             }
 
-            // แสดงข้อมูลในตารางป๊อปอัป
-            data.forEach(patient => {
-              const { full_name, disease_type, patient_type, monitor_date, monitor_deadline, monitor_status } = patient;
+            patientData = data;
+            if (!patientData || patientData.length === 0) {
+              alert('ไม่มีข้อมูลผู้ป่วย');
+              closePopup();
+              return;
+            }
 
-              const tr = document.createElement('tr');
-              tr.innerHTML = `
-          <td style="width: 60px;"><input type="checkbox" class="popup-patient-checkbox" /></td>
-          <td>${full_name || 'ไม่ระบุชื่อ'}</td>
-          <td>${disease_type || 'ไม่ระบุโรค'}</td>
-          <td>${patient_type || 'ไม่ระบุประเภทผู้ป่วย'}</td>
-          <td>${monitor_date || 'ไม่ระบุวันที่เริ่มติดตาม'}</td>
-          <td>${monitor_deadline || 'ไม่ระบุกำหนดส่งงาน'}</td>
-          <td>${monitor_status || 'ไม่ระบุสถานะการติดตาม'}</td>
-        `;
-              popupTableBody.appendChild(tr);
-            });
+            displayTable(patientData);
           } catch (error) {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
             alert('ไม่สามารถดึงข้อมูลผู้ป่วยได้');
-            popupModal.style.display = 'none';
-            popupOverlay.style.display = 'none';  // Hide overlay if error
+            closePopup();
           }
         }
 
         // ฟังก์ชันปิดป๊อปอัป
-        closePopupButton.addEventListener('click', () => {
+        function closePopup() {
           popupModal.style.display = 'none';
-          popupOverlay.style.display = 'none';  // Hide overlay when closing popup
-        });
+          popupOverlay.style.display = 'none';
+        }
 
-        // แสดงป๊อปอัปเมื่อคลิกปุ่ม "ดาวน์โหลด PDF"
-        downloadPdfButton.addEventListener('click', openPopup);
+        // ฟังก์ชันแสดงข้อมูลในตาราง
+        function displayTable(data) {
+          popupTableBody.innerHTML = '';
 
-        // ฟังก์ชันสร้าง PDF
-        generatePdfButton.addEventListener('click', () => {
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF();
-
-          // เพิ่มฟอนต์ภาษาไทย
-          const fontBase64 = "YOUR_BASE64_ENCODED_FONT_HERE"; // ฟอนต์ Base64
-          doc.addFileToVFS("THSarabunNew.ttf", fontBase64);
-          doc.addFont("THSarabunNew.ttf", "THSarabunNew", "normal");
-          doc.setFont("THSarabunNew");
-
-          // ดึงข้อมูลผู้ป่วยที่เลือกจากป๊อปอัป
-          const selectedPatients = Array.from(document.querySelectorAll('.popup-patient-checkbox:checked')).map(checkbox => {
-            const row = checkbox.closest('tr');
-            const cells = row.cells;
-            return {
-              full_name: cells[1]?.innerText || 'ไม่ระบุชื่อ',
-              disease_type: cells[2]?.innerText || 'ไม่ระบุโรค',
-              patient_type: cells[3]?.innerText || 'ไม่ระบุประเภทผู้ป่วย',
-              monitor_date: cells[4]?.innerText || 'ไม่ระบุวันที่เริ่มติดตาม',
-              monitor_deadline: cells[5]?.innerText || 'ไม่ระบุกำหนดส่งงาน',
-              monitor_status: cells[6]?.innerText || 'ไม่ระบุสถานะการติดตาม',
-            };
-          });
-
-          if (selectedPatients.length === 0) {
-            alert('กรุณาเลือกผู้ป่วยก่อนสร้าง PDF');
+          if (data.length === 0) {
+            const emptyRow = document.createElement('tr');
+            emptyRow.innerHTML = `<td colspan="7" style="text-align: center; font-style: italic;">ไม่มีข้อมูลในตาราง</td>`;
+            popupTableBody.appendChild(emptyRow);
             return;
           }
 
-          // เพิ่มข้อมูลใน PDF
-          let y = 10; // ตำแหน่งแนวตั้งเริ่มต้น
-          selectedPatients.forEach((patient, index) => {
-            doc.setFontSize(12);
-            doc.text(`${index + 1}. ชื่อผู้ป่วย: ${patient.full_name}`, 10, y);
-            doc.text(`ประเภทโรค: ${patient.disease_type}`, 10, y + 10);
-            doc.text(`ประเภทผู้ป่วย: ${patient.patient_type}`, 10, y + 20);
-            doc.text(`วันที่เริ่มติดตาม: ${patient.monitor_date}`, 10, y + 30);
-            doc.text(`กำหนดส่งงาน: ${patient.monitor_deadline}`, 10, y + 40);
-            doc.text(`สถานะการติดตาม: ${patient.monitor_status}`, 10, y + 50);
-            y += 60;
+          data.forEach(patient => {
+            const { full_name, disease_type, patient_type, monitor_date, monitor_deadline, monitor_status } = patient;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="width: 60px;"><input type="checkbox" class="popup-patient-checkbox" /></td>
+                <td>${full_name || 'ไม่ระบุชื่อ'}</td>
+                <td>${disease_type || 'ไม่ระบุโรค'}</td>
+                <td>${patient_type || 'ไม่ระบุประเภทผู้ป่วย'}</td>
+                <td>${monitor_date || 'ไม่ระบุวันที่เริ่มติดตาม'}</td>
+                <td>${monitor_deadline || 'ไม่ระบุกำหนดส่งงาน'}</td>
+                <td>${monitor_status || 'ไม่ระบุสถานะการติดตาม'}</td>
+              `;
+            popupTableBody.appendChild(tr);
+          });
+        }
+
+        // ฟังก์ชันกรองข้อมูลในตาราง
+        function filterTable() {
+          const nameValue = patientNameFilter.value.toLowerCase();
+          const diseaseValue = diseaseFilter.value.toLowerCase();
+          const patientTypeValue = patientTypeFilter.value.toLowerCase();
+          const startDateValue = monitorStartDateFilter.value;
+          const deadlineValue = monitorDeadlineFilter.value;
+          const statusValue = statusFilter.value.toLowerCase();
+
+          const filteredData = patientData.filter(patient => {
+            const matchesName = !nameValue || (patient.full_name || '').toLowerCase().includes(nameValue);
+            const matchesDisease = !diseaseValue || (patient.disease_type || '').toLowerCase().includes(diseaseValue);
+            const matchesPatientType = !patientTypeValue || (patient.patient_type || '').toLowerCase().includes(patientTypeValue);
+            const matchesStartDate = !startDateValue || (patient.monitor_date || '').startsWith(startDateValue);
+            const matchesDeadline = !deadlineValue || (patient.monitor_deadline || '').startsWith(deadlineValue);
+            const matchesStatus = !statusValue || (patient.monitor_status || '').toLowerCase().includes(statusValue);
+
+            return matchesName && matchesDisease && matchesPatientType && matchesStartDate && matchesDeadline && matchesStatus;
           });
 
-          // ดาวน์โหลด PDF
-          doc.save('patient_report.pdf');
-          popupModal.style.display = 'none'; // ปิดป๊อปอัป
-          popupOverlay.style.display = 'none';  // Hide overlay
-        });
+          displayTable(filteredData);
+        }
 
+        // ฟังก์ชันสร้าง PDF
+        function generatePdf() {
+          const { jsPDF } = window.jspdf;
+
+          // สร้างเอกสาร PDF ใหม่
+          const doc = new jsPDF();
+          doc.addFileToVFS("THSarabunNew-Regular.ttf", "Base64EncodedFontHere"); // ใส่ Base64 ฟอนต์ที่แปลงแล้ว
+          doc.addFont("THSarabunNew-Regular.ttf", "THSarabunNew", "normal");
+          doc.setFont("THSarabunNew", "normal");
+
+          doc.text('รายชื่อผู้ป่วย', 14, 10);
+
+          const tableData = [];
+          const selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
+          if (selectedRows.length === 0) {
+            console.log("ไม่มีแถวที่ถูกเลือก");
+            return;
+          }
+
+          selectedRows.forEach(checkbox => {
+            const row = checkbox.closest('tr');
+            if (!row) {
+              console.log("ไม่พบแถวที่มี checkbox นี้");
+              return;
+            }
+
+            const rowData = Array.from(row.querySelectorAll('td')).map(cell => {
+              let cellText = cell.textContent.trim(); // ใช้ textContent เพื่อดึงข้อความที่ไม่มี HTML tag
+
+              // ตรวจสอบว่า cellText มีค่าว่างหรือไม่
+              if (cellText === "" || cellText === null) {
+                cellText = "ข้อมูลไม่มี";
+              }
+
+              return cellText;
+            });
+
+            tableData.push(rowData);
+          });
+
+          console.log("Table data:", tableData);
+
+          // สร้างตารางใน PDF
+          if (typeof doc.autoTable === "function") {
+            doc.autoTable({
+              head: [['ชื่อผู้ป่วย', 'ประเภทโรค', 'ประเภทผู้ป่วย', 'วันที่เริ่มติดตาม', 'กำหนดส่งงาน', 'สถานะการติดตาม']], // กำหนดหัวตาราง
+              body: tableData, // ข้อมูลตาราง
+              theme: 'grid',
+              styles: { font: 'THSarabunNew' },
+            });
+
+            doc.save('รายงานผู้ป่วย.pdf');
+          } else {
+            console.error("autoTable function not found!");
+          }
+        }
+
+        // Event Listener สำหรับฟิลเตอร์
+        patientNameFilter.addEventListener('input', filterTable);
+        diseaseFilter.addEventListener('change', filterTable);
+        patientTypeFilter.addEventListener('change', filterTable);
+        monitorStartDateFilter.addEventListener('change', filterTable);
+        monitorDeadlineFilter.addEventListener('change', filterTable);
+        statusFilter.addEventListener('change', filterTable);
+
+        // เปิดป๊อปอัปเมื่อคลิกปุ่ม
+        downloadPdfButton.addEventListener('click', openPopup);
+        closePopupIcon.addEventListener('click', closePopup);
+
+        // สร้าง PDF เมื่อคลิกปุ่ม
+        generatePdfButton.addEventListener('click', generatePdf);
       });
     </script>
 
@@ -260,6 +382,11 @@
     </div>
   </div>
 
+  <!-- Overlay -->
+  <div id="overlay"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
+  </div>
+
   <div id="confirmation-popup" style="display:none;">
     <div class="popup-content">
       <h2>กรุณาตรวจสอบรายชื่อผู้ป่วยที่ต้องการติดตาม</h2>
@@ -277,9 +404,6 @@
           <tbody id="patient-list"></tbody>
         </table>
       </div>
-      <div id="overlay"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
-      </div>
       <div class="text">
         <label for="monitor-start-date">วันที่เริ่มติดตาม:</label>
         <input type="date" id="monitor-start-date" required>
@@ -290,8 +414,6 @@
       <button type="No" id="cancel-assign">ยกเลิก</button>
     </div>
   </div>
-
-
 
   <script>
     // ดึงวันที่ปัจจุบัน
@@ -305,12 +427,16 @@
       document.getElementById('cancel-assign').addEventListener('click', function () {
         const confirmationPopup = document.getElementById('confirmation-popup');
         const overlay = document.getElementById('overlay');
+        const assignButton = document.getElementById('assign-button');
 
         if (confirmationPopup) {
           confirmationPopup.style.display = 'none';
         }
         if (overlay) {
           overlay.style.display = 'none';
+        }
+        if (assignButton) {
+          assignButton.style.display = 'block';
         }
       });
 
@@ -349,14 +475,18 @@
           selectedPatients.forEach(patient => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-        <td>${patient.patientId}</td>
-        <td>${patient.fullName}</td>
-        <td>${patient.diseaseType}</td>
-      `;
+                <td>${patient.patientId}</td>
+                <td>${patient.fullName}</td>
+                <td>${patient.diseaseType}</td>
+            `;
             patientList.appendChild(tr);
           });
         }
 
+        // ซ่อนปุ่ม "มอบหมายงาน"
+        assignButton.style.display = 'none';
+
+        // แสดงป๊อปอัป
         document.getElementById('confirmation-popup').style.display = 'block';
         document.getElementById('overlay').style.display = 'flex';
       });
@@ -410,8 +540,6 @@
       });
     });
   </script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -531,7 +659,6 @@
         }
       });
     });
-
   </script>
 
   <script>
