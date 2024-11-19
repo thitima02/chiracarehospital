@@ -164,32 +164,31 @@
             
             
             
-        <div class="row">
-            <!-- Card 1: Reasons for missed appointments -->
-            <div class="col-12 col-md-4 mb-2 d-flex">
-                <div class="card mb-4 w-150 h-100">
-                    <div class="card-body">
-                        <h4 class="card-title">อันดับสาเหตุของการขาดนัด</h4>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>อันดับ</th>
-                                    <th>สาเหตุที่ผู้ป่วยไม่มา</th>
-                                    <th>ความถี่</th>
-                                    <th>เปอร์เซ็นต์</th>
-                                </tr>
-                            </thead>
-                            <tbody id="reasons-table">
-                                <!-- Dynamic content will be inserted here -->
-                            </tbody>
-                        </table>
+            <div class="status"> 
+                <div class="col-12 col-md-6 mb-2">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h4 class="card-title">อันดับสาเหตุของการขาดนัด</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>อันดับ</th>
+                                        <th>สาเหตุที่ผู้ป่วยไม่มา</th>
+                                        <th>ความถี่</th>
+                                        <th>เปอร์เซ็นต์</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reasons-table">
+                                    <!-- Dynamic content will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Card 2: Status of follow-ups -->
-            <div class="col-12 col-md-4 mb-2 d-flex">
-                <div class="card-status w-100 h-100">
+    
+            <div class="col-12 col-md-3 status-card">
+                <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">สถานะการติดตามล่าสุด</h4>
                         <div class="card-text">
@@ -213,14 +212,13 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Card 3: Treatment status -->
-            <div class="col-12 col-md-4 mb-2 d-flex">
-                <div class="card-treatment w-100 h-100">
+            
+            <div class="col-12 col-md-3 treatment-status-card">
+                <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">สถานะการรักษาล่าสุด</h4>
                         <div class="card-text">
-                            <div id="status-container" class="mb-2">
+                            <div class="mb-3">
                                 <h5>รักษาเสร็จสิ้น</h5>
                                 <div class="progress">
                                     <div class="progress-bar bg-success treatment-success" style="width: 0%;">
@@ -250,8 +248,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
     </div>
     </div>
     </div>

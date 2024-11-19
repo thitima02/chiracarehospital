@@ -432,7 +432,7 @@ select.form-select {
     border-radius: 16px;
     background-color: #ffffff;
     transition: border-color 0.3s ease;
-    width: 15%; /* Adjust width of select dropdown */
+    width: 20%; /* Adjust width of select dropdown */
 }
 
 /* Button styling */
