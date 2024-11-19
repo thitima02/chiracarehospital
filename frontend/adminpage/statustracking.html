@@ -291,7 +291,7 @@
           doc.addFont('../../assets/font/THSarabunNew_BoldItalic.ttf', 'THSarabunNewBoldItalic', 'bolditalic');
           doc.setFont('THSarabunNew', 'normal'); // กำหนดฟอนต์เริ่มต้น
 
-          doc.text('รายชื่อผู้ป่วย', 14, 10);
+          doc.text('รายชื่อผู้ป่วยทั้งหมดที่ต้องติดตาม', 14, 10);
 
           const tableData = [];
           const selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -384,10 +384,10 @@
                 fontSize: 12,        // ขนาดฟอนต์
               },
               headStyles: {
-                fillColor: [22, 160, 133], // สีพื้นหลังหัวตาราง
+                fillColor: [41, 128, 185], // สีพื้นหลังหัวตาราง
                 textColor: [255, 255, 255], // สีข้อความในหัวตาราง
                 font: 'THSarabunNewBold',   // ฟอนต์หัวตารางเป็นตัวหนา
-                fontSize: 14,               // ขนาดฟอนต์หัวตาราง
+                fontSize: 12,               // ขนาดฟอนต์หัวตาราง
               },
               columnStyles: {
                 0: { halign: 'left' },   // ข้อความในคอลัมน์แรก (ชื่อผู้ป่วย) จัดชิดซ้าย
@@ -401,7 +401,7 @@
             });
 
             // บันทึกไฟล์ PDF
-            doc.save('รายงานผู้ป่วย.pdf');
+            doc.save('รายชื่อผู้ป่วยทั้งหมดที่ต้องติดตาม.pdf');
           } else {
             console.error("autoTable function not found!");
           }
