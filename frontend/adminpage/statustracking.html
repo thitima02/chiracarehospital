@@ -286,7 +286,10 @@
 
           // การเพิ่มฟอนต์จากไฟล์ (ที่อยู่ในโฟลเดอร์ fonts)
           doc.addFont('../../assets/font/THSarabunNew.ttf', 'THSarabunNew', 'normal');
-          doc.setFont('THSarabunNew', 'normal');
+          doc.addFont('../../assets/font/THSarabunNew_Italic.ttf', 'THSarabunNewItalic', 'italic');
+          doc.addFont('../../assets/font/THSarabunNew_Bold.ttf', 'THSarabunNewBold', 'bold');
+          doc.addFont('../../assets/font/THSarabunNew_BoldItalic.ttf', 'THSarabunNewBoldItalic', 'bolditalic');
+          doc.setFont('THSarabunNew', 'normal'); // กำหนดฟอนต์เริ่มต้น
 
           doc.text('รายชื่อผู้ป่วย', 14, 10);
 
@@ -368,13 +371,36 @@
             ]);
             console.log("Table Data (as Array of Values):", tableValues);
 
+            // สร้างตารางใน PDF ด้วยการตั้งค่าเพิ่มเติม
             doc.autoTable({
-              head: [['ชื่อผู้ป่วย', 'ประเภทโรค', 'ประเภทผู้ป่วย', 'วันที่เริ่มติดตาม', 'กำหนดส่งงาน', 'สถานะการติดตาม']], // กำหนดหัวตาราง
+              head: [
+                ['ชื่อผู้ป่วย', 'ประเภทโรค', 'ประเภทผู้ป่วย', 'วันที่เริ่มติดตาม', 'กำหนดส่งงาน', 'สถานะการติดตาม']
+              ], // กำหนดหัวตาราง
               body: tableValues, // ข้อมูลตาราง
               theme: 'grid',
-              styles: { font: 'THSarabunNew' },
+              styles: {
+                font: 'THSarabunNew',
+                halign: 'center',    // กำหนดการจัดข้อความกลาง
+                fontSize: 12,        // ขนาดฟอนต์
+              },
+              headStyles: {
+                fillColor: [22, 160, 133], // สีพื้นหลังหัวตาราง
+                textColor: [255, 255, 255], // สีข้อความในหัวตาราง
+                font: 'THSarabunNewBold',   // ฟอนต์หัวตารางเป็นตัวหนา
+                fontSize: 14,               // ขนาดฟอนต์หัวตาราง
+              },
+              columnStyles: {
+                0: { halign: 'left' },   // ข้อความในคอลัมน์แรก (ชื่อผู้ป่วย) จัดชิดซ้าย
+                1: { halign: 'left' },   // ข้อความในคอลัมน์สอง (ประเภทโรค) จัดชิดซ้าย
+                2: { halign: 'left' },   // ข้อความในคอลัมน์สาม (ประเภทผู้ป่วย) จัดชิดซ้าย
+                3: { halign: 'center' }, // ข้อความในคอลัมน์สี่ (วันที่เริ่มติดตาม) จัดกลาง
+                4: { halign: 'center' }, // ข้อความในคอลัมน์ห้า (กำหนดส่งงาน) จัดกลาง
+                5: { halign: 'center' }  // ข้อความในคอลัมน์หก (สถานะการติดตาม) จัดกลาง
+              },
+              margin: { top: 20 },
             });
 
+            // บันทึกไฟล์ PDF
             doc.save('รายงานผู้ป่วย.pdf');
           } else {
             console.error("autoTable function not found!");
