@@ -186,7 +186,15 @@
         function loadUserData() {
             const userId = getUserIdFromURL();
             if (userId) {
+<<<<<<< HEAD
                 fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser_vhv.php?id=${userId}`)
+=======
+<<<<<<< HEAD
+                fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser_vhv.php?id=${userId}`)
+=======
+                fetch(`/chiracarehospital/backend/sql/users/getOneUser.php?id=${userId}`)
+>>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
@@ -408,6 +416,45 @@
                 });
             }
         }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Fetch data from API once the page is loaded
+            $.getJSON('/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+                if (response.status === 'success') {
+                    var patients = response.data;
+                    var rows = '';
+
+                    // Loop through each patient data to create table rows
+                    patients.forEach(function (patient) {
+                        rows += '<tr>';
+                        rows += '<td>' + patients.full_name + '</td>';
+                        rows += '<td>' + patients.birth_date+ '</td>';
+                        rows += '<td>' + patients.id_card + '</td>';
+                        rows += '<td>' + patients.phone_number + '</td>';
+                        rows += '<td>' + patients.emergency_phone + '</td>';
+
+                        rows += '<td>';
+                        
+                        rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
+                        rows += '</td>';
+                        rows += '</tr>';
+                    });
+
+                    // Insert the rows into the table body
+                    $('#patient-info-body').html(rows);
+                } else {
+                    alert(response.message);
+                }
+            });
+        });
+>>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
     </script>
 
@@ -416,10 +463,23 @@
     <script>
         $(document).ready(function () {
             // Fetch data from API when page loads
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
             // $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
             //     if (response.status === 'success') {
             //         var patients = response.data;
             //         var rows = '';
+<<<<<<< HEAD
+=======
+=======
+            $.getJSON('/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+                if (response.status === 'success') {
+                    var patients = response.data;
+                    var rows = '';
+>>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
             //         // Loop through each patient data to create table rows
             //         patients.forEach(function (patient) {

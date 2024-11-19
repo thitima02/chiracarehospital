@@ -1,4 +1,11 @@
 .right-section {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
     display: flex;
     align-items: center;
     gap: 20px; /* Adjust the spacing between the bell icon and profile details */
@@ -58,4 +65,74 @@
     height: 50px;
     min-width: 190px;
     padding: 0 15px 0 2px;
+<<<<<<< HEAD
   }
+=======
+<<<<<<< HEAD
+  }
+=======
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Adjust the spacing between the bell icon and profile details */
+}
+
+.icon-button {
+  position: relative;
+  color: #1d1b31;
+  border: none;
+  padding: 5px 10px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(234, 234, 234);
+}
+
+.icon-button:hover {
+  background-color: #b4b4b4;
+}
+
+.sidebar.open ~ .top{
+  left: 250px;
+  width: calc(100% - 250px);
+}
+.top .text{
+  display: inline-block;
+  color: #151D48;
+  font-size: 28px;
+  font-weight: 800;
+  margin: 10px;
+  margin-left: 30px;
+}
+.top nav{
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  background: hsl(0, 0%, 100%);
+  align-items: center;
+  /* position: fixed; */
+  /* z-index: 100; */
+  padding: 0 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease;
+  position: relative;
+  top: 0;
+  left: 78px;
+  width: calc(100% - 78px);
+  z-index: 2;
+}
+
+.top nav .profile-details{
+  display: flex;
+  align-items: center;
+  background: #F5F6FA;
+  border: 2px solid #EFEEF1;
+  border-radius: 6px;
+  height: 50px;
+  min-width: 190px;
+  padding: 0 15px 0 2px;
+}
+>>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
+=======
+  }
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec

@@ -1,4 +1,8 @@
 .table-container {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +16,133 @@
     /* Center the container */
     margin-left: 110px;
   }
+<<<<<<< HEAD
  
+=======
+
+  .datatable {
+    min-width: 100%;
+  }
+
+  .patient-table {
+    width: 100%;
+    /* Ensure the table fits within the container */
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: center;
+    overflow-x: auto;
+  }
+
+  .patient-table thead tr {
+    background-color: #ececec;
+    color: #5D97EF;
+  }
+
+  .patient-table th,
+  .patient-table td {
+    padding: 15px;
+    padding-right: 33px;
+    border-bottom: 1px solid #F4F4F4;
+
+  }
+
+  .patient-table tbody tr {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .patient-table tbody tr:last-of-type {
+    border-bottom: 2px solid #f4f4f4;
+  }
+
+  .patient-table img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+
+  .status.continue {
+    background-color: #F4E1ED;
+    color: #BB4292;
+    font-weight: bold;
+  }
+
+  .status.sucess {
+    background-color: #d4f7ff;
+    color: #2f7d8f;
+    font-weight: bold;
+  }
+
+  .status.unsucess {
+    background-color: #ffdfe4;
+    color: #ae5c67;
+    font-weight: bold;
+  }
+
+  .status.other {
+    color: #000000;
+  }
+  
+  .action-btn {
+    position: relative;
+    color: #1d1b31;
+    border: none;
+    padding: 3px 8px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgb(241, 241, 241);
+    margin-left: 15px;
+  }
+
+  .action-btn:hover {
+    background-color: #5D97EF;
+    color: #F4F4F4;
+  } 
+
+  /* การตอบสนองของตาราง */
+  @media (max-width: 768px) {
+    .filter-bar {
+      flex-direction: column;
+    }
+  
+    .patient-table th, .patient-table td {
+      font-size: 12px;
+    }
+  
+    .search-box, .filter {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .edit-btn, .detail-btn {
+      font-size: 10px;
+    }
+  }
+=======
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 91%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: auto;
+  /* Center the container */
+  margin-left: 110px;
+}
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
 .datatable {
   min-width: 100%;
@@ -157,4 +287,9 @@
   .edit-btn, .detail-btn {
     font-size: 10px;
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
