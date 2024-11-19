@@ -128,12 +128,33 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 mb-2"> <!-- Second chart container -->
+            <div class="col-12 col-md-6 mb-2"> <!-- First chart container -->
                 <div class="card mb-4">
                     <div class="card-body">
                         <h4 class="card-title">สถิติของกลุ่มผู้ป่วย</h4>
-                        <!-- Export Button -->
-                        <button id="exportButton" class="btn btn-primary mb-3">ดาวน์โหลดข้อมูลเป็น Excel</button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <select id="yearSelect1" class="form-select mb-3">
+                                <option selected disabled>เลือกปี</option>
+                            </select>
+                            <button id="exportButton1" class="btn btn-success mb-3">ดาวน์โหลด Excel</button>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="patient-type-chart" class="patient-statistics-yearly" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-6 mb-2"> <!-- Second chart container -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">กราฟแสดงสถิติของกลุ่มผู้ป่วย</h4>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <select id="yearSelect2" class="form-select mb-3">
+                                <option selected disabled>เลือกปี</option>
+                            </select>
+                            <button id="exportButton2" class="btn btn-warning mb-3">ดาวน์โหลด Excel</button>
+                        </div>
                         <div class="chart-container">
                             <canvas id="patient-group-chart" class="chart-canvas" width="400" height="200"></canvas>
                         </div>
@@ -141,25 +162,12 @@
                 </div>
             </div>
             
-
-                <div class="col-12 col-md-6 mb-2"> <!-- Second chart container -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h4 class="card-title">สถิติของกลุ่มผู้ป่วย</h4>
-                            <div class="chart-container">
-                                <canvas id="patient-group-chart" class="chart-canvas" width="400" height="200"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
+            
+            
         <div class="row">
             <!-- Card 1: Reasons for missed appointments -->
             <div class="col-12 col-md-4 mb-2 d-flex">
-                <div class="card mb-4 w-100 h-100">
+                <div class="card mb-4 w-150 h-100">
                     <div class="card-body">
                         <h4 class="card-title">อันดับสาเหตุของการขาดนัด</h4>
                         <table class="table">
@@ -446,114 +454,164 @@
                 .catch(error => console.error('Error fetching data:', error));
         });
     </script>
-
-    <!-- Include scripts for Bootstrap, Chart.js, and other libraries -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
     <script>
+        // Declare chartInstance globally to track the chart
+        let chartInstance;  // Keep track of the chart instance
+    
+        // Fetch data for the first chart (patient type statistics)
         fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
+                if (!response.ok) throw new Error('Network response was not ok: ' + response.statusText);
                 return response.json();
             })
             .then(data => {
-                // Assuming the structure of the data includes yearlyTotals directly
-                const yearlyTotals = data.yearlyTotals || {}; // Adjust according to actual structure
-                const years = Object.keys(yearlyTotals); // Collect years
-                const labels = years;
-                const datasets = [
-                    { label: 'ประชาชน', data: [], backgroundColor: 'rgba(0, 255, 255, 0.5)' },
-                    { label: 'ครอบครัว', data: [], backgroundColor: 'rgba(0, 0, 255, 0.5)' },
-                    { label: 'กำลังพล', data: [], backgroundColor: 'rgba(255, 165, 0, 0.5)' }
-                ];
-
-                // Populate datasets with the relevant data from yearlyTotals
+                const yearlyTotals = data.yearlyTotals || {};
+                const years = Object.keys(yearlyTotals);
+    
+                // Populate year dropdown for the first chart
+                const yearSelect1 = document.getElementById('yearSelect1');
                 years.forEach(year => {
-                    const yearlyData = yearlyTotals[year];
-                    datasets[0].data.push(yearlyData.group_totals_patient['ประชาชน'] || 0);
-                    datasets[1].data.push(yearlyData.group_totals_patient['ครอบครัว'] || 0);
-                    datasets[2].data.push(yearlyData.group_totals_patient['กำลังพล'] || 0);
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    yearSelect1.appendChild(option);
                 });
 
-                // Initialize the chart
-                const ctx = document.getElementById('patient-type-chart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: datasets
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'จำนวนผู้ป่วย'
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function (tooltipItem) {
-                                        return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                const latestYear = years.sort((a, b) => b - a)[0]; 
+    
+                // Initial chart rendering for the first chart
+                updateChart1(latestYear);
+    
+                // Event listener for year selection in the first chart
+                yearSelect1.addEventListener('change', function () {
+                    updateChart1(this.value);
+                });
+    
+                // Function to update the first chart with selected year
+                function updateChart1(year) {
+                    const yearlyData = yearlyTotals[year];
+                    const datasets = [
+                        { label: 'ประชาชน', data: [yearlyData.group_totals_patient['ประชาชน'] || 0], backgroundColor: 'rgba(0, 255, 255, 0.5)' },
+                        { label: 'ครอบครัว', data: [yearlyData.group_totals_patient['ครอบครัว'] || 0], backgroundColor: 'rgba(0, 0, 255, 0.5)' },
+                        { label: 'กำลังพล', data: [yearlyData.group_totals_patient['กำลังพล'] || 0], backgroundColor: 'rgba(255, 165, 0, 0.5)' }
+                    ];
+    
+                    if (chartInstance) {
+                        // Update the existing chart with new data
+                        chartInstance.data.labels = [year];
+                        chartInstance.data.datasets = datasets;
+                        chartInstance.update();
+                    } else {
+                        // Create a new chart if it doesn't exist
+                        const ctx = document.getElementById('patient-type-chart').getContext('2d');
+                        chartInstance = new Chart(ctx, {
+                            type: 'bar',
+                            data: { labels: [year], datasets: datasets },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: { display: true, text: 'จำนวนผู้ป่วย' }
+                                    }
+                                },
+                                plugins: {
+                                    legend: { display: true, position: 'top' },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (tooltipItem) {
+                                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                                            },
+                                        }
                                     }
                                 }
                             }
-                        }
+                        });
                     }
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    </script>
-
-
-    <!-- // ดึงข้อมูลจาก กราฟแสดงสถิติของกลุ่มผู้ป่วย -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
                 }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data); // Log the entire data to inspect its structure
+                // Export button functionality for the first chart
+            document.getElementById('exportButton1').addEventListener('click', function () {
+                const exportData = [];
+                const header = ['Year', 'ประชาชน', 'ครอบครัว', 'กำลังพล'];
+                exportData.push(header);
 
-                // Prepare to accumulate totals for each group across the years
-                const patientGroups = {
-                    'กลุ่มผู้ป่วย': [],
-                    'กลุ่มเสี่ยง': [],
-                    'กลุ่มสงสัยป่วย': []
-                };
-
-                // Prepare to collect years dynamically
-                const years = Object.keys(data.yearlyTotals); // Assuming data.yearlyTotals holds the yearly data
-
-                // Loop through the yearly totals
                 years.forEach(year => {
-                    // Access the group_totals directly for each year
-                    const totals = data.yearlyTotals[year]['group_totals'];
-
-                    // Add totals for each patient group to the patientGroups object
-                    patientGroups['กลุ่มผู้ป่วย'].push(totals['กลุ่มผู้ป่วย'] || 0);
-                    patientGroups['กลุ่มเสี่ยง'].push(totals['กลุ่มเสี่ยง'] || 0);
-                    patientGroups['กลุ่มสงสัยป่วย'].push(totals['กลุ่มสงสัยป่วย'] || 0);
+                    const yearlyData = yearlyTotals[year];
+                    exportData.push([
+                        year,
+                        yearlyData.group_totals_patient['ประชาชน'] || 0,
+                        yearlyData.group_totals_patient['ครอบครัว'] || 0,
+                        yearlyData.group_totals_patient['กำลังพล'] || 0
+                    ]);
                 });
 
-                // Creating chart datasets with actual data
+                const ws = XLSX.utils.aoa_to_sheet(exportData);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'สถิติของกลุ่มผู้ป่วย');
+                XLSX.writeFile(wb, 'สถิติของกลุ่มผู้ป่วย.xlsx');
+            });
+        })
+        .catch(error => console.error('Error fetching data for first chart:', error));
+    </script>
+    
+    
+    <!-- Include scripts for Bootstrap, Chart.js, and other libraries -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+<script>
+    // Declare chartInstance globally to track the chart
+    let chartInstance2;
+
+    // Fetch data for the second chart (patient group statistics)
+    fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Prepare to accumulate totals for each group across the years
+            const patientGroups = {
+                'กลุ่มผู้ป่วย': [],
+                'กลุ่มเสี่ยง': [],
+                'กลุ่มสงสัยป่วย': []
+            };
+
+            // Prepare to collect years dynamically and get the latest year
+            const years = Object.keys(data.yearlyTotals);
+            const latestYear = years[years.length - 1]; // Get the latest year from the list
+
+            // Populate the year dropdown
+            const yearSelect = document.getElementById('yearSelect2');
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            });
+
+            // Initialize the chart with data for the latest year
+            updateChartForYear(latestYear);
+
+            // Event listener to update chart when a year is selected
+            yearSelect.addEventListener('change', function () {
+                const selectedYear = yearSelect.value;
+                updateChartForYear(selectedYear);
+            });
+
+            // Function to update chart with selected year data
+            function updateChartForYear(year) {
+                const totals = data.yearlyTotals[year]['group_totals'];
+                patientGroups['กลุ่มผู้ป่วย'] = [totals['กลุ่มผู้ป่วย'] || 0];
+                patientGroups['กลุ่มเสี่ยง'] = [totals['กลุ่มเสี่ยง'] || 0];
+                patientGroups['กลุ่มสงสัยป่วย'] = [totals['กลุ่มสงสัยป่วย'] || 0];
+
+                // Creating chart datasets with selected year data
                 const patientGroupData = {
-                    labels: years, // Use dynamic years
+                    labels: [year], // Only show the selected year
                     datasets: [
                         {
                             label: 'กลุ่มผู้ป่วย',
@@ -579,64 +637,98 @@
                     ]
                 };
 
-                // Create the chart
-                const ctx = document.getElementById('patient-group-chart').getContext('2d');
-                const patientGroupChart = new Chart(ctx, {
-                    type: 'bar', // Change to 'bar' chart
-                    data: patientGroupData,
-                    options: {
-                        responsive: true,
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-
-                                    font: {
-                                        size: 14,
-                                    }
+                if (chartInstance2) {
+                    // Update the existing chart with new data
+                    chartInstance2.data.labels = [year];
+                    chartInstance2.data.datasets = patientGroupData.datasets;
+                    chartInstance2.update();
+                } else {
+                    // Create a new chart if it doesn't exist
+                    const ctx2 = document.getElementById('patient-group-chart').getContext('2d');
+                    chartInstance2 = new Chart(ctx2, {
+                        type: 'bar', // Bar chart
+                        data: patientGroupData,
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        font: {
+                                            size: 14,
+                                        }
+                                    },
+                                    grid: {
+                                        display: true,
+                                        color: 'rgba(200, 200, 200, 0.5)',
+                                    },
                                 },
-                                grid: {
-                                    display: true,
-                                    color: 'rgba(200, 200, 200, 0.5)',
-                                },
-                            },
-                            y: {
-                                title: {
-                                    display: true,
-                                    text: 'จำนวนผู้ป่วย',
-                                    font: {
-                                        size: 14,
-                                    }
-                                },
-                                beginAtZero: true,
-                                grid: {
-                                    display: true,
-                                    color: 'rgba(200, 200, 200, 0.5)',
-                                },
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                                labels: {
-                                    boxWidth: 15,
-                                    padding: 20,
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'จำนวนผู้ป่วย',
+                                        font: {
+                                            size: 14,
+                                        }
+                                    },
+                                    beginAtZero: true,
+                                    grid: {
+                                        display: true,
+                                        color: 'rgba(200, 200, 200, 0.5)',
+                                    },
                                 }
                             },
-                            tooltip: {
-                                callbacks: {
-                                    label: function (tooltipItem) {
-                                        return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                    labels: {
+                                        boxWidth: 15,
+                                        padding: 20,
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
+                    });
+                }
+            }
+
+            // Export button functionality for the second chart
+            document.getElementById('exportButton2').addEventListener('click', function () {
+                const exportData = [];
+                const header = ['Year', 'กลุ่มผู้ป่วย', 'กลุ่มเสี่ยง', 'กลุ่มสงสัยป่วย'];
+                exportData.push(header);
+
+                years.forEach(year => {
+                    const yearlyData = data.yearlyTotals[year]; // Fixed to use 'data.yearlyTotals'
+                    exportData.push([
+                        year,
+                        yearlyData.group_totals['กลุ่มผู้ป่วย'] || 0,
+                        yearlyData.group_totals['กลุ่มเสี่ยง'] || 0,
+                        yearlyData.group_totals['กลุ่มสงสัยป่วย'] || 0
+                    ]);
                 });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    </script>
+
+                const ws = XLSX.utils.aoa_to_sheet(exportData);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'กราฟแสดงสถิติของกลุ่มผู้ป่วย');
+                XLSX.writeFile(wb, 'กราฟแสดงสถิติของกลุ่มผู้ป่วย.xlsx');
+            });
+
+        })
+        .catch(error => console.error('Error fetching data for second chart:', error));
+</script>
+
+
+
+
 
 
     <script>
