@@ -85,7 +85,7 @@
   /* ขนาดฟอนต์ */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   /* เงา */
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 #download-pdf-button:hover {
@@ -116,6 +116,9 @@
 /* ป๊อปอัป */
 #popup-modal {
   width: 80%;
+  /* สามารถกำหนดเป็นค่าคงที่ เช่น 600px */
+  height: 70%;
+  /* สามารถกำหนดเป็นค่าคงที่ เช่น 400px */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -126,19 +129,27 @@
   display: none;
   z-index: 1000;
   /* Ensures it is above overlay */
+  overflow-y: auto;
+  /* ถ้าข้อมูลเยอะเกินพื้นที่ ให้เลื่อนดูได้ */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* เพิ่มเงาให้ป๊อปอัป */
 }
 
-/* ปรับการแสดงป๊อปอัป */
+/* ปรับการแสดงตาราง */
 #popup-table {
   width: 100%;
   border-collapse: collapse;
+  /* รวมเส้นขอบ */
   margin-top: 10px;
+  border: 1px solid #ddd;
+  /* กรอบรอบตารางทั้งหมด */
 }
 
 #popup-table th,
 #popup-table td {
   padding: 10px;
   border: 1px solid #ddd;
+  /* กรอบรอบเซลล์แต่ละช่อง */
   text-align: left;
 }
 
@@ -146,11 +157,12 @@
 #popup-table tbody {
   display: block;
   max-height: 300px;
-  /* กำหนดความสูงของ tbody */
+  /* ความสูงสูงสุดของส่วน tbody */
   overflow-y: auto;
+  /* เปิดการเลื่อนในแนวตั้ง */
   width: 100%;
   table-layout: fixed;
-  /* ให้ส่วน tbody ใช้การจัดเลย์เอาท์แบบตายตัว */
+  /* ใช้เลย์เอาท์แบบตายตัว */
 }
 
 /* กำหนดให้ thead อยู่ในตำแหน่งเดิมไม่เลื่อนตาม */
@@ -163,8 +175,10 @@
 
 #popup-table th {
   background-color: #f2f2f2;
+  /* สีพื้นหลังสำหรับหัวตาราง */
   position: sticky;
   top: 0;
+  /* ติดอยู่ที่ตำแหน่งด้านบน */
   z-index: 1;
 }
 
@@ -174,18 +188,26 @@
   margin-top: 10px;
 }
 
-/* ปุ่มในป๊อปอัป */
+/* กำหนดส่วนของปุ่ม */
 #generate-pdf-button,
 #close-popup-button {
-  display: flex;
   background-color: #4CAF50;
   color: white;
   border: none;
   padding: 10px 20px;
-  margin-right: 10px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  position: absolute; /* กำหนดตำแหน่งแบบ absolute ภายในป๊อปอัป */
+  bottom: 20px; /* ระยะห่างจากขอบล่าง */
+}
+
+#generate-pdf-button {
+  right: 20px; /* ระยะห่างจากขอบขวา */
+}
+
+#close-popup-button {
+  right: 150px; /* ระยะห่างจากขอบขวาเพื่อเว้นระยะระหว่างปุ่ม */
 }
 
 #generate-pdf-button:hover,
@@ -194,15 +216,20 @@
   /* สีพื้นหลังเมื่อชี้เมาส์ */
 }
 
-/* ปุ่ม "ปิด" */
-#close-popup-button {
-  background-color: #f44336;
-  /* สีพื้นหลังปุ่มปิด */
+/* ไอคอนกากบาท */
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 35px;
+  color: #333;
+  cursor: pointer;
+  margin-right: 20px;
 }
 
-#close-popup-button:hover {
-  background-color: #e53935;
-  /* สีเมื่อชี้เมาส์ปุ่มปิด */
+.close-icon:hover {
+  color: #f44336;
+  /* สีเมื่อชี้เมาส์ */
 }
 
 /* Dropdown icon */
