@@ -5,40 +5,87 @@
     padding: 20px;
     border-radius: 8px;
     margin-left: 90px;
-
-   
-}
-
-.filter-item {
+    gap: 10px; /* เพิ่มช่องว่างระหว่าง filter-item */
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .filter-container {
+      flex-wrap: wrap;
+      flex-direction: column;
+      padding: 20px;
+      
+    }
+  
+    .filter-item {
+      width: 50%; /* ยืดแต่ละ filter item ให้เต็ม */
+      margin-bottom: 15px; /* เพิ่มช่องว่างระหว่าง item */
+      align-items: center;
+    }
+  
+    .filter-item:last-child {
+      margin-bottom: 0;
+    }
+  
+    .search-bar .search-input {
+      width: 100%;
+    }
+  }
+  
+  @media only screen and (max-width: 480px) {
+    .filter-container {
+      gap: 8px; /* ลดช่องว่างระหว่าง item */
+    }
+  
+    .filter-item {
+      margin-bottom: 10px;
+    }
+  }
+  
+  @media only screen and (max-width: 320px) {
+    .filter-container {
+      padding: 5px; /* ลด padding เพื่อให้เหมาะกับหน้าจอขนาดเล็ก */
+      gap: 5px;
+    }
+  
+    .filter-item {
+      margin-bottom: 8px;
+    }
+  
+    .search-bar .search-input {
+      font-size: 14px; /* ลดขนาดตัวอักษรใน input */
+    }
+  
+    .date-filter,
+    .dropdown-filter {
+      font-size: 14px;
+    }
+  }
+  
+  .filter-item {
     flex: 1;
     margin-right: 10px;
-    position: relative; /* Needed to position the icon inside the input */
-
-    @media (max-width: 600px) {
-        display: flex;
-        flex-wrap: wrap;
-      }
-}
-
-.filter-item:last-child {
+    position: relative; /* สำหรับวาง icon ใน input */
+  }
+  
+  .filter-item:last-child {
     margin-right: 0;
-}
-
-.search-bar .search-input {
-    padding-left: 40px; /* Add padding to leave space for the icon */
-}
-
-.search-input {
+  }
+  
+  .search-bar .search-input {
+    padding-left: 40px; /* เพิ่ม padding สำหรับ icon */
+  }
+  
+  .search-input {
     width: 95%;
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ccc;
     box-sizing: border-box;
-    background-color: #E8F1FF;
-}
-
-.date-filter,
-.dropdown-filter {
+    background-color: #e8f1ff;
+  }
+  
+  .date-filter,
+  .dropdown-filter {
     width: 95%;
     padding: 10px;
     border-radius: 8px;
@@ -46,33 +93,34 @@
     box-sizing: border-box;
     background-color: #fff;
     color: #333;
-}
-
-.dropdown-filter {
+  }
+  
+  .dropdown-filter {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background: url('data:image/svg+xml;base64,<svg ... >') no-repeat right center;
+    background: url("data:image/svg+xml;base64,<svg ... >") no-repeat right center;
     background-size: 12px 12px;
     background-color: #fff;
-}
+  }
+  
 
 .search-icon {
-    position: absolute;
-    left: 12px;
-    top: 67%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: #5D97EF;
+  position: absolute;
+  left: 12px;
+  top: 67%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #5d97ef;
 }
 
 /* Dropdown icon */
 .dropdown-icon {
-    position: absolute;
-    right: 30px;
-    top: 67%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: #5D97EF;
-    pointer-events: none; /* Prevent clicking the icon */
-  }
+  position: absolute;
+  right: 30px;
+  top: 67%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #5d97ef;
+  pointer-events: none; /* Prevent clicking the icon */
+}
