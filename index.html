@@ -98,8 +98,19 @@
     }
     const userData = JSON.parse(localStorage.user);
 
-    
-   
+    // ตรวจสอบว่า userData.role เป็น "แอดมิน" หรือไม่
+    if (userData.role === "admin") {
+      window.location.href = "/chiracarehospital/frontend/adminpage/dashboard.html"; // เปลี่ยนเส้นทางไปที่หน้า /home
+    }
+
+    // ตรวจสอบว่า userData.role เป็น "แอดมิน" หรือไม่
+    if (userData.role === "user") {
+      if (userData.department === "อาสาสมัครสาธารณสุข" || userData.department === "เสนารักษ์") {
+        window.location.href = "/chiracarehospital/frontend/vhvpage/main.html";
+      } else if (userData.department === "เจ้าหน้าที่โรงพยาบาล") {
+        window.location.href = "/chiracarehospital/frontend/opdpage/main.html";
+      }
+    }
 
   </script>
 </body>

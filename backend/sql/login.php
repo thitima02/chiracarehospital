@@ -56,7 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'responsibility_area' => $user['responsibility_area'],
                         'user_image' => $user['user_image'],
                         'full_name' => $user['full_name'],
-                        'phone_number' => $user['phone_number']
+                        'phone_number' => $user['phone_number'],
+                        'department' => $user['department']
                     ]
                 ];
             } else {

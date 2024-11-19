@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลเพิ่มเติมผู้ป่วย</title>
+    <link rel="stylesheet" href="../../css/moreinfo2.css">
+    <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/sidebar.css">
+  <link rel="stylesheet" href="../../css/topbar.css">
+  <link rel="stylesheet" href="../../css/logo.css">
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../method/logout.js"></script>
+    <script src="../method/user.js"></script>
+    <script src="../method/loadSidebarScript.js"></script>
+    <script src="../method/checkAuth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body style="background-color:#edeff1;">
+  <div id="sidebar-container"></div>
+  <div id="topbar-container"></div>
+  <div class="container">
+    <div class="header">
+      <div class="back-button">
+        <button onclick="window.history.back()">
+          <i class="fas fa-arrow-left"></i> ย้อนกลับ
+        </button>
+      </div>
+      <div class="patient-profile">
+        <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
+        <div ><h2 id="fullName">ไม่มีข้อมูล</h2></div>
+      </div>
+    </div>
+
+    <!-- Follow-Up Information -->
+    <div class="follow-up-treatment">
+            <!-- ข้อมูลการติดตาม -->
+            <div class="follow-up-info">
+                <h3>ข้อมูลการติดตามล่าสุด</h3>
+                <p><strong>โรคประจำตัว:</strong> <span id="latestDiseaseType">ไม่มีข้อมูล</span></p>
+                <p><strong>อาการทั่วไป:</strong> <span id="generalCondition">ไม่มีข้อมูล</span></p>
+                <p><strong>ค่าสัญญาณชีพ:</strong> <span id="vitalSigns">ไม่มีข้อมูล</span></p>
+                <p><strong>ค่าระดับน้ำตาลในเลือด:</strong> <span id="bloodSugarLevel">ไม่มีข้อมูล</span></p>
+                <p><strong>วันเริ่มติดตาม:</strong> <span id="followUpStartDate">ไม่มีข้อมูล</span></p>
+                <p><strong>ครั้งที่ติดตาม:</strong> <span id="followUpCount">ไม่มีข้อมูล</span></p>
+                <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="responsibleStaffFollowUp">ไม่มีข้อมูล</span></p>
+                <p><strong>สถานะการติดตาม:</strong> <span id="followUpStatus" class="green-status">ไม่มีข้อมูล</span></p>
+            </div>
+        
+            <!-- ข้อมูลการรักษา -->
+            <div class="treatment-info">
+                <h3>ข้อมูลการรักษาล่าสุด</h3>
+                <p><strong>โรคประจำตัว:</strong> <span id="treatmentDiseaseType">ไม่มีข้อมูล</span></p>
+                <p><strong>อาการทั่วไป:</strong> <span id="treatmentGeneralCondition">ไม่มีข้อมูล</span></p>
+                <p><strong>ประเภทการรักษา:</strong> <span id="treatmentType">ไม่มีข้อมูล</span></p>
+                <p><strong>วันที่นัดหมาย:</strong> <span id="appointmentDate">ไม่มีข้อมูล</span></p>
+                <p><strong>วันที่เข้ารับการรักษา:</strong> <span id="treatmentDate">ไม่มีข้อมูล</span></p>
+                <p><strong>ครั้งที่รักษา:</strong> <span id="treatmentCount">ไม่มีข้อมูล</span></p>
+                <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="responsibleStaffTreatment">ไม่มีข้อมูล</span></p>
+                <p><strong>สถานะการรักษา:</strong> <span id="treatmentStatus" class="red-status">ไม่มีข้อมูล</span></p>
+            </div>
+  </div>
+  <script>
+    // Main function to fetch patient data and address information
+    async function fetchPatientData(patientId) {
+        try {
+            // Fetch patient information
+            const response = await fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
+            const data = await response.json();
+            if (data.status === 'success') {
+                const patient = data.data[0]; // Get the first patient's data
+
+                // Set values in HTML
+                document.getElementById('fullName').textContent = patient.full_name || '-';
+
+                // Fetch medical information
+                const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+                const medicalData = await medicalResponse.json();
+
+                // Check for patient medical info
+                if (medicalData.patient_data && medicalData.patient_data.length > 0) {
+                    const patientMedicalInfo = medicalData.patient_data[0]; // Get the first medical info
+
+                    // Update ประเภทโรค กลุ่มผู้ป่วย ประเภทผู้ป่วย
+                    document.getElementById('diseaseType').textContent = patientMedicalInfo.disease_type || '-';
+                    document.getElementById('patientGroup').textContent = patientMedicalInfo.patient_group || '-';
+                    document.getElementById('patientType').textContent = patientMedicalInfo.patient_type || '-';
+
+                    // Update ประเภทโรค
+                    document.getElementById('latestDiseaseType').textContent = patientMedicalInfo.disease_type || 'ไม่มีข้อมูล';
+                    document.getElementById('treatmentDiseaseType').textContent = patientMedicalInfo.disease_type || 'ไม่มีข้อมูล';
+                } else {
+                    console.error('No medical data found.');
+                    document.getElementById('diseaseType').textContent = 'ไม่มีข้อมูลโรค';
+                    document.getElementById('patientGroup').textContent = 'ไม่มีข้อมูลกลุ่มผู้ป่วย';
+                    document.getElementById('patientType').textContent = 'ไม่มีข้อมูลประเภทผู้ป่วย';
+                    document.getElementById('latestDiseaseType').textContent = 'ไม่มีข้อมูล';
+                    document.getElementById('treatmentDiseaseType').textContent = 'ไม่มีข้อมูล';
+                }
+
+            } else {
+                console.error(data.message);
+                alert('ไม่สามารถดึงข้อมูลผู้ป่วยได้: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching patient data:', error);
+            document.getElementById('address').textContent = 'เกิดข้อผิดพลาดในการดึงข้อมูล';
+        }
+    }
+
+    // Function to ข้อมูลการติดตามล่าสุด
+    async function fetchMonitorInformation() {
+        try {
+            const response = await fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php');
+            const data = await response.json();
+    
+            if (data.length > 0) {
+                const latestRecord = data[0];
+                document.getElementById('followUpStartDate').textContent = latestRecord.follow_up_start_date || "ไม่มีข้อมูล";
+                document.getElementById('followUpCount').textContent = latestRecord.monitor_round || "ไม่มีข้อมูล";
+                document.getElementById('followUpStatus').textContent = latestRecord.monitor_status || "ไม่มีข้อมูล";
+            } else {
+                console.log("ไม่มีข้อมูลที่พบในการติดตาม");
+            }
+        } catch (error) {
+            console.error('Error fetching monitor information:', error);
+        }
+    }
+
+    // Function to ข้อมูลการติดตามล่าสุด
+    async function fetchMonitorFormData(patientId) {
+        try {
+            const response = await fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`);
+            const data = await response.json();
+    
+            if (data.status === 'success' && data.data.length > 0) {
+                const monitorFormRecord = data.data[0];
+                document.getElementById('generalCondition').textContent = monitorFormRecord.general_symptoms || "ไม่มีข้อมูล";
+                document.getElementById('vitalSigns').textContent = monitorFormRecord.vital_signs || "ไม่มีข้อมูล";
+                document.getElementById('bloodSugarLevel').textContent = monitorFormRecord.blood_sugar_level || "ไม่มีข้อมูล";
+
+                // Update the latest disease type based on the monitor form
+                document.getElementById('latestDiseaseType').textContent = monitorFormRecord.disease_type || "ไม่มีข้อมูล";
+            } else {
+                console.log("ไม่มีข้อมูลที่พบใน monitor form");
+            }
+        } catch (error) {
+            console.error('Error fetching monitor form data:', error);
+        }
+    }
+
+    // Call functions when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        const patientId = 101; // Set the patient_id you want to fetch
+        fetchPatientData(patientId);
+        fetchMonitorInformation();
+        fetchMonitorFormData(patientId);
+    });
+</script>
+<script>
+    // Function to fetch monitor data from PHP and display in HTML
+    function loadMonitorData(patientId) {
+        fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const monitorData = data.data[0]; // Assuming we want the first entry
+    
+                    // Update HTML elements with the fetched data
+                    document.getElementById('treatmentDiseaseType').textContent = monitorData.patient_id;
+                    document.getElementById('treatmentGeneralCondition').textContent = monitorData.general_symptoms;
+                    document.getElementById('treatmentType').textContent = monitorData.vital_signs;
+                    document.getElementById('appointmentDate').textContent = monitorData.form_submission_date;
+                    document.getElementById('treatmentDate').textContent = monitorData.form_submission_date;
+                    document.getElementById('nextAppointmentDate').textContent = monitorData.form_submission_date;
+                    document.getElementById('treatmentCount').textContent = monitorData.reason_count;
+                    document.getElementById('treatmentStatus').textContent = monitorData.reason_for_missed_treatment;
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+            });
+    }
+
+    // Function to fetch user data from PHP and display in HTML
+    function loadUserData() {
+        fetch('http://localhost/chiracarehospital/backend/sql/users/getAlluser.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const users = data.data;
+
+                    // Assuming you want to show the full_name of the first user in the data
+                    if (users.length > 0) {
+                        document.getElementById('responsibleStaffFollowUp').textContent = users[0].full_name;
+                        document.getElementById('responsibleStaffTreatment').textContent = users[0].full_name;
+                    } else {
+                        document.getElementById('responsibleStaffFollowUp').textContent = "ไม่พบข้อมูลเจ้าหน้าที่";
+                        document.getElementById('responsibleStaffTreatment').textContent = "ไม่พบข้อมูลเจ้าหน้าที่";
+                    }
+                } else {
+                    console.error('Error:', data.message);
+                    document.getElementById('responsibleStaffFollowUp').textContent = data.message;
+                    document.getElementById('responsibleStaffTreatment').textContent = data.message;
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                document.getElementById('responsibleStaffFollowUp').textContent = "เกิดข้อผิดพลาดในการดึงข้อมูล";
+                document.getElementById('responsibleStaffTreatment').textContent = "เกิดข้อผิดพลาดในการดึงข้อมูล";
+            });
+    }
+
+    // Load data when the DOM content is fully loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        const patientId = 101; // Set the patient_id you want to fetch
+        loadMonitorData(patientId);
+        loadUserData();
+    });
+</script>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // ซ่อนป๊อปอัพและ overlay เมื่อกดปุ่มยกเลิก
+      document.getElementById('cancel-assign').addEventListener('click', function () {
+        document.getElementById('confirmation-popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+      });
+    });
+  </script>
+  <script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
+  
+    // Load sidebar
+    fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('sidebar-container').innerHTML = data;
+            loadSidebarScript();
+        });
+  
+    // Load topbar and set the page title
+    fetch('topbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('topbar-container').innerHTML = data;
+            document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย';
+  
+            // Re-run user.js script after loading topbar
+            const script = document.createElement('script');
+            script.src = '../method/user.js';
+            document.body.appendChild(script);
+        });
+  </script>
+</body>
+</html>

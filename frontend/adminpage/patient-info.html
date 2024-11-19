@@ -10,10 +10,21 @@
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
+  <script src="../method/logout.js"></script>
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../method/logout.js"></script>
+  <script src="../method/user.js"></script>
+  <script src="../method/loadSidebarScript.js"></script>
+  <script src="../method/checkAuth.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body style="background-color:#edeff1;">
@@ -45,22 +56,24 @@
       </button>
     </div>
 
-    <table class="patienttable">
-      <thead>
-        <tr>
-          <th>ชื่อ - นามสกุล</th>
-          <th>วันเกิด</th>
-          <th>เลขบัตรประชาชน</th>
-          <th>เบอร์โทรศัพท์</th>
-          <th>เบอร์โทรศัพท์ญาติ</th>
-          <th>สถานะปัจจุบัน</th>
-          <th>จัดการ</th>
-        </tr>
-      </thead>
-      <tbody id="patient-info-body">
-        <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
-      </tbody>
-    </table>
+    <div class="table-container">
+      <table class="patient-table">
+        <thead>
+          <tr>
+            <th>ชื่อ - นามสกุล</th>
+            <th>วันเกิด</th>
+            <th>เลขบัตรประชาชน</th>
+            <th>เบอร์โทรศัพท์</th>
+            <th>เบอร์โทรศัพท์ญาติ</th>
+            <th>สถานะปัจจุบัน</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody id="patient-info-body">
+          <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script>
@@ -107,66 +120,28 @@
     document.addEventListener('DOMContentLoaded', function () {
       filterData();
     });
-
   </script>
 
-
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
-
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'จัดการข้อมูลผู้ป่วย'; // Set page title for the history page
-      });
-
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-    }
-    document.getElementById('add-button').addEventListener('click', function () {
-      window.location.href = 'editaddinfo.html';
-    });
-  </script>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function () {
       // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
       $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+        console.log("Response from API:", response); // ดูข้อมูลที่ได้จาก API
         if (response.status === 'success') {
           var patients = response.data;
+          console.log("ข้อมูลผู้ป่วย:", patients); // ดูข้อมูลผู้ป่วยที่ได้จาก API
           var rows = '';
 
           // วนลูปข้อมูลผู้ป่วยเพื่อแสดงในตาราง
           patients.forEach(function (patient) {
+            console.log("ข้อมูลผู้ป่วยแต่ละคน:", patient); // ดูข้อมูลของผู้ป่วยแต่ละคน
             rows += '<tr>';
             rows += '<td><img src="../../assets/images/cat.jpg" alt="avatar"> ' + patient.full_name + '</td>';
             rows += '<td>' + formatDate(patient.birth_date) + '</td>';
             rows += '<td>' + patient.id_card + '</td>';
             rows += '<td>' + patient.phone_number + '</td>';
             rows += '<td>' + patient.emergency_phone + '</td>';
-            rows += '<td><span class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</span></td>';
+            rows += '<td class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</td>';
 
             rows += '<td>';
             rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
@@ -191,9 +166,9 @@
         return day + '-' + month + '-' + year;
       }
 
-
+      // ฟังก์ชันการกำหนดสีสถานะ
       function getStatusColor(status) {
-        if (status === 'ปกติ') {
+        if (status === 'ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)') {
           return 'green'; // สถานะสีเขียวสำหรับปกติ
         } else if (status === 'เสียชีวิต') {
           return 'red'; // สถานะสีแดงสำหรับเสียชีวิต
@@ -203,7 +178,6 @@
           return ''; // ค่าเริ่มต้น ถ้าไม่มีสถานะที่ตรงกัน
         }
       }
-
     });
 
     // ฟังก์ชันแก้ไขข้อมูลผู้ป่วย
@@ -219,7 +193,6 @@
         alert('ลบข้อมูลผู้ป่วยเรียบร้อย');
       }
     }
-
   </script>
 
   <script>
@@ -286,6 +259,7 @@
   </script>
 
   <script>
+    // ฟังก์ชันกรองข้อมูลที่ละเอียด
     function filterData() {
       const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
       const phone = document.getElementById('phoneFilter').value;
@@ -302,8 +276,6 @@
         const relativePhoneValue = row.cells[4].textContent.trim();
         const treatmentStatusValue = row.cells[5].textContent.trim();
 
-        console.log('Comparing idCard:', idCard, 'with idCardValue:', idCardValue); // Debug line
-
         let isVisible = true;
 
         if (searchName && !name.includes(searchName)) isVisible = false;
@@ -318,6 +290,42 @@
     document.addEventListener('DOMContentLoaded', loadUserData);
   </script>
 
+  <script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
+
+    // Load sidebar
+    fetch('sidebar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+      .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+        loadSidebarScript();
+        // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+      });
+
+    // Load topbar and set the page title
+    fetch('topbar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+      .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
+      .then(data => {
+        document.getElementById('topbar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+        document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย';
+        // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+        // Re-run user.js script after loading topbar
+        const script = document.createElement('script');
+        // สร้างแท็ก script ใหม่
+        script.src = '../method/user.js';
+        // กำหนดแหล่งที่มาของ script เป็น user.js
+        document.body.appendChild(script);
+        // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+      });
+  </script>
 
 </body>
 

@@ -2,27 +2,56 @@
 header('Content-Type: application/json');
 
 // Database connection
-include 'db_connection.php'; // Ensure this file contains your database connection logic
+include 'db_connection.php'; // Ensure this file contains your PDO database connection logic
 
-// SQL query to fetch data from the monitor_form table
-$sql = "SELECT * FROM monitor_form";
-$result = $conn->query($sql);
-
-// Check if there are results and fetch them
-if ($result->num_rows > 0) {
-    $monitor_data = array();
-
-    while($row = $result->fetch_assoc()) {
-        $monitor_data[] = $row;
-    }
-
-    // Return data in JSON format
-    echo json_encode(array('status' => 'success', 'data' => $monitor_data));
-} else {
-    // No results found
-    echo json_encode(array('status' => 'error', 'message' => 'No data found.'));
+// Error handling for database connection
+if (!$conn) {
+    http_response_code(500); // Internal Server Error
+    echo json_encode(array('status' => 'error', 'message' => 'Database connection failed.'));
+    exit();
 }
 
-// Close the database connection
-$conn->close();
+try {
+    // SQL query to fetch data from the monitor_form table
+    $sql = "
+        SELECT 
+            id,
+            patient_id,
+            blood_sugar_level,
+            general_symptoms,
+            vital_signs,
+            reason_for_missed_treatment,
+            form_submission_date,
+            COUNT(reason_for_missed_treatment) AS reason_count
+        FROM 
+            monitor_form
+        GROUP BY 
+            reason_for_missed_treatment
+        ORDER BY 
+            reason_count DESC
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+    // Fetch data as an associative array
+    $monitor_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Check if there are results
+    if (count($monitor_data) > 0) {
+        // Return data in JSON format with success status
+        echo json_encode(array('status' => 'success', 'data' => $monitor_data));
+    } else {
+        // No results found
+        http_response_code(404); // Not Found
+        echo json_encode(array('status' => 'error', 'message' => 'No data found.'));
+    }
+} catch (Exception $e) {
+    // Return error in case of failure
+    http_response_code(500); // Internal Server Error
+    echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
+}
+
+// Close the database connection (set PDO object to null)
+$conn = null;
 ?>
