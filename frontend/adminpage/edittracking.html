@@ -74,122 +74,25 @@
     </div>
     
     <script>
-        // Function to get patient_id from URL query parameters
-        function getPatientIdFromURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('patient_id');
+      document.addEventListener('DOMContentLoaded', function () {
+        const patientId = getPatientIdFromURL();
+        if (patientId) {
+            fetchPatientMedicalData(patientId);
+            fetchPatientInformation(patientId);
+            fetchMonitorFormData(patientId);
+        } else {
+            alert('ไม่พบข้อมูลผู้ป่วย');
         }
+    });
 
-        // Function to fetch monitor information by patient_id
-        function fetchMonitorData() {
-            const patientId = document.getElementById('patient-id').value;
-            const followUpStatus = document.getElementById('follow-up-status').value;
-
-            if (!patientId) {
-                alert('Please enter a Patient ID');
-                return;
-            }
-
-            // Fetch data from the PHP script
-            fetch(`get_monitor_information.php?patient_id=${patientId}&monitor_status=${followUpStatus}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        alert(data.message); // Show if no data
-                    } else {
-                        const tableBody = document.getElementById('monitor-data').querySelector('tbody');
-                        tableBody.innerHTML = ''; // Clear previous results
-
-                        data.forEach(item => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td>${item.monitor_date}</td>
-                                <td>${item.monitor_deadline}</td>
-                                <td>${item.monitor_round}</td>
-                                <td>${item.monitor_status}</td>
-                            `;
-                            tableBody.appendChild(row);
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        }
-
-        // Function to fetch monitor information by patient_id
-        function getMonitorInformation(patientId) {
-            fetch('http://localhost/chiracarehospital/backend/sql/get_monitor_information.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        console.error("Error fetching data:", data.error);
-                        return;
-                    }
-
-                    const monitorInfo = data.find(item => item.patient_id === patientId);
-                    if (monitorInfo) {
-                        document.getElementById('monitor-date').value = monitorInfo.monitor_date || 'ไม่มีข้อมูล';
-                        document.getElementById('monitor-deadline').value = monitorInfo.monitor_deadline || 'ไม่มีข้อมูล';
-                        document.getElementById('monitor-round').value = monitorInfo.monitor_round || 'ไม่มีข้อมูล';
-                        document.getElementById('follow-up-status').value = monitorInfo.monitor_status || '';
-                    } else {
-                        console.log('No monitor information found for the given patient ID');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        // Function to update the follow-up status
-        function updateMonitorStatus() {
-            const patientId = getPatientIdFromURL();
-            const newStatus = document.getElementById('follow-up-status').value;
-            if (!patientId || !newStatus) {
-                console.log('Invalid patient ID or status');
-                return;
-            }
-
-            fetch('http://localhost/chiracarehospital/backend/sql/update_monitor_status.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ patient_id: patientId, monitor_status: newStatus })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    console.log('Monitor status updated successfully');
-                } else {
-                    console.error('Error updating monitor status:', data.message);
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        // Function to fetch treatment information by patient_id
-        function getTreatmentInformation(patientId) {
-            fetch('http://localhost/chiracarehospital/backend/sql/get_treatment_information.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        console.error("Error fetching data:", data.error);
-                        return;
-                    }
-                    const treatmentInfo = data.find(item => item.patient_id === patientId);
-                    if (treatmentInfo) {
-                        document.getElementById('treatment-status').value = treatmentInfo.treatment_status;
-                        document.getElementById('treatment-round').value = treatmentInfo.total_treatment_round;
-                    } else {
-                        console.log('No treatment data found for the given patient ID');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        // Function to fetch patient medical data by patient_id
-        async function fetchPatientMedicalData(patientId) {
-            try {
-                const medicalResponse = await fetch(`http://localhost/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
-                const medicalData = await medicalResponse.json();
+    function getPatientIdFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('patient_id');
+    }
+async function fetchPatientMedicalData(patientId) {
+    try {
+        const medicalResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+        const medicalData = await medicalResponse.json();
 
                 if (medicalData.patient_data && medicalData.patient_data.length > 0) {
                     const patientMedicalInfo = medicalData.patient_data[0];
@@ -204,19 +107,18 @@
             }
         }
 
-        // Function to fetch and display general patient information
-        function fetchPatientInformation(patientId) {
-            fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        displayPatientInformation(data.data[0]);
-                    } else {
-                        console.error('ไม่พบข้อมูลผู้ป่วย');
-                    }
-                })
-                .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-        }
+function fetchPatientInformation(patientId) {
+    fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                displayPatientInformation(data.data[0]);
+            } else {
+                console.error('ไม่พบข้อมูลผู้ป่วย');
+            }
+        })
+        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+}
 
         // Function to display general patient information
         function displayPatientInformation(patient) {
@@ -227,19 +129,18 @@
             document.querySelector('#symptoms').value = patient.symptoms || '';
         }
 
-        // Function to fetch and display monitor form data
-        function fetchMonitorFormData(patientId) {
-            fetch(`http://localhost/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        displayMonitorFormData(data.data[0]);
-                    } else {
-                        console.error('ไม่พบข้อมูล');
-                    }
-                })
-                .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-        }
+function fetchMonitorFormData(patientId) {
+    fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                displayMonitorFormData(data.data[0]);
+            } else {
+                console.error('ไม่พบข้อมูล');
+            }
+        })
+        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+}
 
         // Function to display monitor form data
         function displayMonitorFormData(monitorData) {

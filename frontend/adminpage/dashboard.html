@@ -295,14 +295,13 @@
         });
     </script>
 
-    <script>
-        // สถานะการติดตามล่าสุด
-        function fetchStatusData() {
-            fetch('/chiracarehospital/backend/sql/get_monitor_information.php')
-                .then(response => response.json())
-                .then(data => {
-                    let totalPatients = 0;
-                    let followed = 0, following = 0, notFollowed = 0;
+<script>
+    function fetchStatusData() {
+        fetch('/chiracarehospital/backend/sql/get_monitor_information.php')
+            .then(response => response.json())
+            .then(data => {
+                let totalPatients = 0;
+                let followed = 0, following = 0, notFollowed = 0;
 
                     // Check if data has a message indicating no data
                     if (data.message) {
@@ -383,16 +382,17 @@
 
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            fetch('/chiracarehospital/backend/sql/get_treatment_information.php')
-                .then(response => response.json())
-                .then(data => {
-                    // Initialize counters and follow-up dates array
-                    let totalPatients = data.length;
-                    let successCount = 0, failCount = 0, followUpCount = 0;
-                    let followUpDates = [];
-                    let latestUpdate = null;  // Variable to hold the latest update date
+<script>
+    //สถานะการรักษาล่าสุด
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('http://localhost/chiracarehospital/backend/sql/get_treatment_information.php')
+        .then(response => response.json())
+        .then(data => {
+            // Initialize counters and follow-up dates array
+            let totalPatients = data.length;
+            let successCount = 0, failCount = 0, followUpCount = 0;
+            let followUpDates = [];
+            let latestUpdate = null;  // Variable to hold the latest update date
 
                     // Calculate the count for each status and collect follow-up dates
                     data.forEach(item => {
@@ -635,18 +635,18 @@
             })
             .catch(error => console.error('Error fetching data:', error));
     </script>
-
-
-    <script>
-        // Function to fetch data from PHP and update the dashboard
-        function updateDashboard() {
-            const currentYear = new Date().getFullYear(); // Get the current year
-            fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
-                .then(response => response.json())
-                .then(data => {
-                    // Check if data for the current year exists
-                    if (data.yearlyTotals[currentYear]) {
-                        const yearlyData = data.yearlyTotals[currentYear];
+    
+    
+<script>
+    // Function to fetch data from PHP and update the dashboard
+    function updateDashboard() {
+        const currentYear = new Date().getFullYear(); // Get the current year
+        fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
+            .then(response => response.json())
+            .then(data => {
+                // Check if data for the current year exists
+                if (data.yearlyTotals[currentYear]) {
+                    const yearlyData = data.yearlyTotals[currentYear];
 
                         // Update hypertension
                         document.getElementById('public_hypertension').innerText = yearlyData.hypertension['ประชาชน'];

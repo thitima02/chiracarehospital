@@ -125,7 +125,7 @@
             totalAppointmentsText.textContent = `ผู้ป่วยทั้งหมดที่มีนัดรักษา${formattedDate}`;
 
             // ดึงข้อมูลจำนวนผู้ป่วยทั้งหมด
-            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_appointments.php")
+            fetch("/chiracarehospital/backend/sql/opd/fetch_appointments.php")
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("totalAppointments").textContent = `${data.totalAppointments} คน`;
@@ -133,7 +133,7 @@
                 .catch(error => console.error("Error fetching data:", error));
 
             // ดึงข้อมูลจำนวนผู้ป่วยที่รักษาเสร็จสิ้น และยังไม่ได้รับการรักษา
-            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
+            fetch("/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("totalTreated").textContent = data.totalTreated + " คน";
@@ -153,7 +153,7 @@
 
         function fetchAndShowPatients(status) {
             // กำหนด URL ให้ดึงข้อมูลผู้ป่วยตามสถานะที่เลือก
-            let url = status === 'treated' ? 'http://localhost/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : 'http://localhost/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
+            let url = status === 'treated' ? '/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : '/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
 
             // ดึงข้อมูลจาก URL
             fetch(url)
@@ -315,7 +315,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_treatments.php")
+            fetch("/chiracarehospital/backend/sql/opd/fetch_treatments.php")
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.querySelector(".patient-table tbody");
@@ -391,7 +391,7 @@
         // action add 
         function confirmAction(patientId) {
             console.log(patientId); // ตรวจสอบว่ามี patientId หรือไม่
-            fetch(`http://localhost:8080/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
+            fetch(`/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
                 .then(response => response.json())
                 .then(patient => {
                     const name = encodeURIComponent(patient.patient_name);

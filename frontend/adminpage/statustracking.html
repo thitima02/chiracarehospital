@@ -30,59 +30,209 @@
   <div id="topbar-container"></div>
 
   <div class="statustracking-container">
-       <!-- Filters -->
+    <!-- Filters -->
     <section class="filter-section" style="justify-content: center;">
       <div class="filter-container">
-          <div class="filter-item search-bar">
-              <h5>ค้นหารายชื่อ</h5>
-              <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
-              <i class='bx bx-search search-icon'></i>
-          </div>
-          <div class="filter-item">
-            <h5>โรคประจำตัว</h5>
-            <select class="dropdown-filter" id="treatmentCountFilter">
-                <option value="ทั้งหมด">ทั้งหมด</option>
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <!-- Add other options as needed -->
-            </select>
+        <div class="filter-item search-bar">
+          <h5>ค้นหารายชื่อ</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+          <i class='bx bx-search search-icon'></i>
         </div>
-          <div class="filter-item">
-              <h5>วันที่นัดหมาย</h5>
-              <input type="date" class="date-filter" id="appointmentDateFilter">
-          </div>
-          <div class="filter-item">
-              <h5>วันที่นัดครั้งถัดไป</h5>
-              <input type="date" class="date-filter" id="treatmentDateFilter">
-          </div>
-          <div class="filter-item">
-              <h5>ครั้งที่รักษา</h5>
-              <select class="dropdown-filter" id="treatmentCountFilter">
-                  <option value="ทั้งหมด">ทั้งหมด</option>
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <!-- Add other options as needed -->
-              </select>
-          </div>
-          <div class="filter-item">
-              <h5>สถานะการรักษา</h5>
-              <select class="dropdown-filter" id="treatmentStatusFilter">
-                  <option value="ทั้งหมด">ทั้งหมด</option>
-                  <option value="ยังไม่ได้รักษา">ยังไม่ได้รักษา</option>
-                  <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
-                  <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
-              </select>
-          </div>
+        <div class="filter-item">
+          <h5>โรคประจำตัว</h5>
+          <select class="dropdown-filter" id="treatmentCountFilter">
+            <option value="">ทั้งหมด</option>
+            <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+            <option value="โรคอ้วน">โรคอ้วน</option>
+            <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+            <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+            <option value="CVD Risk">CVD Risk</option>
+            <option value="โรคไต">โรคไต</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <h5>วันที่เริ่มติดตาม</h5>
+          <input type="date" class="date-filter" id="appointmentDateFilter">
+        </div>
+        <div class="filter-item">
+          <h5>กำหนดส่งงาน</h5>
+          <input type="date" class="date-filter" id="DeadlineDateFilter">
+        </div>
+        <div class="filter-item">
+          <h5>สถานะเข้ารับการรักษา</h5>
+          <select class="dropdown-filter" id="treatmentStatusFilter">
+            <option value="ทั้งหมด">ทั้งหมด</option>
+            <option value="มาตามนัด">มาตามนัด</option>
+            <option value="ไม่มาตามนัด">ไม่มาตามนัด</option>
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <h5>สถานะการติดตาม</h5>
+          <select class="dropdown-filter" id="treatmentStatusFilter">
+            <option value="ทั้งหมด">ทั้งหมด</option>
+            <option value="ยังไม่ได้รักษา">ยังไม่ได้ติดตาม</option>
+            <option value="นัดติดตามต่อเนื่อง">ติดตามแล้ว</option>
+            <option value="รักษาเสร็จสิ้น">กำลังติดตาม</option>
+            <option value="รักษาเสร็จสิ้น">ติดตามล้มเหลว</option>
+          </select>
+        </div>
+
+        <div id="download-pdf-button-container" title='ดาวน์โหลดPDF'>
+          <button id="download-pdf-button">
+            <i class='bx bxs-file-pdf'></i>
+          </button>
+        </div>
+
       </div>
-  </section>
+    </section>
+
+    <!-- Overlay สำหรับป๊อปอัป -->
+    <div id="popup-overlay"></div>
+
+    <!-- ป๊อปอัป -->
+    <div id="popup-modal">
+      <h2>เลือกผู้ป่วยที่ต้องการดาวน์โหลดข้อมูล</h2>
+      <table id="popup-table" border="1" style="width: 100%; text-align: left;">
+        <thead>
+          <tr>
+            <th style="width: 60px;">เลือก</th>
+            <th>ชื่อผู้ป่วย</th>
+            <th>ประเภทโรค</th>
+            <th>ประเภทผู้ป่วย</th>
+            <th>วันที่เริ่มติดตาม</th>
+            <th>กำหนดส่งงาน</th>
+            <th>สถานะการติดตาม</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ตารางข้อมูลผู้ป่วยจะแสดงในนี้ -->
+        </tbody>
+      </table>
+      <div class="button_popup" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+        <button id="generate-pdf-button">สร้าง PDF</button>
+        <button id="close-popup-button">ปิด</button>
+      </div>
+
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const downloadPdfButton = document.getElementById('download-pdf-button');
+        const popupModal = document.getElementById('popup-modal');
+        const popupOverlay = document.getElementById('popup-overlay');  // Reference to overlay
+        const popupTableBody = document.querySelector('#popup-table tbody');
+        const generatePdfButton = document.getElementById('generate-pdf-button');
+        const closePopupButton = document.getElementById('close-popup-button');
+
+        // ฟังก์ชันเปิดป๊อปอัปและดึงข้อมูลจาก API
+        async function openPopup() {
+          popupOverlay.style.display = 'block';  // Show overlay
+          popupModal.style.display = 'block';   // Show modal
+
+          // ล้างข้อมูลในตารางป๊อปอัป
+          popupTableBody.innerHTML = '';
+
+          try {
+            // ดึงข้อมูลผู้ป่วยจาก API
+            const response = await fetch('/chiracarehospital/backend/sql/monitoring/patient_list.php');
+            const data = await response.json();
+
+            // ตรวจสอบหากไม่มีข้อมูล
+            if (!data || data.length === 0) {
+              alert('ไม่มีข้อมูลผู้ป่วย');
+              popupModal.style.display = 'none';
+              popupOverlay.style.display = 'none';  // Hide overlay
+              return;
+            }
+
+            // แสดงข้อมูลในตารางป๊อปอัป
+            data.forEach(patient => {
+              const { full_name, disease_type, patient_type, monitor_date, monitor_deadline, monitor_status } = patient;
+
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+          <td style="width: 60px;"><input type="checkbox" class="popup-patient-checkbox" /></td>
+          <td>${full_name || 'ไม่ระบุชื่อ'}</td>
+          <td>${disease_type || 'ไม่ระบุโรค'}</td>
+          <td>${patient_type || 'ไม่ระบุประเภทผู้ป่วย'}</td>
+          <td>${monitor_date || 'ไม่ระบุวันที่เริ่มติดตาม'}</td>
+          <td>${monitor_deadline || 'ไม่ระบุกำหนดส่งงาน'}</td>
+          <td>${monitor_status || 'ไม่ระบุสถานะการติดตาม'}</td>
+        `;
+              popupTableBody.appendChild(tr);
+            });
+          } catch (error) {
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+            alert('ไม่สามารถดึงข้อมูลผู้ป่วยได้');
+            popupModal.style.display = 'none';
+            popupOverlay.style.display = 'none';  // Hide overlay if error
+          }
+        }
+
+        // ฟังก์ชันปิดป๊อปอัป
+        closePopupButton.addEventListener('click', () => {
+          popupModal.style.display = 'none';
+          popupOverlay.style.display = 'none';  // Hide overlay when closing popup
+        });
+
+        // แสดงป๊อปอัปเมื่อคลิกปุ่ม "ดาวน์โหลด PDF"
+        downloadPdfButton.addEventListener('click', openPopup);
+
+        // ฟังก์ชันสร้าง PDF
+        generatePdfButton.addEventListener('click', () => {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+
+          // เพิ่มฟอนต์ภาษาไทย
+          const fontBase64 = "YOUR_BASE64_ENCODED_FONT_HERE"; // ฟอนต์ Base64
+          doc.addFileToVFS("THSarabunNew.ttf", fontBase64);
+          doc.addFont("THSarabunNew.ttf", "THSarabunNew", "normal");
+          doc.setFont("THSarabunNew");
+
+          // ดึงข้อมูลผู้ป่วยที่เลือกจากป๊อปอัป
+          const selectedPatients = Array.from(document.querySelectorAll('.popup-patient-checkbox:checked')).map(checkbox => {
+            const row = checkbox.closest('tr');
+            const cells = row.cells;
+            return {
+              full_name: cells[1]?.innerText || 'ไม่ระบุชื่อ',
+              disease_type: cells[2]?.innerText || 'ไม่ระบุโรค',
+              patient_type: cells[3]?.innerText || 'ไม่ระบุประเภทผู้ป่วย',
+              monitor_date: cells[4]?.innerText || 'ไม่ระบุวันที่เริ่มติดตาม',
+              monitor_deadline: cells[5]?.innerText || 'ไม่ระบุกำหนดส่งงาน',
+              monitor_status: cells[6]?.innerText || 'ไม่ระบุสถานะการติดตาม',
+            };
+          });
+
+          if (selectedPatients.length === 0) {
+            alert('กรุณาเลือกผู้ป่วยก่อนสร้าง PDF');
+            return;
+          }
+
+          // เพิ่มข้อมูลใน PDF
+          let y = 10; // ตำแหน่งแนวตั้งเริ่มต้น
+          selectedPatients.forEach((patient, index) => {
+            doc.setFontSize(12);
+            doc.text(`${index + 1}. ชื่อผู้ป่วย: ${patient.full_name}`, 10, y);
+            doc.text(`ประเภทโรค: ${patient.disease_type}`, 10, y + 10);
+            doc.text(`ประเภทผู้ป่วย: ${patient.patient_type}`, 10, y + 20);
+            doc.text(`วันที่เริ่มติดตาม: ${patient.monitor_date}`, 10, y + 30);
+            doc.text(`กำหนดส่งงาน: ${patient.monitor_deadline}`, 10, y + 40);
+            doc.text(`สถานะการติดตาม: ${patient.monitor_status}`, 10, y + 50);
+            y += 60;
+          });
+
+          // ดาวน์โหลด PDF
+          doc.save('patient_report.pdf');
+          popupModal.style.display = 'none'; // ปิดป๊อปอัป
+          popupOverlay.style.display = 'none';  // Hide overlay
+        });
+
+      });
+    </script>
 
     <div id="button-container">
       <button id="assign-button" style="display: none;">มอบหมายงาน</button>
-      <button id="download-pdf-button" style="display: none;">ดาวน์โหลด PDF</button>
     </div>
 
     <div class="table-container">
@@ -127,6 +277,9 @@
           <tbody id="patient-list"></tbody>
         </table>
       </div>
+      <div id="overlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
+      </div>
       <div class="text">
         <label for="monitor-start-date">วันที่เริ่มติดตาม:</label>
         <input type="date" id="monitor-start-date" required>
@@ -138,9 +291,7 @@
     </div>
   </div>
 
-  <div id="overlay"
-    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
-  </div>
+
 
   <script>
     // ดึงวันที่ปัจจุบัน
@@ -346,60 +497,12 @@
           document.getElementById('assign-button').style.display = 'none';
         }
       }
-      
+
 
       function updateAssignButtonVisibility() {
         const selectedPatients = document.querySelectorAll('.patient-checkbox:checked');
         document.getElementById('assign-button').style.display = selectedPatients.length > 0 ? 'block' : 'none';
-        document.getElementById('download-pdf-button').style.display = selectedPatients.length > 0 ? 'block' : 'none'; // แสดงปุ่มดาวน์โหลด PDF
       }
-
-      document.getElementById('download-pdf-button').addEventListener('click', function () {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        // เพิ่มฟอนต์ภาษาไทย
-        const fontBase64 = "YOUR_BASE64_ENCODED_FONT_HERE"; // ฟอนต์ Base64
-        doc.addFileToVFS("THSarabunNew.ttf", fontBase64);
-        doc.addFont("THSarabunNew.ttf", "THSarabunNew", "normal");
-        doc.setFont("THSarabunNew");
-
-        // ดึงข้อมูลผู้ป่วยที่เลือก
-        const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
-          const row = checkbox.closest('tr');
-          return {
-            full_name: row.cells[1].innerText,
-            disease_type: row.cells[2].innerText,
-            patient_type: row.cells[3].innerText,
-            monitor_round: row.cells[6].innerText
-          };
-        });
-
-        // ตรวจสอบว่ามีข้อมูลหรือไม่
-        if (selectedPatients.length === 0) {
-          alert('กรุณาเลือกผู้ป่วยก่อนดาวน์โหลด PDF');
-          return;
-        }
-
-        // เพิ่มข้อมูลลงใน PDF
-        let y = 10; // ตำแหน่งแนวตั้งเริ่มต้น
-        selectedPatients.forEach((patient, index) => {
-          const fullName = patient.full_name || "ไม่ระบุชื่อ";
-          const diseaseType = patient.disease_type || "ไม่ระบุโรค";
-          const patientType = patient.patient_type || "ไม่ระบุประเภทผู้ป่วย";
-          const monitorRound = patient.monitor_round || "ไม่ระบุครั้งที่ติดตาม";
-
-          doc.setFontSize(12); // กำหนดขนาดฟอนต์
-          doc.text(`${index + 1}. ชื่อผู้ป่วย: ${fullName}`, 10, y);
-          doc.text(`ประเภทโรค: ${diseaseType}`, 10, y + 10);
-          doc.text(`ประเภทผู้ป่วย: ${patientType}`, 10, y + 20);
-          doc.text(`ครั้งที่ติดตาม: ${monitorRound}`, 10, y + 30);
-          y += 40; // เปลี่ยนตำแหน่งแนวตั้งสำหรับผู้ป่วยถัดไป
-        });
-
-        // ดาวน์โหลด PDF
-        doc.save('patient_report.pdf');
-      });
 
       function initializeSidebar() {
         let sidebar = document.querySelector(".sidebar");
@@ -565,7 +668,7 @@
     /* ทำให้หัวตารางมีพื้นหลัง */
   }
 
-  #patient-count{
+  #patient-count {
     margin-top: 20px;
   }
 </style>
