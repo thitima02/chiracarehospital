@@ -1,5 +1,8 @@
 .table-container {
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,6 +16,9 @@
     /* Center the container */
     margin-left: 110px;
   }
+<<<<<<< HEAD
+ 
+=======
 
   .datatable {
     min-width: 100%;
@@ -136,6 +142,7 @@
   /* Center the container */
   margin-left: 110px;
 }
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
 .datatable {
   min-width: 100%;
@@ -180,6 +187,12 @@
   vertical-align: middle;
 }
 
+  .status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+  }
 .status {
   display: inline-block;
   padding: 5px 10px;
@@ -187,24 +200,54 @@
   font-size: 13px;
 }
 
+  .status.continue {
+    background-color: #F4E1ED;
+    color: #BB4292;
+    font-weight: bold;
+  }
 .status.continue {
   background-color: #F4E1ED;
   color: #BB4292;
   font-weight: bold;
 }
 
+  .status.sucess {
+    background-color: #d4f7ff;
+    color: #2f7d8f;
+    font-weight: bold;
+  }
 .status.sucess {
   background-color: #d4f7ff;
   color: #2f7d8f;
   font-weight: bold;
 }
 
+  .status.unsucess {
+    background-color: #ffdfe4;
+    color: #ae5c67;
+    font-weight: bold;
+  }
 .status.unsucess {
   background-color: #ffdfe4;
   color: #ae5c67;
   font-weight: bold;
 }
 
+  .status.other {
+    color: #000000;
+  }
+  
+  .action-btn {
+    position: relative;
+    color: #1d1b31;
+    border: none;
+    padding: 3px 8px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgb(241, 241, 241);
+    margin-left: 15px;
+  }
 .status.other {
   color: #000000;
 }
@@ -244,5 +287,9 @@
   .edit-btn, .detail-btn {
     font-size: 10px;
   }
+<<<<<<< HEAD
+}
+=======
 }
 >>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec

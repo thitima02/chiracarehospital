@@ -153,6 +153,8 @@ h1 {
 .status-bar {
     margin-bottom: 10px;
 }
+<<<<<<< HEAD
+=======
 
 .status-label {
     margin-bottom: 5px;
@@ -249,6 +251,7 @@ h1 {
     font-size: 0.9rem; /* ลดขนาดวันที่ */
     color: #888;
 }
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
 .status-label {
     margin-bottom: 5px;
@@ -429,8 +432,6 @@ button#exportButton2:hover {
 }
 
 
-
-  
 
   
 

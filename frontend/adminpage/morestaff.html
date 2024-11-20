@@ -52,7 +52,7 @@
                         </tr>
                     </thead>
                     <tbody id="staff-details">
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -61,7 +61,8 @@
             <div class="filter-container">
                 <div class="filter-item search-bar">
                     <h5>ค้นหารายชื่อ</h5>
-                    <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientTable" oninput="filterDatatable()">
+                    <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientTable"
+                        oninput="filterDatatable()">
                     <i class='bx bx-search search-icon'></i>
                 </div>
                 <div class="filter-item">
@@ -79,7 +80,7 @@
                 </div>
                 <div class="filter-item">
                     <h5>ประเภทผู้ป่วย</h5>
-                    <select class="dropdown-filter" id="typepatientFilter" onchange="filterDatatable()"> 
+                    <select class="dropdown-filter" id="typepatientFilter" onchange="filterDatatable()">
                         <option value="ทั้งหมด">ทั้งหมด</option>
                         <option value="กำลังพล">กำลังพล</option>
                         <option value="ประชาชน">ประชาชน</option>
@@ -115,7 +116,7 @@
 
 
     <!-- Popup -->
-    <div class="popup-overlay" id="popupOverlay" >
+    <div class="popup-overlay" id="popupOverlay">
         <div class="popup-content">
             <div style="text-align: right;">
                 <button class="close-btn" onclick="outsideClosePopup()">X</button>
@@ -181,16 +182,16 @@
         }
 
         var departmentname = "-";
-        var responsibility_vhv ="";
+        var responsibility_vhv = "";
 
         function loadUserData() {
             const userId = getUserIdFromURL();
             if (userId) {
-<<<<<<< HEAD
+
                 fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser_vhv.php?id=${userId}`)
-=======
+
                 fetch(`/chiracarehospital/backend/sql/users/getOneUser.php?id=${userId}`)
->>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
+
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
@@ -292,7 +293,7 @@
     <script>
         // Open Popup
         function openPopup() {
-           
+
             document.getElementById("popupOverlay").style.display = "flex";
 
             const userId = getUserIdFromURL();
@@ -412,8 +413,7 @@
                 });
             }
         }
-<<<<<<< HEAD
-=======
+
     </script>
 
     <script>
@@ -428,13 +428,13 @@
                     patients.forEach(function (patient) {
                         rows += '<tr>';
                         rows += '<td>' + patients.full_name + '</td>';
-                        rows += '<td>' + patients.birth_date+ '</td>';
+                        rows += '<td>' + patients.birth_date + '</td>';
                         rows += '<td>' + patients.id_card + '</td>';
                         rows += '<td>' + patients.phone_number + '</td>';
                         rows += '<td>' + patients.emergency_phone + '</td>';
 
                         rows += '<td>';
-                        
+
                         rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
                         rows += '</td>';
                         rows += '</tr>';
@@ -447,7 +447,7 @@
                 }
             });
         });
->>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
+
 
     </script>
 
@@ -456,39 +456,32 @@
     <script>
         $(document).ready(function () {
             // Fetch data from API when page loads
-<<<<<<< HEAD
-            // $.getJSON('http://localhost/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
-            //     if (response.status === 'success') {
-            //         var patients = response.data;
-            //         var rows = '';
-=======
             $.getJSON('/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
                 if (response.status === 'success') {
                     var patients = response.data;
                     var rows = '';
->>>>>>> 178b2a98ab5f38ae9e0a113b244f9c8b4ad69a29
 
-            //         // Loop through each patient data to create table rows
-            //         patients.forEach(function (patient) {
-            //             rows += '<tr>';
-            //             rows += '<td>' + patient.patient_id + '</td>';  // Patient ID
-            //             rows += '<td>' + patient.full_name + '</td>';     // Full name
-            //             rows += '<td>' + patient.Area + '</td>';     // address_area
-            //             rows += '<td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>';
-            //             rows += '</tr>';
-            //         });
+                    // Loop through each patient data to create table rows
+                    patients.forEach(function (patient) {
+                        rows += '<tr>';
+                        rows += '<td>' + patient.patient_id + '</td>';  // Patient ID
+                        rows += '<td>' + patient.full_name + '</td>';  // Full name
+                        rows += '<td>' + patient.Area + '</td>';       // Address area
+                        rows += '<td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>';
+                        rows += '</tr>';
+                    });
 
-            //         // Insert the rows into the table body
-            //         $('#patient-info-body').html(rows);
-            //     } else {
-            //         alert(response.message);
-            //     }
-            // });
-        });
+                    // Insert the rows into the table body
+                    $('#patient-info-body').html(rows);
+                } else {
+                    alert(response.message);
+                }
+            }); 
+        }); 
 
         // Update selected count based on checkbox clicks
         function updateSelectedCount() {
-            
+
             var selectedCount = document.querySelectorAll('.patient-checkbox:checked').length;
             document.getElementById('selectedCount').innerText = 'เลือกเพิ่มทั้งหมด ' + selectedCount + ' รายการ';
         }

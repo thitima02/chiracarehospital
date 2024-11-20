@@ -33,38 +33,39 @@
   <div id="topbar-container"></div>
 
   <!-- Filters -->
-  <section class="filter-section" style="justify-content: center;">
-    <div class="filter-container">
-      <div class="filter-item search-bar">
-        <h5>ค้นหารายชื่อ</h5>
-        <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
-        <i class='bx bx-search search-icon'></i>
-      </div>
+  <div id="main">
+    <section class="filter-section" style="justify-content: center;">
+      <div class="filter-container">
+        <div class="filter-item search-bar">
+          <h5>ค้นหารายชื่อ</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+          <i class='bx bx-search search-icon'></i>
+        </div>
 
-      <div class="filter-item">
-        <h5>วันที่อัปเดตล่าสุด</h5>
-        <input type="date" class="date-filter" id="updatedDateFilter">
-      </div>
+        <div class="filter-item">
+          <h5>วันที่อัปเดตล่าสุด</h5>
+          <input type="date" class="date-filter" id="updatedDateFilter">
+        </div>
 
-      <div class="filter-item">
-        <h5>โรคประจำตัว</h5>
-        <select class="dropdown-filter" id="diseaseTypeFilter">
-          <option value="ทั้งหมด">ทั้งหมด</option>
-          <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
-          <option value="โรคอ้วน">โรคอ้วน</option>
-          <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
-          <option value="โรคเบาหวาน">โรคเบาหวาน</option>
-          <option value="CVD Risk">CVD Risk</option>
-          <option value="โรคไต">โรคไต</option>
-        </select>
+        <div class="filter-item">
+          <h5>โรคประจำตัว</h5>
+          <select class="dropdown-filter" id="diseaseTypeFilter">
+            <option value="ทั้งหมด">ทั้งหมด</option>
+            <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+            <option value="โรคอ้วน">โรคอ้วน</option>
+            <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+            <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+            <option value="CVD Risk">CVD Risk</option>
+            <option value="โรคไต">โรคไต</option>
+          </select>
+        </div>
       </div>
+    </section>
+
+    <div class="history-container" id="historyElement">
+      <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
     </div>
-  </section>
-
-  <div class="history-container" id="historyElement">
-    <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
   </div>
-
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       let historyData = [];  // To store the fetched data

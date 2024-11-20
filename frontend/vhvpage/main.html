@@ -34,7 +34,7 @@
     <div id="topbar-container"></div>
 
     <!-- the resule of many patient -->
-    <div>
+    <div id="main">
         <div class="stats-container">
             <div class="box new-order">
                 <i class='bx bx-user'></i>
@@ -58,115 +58,116 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Fetch patient data from PHP
-            fetch("../../backend/sql/vhv/get_patient_address.php")
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Check if data is not empty or null
-                    if (Array.isArray(data) && data.length > 0) {
-                        // Filter data based on different monitor statuses
-                        const pendingPatients = data.filter(patient =>
-                            patient.monitor_status === "กำลังติดตาม" || patient.monitor_status === "ติดตามล้มเหลว"
-                        );
 
-                        const completedPatients = data.filter(patient =>
-                            patient.monitor_status === "ติดตามแล้ว"
-                        );
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Fetch patient data from PHP
+                fetch("../../backend/sql/vhv/get_patient_address.php")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Check if data is not empty or null
+                        if (Array.isArray(data) && data.length > 0) {
+                            // Filter data based on different monitor statuses
+                            const pendingPatients = data.filter(patient =>
+                                patient.monitor_status === "กำลังติดตาม" || patient.monitor_status === "ติดตามล้มเหลว"
+                            );
 
-                        const notMonitoredPatients = data.filter(patient =>
-                            patient.monitor_status === "ยังไม่ได้ติดตาม"
-                        );
+                            const completedPatients = data.filter(patient =>
+                                patient.monitor_status === "ติดตามแล้ว"
+                            );
 
-                        // Update the counts on the page
-                        document.getElementById('pending-count').textContent = pendingPatients.length || 0;
-                        document.getElementById('completed-count').textContent = completedPatients.length || 0;
-                        document.getElementById('not-monitored-count').textContent = notMonitoredPatients.length || 0;
-                    } else {
-                        console.error("Invalid data structure or empty response received");
+                            const notMonitoredPatients = data.filter(patient =>
+                                patient.monitor_status === "ยังไม่ได้ติดตาม"
+                            );
+
+                            // Update the counts on the page
+                            document.getElementById('pending-count').textContent = pendingPatients.length || 0;
+                            document.getElementById('completed-count').textContent = completedPatients.length || 0;
+                            document.getElementById('not-monitored-count').textContent = notMonitoredPatients.length || 0;
+                        } else {
+                            console.error("Invalid data structure or empty response received");
+                            document.getElementById('pending-count').textContent = "0";
+                            document.getElementById('completed-count').textContent = "0";
+                            document.getElementById('not-monitored-count').textContent = "0";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching patient data:", error);
+                        // Set counts to 0 in case of error
                         document.getElementById('pending-count').textContent = "0";
                         document.getElementById('completed-count').textContent = "0";
                         document.getElementById('not-monitored-count').textContent = "0";
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching patient data:", error);
-                    // Set counts to 0 in case of error
-                    document.getElementById('pending-count').textContent = "0";
-                    document.getElementById('completed-count').textContent = "0";
-                    document.getElementById('not-monitored-count').textContent = "0";
-                });
-        });
-    </script>
+                    });
+            });
+        </script>
 
-    <!-- ฟิลเตอร์ในการกรองข้อมูล -->
-    <div class="filter-container">
-        <div class="filter-item search-bar">
-            <h5>ค้นหารายชื่อ</h5>
-            <input type="text" id="searchInput" placeholder="ค้นหาที่นี่..." class="search-input">
-            <i class='bx bx-search search-icon'></i>
+        <!-- ฟิลเตอร์ในการกรองข้อมูล -->
+        <div class="filter-container">
+            <div class="filter-item search-bar">
+                <h5>ค้นหารายชื่อ</h5>
+                <input type="text" id="searchInput" placeholder="ค้นหาที่นี่..." class="search-input">
+                <i class='bx bx-search search-icon'></i>
+            </div>
+
+            <div class="filter-item">
+                <h5>กำหนดส่งผลการติดตาม</h5>
+                <input type="date" class="date-filter">
+            </div>
+
+            <div class="filter-item">
+                <h5>ครั้งที่ติดตาม</h5>
+                <select class="dropdown-filter" id="monitorRoundFilter">
+                    <option value="ทั้งหมด">ทั้งหมด</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <!-- เพิ่มตัวเลือกตามที่ต้องการ -->
+                </select>
+                <i class='bx bx-chevron-down dropdown-icon'></i>
+            </div>
+
+            <div class="filter-item">
+                <h5>โรคประจำตัว</h5>
+                <select class="dropdown-filter" id="diseaseTypeFilter">
+                    <option value="">ทั้งหมด</option>
+                    <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+                    <option value="โรคอ้วน">โรคอ้วน</option>
+                    <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+                    <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+                    <option value="CVD Risk">CVD Risk</option>
+                    <option value="โรคไต">โรคไต</option>
+                </select>
+            </div>
         </div>
 
-        <div class="filter-item">
-            <h5>กำหนดส่งผลการติดตาม</h5>
-            <input type="date" class="date-filter">
+        <!-- the datatable  -->
+        <div class="table-container">
+            <table class="patient-table">
+                <thead>
+                    <tr>
+                        <th>รายชื่อผู้ป่วย</th>
+                        <th>โรคประจำตัว</th>
+                        <th>เขตที่อยู่อาศัย</th>
+                        <th>กำหนดส่งรายงาน</th>
+                        <th>ที่อยู่</th>
+                        <th>สถานะการติดตาม</th>
+                        <th>ครั้งที่ติดตาม</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody id="patient-tbody"></tbody>
+
+                </tbody>
+
+            </table>
         </div>
-
-        <div class="filter-item">
-            <h5>ครั้งที่ติดตาม</h5>
-            <select class="dropdown-filter" id="monitorRoundFilter">
-                <option value="ทั้งหมด">ทั้งหมด</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <!-- เพิ่มตัวเลือกตามที่ต้องการ -->
-            </select>
-            <i class='bx bx-chevron-down dropdown-icon'></i>
-        </div>
-
-        <div class="filter-item">
-            <h5>โรคประจำตัว</h5>
-            <select class="dropdown-filter" id="diseaseTypeFilter">
-                <option value="">ทั้งหมด</option>
-                <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
-                <option value="โรคอ้วน">โรคอ้วน</option>
-                <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
-                <option value="โรคเบาหวาน">โรคเบาหวาน</option>
-                <option value="CVD Risk">CVD Risk</option>
-                <option value="โรคไต">โรคไต</option>
-            </select>
-        </div>
-    </div>
-
-    <!-- the datatable  -->
-    <div class="table-container">
-        <table class="patient-table">
-            <thead>
-                <tr>
-                    <th>รายชื่อผู้ป่วย</th>
-                    <th>โรคประจำตัว</th>
-                    <th>เขตที่อยู่อาศัย</th>
-                    <th>กำหนดส่งรายงาน</th>
-                    <th>ที่อยู่</th>
-                    <th>สถานะการติดตาม</th>
-                    <th>ครั้งที่ติดตาม</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            <tbody id="patient-tbody"></tbody>
-
-            </tbody>
-
-        </table>
     </div>
 
     <script>
