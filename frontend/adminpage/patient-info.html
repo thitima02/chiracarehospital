@@ -15,6 +15,15 @@
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <script src="../method/logout.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+    <script src="../method/user.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+    <script src="../method/loadSidebarScript.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+    <script src="../method/checkAuth.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
+
 </head>
 
 <body style="background-color:#edeff1;">
@@ -111,45 +120,6 @@
       filterData();
     });
 
-  </script>
-
-
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
-
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'จัดการข้อมูลผู้ป่วย'; // Set page title for the history page
-      });
-
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-    }
-    document.getElementById('add-button').addEventListener('click', function () {
-      window.location.href = 'editaddinfo.html';
-    });
   </script>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -321,7 +291,42 @@
     document.addEventListener('DOMContentLoaded', loadUserData);
   </script>
 
+<script>
+  // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+  checkAuth();
 
+  // Load sidebar
+  fetch('sidebar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+      .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
+      .then(data => {
+          document.getElementById('sidebar-container').innerHTML = data;
+          // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+          loadSidebarScript();
+          // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+      });
+
+  // Load topbar and set the page title
+  fetch('topbar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+      .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
+      .then(data => {
+          document.getElementById('topbar-container').innerHTML = data;
+          // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+          document.getElementById('page-title').textContent = 'หน้าหลัก';
+          // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+          // Re-run user.js script after loading topbar
+          const script = document.createElement('script');
+          // สร้างแท็ก script ใหม่
+          script.src = '../method/user.js';
+          // กำหนดแหล่งที่มาของ script เป็น user.js
+          document.body.appendChild(script);
+          // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+      });
+</script>
 </body>
 
 </html>
