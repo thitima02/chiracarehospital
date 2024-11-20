@@ -9,6 +9,7 @@ try {
             id,
             patient_id,
             monitor_date,
+            monitor_deadline,
             monitor_round,
             monitor_status,
             MAX(monitor_date) AS last_update,

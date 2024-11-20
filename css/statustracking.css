@@ -613,8 +613,19 @@ button[type="No"]:hover {
 
 input[type="checkbox"] {
   display: inline-block;
+<<<<<<< HEAD
   width: 18px;
   /* ปรับขนาดตามต้องการ */
   height: 18px;
   /* ปรับขนาดตามต้องการ */
 }
+=======
+  width: 18px; /* ปรับขนาดตามต้องการ */
+  height: 18px; /* ปรับขนาดตามต้องการ */
+}
+
+<<<<<<< HEAD
+
+=======
+>>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
+>>>>>>> 713616e6150e063e231633a487204910c746abe8

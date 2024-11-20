@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <title>Fort Chiraprawat Hospital Registration</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="../assets/images/logo.jpg" alt="Hospital Logo" class="logo">
+    </div>
+    <form class="registration-form">
+      <label for="name">ชื่อ (name)</label>
+      <input type="text" id="name" name="name" placeholder="กรอกชื่อตามบัตรประชาชน">
+
+      <label for="surname">นามสกุล (surname)</label>
+      <input type="text" id="surname" name="surname" placeholder="กรอกนามสกุลตามบัตรประชาชน">
+
+      <label for="id-card">เลขบัตรประชาชน (ID card number)</label>
+      <input type="text" id="id-card" name="id-card" placeholder="กรอกเลขบัตรประชาชน" 
+                   maxlength="13" oninput="validateIDCard(this)">
+
+      <label for="phone">หมายเลขโทรศัพท์ (phone number)</label>
+      <input type="text" id="phone" name="phone" placeholder="กรอกหมายเลขโทรศัพท์"
+                        maxlength="10" oninput="validateIDCard(this)">
+
+                        <label for="status">กรุณาเลือกสถานะ (Status)</label>
+                        <select id="status" name="status" onchange="handleStatusChange()" required>
+                          <option value="" disabled selected>ยังไม่ได้เลือกสถานะ</option>
+                          <option value="volunteer">อาสาสมัครสาธารณสุข</option>
+                          <option value="staff">เจ้าหน้าที่โรงพยาบาล</option>
+                          <option value="medic">เสนารักษ์</option>
+                        </select>
+                        
+                        <label for="responsibility-area">เขตรับผิดชอบ (Responsibility Area)</label>
+                        <select id="responsibility-area" name="responsibility-area" required disabled>
+                          <option value="" disabled selected>กรุณาเลือกเขตรับผิดชอบ</option>
+                          <option value="area1">เขต 1</option>
+                          <option value="area2">เขต 2</option>
+                          <option value="area3">เขต 3</option>
+                          <option value="area4">เขต 4</option>
+                          <option value="area5">เขต 5</option>
+                          <option value="area6">เขต 6</option>
+                          <option value="area7">เขต 7</option>
+                          <option value="area8">เขต 8</option>
+                          <option value="area9">เขต 9</option>
+                          <option value="area10">เขต 10</option>
+                          <option value="area11">เขต 11</option>
+                          <option value="area12">เขต 12</option>
+                          <option value="area13">เขต 13</option>
+                          <option value="area14">เขต 14</option>
+                          <option value="area15">เขต 15</option>
+                        </select>
+                        
+
+                        <label for="password">รหัสผ่าน</label>
+                        <div class="password-container">
+                          <input type="password" id="password" name="password" placeholder="รหัสผ่านต้องมีจำนวน 6 ตัวอักษร" required minlength="6" maxlength="6" pattern="\d{6}">
+                          <span class="toggle-password" onclick="togglePasswordVisibility()">
+                            <i id="password-icon" class="bx bx-hide"></i>
+                          </span>
+                        </div>
+                        
+                        <label for="confirm-password">ยืนยันรหัสผ่าน</label>
+                        <div class="password-container">
+                          <input type="password" id="confirm-password" name="confirm-password" placeholder="กรุณายืนยันรหัสผ่าน" required minlength="6" maxlength="6" pattern="\d{6}">
+                          <span class="toggle-password" onclick="togglePasswordVisibility()">
+                            <i id="confirm-password-icon" class="bx bx-hide"></i>
+                          </span>
+                        </div>
+                        <p id="password-error" class="error-message">รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน</p>
+
+<button type="submit">ลงทะเบียน</button>
+    </form>
+  </div>
+</body>
+
+</html>
+<script>
+  function validateIDCard(input) {
+    // กรองเฉพาะตัวเลข
+    input.value = input.value.replace(/[^0-9]/g, '');
+  }
+  // ฟังก์ชันสลับการแสดง/ซ่อนรหัสผ่าน
+  function togglePasswordVisibility() {
+    const passwordField = document.getElementById('password');
+    const confirmPasswordField = document.getElementById('confirm-password');
+    const passwordIcon = document.getElementById('password-icon');
+    const confirmPasswordIcon = document.getElementById('confirm-password-icon');
+
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      passwordIcon.classList.remove('bx-hide');
+      passwordIcon.classList.add('bx-show-alt');
+    } else {
+      passwordField.type = 'password';
+      passwordIcon.classList.remove('bx-show-alt');
+      passwordIcon.classList.add('bx-hide');
+    }
+
+    if (confirmPasswordField.type === 'password') {
+      confirmPasswordField.type = 'text';
+      confirmPasswordIcon.classList.remove('bx-hide');
+      confirmPasswordIcon.classList.add('bx-show-alt');
+    } else {
+      confirmPasswordField.type = 'password';
+      confirmPasswordIcon.classList.remove('bx-show-alt');
+      confirmPasswordIcon.classList.add('bx-hide');
+    }
+  }
+
+    // ฟังก์ชันตรวจสอบสถานะ
+    document.querySelector('form').onsubmit = function(event) {
+    event.preventDefault(); // Prevent the form from submitting immediately.
+
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const errorMessage = document.getElementById('password-error');
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        errorMessage.style.display = 'block'; // Show error message
+        document.getElementById('confirm-password').style.borderColor = 'red'; // Change border color to red
+    } else {
+        errorMessage.style.display = 'none'; // Hide error message
+        document.getElementById('confirm-password').style.borderColor = ''; // Reset border color
+
+        // If everything is valid, redirect to login page
+        window.location.href = "login.html"; // Redirect after form validation
+    }
+}
+
+  // ฟังก์ชันตรวจสอบสถานะ
+  function handleStatusChange() {
+    const statusField = document.getElementById('status');
+    const responsibilityAreaField = document.getElementById('responsibility-area');
+
+    if (statusField.value === 'volunteer' || statusField.value === 'medic') {
+      // เปิดใช้งานเขตรับผิดชอบ
+      responsibilityAreaField.disabled = false;
+    } else {
+      // ปิดใช้งานเขตรับผิดชอบ
+      responsibilityAreaField.disabled = true;
+      responsibilityAreaField.value = ""; // รีเซ็ตตัวเลือก
+    }
+  }
+
+</script>
+
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-image: url('../assets/images/Loginbackground.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150vh;
+    width: 100%;
+  }
+
+  .container {
+    /* background-color: rgba(255, 255, 255, 0.9); */
+    padding: 40px;
+    width: 80%;
+    max-width: 50%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .header {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .logo {
+    width: 40%;
+    margin-bottom: 20px;
+  }
+
+  .registration-form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 0.9em;
+    color: #333;
+    text-align: left;
+    font-size: 1em;
+  }
+
+  .registration-form input,
+  .registration-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    /* font-size: 1em; */
+  }
+
+  .registration-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+
+  .registration-form button:hover {
+    background-color: #003d82;
+  }
+  .password-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .password-container input {
+    width: 100%;
+    padding-right: 40px; /* เพิ่มพื้นที่สำหรับไอคอน */
+  }
+
+  .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .toggle-password i {
+    font-size: 20px;
+    color: #888;
+  }
+
+  .toggle-password i:hover {
+    color: #333;
+  }
+  .error-message {
+    color: red;
+    display: none;
+    margin-bottom: 20px; /* กำหนดระยะห่างระหว่างข้อความผิดพลาดและปุ่ม */
+  }
+</style>
