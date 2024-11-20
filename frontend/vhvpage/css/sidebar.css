@@ -1,12 +1,17 @@
 .right-section {
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 >>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
     display: flex;
     align-items: center;
     gap: 20px; /* Adjust the spacing between the bell icon and profile details */
-  }
+
+   
+}
   
   .icon-button {
     position: relative;
@@ -62,6 +67,9 @@
     height: 50px;
     min-width: 190px;
     padding: 0 15px 0 2px;
+<<<<<<< HEAD
+  }
+=======
 <<<<<<< HEAD
   }
 =======
@@ -129,3 +137,4 @@
 =======
   }
 >>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec

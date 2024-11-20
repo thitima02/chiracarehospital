@@ -1,11 +1,8 @@
 .table-container {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
-  display: flex;
+
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   width: 91%;
   padding: 20px;
   box-sizing: border-box;
@@ -13,17 +10,12 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
+  overflow: hidden;
   /* Center the container */
-  margin-left: 110px;
-}
-
-.datatable {
-  min-width: 100%;
 }
 
 .patient-table {
   width: 100%;
-  /* Ensure the table fits within the container */
   border-collapse: collapse;
   font-size: 14px;
   text-align: center;
@@ -32,15 +24,13 @@
 
 .patient-table thead tr {
   background-color: #ececec;
-  color: #5D97EF;
+  color: #5d97ef;
 }
 
 .patient-table th,
 .patient-table td {
   padding: 15px;
-  padding-right: 33px;
-  border-bottom: 1px solid #F4F4F4;
-
+  border-bottom: 1px solid #f4f4f4;
 }
 
 .patient-table tbody tr {
@@ -60,7 +50,6 @@
   vertical-align: middle;
 }
 
-
 .status {
   display: inline-block;
   padding: 5px 10px;
@@ -68,33 +57,74 @@
   font-size: 13px;
 }
 
+/* Responsive styles */
+@media only screen and (max-width: 767px) {
+  .patient-table {
+    font-size: 12px; /* ลดขนาดตัวอักษร */
+  }
+
+  .table-container {
+    width: 100%; /* ขยายให้เต็มหน้าจอ */
+    padding: 10px;
+  }
+
+  .patient-table th,
+  .patient-table td {
+    padding: 10px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .table-container {
+    padding: 5px;
+  }
+
+  .patient-table {
+    font-size: 10px;
+  }
+
+  .patient-table th,
+  .patient-table td {
+    padding: 8px;
+  }
+
+  /* แสดงตารางแบบแนวนอนพร้อม Scroll */
+  .table-container {
+    overflow-x: auto; /* เปิด Scroll */
+  }
+
+  .patient-table {
+    min-width: 700px; /* กำหนดความกว้างขั้นต่ำของตาราง */
+  }
+}
+
 .status.uncomplete {
-  background-color: #F4E1E1;
-  color: #BB4242;
+  background-color: #f4e1e1;
+  color: #bb4242;
   font-weight: bold;
 }
 
 .status.in-progress {
-  background-color: #FFF5C2;
-  color: #E99050;
+  background-color: #fff5c2;
+  color: #e99050;
   font-weight: bold;
 }
 
 .status.continue {
   /* background-color: #F4E1ED; */
-  color: #BB4292;
+  color: #bb4292;
   font-weight: bold;
 }
 
 .status.completed {
-  background-color: #E1F4E1;
-  color: #5F8D4E;
+  background-color: #e1f4e1;
+  color: #5f8d4e;
   font-weight: bold;
 }
 
 .status.sucess {
   /* background-color: #E3F5FF; */
-  color: #5D97EF;
+  color: #5d97ef;
   font-weight: bold;
 }
 
@@ -126,24 +156,12 @@
 }
 
 .action-btn:hover {
-  background-color: #5D97EF;
-  color: #F4F4F4;
-<<<<<<< HEAD
-} 
-=======
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 91%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    /* Center the container */
-    margin-left: 110px;
-  }
+
+  background-color: #5d97ef;
+  color: #f4f4f4;
+}
+
+ 
   
   .datatable {
     min-width: 100%;
@@ -247,7 +265,5 @@
     background-color: #5D97EF;
     color: #F4F4F4;
   } 
->>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
-=======
-} 
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+
+  

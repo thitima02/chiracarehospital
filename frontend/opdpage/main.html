@@ -127,6 +127,16 @@
 
             // ดึงข้อมูลจำนวนผู้ป่วยทั้งหมด
             fetch("/chiracarehospital/backend/sql/opd/fetch_appointments.php")
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+            fetch("/chiracarehospital/backend/sql/opd/fetch_appointments.php")
+=======
+            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_appointments.php")
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
+>>>>>>> 4cc63f7612a36b68e4354bb85c867ee332abeae2
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("totalAppointments").textContent = `${data.totalAppointments} คน`;
@@ -135,6 +145,16 @@
 
             // ดึงข้อมูลจำนวนผู้ป่วยที่รักษาเสร็จสิ้น และยังไม่ได้รับการรักษา
             fetch("/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+            fetch("/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
+=======
+            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
+>>>>>>> 4cc63f7612a36b68e4354bb85c867ee332abeae2
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("totalTreated").textContent = data.totalTreated + " คน";
@@ -155,6 +175,16 @@
         function fetchAndShowPatients(status) {
             // กำหนด URL ให้ดึงข้อมูลผู้ป่วยตามสถานะที่เลือก
             let url = status === 'treated' ? '/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : '/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+            let url = status === 'treated' ? '/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : '/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
+=======
+            let url = status === 'treated' ? 'http://localhost/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : 'http://localhost/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
+>>>>>>> 4cc63f7612a36b68e4354bb85c867ee332abeae2
 
             // ดึงข้อมูลจาก URL
             fetch(url)
@@ -415,6 +445,16 @@
         function confirmAction(patientId) {
             console.log(patientId); // ตรวจสอบว่ามี patientId หรือไม่
             fetch(`/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+            fetch(`/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
+=======
+            fetch(`http://localhost:8080/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
+>>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
+>>>>>>> 2647318534e9020f05619613a9e724402e4585ec
+>>>>>>> 4cc63f7612a36b68e4354bb85c867ee332abeae2
                 .then(response => response.json())
                 .then(patient => {
                     const name = encodeURIComponent(patient.patient_name);
