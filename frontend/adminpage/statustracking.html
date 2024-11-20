@@ -40,14 +40,15 @@
       <div class="filter-container">
         <div class="filter-item search-bar">
           <h5>ค้นหารายชื่อ</h5>
-          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput"
+            oninput="filterData()">
           <i class='bx bx-search search-icon'></i>
         </div>
         <div class="filter-item">
           <h5>โรคประจำตัว</h5>
-          <select class="dropdown-filter" id="treatmentCountFilter">
+          <select class="dropdown-filter" id="treatmentCountFilter" onchange="filterData()">
             <option value="">ทั้งหมด</option>
-            <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+            <option value="โรคความดันโลหิตสูง">ความดันโลหิตสูง</option>
             <option value="โรคอ้วน">โรคอ้วน</option>
             <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
             <option value="โรคเบาหวาน">โรคเบาหวาน</option>
@@ -57,15 +58,15 @@
         </div>
         <div class="filter-item">
           <h5>วันที่เริ่มติดตาม</h5>
-          <input type="date" class="date-filter" id="appointmentDateFilter">
+          <input type="date" class="date-filter" id="appointmentDateFilter" onchange="filterData()">
         </div>
         <div class="filter-item">
           <h5>กำหนดส่งงาน</h5>
-          <input type="date" class="date-filter" id="DeadlineDateFilter">
+          <input type="date" class="date-filter" id="DeadlineDateFilter" onchange="filterData()">
         </div>
         <div class="filter-item">
           <h5>สถานะเข้ารับการรักษา</h5>
-          <select class="dropdown-filter" id="treatmentStatusFilter">
+          <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
             <option value="ทั้งหมด">ทั้งหมด</option>
             <option value="มาตามนัด">มาตามนัด</option>
             <option value="ไม่มาตามนัด">ไม่มาตามนัด</option>
@@ -74,12 +75,12 @@
 
         <div class="filter-item">
           <h5>สถานะการติดตาม</h5>
-          <select class="dropdown-filter" id="treatmentStatusFilter">
+          <select class="dropdown-filter" id="followUpStatusFilter" onchange="filterData()">
             <option value="ทั้งหมด">ทั้งหมด</option>
-            <option value="ยังไม่ได้รักษา">ยังไม่ได้ติดตาม</option>
-            <option value="นัดติดตามต่อเนื่อง">ติดตามแล้ว</option>
-            <option value="รักษาเสร็จสิ้น">กำลังติดตาม</option>
-            <option value="รักษาเสร็จสิ้น">ติดตามล้มเหลว</option>
+            <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
+            <option value="ติดตามแล้ว">ติดตามแล้ว</option>
+            <option value="กำลังติดตาม">กำลังติดตาม</option>
+            <option value="ติดตามล้มเหลว">ติดตามล้มเหลว</option>
           </select>
         </div>
 
@@ -278,26 +279,32 @@
 
           displayTable(filteredData);
         }
-
         // ฟังก์ชันสร้าง PDF
         function generatePdf() {
           const { jsPDF } = window.jspdf;
 
           // สร้างเอกสาร PDF ใหม่
           const doc = new jsPDF();
-          doc.addFileToVFS("THSarabunNew-Regular.ttf", "Base64EncodedFontHere"); // ใส่ Base64 ฟอนต์ที่แปลงแล้ว
-          doc.addFont("THSarabunNew-Regular.ttf", "THSarabunNew", "normal");
-          doc.setFont("THSarabunNew", "normal");
 
-          doc.text('รายชื่อผู้ป่วย', 14, 10);
+          // การเพิ่มฟอนต์จากไฟล์ (ที่อยู่ในโฟลเดอร์ fonts)
+          doc.addFont('../../assets/font/THSarabunNew.ttf', 'THSarabunNew', 'normal');
+          doc.addFont('../../assets/font/THSarabunNew_Italic.ttf', 'THSarabunNewItalic', 'italic');
+          doc.addFont('../../assets/font/THSarabunNew_Bold.ttf', 'THSarabunNewBold', 'bold');
+          doc.addFont('../../assets/font/THSarabunNew_BoldItalic.ttf', 'THSarabunNewBoldItalic', 'bolditalic');
+          doc.setFont('THSarabunNew', 'normal'); // กำหนดฟอนต์เริ่มต้น
+
+          doc.text('รายชื่อผู้ป่วยทั้งหมดที่ต้องติดตาม', 14, 10);
 
           const tableData = [];
           const selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
+
+          // ตรวจสอบว่าไม่มีแถวที่ถูกเลือก
           if (selectedRows.length === 0) {
             console.log("ไม่มีแถวที่ถูกเลือก");
             return;
           }
 
+          // ประมวลผลแถวที่ถูกเลือก
           selectedRows.forEach(checkbox => {
             const row = checkbox.closest('tr');
             if (!row) {
@@ -305,32 +312,98 @@
               return;
             }
 
-            const rowData = Array.from(row.querySelectorAll('td')).map(cell => {
-              let cellText = cell.textContent.trim(); // ใช้ textContent เพื่อดึงข้อความที่ไม่มี HTML tag
+            // สร้างออบเจ็กต์สำหรับแต่ละแถว
+            const rowData = {
+              'ชื่อผู้ป่วย': '',          // กำหนดค่าพื้นฐาน
+              'ประเภทโรค': '',
+              'ประเภทผู้ป่วย': '',
+              'วันที่เริ่มติดตาม': '',
+              'กำหนดส่งงาน': '',
+              'สถานะการติดตาม': ''
+            };
 
-              // ตรวจสอบว่า cellText มีค่าว่างหรือไม่
-              if (cellText === "" || cellText === null) {
-                cellText = "ข้อมูลไม่มี";
+            // เก็บข้อมูลจากแต่ละเซลล์ของแถวในออบเจ็กต์
+            Array.from(row.querySelectorAll('td')).forEach((cell, index) => {
+              const cellText = cell.textContent.trim();
+
+              console.log(`Index: ${index}, Cell Text: ${cellText}`); // ตรวจสอบข้อมูลที่ดึงออกมาจากเซลล์
+
+              // กำหนดค่าที่จะเก็บในออบเจ็กต์ตามลำดับที่ถูกต้อง
+              switch (index) {
+                case 1:
+                  rowData['ชื่อผู้ป่วย'] = cellText || "ชื่อผู้ป่วยไม่มี";
+                  break;
+                case 2:
+                  rowData['ประเภทโรค'] = cellText || "ประเภทโรคไม่มี";
+                  break;
+                case 3:
+                  rowData['ประเภทผู้ป่วย'] = cellText || "ประเภทผู้ป่วยไม่มี";
+                  break;
+                case 4:
+                  rowData['วันที่เริ่มติดตาม'] = cellText || "วันที่เริ่มติดตามไม่มี";
+                  break;
+                case 5:
+                  rowData['กำหนดส่งงาน'] = cellText || "กำหนดส่งงานไม่มี";
+                  break;
+                case 6:
+                  rowData['สถานะการติดตาม'] = cellText || "สถานะการติดตามไม่มี";
+                  break;
+                default:
+                  break;
               }
-
-              return cellText;
             });
 
+            // เพิ่มข้อมูลแถวที่ประมวลผลแล้วไปยัง tableData
             tableData.push(rowData);
           });
 
-          console.log("Table data:", tableData);
+          // Log the table data to the console
+          console.log("Table Data (as Objects):", tableData);
 
           // สร้างตารางใน PDF
           if (typeof doc.autoTable === "function") {
+            // Log the transformed data that will be passed to autoTable (converted to an array of values)
+            const tableValues = tableData.map(row => [
+              row['ชื่อผู้ป่วย'],
+              row['ประเภทโรค'],
+              row['ประเภทผู้ป่วย'],
+              row['วันที่เริ่มติดตาม'],
+              row['กำหนดส่งงาน'],
+              row['สถานะการติดตาม']
+            ]);
+            console.log("Table Data (as Array of Values):", tableValues);
+
+            // สร้างตารางใน PDF ด้วยการตั้งค่าเพิ่มเติม
             doc.autoTable({
-              head: [['ชื่อผู้ป่วย', 'ประเภทโรค', 'ประเภทผู้ป่วย', 'วันที่เริ่มติดตาม', 'กำหนดส่งงาน', 'สถานะการติดตาม']], // กำหนดหัวตาราง
-              body: tableData, // ข้อมูลตาราง
+              head: [
+                ['ชื่อผู้ป่วย', 'ประเภทโรค', 'ประเภทผู้ป่วย', 'วันที่เริ่มติดตาม', 'กำหนดส่งงาน', 'สถานะการติดตาม']
+              ], // กำหนดหัวตาราง
+              body: tableValues, // ข้อมูลตาราง
               theme: 'grid',
-              styles: { font: 'THSarabunNew' },
+              styles: {
+                font: 'THSarabunNew',
+                halign: 'center',    // กำหนดการจัดข้อความกลาง
+                fontSize: 12,        // ขนาดฟอนต์
+              },
+              headStyles: {
+                fillColor: [41, 128, 185], // สีพื้นหลังหัวตาราง
+                textColor: [255, 255, 255], // สีข้อความในหัวตาราง
+                font: 'THSarabunNewBold',   // ฟอนต์หัวตารางเป็นตัวหนา
+                fontSize: 12,               // ขนาดฟอนต์หัวตาราง
+              },
+              columnStyles: {
+                0: { halign: 'left' },   // ข้อความในคอลัมน์แรก (ชื่อผู้ป่วย) จัดชิดซ้าย
+                1: { halign: 'left' },   // ข้อความในคอลัมน์สอง (ประเภทโรค) จัดชิดซ้าย
+                2: { halign: 'left' },   // ข้อความในคอลัมน์สาม (ประเภทผู้ป่วย) จัดชิดซ้าย
+                3: { halign: 'center' }, // ข้อความในคอลัมน์สี่ (วันที่เริ่มติดตาม) จัดกลาง
+                4: { halign: 'center' }, // ข้อความในคอลัมน์ห้า (กำหนดส่งงาน) จัดกลาง
+                5: { halign: 'center' }  // ข้อความในคอลัมน์หก (สถานะการติดตาม) จัดกลาง
+              },
+              margin: { top: 20 },
             });
 
-            doc.save('รายงานผู้ป่วย.pdf');
+            // บันทึกไฟล์ PDF
+            doc.save('รายชื่อผู้ป่วยทั้งหมดที่ต้องติดตาม.pdf');
           } else {
             console.error("autoTable function not found!");
           }
@@ -375,7 +448,7 @@
             <th>การจัดการ</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="patient-info-body">
           <!-- ข้อมูลผู้ป่วยจะถูกเติมที่นี่ -->
         </tbody>
       </table>
@@ -538,6 +611,62 @@
           alert('เกิดข้อผิดพลาดในการอัปเดตสถานะการติดตาม: ' + error.message);
         }
       });
+    });
+
+    //ฟิลเตอร์กรองข้อมูลในตาราง
+    function filterData() {
+      const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
+      const treatmentCount = document.getElementById('treatmentCountFilter').value;
+      const appointmentDate = document.getElementById('appointmentDateFilter').value;
+      const deadlineDate = document.getElementById('DeadlineDateFilter').value;
+      const treatmentStatus = document.getElementById('treatmentStatusFilter').value;
+      const followUpStatus = document.getElementById('followUpStatusFilter').value;
+
+      const rows = document.querySelectorAll('#patient-info-body tr');
+
+      rows.forEach(row => {
+        const name = row.cells[1].textContent.toLowerCase(); // ชื่อผู้ป่วย 
+        const treatment = row.cells[2].textContent; // โรคประจำตัว 
+        const appointment = row.cells[4].textContent; // วันที่เริ่มติดตาม (สมมติว่าช่องที่สาม)
+        const deadline = row.cells[5].textContent; // กำหนดส่งงาน 
+        const status = row.cells[7].textContent; // สถานะการรักษา 
+        const followup = row.cells[8].textContent; // สถานะการติดตาม 
+
+        let isVisible = true;
+
+        // กรองตามชื่อ
+        if (searchName && !name.includes(searchName)) {
+          isVisible = false;
+        }
+        // กรองตามโรคประจำตัว
+        if (treatmentCount && treatmentCount !== treatment) {
+          isVisible = false;
+        }
+        // กรองตามวันที่เริ่มติดตาม
+        if (appointmentDate && appointment !== appointmentDate) {
+          isVisible = false;
+        }
+        // กรองตามกำหนดส่งงาน
+        if (deadlineDate && deadline !== deadlineDate) {
+          isVisible = false;
+        }
+
+        // กรองตามสถานะการรักษา
+        if (treatmentStatus && treatmentStatus !== "ทั้งหมด" && treatmentStatus !== status) {
+          isVisible = false;
+        }
+
+        if (followUpStatus && followUpStatus !== "ทั้งหมด" && followUpStatus !== followup) {
+          isVisible = false;
+        }
+
+        // แสดงหรือซ่อนแถว
+        row.style.display = isVisible ? '' : 'none';
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      filterData();
     });
   </script>
 
