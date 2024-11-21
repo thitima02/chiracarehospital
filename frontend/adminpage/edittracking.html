@@ -78,16 +78,6 @@
         }
     });
 
-<<<<<<< HEAD
-    function getPatientIdFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('patient_id');
-    }
-async function fetchPatientMedicalData(patientId) {
-    try {
-        const medicalResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
-        const medicalData = await medicalResponse.json();
-=======
         // Function to fetch monitor information by patient_id
         function fetchMonitorData() {
             const patientId = document.getElementById('patient-id').value;
@@ -198,7 +188,6 @@ async function fetchPatientMedicalData(patientId) {
             try {
                 const medicalResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
                 const medicalData = await medicalResponse.json();
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
                 if (medicalData.patient_data && medicalData.patient_data.length > 0) {
                     const patientMedicalInfo = medicalData.patient_data[0];
@@ -213,20 +202,6 @@ async function fetchPatientMedicalData(patientId) {
             }
         }
 
-<<<<<<< HEAD
-function fetchPatientInformation(patientId) {
-    fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                displayPatientInformation(data.data[0]);
-            } else {
-                console.error('ไม่พบข้อมูลผู้ป่วย');
-            }
-        })
-        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-}
-=======
         // Function to fetch and display general patient information
         function fetchPatientInformation(patientId) {
             fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
@@ -240,7 +215,6 @@ function fetchPatientInformation(patientId) {
                 })
                 .catch(error => console.error('เกิดข้อผิดพลาด:', error));
         }
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
         // Function to display general patient information
         function displayPatientInformation(patient) {
@@ -251,20 +225,6 @@ function fetchPatientInformation(patientId) {
             document.querySelector('#symptoms').value = patient.symptoms || '';
         }
 
-<<<<<<< HEAD
-function fetchMonitorFormData(patientId) {
-    fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                displayMonitorFormData(data.data[0]);
-            } else {
-                console.error('ไม่พบข้อมูล');
-            }
-        })
-        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-}
-=======
         // Function to fetch and display monitor form data
         function fetchMonitorFormData(patientId) {
             fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
@@ -278,7 +238,6 @@ function fetchMonitorFormData(patientId) {
                 })
                 .catch(error => console.error('เกิดข้อผิดพลาด:', error));
         }
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
         // Function to display monitor form data
         function displayMonitorFormData(monitorData) {
