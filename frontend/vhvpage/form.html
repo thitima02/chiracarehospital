@@ -32,64 +32,65 @@
   <div id="topbar-container"></div>
 
   <!-- ฟอร์มแสดงข้อมูล -->
-  <div class="form-section">
-    <form id="trackingForm">
-      <div class="Topic">
-        <p>ข้อมูลการติดตาม</p>
-      </div>
+  <div id="main">
+    <div class="form-section">
+      <form id="trackingForm">
+        <div class="Topic">
+          <p>ข้อมูลการติดตาม</p>
+        </div>
 
-      <input type="hidden" id="patient-id" name="patient_id">
+        <input type="hidden" id="patient-id" name="patient_id">
 
-      <label for="name">ชื่อ – นามสกุล</label>
-      <input type="text" id="name" readonly />
+        <label for="name">ชื่อ – นามสกุล</label>
+        <input type="text" id="name" readonly />
 
-      <label for="disease">โรคประจำตัว</label>
-      <input type="text" id="disease" readonly />
+        <label for="disease">โรคประจำตัว</label>
+        <input type="text" id="disease" readonly />
 
-      <label for="symptoms">อาการทั่วไป</label>
-      <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+        <label for="symptoms">อาการทั่วไป</label>
+        <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
 
-      <label for="Blood-sugar">ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร)</label>
-      <input type="text" id="Blood-sugar" placeholder="กรุณากรอกตัวเลขค่าระดับน้ำตาลในเลือด">
+        <label for="Blood-sugar">ค่าระดับน้ำตาลในเลือด (มิลลิกรัม/เดซิลิตร)</label>
+        <input type="text" id="Blood-sugar" placeholder="กรุณากรอกตัวเลขค่าระดับน้ำตาลในเลือด">
 
-      <label for="vital-signs">ค่าสัญญาณชีพ (ครั้ง/นาที)</label>
-      <input type="text" id="vital-signs" placeholder="กรุณากรอกตัวเลขค่าสัญญาณชีพ">
+        <label for="vital-signs">ค่าสัญญาณชีพ (ครั้ง/นาที)</label>
+        <input type="text" id="vital-signs" placeholder="กรุณากรอกตัวเลขค่าสัญญาณชีพ">
 
-      <label for="not-receiving-treatment">สาเหตุที่ไม่มารับการรักษา</label>
-      <select id="not-receiving-treatment">
-        <option value="" disabled selected>กรุณาเลือกสาเหตุ</option>
-        <option value="ลืมนัด/จำวันนัดผิด">ลืมนัด/จำวันนัดผิด</option>
-        <option value="ใบนัดหาย">ใบนัดหาย</option>
-        <option value="ตั้งใจมาหลังนัด">ตั้งใจมาหลังนัด</option>
-        <option value="ยาเหลือ">ยาเหลือ</option>
-        <option value="มีปัญหาด้านการเดินทาง">มีปัญหาด้านการเดินทาง</option>
-        <option value="ติดธุระจำเป็นอื่นๆ">ติดธุระจำเป็นอื่นๆ</option>
-        <option value="ไม่มีอาการผิดปกติ">ไม่มีอาการผิดปกติ</option>
-      </select>
+        <label for="not-receiving-treatment">สาเหตุที่ไม่มารับการรักษา</label>
+        <select id="not-receiving-treatment">
+          <option value="" disabled selected>กรุณาเลือกสาเหตุ</option>
+          <option value="ลืมนัด/จำวันนัดผิด">ลืมนัด/จำวันนัดผิด</option>
+          <option value="ใบนัดหาย">ใบนัดหาย</option>
+          <option value="ตั้งใจมาหลังนัด">ตั้งใจมาหลังนัด</option>
+          <option value="ยาเหลือ">ยาเหลือ</option>
+          <option value="มีปัญหาด้านการเดินทาง">มีปัญหาด้านการเดินทาง</option>
+          <option value="ติดธุระจำเป็นอื่นๆ">ติดธุระจำเป็นอื่นๆ</option>
+          <option value="ไม่มีอาการผิดปกติ">ไม่มีอาการผิดปกติ</option>
+        </select>
 
-      <label for="date">วันที่กรอกฟอร์ม</label>
-      <input type="date" class="date-filter" id="date" min="" required />
+        <label for="date">วันที่กรอกฟอร์ม</label>
+        <input type="date" class="date-filter" id="date" min="" required />
 
-      <!-- Submit Button -->
-      <div class="button-group">
-        <!-- ปุ่มยกเลิก -->
-        <button type="cancelBtn" id="back" onclick="goBack();">ยกเลิก</button>
-        <button type="button" id="saveBtn" onclick="confirmSubmission(event)">บันทึก</button>
-      </div>
-    </form>
-  </div>
+        <!-- Submit Button -->
+        <div class="button-group">
+          <!-- ปุ่มยกเลิก -->
+          <button type="button" id="back" onclick="goBack();">ยกเลิก</button>
+          <button type="button" id="saveBtn" onclick="confirmSubmission(event)">บันทึก</button>
+        </div>
+      </form>
+    </div>
 
-  <div id="popup" class="popup" style="display: none;"> <!-- เริ่มต้นซ่อนป๊อปอัพ -->
-    <div class="popup-content">
-      <h3>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้อง</h3>
-      <p>หากท่านมั่นใจว่าข้อมูลถูกต้องทั้งหมดให้กดยืนยันเพื่อส่งผลการติดตามให้กับผู้รับผิดชอบ</p>
-      <div class="button-popup">
-        <button type="No" onclick="closePopup()">ไม่</button>
-        <button type="Yes" onclick="submitForm()">ใช่</button>
+    <div id="popup" class="popup" style="display: none;"> <!-- เริ่มต้นซ่อนป๊อปอัพ -->
+      <div class="popup-content">
+        <h3>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้อง</h3>
+        <p>หากท่านมั่นใจว่าข้อมูลถูกต้องทั้งหมดให้กดยืนยันเพื่อส่งผลการติดตามให้กับผู้รับผิดชอบ</p>
+        <div class="button-popup">
+          <button type="No" onclick="closePopup()">ไม่</button>
+          <button type="Yes" onclick="submitForm()">ใช่</button>
+        </div>
       </div>
     </div>
   </div>
-
   <script>
     // เมื่อโหลดหน้าฟอร์ม
     window.onload = function () {

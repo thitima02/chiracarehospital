@@ -40,14 +40,15 @@
       <div class="filter-container">
         <div class="filter-item search-bar">
           <h5>ค้นหารายชื่อ</h5>
-          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput"
+            oninput="filterData()">
           <i class='bx bx-search search-icon'></i>
         </div>
         <div class="filter-item">
           <h5>โรคประจำตัว</h5>
-          <select class="dropdown-filter" id="treatmentCountFilter">
+          <select class="dropdown-filter" id="treatmentCountFilter" onchange="filterData()">
             <option value="">ทั้งหมด</option>
-            <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+            <option value="โรคความดันโลหิตสูง">ความดันโลหิตสูง</option>
             <option value="โรคอ้วน">โรคอ้วน</option>
             <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
             <option value="โรคเบาหวาน">โรคเบาหวาน</option>
@@ -57,15 +58,15 @@
         </div>
         <div class="filter-item">
           <h5>วันที่เริ่มติดตาม</h5>
-          <input type="date" class="date-filter" id="appointmentDateFilter">
+          <input type="date" class="date-filter" id="appointmentDateFilter" onchange="filterData()">
         </div>
         <div class="filter-item">
           <h5>กำหนดส่งงาน</h5>
-          <input type="date" class="date-filter" id="DeadlineDateFilter">
+          <input type="date" class="date-filter" id="DeadlineDateFilter" onchange="filterData()">
         </div>
         <div class="filter-item">
           <h5>สถานะเข้ารับการรักษา</h5>
-          <select class="dropdown-filter" id="treatmentStatusFilter">
+          <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
             <option value="ทั้งหมด">ทั้งหมด</option>
             <option value="มาตามนัด">มาตามนัด</option>
             <option value="ไม่มาตามนัด">ไม่มาตามนัด</option>
@@ -74,12 +75,12 @@
 
         <div class="filter-item">
           <h5>สถานะการติดตาม</h5>
-          <select class="dropdown-filter" id="treatmentStatusFilter">
+          <select class="dropdown-filter" id="followUpStatusFilter" onchange="filterData()">
             <option value="ทั้งหมด">ทั้งหมด</option>
-            <option value="ยังไม่ได้รักษา">ยังไม่ได้ติดตาม</option>
-            <option value="นัดติดตามต่อเนื่อง">ติดตามแล้ว</option>
-            <option value="รักษาเสร็จสิ้น">กำลังติดตาม</option>
-            <option value="รักษาเสร็จสิ้น">ติดตามล้มเหลว</option>
+            <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
+            <option value="ติดตามแล้ว">ติดตามแล้ว</option>
+            <option value="กำลังติดตาม">กำลังติดตาม</option>
+            <option value="ติดตามล้มเหลว">ติดตามล้มเหลว</option>
           </select>
         </div>
 
@@ -447,7 +448,7 @@
             <th>การจัดการ</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="patient-info-body">
           <!-- ข้อมูลผู้ป่วยจะถูกเติมที่นี่ -->
         </tbody>
       </table>
@@ -610,6 +611,62 @@
           alert('เกิดข้อผิดพลาดในการอัปเดตสถานะการติดตาม: ' + error.message);
         }
       });
+    });
+
+    //ฟิลเตอร์กรองข้อมูลในตาราง
+    function filterData() {
+      const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
+      const treatmentCount = document.getElementById('treatmentCountFilter').value;
+      const appointmentDate = document.getElementById('appointmentDateFilter').value;
+      const deadlineDate = document.getElementById('DeadlineDateFilter').value;
+      const treatmentStatus = document.getElementById('treatmentStatusFilter').value;
+      const followUpStatus = document.getElementById('followUpStatusFilter').value;
+
+      const rows = document.querySelectorAll('#patient-info-body tr');
+
+      rows.forEach(row => {
+        const name = row.cells[1].textContent.toLowerCase(); // ชื่อผู้ป่วย 
+        const treatment = row.cells[2].textContent; // โรคประจำตัว 
+        const appointment = row.cells[4].textContent; // วันที่เริ่มติดตาม (สมมติว่าช่องที่สาม)
+        const deadline = row.cells[5].textContent; // กำหนดส่งงาน 
+        const status = row.cells[7].textContent; // สถานะการรักษา 
+        const followup = row.cells[8].textContent; // สถานะการติดตาม 
+
+        let isVisible = true;
+
+        // กรองตามชื่อ
+        if (searchName && !name.includes(searchName)) {
+          isVisible = false;
+        }
+        // กรองตามโรคประจำตัว
+        if (treatmentCount && treatmentCount !== treatment) {
+          isVisible = false;
+        }
+        // กรองตามวันที่เริ่มติดตาม
+        if (appointmentDate && appointment !== appointmentDate) {
+          isVisible = false;
+        }
+        // กรองตามกำหนดส่งงาน
+        if (deadlineDate && deadline !== deadlineDate) {
+          isVisible = false;
+        }
+
+        // กรองตามสถานะการรักษา
+        if (treatmentStatus && treatmentStatus !== "ทั้งหมด" && treatmentStatus !== status) {
+          isVisible = false;
+        }
+
+        if (followUpStatus && followUpStatus !== "ทั้งหมด" && followUpStatus !== followup) {
+          isVisible = false;
+        }
+
+        // แสดงหรือซ่อนแถว
+        row.style.display = isVisible ? '' : 'none';
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      filterData();
     });
   </script>
 

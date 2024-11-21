@@ -2,7 +2,7 @@
     width: 94.5%;
     margin: auto;
     padding: 20px;
-    margin-left: 89px;
+    /* margin-left: 89px; */
 }
 
 .history {
@@ -100,4 +100,10 @@
 .detail {
     font-weight: normal;
     margin-left: 30px;
+}
+
+@media only screen and (max-width:767px) {
+    .right {
+        position: unset;
+    }
 }

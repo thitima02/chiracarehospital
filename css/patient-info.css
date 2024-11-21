@@ -72,9 +72,9 @@ table th {
 
 /* ตารางผู้ป่วย */
 .table-container {
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   width: 91%;
   padding: 20px;
   box-sizing: border-box;
@@ -83,6 +83,7 @@ table th {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
   width: 100%;
+  overflow: auto;
 }
 
 .patient-table {
@@ -93,6 +94,7 @@ table th {
   font-size: 14px;
   text-align: center;
   overflow-x: auto;
+  min-width: 1000px;
 }
 
 .patient-table thead tr {

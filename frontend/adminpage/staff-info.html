@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patient Information</title>
+  <title>โรงพยาบาลค่ายจิรประวัติ</title>
   <link rel="stylesheet" href="../../css/patient-info.css">
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
@@ -26,11 +26,11 @@
 
   <div class="patientinfo-container">
     <div class="search-bar">
-      <input type="search" placeholder="ค้นหาชื่อ" id="SearchFilter">
-      <input type="search" placeholder="เขตที่รับผิดชอบ" id="responsibility-areaFilter">
-     
-      <input type="search" placeholder="เบอร์โทรศัพท์" id="PhonenumberFilter">
-      <select class="dropdown-filter" id="StatusFilter">
+      <input type="search" placeholder="ค้นหาชื่อ" id="SearchFilter" oninput="filterData()">
+      <input type="search" placeholder="เขตที่รับผิดชอบ" id="responsibility-areaFilter" oninput="filterData()">
+
+      <input type="search" placeholder="เบอร์โทรศัพท์" id="PhonenumberFilter" oninput="filterData()">
+      <select class="dropdown-filter" id="StatusFilter" onchange="filterData()">
         <option>สถานะ</option>
         <option>อาสาสมัครสาธารณสุข</option>
         <option>เสนารักษ์</option>
@@ -116,7 +116,7 @@
               rows += '<td>' + staff.responsibility_area + '</td>';
               rows += '<td>' + (staff.id_card ? staff.id_card : '-') + '</td>';
               rows += '<td>' + staff.phone_number + '</td>';
-              rows += '<td>'+'<button class="action-btn" title="แก้ไขข้อมูล" onclick="editStaff(\'' + staff.id + '\')"><i class="bx bxs-edit"></i></button>';
+              rows += '<td>' + '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editStaff(\'' + staff.id + '\')"><i class="bx bxs-edit"></i></button>';
               rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deleteStaff(\'' + staff.id + '\')"><i class="bx bx-trash"></i></button>';
               rows += '<button class="action-btn" title="ดูเพิ่มเติม" onclick="moreStaff(\'' + staff.id + '\')" ><i class="bx bx-right-arrow-alt"></i></button>';
               rows += '</td>';
@@ -199,6 +199,50 @@
 
     // เรียกใช้เมื่อโหลดหน้า
     document.addEventListener('DOMContentLoaded', loadUserData);
+
+    // filter data 
+    function filterData() {
+      // รับค่า input ของชื่อที่ต้องการค้นหา
+      var searchValue = document.getElementById('SearchFilter').value.toLowerCase();
+
+      // รับค่าของ option ที่เลือกใน select
+      var searchArea = document.getElementById('responsibility-areaFilter').value;
+
+      var selectStatus = document.getElementById('StatusFilter').value;
+
+      // รับค่าของ option ที่เลือกใน select
+      var searchPhonenumber = document.getElementById('PhonenumberFilter').value;
+
+      //ดึงข้อมูลอสมและเสนารักษ์ทั้งหมดในตาราง
+      var rows = document.querySelectorAll('#patient-info-body tr');
+
+      rows.forEach(function (row) {
+        var staffName = row.cells[0].innerText.toLowerCase(); // ชื่ออสม
+
+        var staffstatus = row.cells[1].innerText.toLowerCase(); // สถานะอสมหรือเสนารักษ์
+
+        var staffarea = row.cells[2].innerText; // เขตที่ผู้ป่วยอาศัย
+
+        var staffphonenumber = row.cells[4].innerText; // เขตที่ผู้ป่วยอาศัย
+
+        // ตรวจสอบเงื่อนไขการค้นหาและกรองข้อมูล
+        var isNameMatch = staffName.includes(searchValue);
+
+        var isAreaMatch = staffarea.includes(searchArea);
+
+        var isStatusMatch = selectStatus === "สถานะ" || staffstatus === selectStatus;
+
+        var isPhoneMatch = staffphonenumber.includes(searchPhonenumber);
+
+        // แสดงหรือซ่อนแถวตามเงื่อนไขการกรอง
+        if (isNameMatch && isAreaMatch && isPhoneMatch && isStatusMatch) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
 
   </script>
 

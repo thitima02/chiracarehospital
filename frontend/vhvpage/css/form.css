@@ -10,7 +10,7 @@
   align-items: center;
   width: 92%;
   margin: 25px auto;
-  margin-left: 115px;
+  /* margin-left: 115px; */
   background-color: white;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -52,4 +52,24 @@ select {
 input[type="date"] {
   width: 100%;
   padding: 9px;
+}
+
+#main {
+  margin-left: 78px;
+}
+@media (max-width: 767px) {
+  #main {
+    margin-left: 0;
+    margin-top: 80px;
+  }
+
+  .form-section {
+    align-items: center;
+    width: 92%;
+    margin: 25px auto;
+    background-color: white;
+    margin-top: 90px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
 }

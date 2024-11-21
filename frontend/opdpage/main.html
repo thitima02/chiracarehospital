@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>The Main Page</title>
+    <title>โรงพยาบาลค่ายจิรประวัติ</title>
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="../../css/sidebar.css">
     <link rel="stylesheet" href="../../css/topbar.css">
@@ -38,320 +38,321 @@
     <!-- Topbar will be loaded here -->
     <div id="topbar-container"></div>
 
-    <container>
-        <div class="stats-container">
-            <div class="box new" id="totalAppointmentsBox">
-                <i class='bx bx-user'></i>
-                <div>
-                    <h2 id="totalAppointments">0 คน</h2>
-                    <p></p>
+    <div id="main">
+        <section>
+            <div class="stats-container">
+                <div class="box new" id="totalAppointmentsBox">
+                    <i class='bx bx-user'></i>
+                    <div>
+                        <h2 id="totalAppointments">0 คน</h2>
+                        <p></p>
+                    </div>
+                </div>
+
+                <div class="box box2 success" id="totalTreatedBox">
+                    <i class='bx bx-smile'></i>
+                    <div>
+                        <h2 id="totalTreated">0 คน</h2>
+                        <p>ผู้ป่วยทั้งหมดที่มาตามนัด</p>
+                    </div>
+                </div>
+
+                <div class="box box3 unsuccess" id="totalUntreatedBox">
+                    <i class='bx bx-tired'></i>
+                    <div>
+                        <h2 id="totalUntreated">0 คน</h2>
+                        <p>ผู้ป่วยทั้งหมดที่ยังไม่มาตามนัด</p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="box box2 success" id="totalTreatedBox">
-                <i class='bx bx-smile'></i>
-                <div>
-                    <h2 id="totalTreated">0 คน</h2>
-                    <p>ผู้ป่วยทั้งหมดที่มาตามนัด</p>
-                </div>
+        <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่รักษาเสร็จสิ้น -->
+        <div id="treatedModal" class="modal treatedModal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>ผู้ป่วยที่รักษาเสร็จสิ้น</h2>
+                <table id="treatedPatientList" class="patientTable">
+                    <thead>
+                        <tr>
+                            <th>ชื่อผู้ป่วย</th>
+                            <th>ประเภทโรค</th>
+                            <th>สถานะการรักษา</th>
+                        </tr>
+                    </thead>
+                    <tbody id="treatedPatientListBody">
+                        <!-- รายชื่อผู้ป่วยจะถูกแสดงที่นี่ -->
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <div class="box box3 unsuccess" id="totalUntreatedBox">
-                <i class='bx bx-tired'></i>
-                <div>
-                    <h2 id="totalUntreated">0 คน</h2>
-                    <p>ผู้ป่วยทั้งหมดที่ยังไม่มาตามนัด</p>
-                </div>
+        <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่ยังไม่ได้รับการรักษา -->
+        <div id="untreatedModal" class="modal untreatedModal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>ผู้ป่วยที่ยังไม่ได้รับการรักษา</h2>
+                <table id="untreatedPatientList" class="patientTable">
+                    <thead>
+                        <tr>
+                            <th>ชื่อผู้ป่วย</th>
+                            <th>ประเภทโรค</th>
+                            <th>สถานะการรักษา</th>
+                        </tr>
+                    </thead>
+                    <tbody id="untreatedPatientListBody">
+                        <!-- รายชื่อผู้ป่วยจะถูกแสดงที่นี่ -->
+                    </tbody>
+                </table>
             </div>
         </div>
-    </container>
 
-    <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่รักษาเสร็จสิ้น -->
-    <div id="treatedModal" class="modal treatedModal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>ผู้ป่วยที่รักษาเสร็จสิ้น</h2>
-            <table id="treatedPatientList" class="patientTable">
-                <thead>
-                    <tr>
-                        <th>ชื่อผู้ป่วย</th>
-                        <th>ประเภทโรค</th>
-                        <th>สถานะการรักษา</th>
-                    </tr>
-                </thead>
-                <tbody id="treatedPatientListBody">
-                    <!-- รายชื่อผู้ป่วยจะถูกแสดงที่นี่ -->
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // ฟังก์ชันแปลงวันที่เป็นรูปแบบ "วันที่ เดือน ปี"
+                function formatDateThai(date) {
+                    const months = [
+                        "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+                        "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+                    ];
+                    const day = date.getDate();
+                    const month = months[date.getMonth()];
+                    const year = date.getFullYear() + 543; // เพิ่ม 543 เพื่อแปลงเป็นปี พ.ศ.
+                    return `วันที่ ${day} ${month} ${year}`;
+                }
 
-    <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่ยังไม่ได้รับการรักษา -->
-    <div id="untreatedModal" class="modal untreatedModal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>ผู้ป่วยที่ยังไม่ได้รับการรักษา</h2>
-            <table id="untreatedPatientList" class="patientTable">
-                <thead>
-                    <tr>
-                        <th>ชื่อผู้ป่วย</th>
-                        <th>ประเภทโรค</th>
-                        <th>สถานะการรักษา</th>
-                    </tr>
-                </thead>
-                <tbody id="untreatedPatientListBody">
-                    <!-- รายชื่อผู้ป่วยจะถูกแสดงที่นี่ -->
-                </tbody>
-            </table>
-        </div>
-    </div>
+                // แสดงวันที่ปัจจุบันในข้อความ
+                const currentDate = new Date();
+                const formattedDate = formatDateThai(currentDate);
+                const totalAppointmentsText = document.querySelector("#totalAppointmentsBox p");
+                totalAppointmentsText.textContent = `ผู้ป่วยทั้งหมดที่มีนัดรักษา${formattedDate}`;
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // ฟังก์ชันแปลงวันที่เป็นรูปแบบ "วันที่ เดือน ปี"
-            function formatDateThai(date) {
-                const months = [
-                    "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-                    "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
-                ];
-                const day = date.getDate();
-                const month = months[date.getMonth()];
-                const year = date.getFullYear() + 543; // เพิ่ม 543 เพื่อแปลงเป็นปี พ.ศ.
-                return `วันที่ ${day} ${month} ${year}`;
-            }
+                // ดึงข้อมูลจำนวนผู้ป่วยทั้งหมด
+                fetch("/chiracarehospital/backend/sql/opd/fetch_appointments.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("totalAppointments").textContent = `${data.totalAppointments} คน`;
+                    })
+                    .catch(error => console.error("Error fetching data:", error));
 
-            // แสดงวันที่ปัจจุบันในข้อความ
-            const currentDate = new Date();
-            const formattedDate = formatDateThai(currentDate);
-            const totalAppointmentsText = document.querySelector("#totalAppointmentsBox p");
-            totalAppointmentsText.textContent = `ผู้ป่วยทั้งหมดที่มีนัดรักษา${formattedDate}`;
+                // ดึงข้อมูลจำนวนผู้ป่วยที่รักษาเสร็จสิ้น และยังไม่ได้รับการรักษา
+                fetch("/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("totalTreated").textContent = data.totalTreated + " คน";
+                        document.getElementById("totalUntreated").textContent = data.totalUntreated + " คน";
+                    })
+                    .catch(error => console.error("Error fetching patient counts:", error));
+            });
 
-            // ดึงข้อมูลจำนวนผู้ป่วยทั้งหมด
-            fetch("/chiracarehospital/backend/sql/opd/fetch_appointments.php")
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("totalAppointments").textContent = `${data.totalAppointments} คน`;
-                })
-                .catch(error => console.error("Error fetching data:", error));
+            // ฟังก์ชันเพื่อแสดงข้อมูลผู้ป่วยเมื่อคลิกที่กล่อง
+            document.getElementById('totalTreatedBox').addEventListener('click', function () {
+                fetchAndShowPatients('treated');
+            });
 
-            // ดึงข้อมูลจำนวนผู้ป่วยที่รักษาเสร็จสิ้น และยังไม่ได้รับการรักษา
-            fetch("/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("totalTreated").textContent = data.totalTreated + " คน";
-                    document.getElementById("totalUntreated").textContent = data.totalUntreated + " คน";
-                })
-                .catch(error => console.error("Error fetching patient counts:", error));
-        });
+            document.getElementById('totalUntreatedBox').addEventListener('click', function () {
+                fetchAndShowPatients('untreated');
+            });
 
-        // ฟังก์ชันเพื่อแสดงข้อมูลผู้ป่วยเมื่อคลิกที่กล่อง
-        document.getElementById('totalTreatedBox').addEventListener('click', function () {
-            fetchAndShowPatients('treated');
-        });
+            function fetchAndShowPatients(status) {
+                // กำหนด URL ให้ดึงข้อมูลผู้ป่วยตามสถานะที่เลือก
+                let url = status === 'treated' ? '/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : '/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
+                // ดึงข้อมูลจาก URL
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        const patientTableBody = status === 'treated' ? document.getElementById('treatedPatientListBody') : document.getElementById('untreatedPatientListBody');
+                        patientTableBody.innerHTML = ''; // ล้างข้อมูลเก่าออก
 
-        document.getElementById('totalUntreatedBox').addEventListener('click', function () {
-            fetchAndShowPatients('untreated');
-        });
-
-        function fetchAndShowPatients(status) {
-            // กำหนด URL ให้ดึงข้อมูลผู้ป่วยตามสถานะที่เลือก
-            let url = status === 'treated' ? '/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : '/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
-            // ดึงข้อมูลจาก URL
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const patientTableBody = status === 'treated' ? document.getElementById('treatedPatientListBody') : document.getElementById('untreatedPatientListBody');
-                    patientTableBody.innerHTML = ''; // ล้างข้อมูลเก่าออก
-
-                    // ถ้ามีข้อมูลผู้ป่วย ให้แสดงใน Modal โดยใช้ตาราง
-                    if (data.patients && data.patients.length > 0) {
-                        data.patients.forEach(patient => {
-                            const tr = document.createElement('tr');
-                            tr.innerHTML = `
+                        // ถ้ามีข้อมูลผู้ป่วย ให้แสดงใน Modal โดยใช้ตาราง
+                        if (data.patients && data.patients.length > 0) {
+                            data.patients.forEach(patient => {
+                                const tr = document.createElement('tr');
+                                tr.innerHTML = `
                                 <td>${patient.patient_name}</td>
                                 <td>${patient.disease_type}</td>
                                 <td>${patient.treatment_status}</td> <!-- เพิ่มการแสดงสถานะการรักษา -->
                             `;
+                                patientTableBody.appendChild(tr);
+                            });
+                        } else {
+                            // ถ้าไม่มีข้อมูล ให้แสดงข้อความว่าไม่มีผู้ป่วย
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `<td colspan="3" style="text-align:center;">ไม่มีผู้ป่วยในสถานะนี้</td>`;
                             patientTableBody.appendChild(tr);
-                        });
-                    } else {
-                        // ถ้าไม่มีข้อมูล ให้แสดงข้อความว่าไม่มีผู้ป่วย
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `<td colspan="3" style="text-align:center;">ไม่มีผู้ป่วยในสถานะนี้</td>`;
-                        patientTableBody.appendChild(tr);
-                    }
+                        }
 
-                    // แสดง Modal
-                    const modal = status === 'treated' ? document.getElementById('treatedModal') : document.getElementById('untreatedModal');
-                    modal.style.display = 'block';
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        }
-
-        // ฟังก์ชันปิด Modal
-        function closeModal() {
-            document.getElementById('treatedModal').style.display = 'none';
-            document.getElementById('untreatedModal').style.display = 'none';
-        }
-    </script>
-
-    <!-- Filters -->
-    <section class="filter-section" style="justify-content: center;">
-        <div class="filter-container">
-            <div class="filter-item search-bar">
-                <h5>ค้นหารายชื่อ</h5>
-                <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
-                <i class='bx bx-search search-icon'></i>
-            </div>
-            <div class="filter-item">
-                <h5>วันที่นัดหมาย</h5>
-                <input type="date" class="date-filter" id="appointmentDateFilter">
-            </div>
-            <div class="filter-item">
-                <h5>วันที่นัดครั้งถัดไป</h5>
-                <input type="date" class="date-filter" id="treatmentDateFilter">
-            </div>
-            <div class="filter-item">
-                <h5>ครั้งที่รักษา</h5>
-                <select class="dropdown-filter" id="treatmentCountFilter">
-                    <option value="ทั้งหมด">ทั้งหมด</option>
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <!-- Add other options as needed -->
-                </select>
-            </div>
-            <div class="filter-item">
-                <h5>สถานะการรักษา</h5>
-                <select class="dropdown-filter" id="treatmentStatusFilter">
-                    <option value="ทั้งหมด">ทั้งหมด</option>
-                    <option value="ยังไม่ได้รักษา">ยังไม่ได้รักษา</option>
-                    <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
-                    <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
-                </select>
-            </div>
-        </div>
-    </section>
-
-    <script>
-        // Filter logic
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('searchPatientInput');
-            const appointmentDateFilter = document.getElementById('appointmentDateFilter');
-            const treatmentCountFilter = document.getElementById('treatmentCountFilter');
-            const treatmentStatusFilter = document.getElementById('treatmentStatusFilter');
-            const treatmentDateFilter = document.getElementById('treatmentDateFilter');
-            const patientTableBody = document.querySelector('.patient-table tbody');
-
-            // Filter Function
-            function filterData() {
-                const searchTerm = searchInput.value.toLowerCase();
-                const appointmentDate = appointmentDateFilter.value;
-                const treatmentCount = treatmentCountFilter.value;
-                const treatmentStatus = treatmentStatusFilter.value;
-                const treatmentDate = treatmentDateFilter.value;
-
-                const rows = patientTableBody.getElementsByTagName('tr');
-
-                for (let i = 0; i < rows.length; i++) {
-                    const name = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
-                    const appointmentDateValue = rows[i].getElementsByTagName('td')[1].textContent;
-                    const nextAppointmentDateValue = rows[i].getElementsByTagName('td')[3].textContent;
-                    const treatmentCountValue = rows[i].getElementsByTagName('td')[4].textContent;
-                    const treatmentStatusValue = rows[i].getElementsByTagName('td')[6].textContent;
-
-                    let isVisible = true;
-
-                    if (searchTerm && !name.includes(searchTerm)) {
-                        isVisible = false;
-                    }
-                    if (appointmentDate && appointmentDateValue !== appointmentDate) {
-                        isVisible = false;
-                    }
-                    if (treatmentCount !== 'ทั้งหมด' && treatmentCountValue !== treatmentCount) {
-                        isVisible = false;
-                    }
-                    if (treatmentStatus !== 'ทั้งหมด' && treatmentStatusValue !== treatmentStatus) {
-                        isVisible = false;
-                    }
-                    if (treatmentDate && nextAppointmentDateValue !== treatmentDate) {
-                        isVisible = false;
-                    }
-
-                    rows[i].style.display = isVisible ? '' : 'none';
-                }
+                        // แสดง Modal
+                        const modal = status === 'treated' ? document.getElementById('treatedModal') : document.getElementById('untreatedModal');
+                        modal.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
             }
 
-            // Attach events to filter fields
-            searchInput.addEventListener('input', filterData);
-            appointmentDateFilter.addEventListener('change', filterData);
-            treatmentCountFilter.addEventListener('change', filterData);
-            treatmentStatusFilter.addEventListener('change', filterData);
-            treatmentDateFilter.addEventListener('change', filterData);
-        });
-    </script>
+            // ฟังก์ชันปิด Modal
+            function closeModal() {
+                document.getElementById('treatedModal').style.display = 'none';
+                document.getElementById('untreatedModal').style.display = 'none';
+            }
+        </script>
 
-    <!-- the datatable  -->
-    <div class="table-container">
-        <table class="patient-table">
-            <thead>
-                <tr>
-                    <th style="text-align: left; padding-left: 100px">รายชื่อผู้ป่วย</th>
-                    <th>โรคประจำตัว</th>
-                    <th>ประเภทผู้ป่วย</th>
-                    <th>วันนัดหมาย</th>
-                    <th>ครั้งที่รักษา</th>
-                    <th>สถานะเข้ารับการรักษา</th>
-                    <th>จัดการ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows will be inserted here by JavaScript -->
-            </tbody>
-        </table>
-    </div>
+        <!-- Filters -->
+        <section class="filter-section" style="justify-content: center;">
+            <div class="filter-container">
+                <div class="filter-item search-bar">
+                    <h5>ค้นหารายชื่อ</h5>
+                    <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+                    <i class='bx bx-search search-icon'></i>
+                </div>
+                <div class="filter-item">
+                    <h5>วันที่นัดหมาย</h5>
+                    <input type="date" class="date-filter" id="appointmentDateFilter">
+                </div>
+                <div class="filter-item">
+                    <h5>วันที่นัดครั้งถัดไป</h5>
+                    <input type="date" class="date-filter" id="treatmentDateFilter">
+                </div>
+                <div class="filter-item">
+                    <h5>ครั้งที่รักษา</h5>
+                    <select class="dropdown-filter" id="treatmentCountFilter">
+                        <option value="ทั้งหมด">ทั้งหมด</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <!-- Add other options as needed -->
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <h5>สถานะการรักษา</h5>
+                    <select class="dropdown-filter" id="treatmentStatusFilter">
+                        <option value="ทั้งหมด">ทั้งหมด</option>
+                        <option value="ยังไม่ได้รักษา">ยังไม่ได้รักษา</option>
+                        <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+                        <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+                    </select>
+                </div>
+            </div>
+        </section>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/chiracarehospital/backend/sql/opd/fetch_treatments.php")
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.querySelector(".patient-table tbody");
-                    tbody.innerHTML = ""; // ล้างข้อมูลที่มีอยู่ในตาราง
+        <script>
+            // Filter logic
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchInput = document.getElementById('searchPatientInput');
+                const appointmentDateFilter = document.getElementById('appointmentDateFilter');
+                const treatmentCountFilter = document.getElementById('treatmentCountFilter');
+                const treatmentStatusFilter = document.getElementById('treatmentStatusFilter');
+                const treatmentDateFilter = document.getElementById('treatmentDateFilter');
+                const patientTableBody = document.querySelector('.patient-table tbody');
 
-                    // กำหนดวันที่และเวลาปัจจุบันในเขตเวลา "Asia/Bangkok"
-                    const now = new Date();
-                    const bangkokTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // ชดเชยเวลา UTC+7
-                    const todayISO = bangkokTime.toISOString().split('T')[0];
+                // Filter Function
+                function filterData() {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const appointmentDate = appointmentDateFilter.value;
+                    const treatmentCount = treatmentCountFilter.value;
+                    const treatmentStatus = treatmentStatusFilter.value;
+                    const treatmentDate = treatmentDateFilter.value;
 
-                    // กรองข้อมูลตามวันที่ปัจจุบัน
-                    const filteredData = data.filter(patient => {
-                        const appointmentDate = new Date(patient.appointment_date).toISOString().split('T')[0];
-                        if (appointmentDate === todayISO && patient.treatment_status !== "ไม่มาตามนัด") {
-                            resetTreatmentStatus(patient.patient_id);
+                    const rows = patientTableBody.getElementsByTagName('tr');
+
+                    for (let i = 0; i < rows.length; i++) {
+                        const name = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+                        const appointmentDateValue = rows[i].getElementsByTagName('td')[1].textContent;
+                        const nextAppointmentDateValue = rows[i].getElementsByTagName('td')[3].textContent;
+                        const treatmentCountValue = rows[i].getElementsByTagName('td')[4].textContent;
+                        const treatmentStatusValue = rows[i].getElementsByTagName('td')[6].textContent;
+
+                        let isVisible = true;
+
+                        if (searchTerm && !name.includes(searchTerm)) {
+                            isVisible = false;
                         }
-                        return appointmentDate === todayISO;
-                    });
+                        if (appointmentDate && appointmentDateValue !== appointmentDate) {
+                            isVisible = false;
+                        }
+                        if (treatmentCount !== 'ทั้งหมด' && treatmentCountValue !== treatmentCount) {
+                            isVisible = false;
+                        }
+                        if (treatmentStatus !== 'ทั้งหมด' && treatmentStatusValue !== treatmentStatus) {
+                            isVisible = false;
+                        }
+                        if (treatmentDate && nextAppointmentDateValue !== treatmentDate) {
+                            isVisible = false;
+                        }
 
-                    // ตรวจสอบว่ามีข้อมูลที่กรองหรือไม่
-                    if (filteredData.length > 0) {
-                        filteredData.forEach(patient => {
-                            const followUpStatusClass = getStatusClass(patient.follow_up_status);
-                            const treatmentStatusClass = getStatusClass(patient.treatment_status);
+                        rows[i].style.display = isVisible ? '' : 'none';
+                    }
+                }
 
-                            const imageUrl = patient.patient_image
-                                ? `data:image/jpeg;base64,${patient.patient_image}`
-                                : '../../assets/images/cat.jpg';
+                // Attach events to filter fields
+                searchInput.addEventListener('input', filterData);
+                appointmentDateFilter.addEventListener('change', filterData);
+                treatmentCountFilter.addEventListener('change', filterData);
+                treatmentStatusFilter.addEventListener('change', filterData);
+                treatmentDateFilter.addEventListener('change', filterData);
+            });
+        </script>
 
-                            const appointmentDateTime = new Date(patient.appointment_date);
-                            const currentDateTime = new Date();
-                            const isActionEnabled = currentDateTime >= appointmentDateTime && patient.treatment_status === "ไม่มาตามนัด";
+        <!-- the datatable  -->
+        <div class="table-container">
+            <table class="patient-table">
+                <thead>
+                    <tr>
+                        <th style="text-align: left; padding-left: 100px">รายชื่อผู้ป่วย</th>
+                        <th>โรคประจำตัว</th>
+                        <th>ประเภทผู้ป่วย</th>
+                        <th>วันนัดหมาย</th>
+                        <th>ครั้งที่รักษา</th>
+                        <th>สถานะเข้ารับการรักษา</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
 
-                            const row = document.createElement("tr");
-                            row.innerHTML = `
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                fetch("/chiracarehospital/backend/sql/opd/fetch_treatments.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        const tbody = document.querySelector(".patient-table tbody");
+                        tbody.innerHTML = ""; // ล้างข้อมูลที่มีอยู่ในตาราง
+
+                        // กำหนดวันที่และเวลาปัจจุบันในเขตเวลา "Asia/Bangkok"
+                        const now = new Date();
+                        const bangkokTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // ชดเชยเวลา UTC+7
+                        const todayISO = bangkokTime.toISOString().split('T')[0];
+
+                        // กรองข้อมูลตามวันที่ปัจจุบัน
+                        const filteredData = data.filter(patient => {
+                            const appointmentDate = new Date(patient.appointment_date).toISOString().split('T')[0];
+                            if (appointmentDate === todayISO && patient.treatment_status !== "ไม่มาตามนัด") {
+                                resetTreatmentStatus(patient.patient_id);
+                            }
+                            return appointmentDate === todayISO;
+                        });
+
+                        // ตรวจสอบว่ามีข้อมูลที่กรองหรือไม่
+                        if (filteredData.length > 0) {
+                            filteredData.forEach(patient => {
+                                const followUpStatusClass = getStatusClass(patient.follow_up_status);
+                                const treatmentStatusClass = getStatusClass(patient.treatment_status);
+
+                                const imageUrl = patient.patient_image
+                                    ? `data:image/jpeg;base64,${patient.patient_image}`
+                                    : '../../assets/images/cat.jpg';
+
+                                const appointmentDateTime = new Date(patient.appointment_date);
+                                const currentDateTime = new Date();
+                                const isActionEnabled = currentDateTime >= appointmentDateTime && patient.treatment_status === "ไม่มาตามนัด";
+
+                                const row = document.createElement("tr");
+                                row.innerHTML = `
                         <td style="text-align: left; padding-left: 40px">
                             <img src='${imageUrl}' alt='patient image' style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
                             ${patient.patient_name || 'ไม่มีข้อมูล'}
@@ -371,111 +372,112 @@
                             </div>
                         </td>
                     `;
-                            tbody.appendChild(row);
-                        });
-                    } else {
-                        tbody.innerHTML = `<tr><td colspan='7' style='text-align: center;'>ไม่มีผู้ป่วยที่ต้องเข้ารับการรักษาในวันนี้</td></tr>`;
-                    }
-                })
-                .catch(error => console.error("Error fetching data:", error));
-        });
+                                tbody.appendChild(row);
+                            });
+                        } else {
+                            tbody.innerHTML = `<tr><td colspan='7' style='text-align: center;'>ไม่มีผู้ป่วยที่ต้องเข้ารับการรักษาในวันนี้</td></tr>`;
+                        }
+                    })
+                    .catch(error => console.error("Error fetching data:", error));
+            });
 
-        // ฟังก์ชันรีเซ็ตสถานะ
-        function resetTreatmentStatus(patientId) {
-            fetch(`/chiracarehospital/backend/sql/opd/reset_treatment_status.php`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ patient_id: patientId }),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Error resetting treatment status");
-                    }
-                    return response.json();
+            // ฟังก์ชันรีเซ็ตสถานะ
+            function resetTreatmentStatus(patientId) {
+                fetch(`/chiracarehospital/backend/sql/opd/reset_treatment_status.php`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ patient_id: patientId }),
                 })
-                .then(result => {
-                    console.log(`Treatment status reset for patient ID: ${patientId}`);
-                })
-                .catch(error => console.error("Error resetting treatment status:", error));
-        }
-
-        // ฟังก์ชันแปลงวันที่เป็น "วันที่ เดือน ปี"
-        function formatDateThai(date) {
-            const months = [
-                "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-                "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
-            ];
-            const day = date.getDate();
-            const month = months[date.getMonth()];
-            const year = date.getFullYear() + 543; // แปลงปีเป็น พ.ศ.
-            return `วันที่ ${day} ${month} ${year}`;
-        }
-
-        // action add 
-        function confirmAction(patientId) {
-            console.log(patientId); // ตรวจสอบว่ามี patientId หรือไม่
-            fetch(`/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
-                .then(response => response.json())
-                .then(patient => {
-                    const name = encodeURIComponent(patient.patient_name);
-                    const disease = encodeURIComponent(patient.disease);
-                    window.location.href = `test.html?name=${name}&disease=${disease}&id=${patientId}`; // ส่ง patient_id ไปด้วย
-                })
-                .catch(error => {
-                    console.error("Error fetching patient data:", error);
-                    alert("เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย");
-                });
-        }
-        // Status color
-        function getStatusClass(status) {
-            switch (status) {
-                case 'ไม่มาตามนัด':
-                    return 'unsucess';
-                case 'มาตามนัด':
-                    return 'sucess';
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Error resetting treatment status");
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        console.log(`Treatment status reset for patient ID: ${patientId}`);
+                    })
+                    .catch(error => console.error("Error resetting treatment status:", error));
             }
-        }
 
-    </script>
+            // ฟังก์ชันแปลงวันที่เป็น "วันที่ เดือน ปี"
+            function formatDateThai(date) {
+                const months = [
+                    "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+                    "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+                ];
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                const year = date.getFullYear() + 543; // แปลงปีเป็น พ.ศ.
+                return `วันที่ ${day} ${month} ${year}`;
+            }
 
-    <script>
-        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
-        checkAuth();
+            // action add 
+            function confirmAction(patientId) {
+                console.log(patientId); // ตรวจสอบว่ามี patientId หรือไม่
+                fetch(`/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
+                    .then(response => response.json())
+                    .then(patient => {
+                        const name = encodeURIComponent(patient.patient_name);
+                        const disease = encodeURIComponent(patient.disease);
+                        window.location.href = `test.html?name=${name}&disease=${disease}&id=${patientId}`; // ส่ง patient_id ไปด้วย
+                    })
+                    .catch(error => {
+                        console.error("Error fetching patient data:", error);
+                        alert("เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย");
+                    });
+            }
+            // Status color
+            function getStatusClass(status) {
+                switch (status) {
+                    case 'ไม่มาตามนัด':
+                        return 'unsucess';
+                    case 'มาตามนัด':
+                        return 'sucess';
+                }
+            }
 
-        // Load sidebar
-        fetch('sidebar.html')
-            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
-            .then(response => response.text())
-            // แปลงข้อมูลที่ได้รับเป็นข้อความ
-            .then(data => {
-                document.getElementById('sidebar-container').innerHTML = data;
-                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
-                loadSidebarScript();
-                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
-            });
+        </script>
 
-        // Load topbar and set the page title
-        fetch('topbar.html')
-            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
-            .then(response => response.text())
-            // แปลงข้อมูลที่ได้รับเป็นข้อความ
-            .then(data => {
-                document.getElementById('topbar-container').innerHTML = data;
-                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-                document.getElementById('page-title').textContent = 'หน้าหลัก';
-                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+        <script>
+            // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+            checkAuth();
 
-                // Re-run user.js script after loading topbar
-                const script = document.createElement('script');
-                // สร้างแท็ก script ใหม่
-                script.src = '../method/user.js';
-                // กำหนดแหล่งที่มาของ script เป็น user.js
-                document.body.appendChild(script);
-                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
-            });
-    </script>
+            // Load sidebar
+            fetch('sidebar.html')
+                // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+                .then(response => response.text())
+                // แปลงข้อมูลที่ได้รับเป็นข้อความ
+                .then(data => {
+                    document.getElementById('sidebar-container').innerHTML = data;
+                    // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+                    loadSidebarScript();
+                    // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+                });
+
+            // Load topbar and set the page title
+            fetch('topbar.html')
+                // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+                .then(response => response.text())
+                // แปลงข้อมูลที่ได้รับเป็นข้อความ
+                .then(data => {
+                    document.getElementById('topbar-container').innerHTML = data;
+                    // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+                    document.getElementById('page-title').textContent = 'หน้าหลัก';
+                    // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+                    // Re-run user.js script after loading topbar
+                    const script = document.createElement('script');
+                    // สร้างแท็ก script ใหม่
+                    script.src = '../method/user.js';
+                    // กำหนดแหล่งที่มาของ script เป็น user.js
+                    document.body.appendChild(script);
+                    // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+                });
+        </script>
+    </div>
 </body>
 
 <style>
@@ -491,9 +493,9 @@
         }
 
         /* Make the topbar more compact */
-        #topbar-container {
+        /* #topbar-container {
             height: 50px;
-        }
+        } */
 
         /* Adjust the stats boxes */
         .stats-container {
@@ -526,6 +528,7 @@
 
         .filter-item {
             margin-bottom: 10px;
+            width: 100%;
         }
 
         .search-input,
@@ -554,6 +557,44 @@
 
         .filter-item {
             width: 20%;
+        }
+    }
+
+    #main {
+        margin-left: 78px;
+    }
+
+    @media(max-width: 767px) {
+        #main {
+            margin-left: 0;
+            margin-top: 80px;
+        }
+
+        .sidebar {
+            left: -78px;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar:not(.open) .logo-details #btn {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: unset;
+            transform: none;
+            width: 78px;
+            height: 80px;
+            background-color: white;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin_name {
+            display: none;
         }
     }
 </style>
