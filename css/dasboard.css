@@ -153,8 +153,6 @@ h1 {
 .status-bar {
     margin-bottom: 10px;
 }
-<<<<<<< HEAD
-=======
 
 .status-label {
     margin-bottom: 5px;
@@ -189,6 +187,9 @@ h1 {
 
 #not-followed-bar {
     background-color: #BB4242; /* Red */
+}
+#follow-failed-bar{
+    background-color: #634e8d;
 }
 .follow-up-status-card {
     margin: 20px auto;
@@ -251,7 +252,6 @@ h1 {
     font-size: 0.9rem; /* ลดขนาดวันที่ */
     color: #888;
 }
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
 .status-label {
     margin-bottom: 5px;

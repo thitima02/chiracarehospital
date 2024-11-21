@@ -1,169 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>การรักษา</title>
-    <link rel="stylesheet" href="../../css/edittracking4.css">
-    <link rel="stylesheet" href="../../styles.css">
-  <link rel="stylesheet" href="../../css/sidebar.css">
-  <link rel="stylesheet" href="../../css/topbar.css">
-  <link rel="stylesheet" href="../../css/logo.css">
-  <!-- Import icon -->
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiracare Follow-up</title>
+    <style>
+        body {
+            background-color: #edeff1;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .step {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #d3d3d3;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+        .step.active {
+            background-color: #5cb85c;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .buttons button {
+            width: 48%;
+        }
+    </style>
 </head>
-<body style="background-color:#edeff1;">
-    <!-- Sidebar will be loaded here -->
+<body>
     <div id="sidebar-container"></div>
-  
-    <!-- Topbar will be loaded here -->
     <div id="topbar-container"></div>
 
     <div class="container">
-      <div class="profile-header">
-        <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
-        <div class="profile-name">นายสามสี ดื้อมาก</div>
-    </div>
-        
-        <div class="steps">
-            <div class="step">1 ข้อมูลการติดตาม</div>
-            <div class="step">2 การติดตาม</div>
-            <div class="step">3 ข้อมูลการรักษา</div>
-            <div class="step active">4 การรักษา</div>
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
+            <div class="full_name">ชื่อผู้ป่วย</div>
         </div>
 
-        <div class="form-section">
-            <h3>การรักษา</h3>
-            <form>
-                <label for="treatmentNo">ครั้งที่รักษา</label>
-                <input type="text" id="treatmentNo" value="1" readonly>
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active">1 ข้อมูลการติดตาม</div>
+            
+        </div>
 
-                <label for="medicalStaff">เจ้าหน้าที่ที่รับผิดชอบ</label>
-                <input type="text" id="medicalStaff" value="นายสามสี ดื้อมาก">
+        <!-- Follow-up Form -->
+        <form class="follow-up-form">
+            <h2>ข้อมูลการติดตาม</h2>
+            <div class="patient-info">
+                <label for="diseaseType">โรคประจำตัว</label>
+                <input type="text" id="diseaseType" readonly>
 
-                <label for="appointmentDate">วันที่นัดหมาย</label>
-                <input type="date" id="appointmentDate" placeholder="กรุณาเลือกวันที่นัดหมาย">
-
-                <label for="treatmentDate">วันที่เข้ารับการรักษา</label>
-                <input type="date" id="treatmentDate" placeholder="กรุณาเลือกวันที่เข้ารับการรักษา">
-
-                <label for="nextAppointmentDate">วันนัดครั้งถัดไป</label>
-                <input type="date" id="nextAppointmentDate" placeholder="กรุณาเลือกวันที่นัดหมายครั้งถัดไป">
-
-                <label for="treatmentStatus">สถานะการรักษา</label>
-                <select id="treatmentStatus">
-                    <option value="ongoing">ยังดำเนินการอยู่</option>
-                    <option value="complete">เสร็จสิ้น</option>
+                <label for="follow-up-status">สถานะการติดตาม</label>
+                <select id="follow-up-status">
+                    <!-- ค่าจะถูกเพิ่มจาก JavaScript -->
                 </select>
 
-                <div class="buttons">
-                    <button type="button" class="btn back" id="backBtn">ย้อนกลับ</button>
-                    <button type="submit" class="btn save" id="saveBtn">บันทึก</button>
-                </div>
+                <label for="reason">สาเหตุที่ไม่รับการรักษา</label>
+                <input type="text" id="reason" placeholder="กรุณากรอกสาเหตุที่ไม่รับการรักษาหากยังไม่ได้กรอก">
+
+                <label for="occupation">ค่าสัญญาณชีพ</label>
+                <input type="text" id="occupation" placeholder="กรุณากรอกค่าสัญญาณชีพหากยังไม่ได้กรอก">
+
+                <label for="blood-level">ค่าระดับน้ำตาลในเลือด</label>
+                <input type="text" id="blood-level" placeholder="กรุณากรอกค่าระดับน้ำตาลในเลือดหากยังไม่ได้กรอก">
+
+                <label for="symptoms">อาการทั่วไป</label>
+                <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไปหากยังไม่ได้กรอก">
+            </div>
+            
+            <form class="form-section">
+                <h3>ข้อมูลการรักษา</h3>
+                <label for="symptoms-treatment">อาการทั่วไป</label>
+                <input type="text" id="symptoms-treatment" placeholder="กรุณากรอกอาการทั่วไปหากยังไม่ได้กรอก">
+    
+                <label for="treatmentIssues">ประเด็นการรักษา</label>
+                <input type="text" id="treatmentIssues" placeholder="กรุณากรอกประเด็นการรักษา">
             </form>
+
+            <!-- <div class="buttons">
+                <button id="save-status" type="button">บันทึกสถานะ</button>
+                <button type="button" class="next-btn" id="nextBtn">ถัดไป</button>
+            </div> -->
+        </form>
+        <div class="buttons">
+            <button id="save-status" type="button">บันทึกสถานะ</button>
+            <button type="button" class="next-btn" id="nextBtn">ถัดไป</button>
         </div>
+
+        <!-- Treatment Form -->
+        <!-- <form class="form-section">
+            <h3>ข้อมูลการรักษา</h3>
+            <label for="symptoms-treatment">อาการทั่วไป</label>
+            <input type="text" id="symptoms-treatment" placeholder="กรุณากรอกอาการทั่วไปหากยังไม่ได้กรอก">
+
+            <label for="treatmentIssues">ประเด็นการรักษา</label>
+            <input type="text" id="treatmentIssues" placeholder="กรุณากรอกประเด็นการรักษา">
+        </form> -->
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          const patientId = getPatientIdFromURL(); // ดึง patient_id จาก URL หรือฟังก์ชันที่กำหนดเอง
-          fetchPatientInformation(patientId);
-          fetchMonitorFormData(patientId);
-      });
-      
-      function getPatientIdFromURL() {
-          const urlParams = new URLSearchParams(window.location.search);
-          return urlParams.get('patient_id'); // ดึง patient_id จาก query string ของ URL
-      }
-      
-      function fetchPatientInformation(patientId) {
-          fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
-              .then(response => response.json())
-              .then(data => {
-                  if (data.status === 'success') {
-                      displayPatientInformation(data.data[0]); // แสดงข้อมูลผู้ป่วยรายแรก
-                  } else {
-                      console.error('ไม่พบข้อมูลผู้ป่วย');
-                  }
-              })
-              .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-      }
-      
-      function displayPatientInformation(patient) {
-          document.querySelector('.profile-name').textContent = patient.full_name;
-          document.querySelector('#reason').value = patient.reason || '';
-          document.querySelector('#occupation').value = patient.occupation || '';
-          document.querySelector('#blood-level').value = patient.blood_level || '';
-          document.querySelector('#symptoms').value = patient.symptoms || '';
-      }
-      
-      function fetchMonitorFormData(patientId) {
-          fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
-              .then(response => response.json())
-              .then(data => {
-                  if (data.status === 'success') {
-                      displayMonitorFormData(data.data[0]); // แสดงข้อมูลจากรายการแรก
-                  } else {
-                      console.error('ไม่พบข้อมูล');
-                  }
-              })
-              .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-      }
-      
-      function displayMonitorFormData(monitorData) {
-          document.querySelector('#reason').value = monitorData.reason_for_missed_treatment || '';
-          document.querySelector('#occupation').value = monitorData.vital_signs || '';
-          document.querySelector('#blood-level').value = monitorData.blood_sugar_level || '';
-          document.querySelector('#symptoms').value = monitorData.general_symptoms || '';
-      }
-      
-      
-      
-          </script>
-    <script>
-        // Load sidebar
-     fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
-
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย'; // Set page title for the history page
-      });
-
-      function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-    }
-        document.getElementById('backBtn').addEventListener('click', function() {
-            window.location.href = 'edittracking3.html';
-        });
-    
-        // เมื่อผู้ใช้กดปุ่มบันทึก จะเปลี่ยนเส้นทางไปที่หน้า statustracking.html
-        document.getElementById('saveBtn').addEventListener('click', function(event) {
-        event.preventDefault(); // ป้องกันการส่งฟอร์ม
-        alert('บันทึกข้อมูลสำเร็จ!'); // แสดงข้อความเพื่อให้แน่ใจว่าโค้ดทำงาน
-        window.location.href = 'statustracking.html'; // ระบุเส้นทางที่ถูกต้อง
-});
-    </script>
-    
 </body>
 </html>

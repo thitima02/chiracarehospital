@@ -18,6 +18,7 @@
 
     <!-- Import icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
     <script src="../method/logout.js"></script>
     <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
     <script src="../method/user.js"></script>
@@ -126,15 +127,7 @@
             totalAppointmentsText.textContent = `ผู้ป่วยทั้งหมดที่มีนัดรักษา${formattedDate}`;
 
             // ดึงข้อมูลจำนวนผู้ป่วยทั้งหมด
-<<<<<<< HEAD
             fetch("/chiracarehospital/backend/sql/opd/fetch_appointments.php")
-=======
-<<<<<<< HEAD
-            fetch("/chiracarehospital/backend/sql/opd/fetch_appointments.php")
-=======
-            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_appointments.php")
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("totalAppointments").textContent = `${data.totalAppointments} คน`;
@@ -142,15 +135,7 @@
                 .catch(error => console.error("Error fetching data:", error));
 
             // ดึงข้อมูลจำนวนผู้ป่วยที่รักษาเสร็จสิ้น และยังไม่ได้รับการรักษา
-<<<<<<< HEAD
             fetch("/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
-=======
-<<<<<<< HEAD
-            fetch("/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
-=======
-            fetch("http://localhost/chiracarehospital/backend/sql/opd/fetch_patient_counts.php")
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("totalTreated").textContent = data.totalTreated + " คน";
@@ -170,16 +155,7 @@
 
         function fetchAndShowPatients(status) {
             // กำหนด URL ให้ดึงข้อมูลผู้ป่วยตามสถานะที่เลือก
-<<<<<<< HEAD
             let url = status === 'treated' ? '/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : '/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
-=======
-<<<<<<< HEAD
-            let url = status === 'treated' ? '/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : '/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
-=======
-            let url = status === 'treated' ? 'http://localhost/chiracarehospital/backend/sql/opd/fetch_treated_patients.php' : 'http://localhost/chiracarehospital/backend/sql/opd/fetch_untreated_patients.php';
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
-
             // ดึงข้อมูลจาก URL
             fetch(url)
                 .then(response => response.json())
@@ -346,8 +322,10 @@
                     const tbody = document.querySelector(".patient-table tbody");
                     tbody.innerHTML = ""; // ล้างข้อมูลที่มีอยู่ในตาราง
 
-                    const today = new Date();
-                    const todayISO = today.toISOString().split('T')[0];
+                    // กำหนดวันที่และเวลาปัจจุบันในเขตเวลา "Asia/Bangkok"
+                    const now = new Date();
+                    const bangkokTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // ชดเชยเวลา UTC+7
+                    const todayISO = bangkokTime.toISOString().split('T')[0];
 
                     // กรองข้อมูลตามวันที่ปัจจุบัน
                     const filteredData = data.filter(patient => {
@@ -438,15 +416,7 @@
         // action add 
         function confirmAction(patientId) {
             console.log(patientId); // ตรวจสอบว่ามี patientId หรือไม่
-<<<<<<< HEAD
             fetch(`/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
-=======
-<<<<<<< HEAD
-            fetch(`/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
-=======
-            fetch(`http://localhost:8080/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
                 .then(response => response.json())
                 .then(patient => {
                     const name = encodeURIComponent(patient.patient_name);
