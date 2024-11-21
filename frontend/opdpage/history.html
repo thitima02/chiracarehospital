@@ -3,13 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>History Page</title>
+    <title>โรงพยาบาลค่ายจิรประวัติ</title>
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="../../css/sidebar.css">
     <link rel="stylesheet" href="../../css/topbar.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/filltermenu.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/moredetail.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Import icon -->
@@ -33,74 +34,75 @@
     <div id="topbar-container"></div>
 
     <!-- Filters -->
-    <section class="filter-section" style="justify-content: center;">
-        <div class="filter-container">
-            <div class="filter-item search-bar">
-                <h5>ค้นหารายชื่อ</h5>
-                <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
-                <i class='bx bx-search search-icon'></i>
-            </div>
+    <div id="main">
+        <section class="filter-section" style="justify-content: center;">
+            <div class="filter-container">
+                <div class="filter-item search-bar">
+                    <h5>ค้นหารายชื่อ</h5>
+                    <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput">
+                    <i class='bx bx-search search-icon'></i>
+                </div>
 
-            <div class="filter-item">
-                <h5>วันที่อัปเดตล่าสุด</h5>
-                <input type="date" class="date-filter" id="updatedDateFilter">
-            </div>
+                <div class="filter-item">
+                    <h5>วันที่อัปเดตล่าสุด</h5>
+                    <input type="date" class="date-filter" id="updatedDateFilter">
+                </div>
 
-            <div class="filter-item">
-                <h5>โรคประจำตัว</h5>
-                <select class="dropdown-filter" id="diseaseTypeFilter">
-                    <option value="">ทั้งหมด</option>
-                    <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
-                    <option value="โรคอ้วน">โรคอ้วน</option>
-                    <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
-                    <option value="โรคเบาหวาน">โรคเบาหวาน</option>
-                    <option value="CVD Risk">CVD Risk</option>
-                    <option value="โรคไต">โรคไต</option>
-                </select>
+                <div class="filter-item">
+                    <h5>โรคประจำตัว</h5>
+                    <select class="dropdown-filter" id="diseaseTypeFilter">
+                        <option value="">ทั้งหมด</option>
+                        <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+                        <option value="โรคอ้วน">โรคอ้วน</option>
+                        <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+                        <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+                        <option value="CVD Risk">CVD Risk</option>
+                        <option value="โรคไต">โรคไต</option>
+                    </select>
+                </div>
             </div>
+        </section>
+
+        <div class="history-container">
+            <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
         </div>
-    </section>
 
-    <div class="history-container">
-        <!-- ข้อมูลประวัติการรักษาจะถูกเพิ่มที่นี่โดย JavaScript -->
-    </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                fetch("/chiracarehospital/backend/sql/opd/fetch_history.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        const historyContainer = document.querySelector(".history-container");
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/chiracarehospital/backend/sql/opd/fetch_history.php")
-                .then(response => response.json())
-                .then(data => {
-                    const historyContainer = document.querySelector(".history-container");
+                        // ตรวจสอบว่ามีข้อมูลหรือไม่
+                        if (data.length === 0) {
+                            historyContainer.innerHTML = "<p>ยังไม่มีข้อมูลในส่วนนี้</p>";
+                            return;
+                        }
 
-                    // ตรวจสอบว่ามีข้อมูลหรือไม่
-                    if (data.length === 0) {
-                        historyContainer.innerHTML = "<p>ยังไม่มีข้อมูลในส่วนนี้</p>";
-                        return;
-                    }
+                        // ถ้ามีข้อมูล ให้จัดเรียงและแสดงข้อมูล
+                        data.sort((a, b) => {
+                            const dateA = new Date(a.newupdate);
+                            const dateB = new Date(b.newupdate);
+                            return dateB - dateA;
+                        });
 
-                    // ถ้ามีข้อมูล ให้จัดเรียงและแสดงข้อมูล
-                    data.sort((a, b) => {
-                        const dateA = new Date(a.newupdate);
-                        const dateB = new Date(b.newupdate);
-                        return dateB - dateA;
-                    });
+                        data.forEach(history => {
+                            const historyElement = document.createElement("div");
+                            historyElement.classList.add("history");
 
-                    data.forEach(history => {
-                        const historyElement = document.createElement("div");
-                        historyElement.classList.add("history");
+                            const formatDateTime = (dateTime) => {
+                                const date = new Date(dateTime);
+                                const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                                const formattedDate = date.toLocaleDateString('en-CA', options);
+                                const formattedTime = date.toLocaleTimeString('en-EN', { hour: '2-digit', minute: '2-digit' });
+                                return { formattedDate, formattedTime };
+                            };
 
-                        const formatDateTime = (dateTime) => {
-                            const date = new Date(dateTime);
-                            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-                            const formattedDate = date.toLocaleDateString('en-CA', options);
-                            const formattedTime = date.toLocaleTimeString('en-EN', { hour: '2-digit', minute: '2-digit' });
-                            return { formattedDate, formattedTime };
-                        };
+                            const { formattedDate, formattedTime } = formatDateTime(history.newupdate);
+                            const imageUrl = history.patient_image ? `data:image/jpeg;base64,${history.patient_image}` : '../../assets/images/cat.jpg';
 
-                        const { formattedDate, formattedTime } = formatDateTime(history.newupdate);
-                        const imageUrl = history.patient_image ? `data:image/jpeg;base64,${history.patient_image}` : '../../assets/images/cat.jpg';
-
-                        historyElement.innerHTML = `
+                            historyElement.innerHTML = `
                         <div class="activity">
                             <div class="left">
                                <img src="${imageUrl}" alt="patient image" class="activity-icon" style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
@@ -128,97 +130,98 @@
                         </div>
                         `;
 
-                        historyContainer.appendChild(historyElement);
+                            historyContainer.appendChild(historyElement);
+                        });
+                    })
+                    .catch(error => console.error("Error fetching data:", error));
+
+                // การกรองข้อมูล
+                const searchInput = document.getElementById('searchPatientInput');
+                const updatedDateFilter = document.getElementById('updatedDateFilter');
+                const diseaseTypeFilter = document.getElementById('diseaseTypeFilter');
+
+                function filterData() {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const updatedDate = updatedDateFilter.value;
+                    const selectedDisease = diseaseTypeFilter.value; // เปลี่ยนเป็นรับค่าที่เลือกแค่ 1 ตัว
+
+                    const activities = document.querySelectorAll('.activity');
+
+                    activities.forEach(activity => {
+                        const name = activity.querySelector('.title').textContent.toLowerCase();
+                        const updateDateValue = activity.querySelector('.update').textContent;
+                        const diseaseTypeValue = activity.querySelector('.detail').children[1].textContent.split(' : ')[1];
+
+                        let isVisible = true;
+
+                        // กรองตามชื่อ
+                        if (searchTerm && !name.includes(searchTerm)) {
+                            isVisible = false;
+                        }
+
+                        // กรองตามวันที่อัปเดต
+                        if (updatedDate && new Date(updateDateValue).toISOString().split('T')[0] !== updatedDate) {
+                            isVisible = false;
+                        }
+
+                        // กรองตามโรคประจำตัว
+                        if (selectedDisease && selectedDisease !== "" && !diseaseTypeValue.includes(selectedDisease)) {
+                            isVisible = false;
+                        }
+
+                        // แสดงหรือซ่อนกิจกรรมตามเงื่อนไข
+                        activity.style.display = isVisible ? '' : 'none';
                     });
-                })
-                .catch(error => console.error("Error fetching data:", error));
+                }
 
-            // การกรองข้อมูล
-            const searchInput = document.getElementById('searchPatientInput');
-            const updatedDateFilter = document.getElementById('updatedDateFilter');
-            const diseaseTypeFilter = document.getElementById('diseaseTypeFilter');
+                searchInput.addEventListener('input', filterData);
+                updatedDateFilter.addEventListener('change', filterData);
+                diseaseTypeFilter.addEventListener('change', filterData);
+            });
 
-            function filterData() {
-                const searchTerm = searchInput.value.toLowerCase();
-                const updatedDate = updatedDateFilter.value;
-                const selectedDisease = diseaseTypeFilter.value; // เปลี่ยนเป็นรับค่าที่เลือกแค่ 1 ตัว
-
-                const activities = document.querySelectorAll('.activity');
-
-                activities.forEach(activity => {
-                    const name = activity.querySelector('.title').textContent.toLowerCase();
-                    const updateDateValue = activity.querySelector('.update').textContent;
-                    const diseaseTypeValue = activity.querySelector('.detail').children[1].textContent.split(' : ')[1];
-
-                    let isVisible = true;
-
-                    // กรองตามชื่อ
-                    if (searchTerm && !name.includes(searchTerm)) {
-                        isVisible = false;
-                    }
-
-                    // กรองตามวันที่อัปเดต
-                    if (updatedDate && new Date(updateDateValue).toISOString().split('T')[0] !== updatedDate) {
-                        isVisible = false;
-                    }
-
-                    // กรองตามโรคประจำตัว
-                    if (selectedDisease && selectedDisease !== "" && !diseaseTypeValue.includes(selectedDisease)) {
-                        isVisible = false;
-                    }
-
-                    // แสดงหรือซ่อนกิจกรรมตามเงื่อนไข
-                    activity.style.display = isVisible ? '' : 'none';
-                });
+            function toggleDetails(button) {
+                const moreDetails = button.nextElementSibling;
+                moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
             }
+        </script>
 
-            searchInput.addEventListener('input', filterData);
-            updatedDateFilter.addEventListener('change', filterData);
-            diseaseTypeFilter.addEventListener('change', filterData);
-        });
+        <script>
+            // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+            checkAuth();
 
-        function toggleDetails(button) {
-            const moreDetails = button.nextElementSibling;
-            moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
-        }
-    </script>
+            // Load sidebar
+            fetch('sidebar.html')
+                // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+                .then(response => response.text())
+                // แปลงข้อมูลที่ได้รับเป็นข้อความ
+                .then(data => {
+                    document.getElementById('sidebar-container').innerHTML = data;
+                    // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+                    loadSidebarScript();
+                    // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+                });
 
-    <script>
-        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
-        checkAuth();
+            // Load topbar and set the page title
+            fetch('topbar.html')
+                // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+                .then(response => response.text())
+                // แปลงข้อมูลที่ได้รับเป็นข้อความ
+                .then(data => {
+                    document.getElementById('topbar-container').innerHTML = data;
+                    // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+                    document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา';
+                    // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
-        // Load sidebar
-        fetch('sidebar.html')
-            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
-            .then(response => response.text())
-            // แปลงข้อมูลที่ได้รับเป็นข้อความ
-            .then(data => {
-                document.getElementById('sidebar-container').innerHTML = data;
-                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
-                loadSidebarScript();
-                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
-            });
-
-        // Load topbar and set the page title
-        fetch('topbar.html')
-            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
-            .then(response => response.text())
-            // แปลงข้อมูลที่ได้รับเป็นข้อความ
-            .then(data => {
-                document.getElementById('topbar-container').innerHTML = data;
-                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-                document.getElementById('page-title').textContent = 'ประวัติการนัดรักษา';
-                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
-
-                // Re-run user.js script after loading topbar
-                const script = document.createElement('script');
-                // สร้างแท็ก script ใหม่
-                script.src = '../method/user.js';
-                // กำหนดแหล่งที่มาของ script เป็น user.js
-                document.body.appendChild(script);
-                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
-            });
-    </script>
+                    // Re-run user.js script after loading topbar
+                    const script = document.createElement('script');
+                    // สร้างแท็ก script ใหม่
+                    script.src = '../method/user.js';
+                    // กำหนดแหล่งที่มาของ script เป็น user.js
+                    document.body.appendChild(script);
+                    // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+                });
+        </script>
+    </div>
 </body>
 
 </html>

@@ -1,11 +1,8 @@
 .table-container {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
-    display: flex;
+
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     width: 91%;
     padding: 20px;
     box-sizing: border-box;
@@ -13,12 +10,10 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: auto;
+    overflow: auto;
     /* Center the container */
-    margin-left: 110px;
+    /* margin-left: 110px; */
   }
-<<<<<<< HEAD
- 
-=======
 
   .datatable {
     min-width: 100%;
@@ -128,21 +123,6 @@
       font-size: 10px;
     }
   }
-=======
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 91%;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: auto;
-  /* Center the container */
-  margin-left: 110px;
-}
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
 
 .datatable {
   min-width: 100%;
@@ -287,9 +267,5 @@
   .edit-btn, .detail-btn {
     font-size: 10px;
   }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec

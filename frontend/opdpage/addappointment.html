@@ -3,13 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Add Appointment</title>
+  <title>โรงพยาบาลค่ายจิรประวัติ</title>
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
   <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
   <link rel="stylesheet" href="../../frontend/opdpage/css/form.css">
+  <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Import icon -->
@@ -32,167 +33,163 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-  <div class="form-section">
-    <form id="appointment-form">
-      <!-- Topic -->
-      <div class="Topic">
-        <p>เพิ่มนัดการรักษา</p>
-      </div>
+  <div id="main">
+    <br>
+    <div class="form-section">
+      <form id="appointment-form">
+        <!-- Topic -->
+        <div class="Topic">
+          <p>เพิ่มนัดการรักษา</p>
+        </div>
 
-      <!-- name -->
-      <label for="name">ชื่อ – นามสกุล</label>
-      <input type="text" id="name" readonly>
+        <!-- name -->
+        <label for="name">ชื่อ – นามสกุล</label>
+        <input type="text" id="name" readonly>
 
-      <label for="disease">โรคประจำตัว</label>
-      <input type="text" id="disease" readonly>
+        <label for="disease">โรคประจำตัว</label>
+        <input type="text" id="disease" readonly>
 
-      <label for="general_symptoms">อาการทั่วไป</label>
-      <input type="text" id="general_symptoms" name="general_symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+        <label for="general_symptoms">อาการทั่วไป</label>
+        <input type="text" id="general_symptoms" name="general_symptoms" placeholder="กรุณากรอกอาการทั่วไป">
 
-      <label for="treatment_issue">ประเด็นการรักษา</label>
-      <input type="text" id="treatment_issue" name="treatment_issue" placeholder="กรุณากรอกประเด็นการรักษา">
+        <label for="treatment_issue">ประเด็นการรักษา</label>
+        <input type="text" id="treatment_issue" name="treatment_issue" placeholder="กรุณากรอกประเด็นการรักษา">
 
-      <label for="next_appointment_date">วันที่นัดครั้งถัดไป</label>
-      <input type="date" id="next_appointment_date" name="next_appointment_date">
+        <label for="next_appointment_date">วันที่นัดครั้งถัดไป</label>
+        <input type="date" id="next_appointment_date" name="next_appointment_date">
 
-      <label for="notes">หมายเหตุ (ถ้ามี)</label>
-      <input type="text" id="notes" placeholder="กรุณากรอกหมายเหตุ">
+        <label for="notes">หมายเหตุ (ถ้ามี)</label>
+        <input type="text" id="notes" placeholder="กรุณากรอกหมายเหตุ">
 
-      <input type="hidden" id="patient_id" name="patient_id" value="">
+        <input type="hidden" id="patient_id" name="patient_id" value="">
 
-      <!-- Submit Button -->
-      <div class="button-group">
-        <button type="button" id="back" style="padding: 6px 25px;">ย้อนกลับ</button>
-        <button type="button" id="submit-btn">บันทึก</button>
-      </div>
-    </form>
-  </div>
+        <!-- Submit Button -->
+        <div class="button-group">
+          <button type="button" id="back" style="padding: 6px 25px;">ย้อนกลับ</button>
+          <button type="button" id="submit-btn">บันทึก</button>
+        </div>
+      </form>
+    </div>
 
-  <!-- Popup for confirmation -->
-  <div id="popup" class="popup">
-    <div class="popup-content">
-      <h3>คุณแน่ใจหรือไม่ว่าจะส่งแบบฟอร์มนี้?</h3>
-      <p>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้องก่อนส่ง</p>
-      <div class="button-popup">
-        <button type="button" onclick="submitForm()">ใช่</button>
-        <button type="button" onclick="closePopup()">ไม่</button>
+    <!-- Popup for confirmation -->
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <h3>คุณแน่ใจหรือไม่ว่าจะส่งแบบฟอร์มนี้?</h3>
+        <p>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้องก่อนส่ง</p>
+        <div class="button-popup">
+          <button type="button" onclick="submitForm()">ใช่</button>
+          <button type="button" onclick="closePopup()">ไม่</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const nameElement = document.getElementById("name");
-      const diseaseElement = document.getElementById("disease");
-      const symptomsElement = document.getElementById("general_symptoms");
-      const treatmentPlanElement = document.getElementById("treatment_issue");
-      const nextVisitDateElement = document.getElementById("next_appointment_date");
-      const patientIdElement = document.getElementById("patient_id");
-      const notesElement = document.getElementById("notes");
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const nameElement = document.getElementById("name");
+        const diseaseElement = document.getElementById("disease");
+        const symptomsElement = document.getElementById("general_symptoms");
+        const treatmentPlanElement = document.getElementById("treatment_issue");
+        const nextVisitDateElement = document.getElementById("next_appointment_date");
+        const patientIdElement = document.getElementById("patient_id");
+        const notesElement = document.getElementById("notes");
 
-      // กำหนดวันที่ขั้นต่ำสำหรับฟิลด์ next_appointment_date
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0'); // เดือนต้องมี 2 หลัก
-      const day = String(today.getDate() + 1).padStart(2, '0'); // เพิ่ม 1 วันสำหรับวันที่นัดครั้งถัดไป
-      const nextDay = `${year}-${month}-${day}`; // สร้างวันที่ในรูปแบบ YYYY-MM-DD
+        // กำหนดวันที่ขั้นต่ำสำหรับฟิลด์ next_appointment_date
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // เดือนต้องมี 2 หลัก
+        const day = String(today.getDate() + 1).padStart(2, '0'); // เพิ่ม 1 วันสำหรับวันที่นัดครั้งถัดไป
+        const nextDay = `${year}-${month}-${day}`; // สร้างวันที่ในรูปแบบ YYYY-MM-DD
 
-      // กำหนดให้ฟิลด์ next_appointment_date รับค่าตั้งแต่วันที่ถัดไป
-      if (nextVisitDateElement) {
-        nextVisitDateElement.setAttribute("min", nextDay);
-      }
+        // กำหนดให้ฟิลด์ next_appointment_date รับค่าตั้งแต่วันที่ถัดไป
+        if (nextVisitDateElement) {
+          nextVisitDateElement.setAttribute("min", nextDay);
+        }
 
-      // ดึงข้อมูลจาก URL และกำหนดค่าให้ฟิลด์
-      const urlParams = new URLSearchParams(window.location.search);
-      if (nameElement) nameElement.value = urlParams.get("name") || '';
-      if (diseaseElement) diseaseElement.value = urlParams.get("disease") || '';
-      if (symptomsElement) symptomsElement.value = urlParams.get("general_symptoms") || '';
-      if (treatmentPlanElement) treatmentPlanElement.value = urlParams.get("treatment_issue") || '';
-      if (nextVisitDateElement) nextVisitDateElement.value = urlParams.get("next_appointment_date") || '';
-      if (patientIdElement) patientIdElement.value = urlParams.get("patient_id") || '';
+        // ดึงข้อมูลจาก URL และกำหนดค่าให้ฟิลด์
+        const urlParams = new URLSearchParams(window.location.search);
+        if (nameElement) nameElement.value = urlParams.get("name") || '';
+        if (diseaseElement) diseaseElement.value = urlParams.get("disease") || '';
+        if (symptomsElement) symptomsElement.value = urlParams.get("general_symptoms") || '';
+        if (treatmentPlanElement) treatmentPlanElement.value = urlParams.get("treatment_issue") || '';
+        if (nextVisitDateElement) nextVisitDateElement.value = urlParams.get("next_appointment_date") || '';
+        if (patientIdElement) patientIdElement.value = urlParams.get("patient_id") || '';
 
-      // ดึงข้อมูลชื่อผู้ใช้จาก localStorage
-      const userData = JSON.parse(localStorage.getItem("user"));
-      const userFullName = userData ? userData.full_name : '';  // ถ้าไม่พบข้อมูลจะตั้งเป็นค่าว่าง
+        // ดึงข้อมูลชื่อผู้ใช้จาก localStorage
+        const userData = JSON.parse(localStorage.getItem("user"));
+        const userFullName = userData ? userData.full_name : '';  // ถ้าไม่พบข้อมูลจะตั้งเป็นค่าว่าง
 
-      // ฟังก์ชันการส่งฟอร์ม
-      document.getElementById("submit-btn").addEventListener("click", function (event) {
-        event.preventDefault(); // หยุดการทำงานของฟอร์มที่เป็นค่าเริ่มต้น
+        // ฟังก์ชันการส่งฟอร์ม
+        document.getElementById("submit-btn").addEventListener("click", function (event) {
+          event.preventDefault(); // หยุดการทำงานของฟอร์มที่เป็นค่าเริ่มต้น
 
-        // ดึงข้อมูลจากฟอร์ม
-        const formData = {
-          patient_id: patientIdElement ? patientIdElement.value : '',
-          general_symptoms: symptomsElement ? symptomsElement.value : '',
-          treatment_issue: treatmentPlanElement ? treatmentPlanElement.value : '',
-          next_appointment_date: nextVisitDateElement ? nextVisitDateElement.value : '',
-          notes: notesElement && notesElement.value.trim() !== '' ? notesElement.value : 'ไม่มี', // กำหนดค่า "ไม่มี" อัตโนมัติ
-          user_fullname: userFullName // ส่งชื่อผู้ใช้ไปในฟอร์ม
-        };
+          // ดึงข้อมูลจากฟอร์ม
+          const formData = {
+            patient_id: patientIdElement ? patientIdElement.value : '',
+            general_symptoms: symptomsElement ? symptomsElement.value : '',
+            treatment_issue: treatmentPlanElement ? treatmentPlanElement.value : '',
+            next_appointment_date: nextVisitDateElement ? nextVisitDateElement.value : '',
+            notes: notesElement && notesElement.value.trim() !== '' ? notesElement.value : 'ไม่มี', // กำหนดค่า "ไม่มี" อัตโนมัติ
+            user_fullname: userFullName // ส่งชื่อผู้ใช้ไปในฟอร์ม
+          };
 
-        // แสดงผล formData ใน console เพื่อการตรวจสอบ
-        console.log("FormData:", formData);
+          // แสดงผล formData ใน console เพื่อการตรวจสอบ
+          console.log("FormData:", formData);
 
-        // ส่งข้อมูลไปยังเซิร์ฟเวอร์
-<<<<<<< HEAD
-        fetch('/chiracarehospital/backend/sql/opd/summit.php', {
-=======
-<<<<<<< HEAD
-        fetch('/chiracarehospital/backend/sql/opd/summit.php', {
-=======
-        fetch('http://localhost/chiracarehospital/backend/sql/opd/summit.php', {
->>>>>>> 572e8c86cbdf24b257635ccab9868bb59cd373b2
->>>>>>> 2647318534e9020f05619613a9e724402e4585ec
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              alert("บันทึกข้อมูลสำเร็จ!");
-              window.location.href = 'main.html'; // ถ้าบันทึกสำเร็จแล้วเปลี่ยนเส้นทาง
-            } else {
-              alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + data.error);
-            }
+          // ส่งข้อมูลไปยังเซิร์ฟเวอร์
+          fetch('/chiracarehospital/backend/sql/opd/summit.php', {
+
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
           })
-          .catch(error => {
-            console.error('เกิดข้อผิดพลาด:', error);
-            alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
-          });
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                alert("บันทึกข้อมูลสำเร็จ!");
+                window.location.href = 'main.html'; // ถ้าบันทึกสำเร็จแล้วเปลี่ยนเส้นทาง
+              } else {
+                alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + data.error);
+              }
+            })
+            .catch(error => {
+              console.error('เกิดข้อผิดพลาด:', error);
+              alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
+            });
+        });
+        // เพิ่มเหตุการณ์ให้กับปุ่มย้อนกลับ
+        document.getElementById("back").addEventListener("click", function () {
+          window.location.href = 'main.html'; // เมื่อคลิกปุ่มย้อนกลับ ให้ไปที่หน้า main.html
+        });
       });
-      // เพิ่มเหตุการณ์ให้กับปุ่มย้อนกลับ
-      document.getElementById("back").addEventListener("click", function () {
-        window.location.href = 'main.html'; // เมื่อคลิกปุ่มย้อนกลับ ให้ไปที่หน้า main.html
-      });
-    });
-  </script>
+    </script>
 
-  <script>
-    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
-    checkAuth();
+    <script>
+      // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+      checkAuth();
 
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript();
-      });
+      // Load sidebar
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('sidebar-container').innerHTML = data;
+          loadSidebarScript();
+        });
 
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'หน้าหลัก';
+      // Load topbar and set the page title
+      fetch('topbar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('topbar-container').innerHTML = data;
+          document.getElementById('page-title').textContent = 'หน้าหลัก';
 
-        const script = document.createElement('script');
-        script.src = '../method/user.js';
-        document.body.appendChild(script);
-      });
-  </script>
+          const script = document.createElement('script');
+          script.src = '../method/user.js';
+          document.body.appendChild(script);
+        });
+    </script>
+  </div>
 </body>
 
 </html>
