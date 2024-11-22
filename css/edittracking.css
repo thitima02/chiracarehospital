@@ -92,6 +92,7 @@ body {
 .buttons {
     display: flex;
     justify-content: flex-end; /* ทำให้ปุ่มอยู่ด้านขวา */
+    gap: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
 }
 
 .next-btn {
@@ -109,4 +110,20 @@ body {
     color: white;
 }
 
+#save-status {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
 
+#save-status:hover {
+    background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
+}
+
+#save-status:focus {
+    outline: none; /* ลบเส้นขอบเมื่อกดปุ่ม */
+}
