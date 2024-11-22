@@ -2,314 +2,441 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Information</title>
-    <link rel="stylesheet" href="../../css/patientinfo.css">
-    <link rel="stylesheet" href="../../styles.css">
-    <link rel="stylesheet" href="../../css/sidebar.css">
-    <link rel="stylesheet" href="../../css/topbar.css">
-    <link rel="stylesheet" href="../../css/logo.css">
-    <!-- Import icon -->
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../method/logout.js"></script>
-    <script src="../method/user.js"></script>
-    <script src="../method/loadSidebarScript.js"></script>
-    <script src="../method/checkAuth.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Information</title>
+  <link rel="stylesheet" href="../../css/patientinfo.css">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/sidebar.css">
+  <link rel="stylesheet" href="../../css/topbar.css">
+  <link rel="stylesheet" href="../../css/logo.css">
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../method/logout.js"></script>
+  <script src="../method/user.js"></script>
+  <script src="../method/loadSidebarScript.js"></script>
+  <script src="../method/checkAuth.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 
 <body style="background-color:#edeff1;">
-    <!-- Sidebar will be loaded here -->
-    <div id="sidebar-container"></div>
+  <!-- Sidebar will be loaded here -->
+  <div id="sidebar-container"></div>
 
-    <!-- Topbar will be loaded here -->
-    <div id="topbar-container"></div>
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
 
-    <div class="patient-container">
-        <div class="step-indicator">
-            <div class="step active" onclick="showStep(1)">1 ข้อมูลส่วนตัว</div>
-            <div class="step" onclick="showStep(2)">2 ข้อมูลที่อยู่</div>
-            <div class="step" onclick="showStep(3)">3 ข้อมูลทางการแพทย์</div>
-        </div>
-
-        <!-- ขั้นตอนที่ 1: ข้อมูลส่วนตัว -->
-        <div class="form-step active" id="step-1">
-            <h2 style="font-weight: bold; margin-bottom: 20px;">ข้อมูลส่วนตัว</h2>
-            <div class="addimage">
-                <label for="profile-image" class="image-label">
-                    <img src="camera-icon.png" alt="Upload Profile Image" id="image-preview" />
-                    <input type="file" id="profile-image" class="image-input" onchange="previewImage(event)" hidden>
-                    <span>Upload Profile</span>
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="name">ชื่อ - นามสกุล</label>
-                <input type="text" id="name" required>
-
-                <label for="id-number">เลขบัตรประชาชน</label>
-                <input type="text" id="id-number" required>
-
-                <label for="age">อายุ</label>
-                <input type="number" id="age" required>
-
-                <label for="birthdate">วันเกิด</label>
-                <input type="date" id="birthdate" required>
-
-                <label for="phone">เบอร์โทรศัพท์</label>
-                <input type="text" id="phone" required>
-
-                <label for="emergency-phone">เบอร์โทรศัพท์ฉุกเฉิน</label>
-                <input type="text" id="emergency-phone" required>
-
-                <div class="button">
-                    <button class="save-btn" id="saveBtn">บันทึก</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ขั้นตอนที่ 2: ข้อมูลที่อยู่ -->
-        <div class="form-step" id="step-2">
-            <h2 style="font-weight: bold; margin-bottom: 30px;">ข้อมูลที่อยู่</h2>
-            <div class="form-group">
-                <label for="postal-code">เลขไปรษณีย์</label>
-                <input type="text" id="postal-code" name="postal-code" placeholder="กรุณาเลือกเลขไปรษณีย์" required>
-  
-                <label for="province">จังหวัด</label>
-                <select id="province" name="province" required>
-                  <option value="">กรุณาเลือกจังหวัด</option>
-                </select>
-  
-                <label for="district">อำเภอ/เขต</label>
-                <select id="district" name="district" required>
-                  <option value="">กรุณาเลือกอำเภอ/เขต</option>
-                </select>
-  
-                <label for="sub-district">ตำบล/แขวง</label>
-                <select id="sub-district" name="sub-district" required>
-                  <option value="">กรุณาเลือกตำบล/แขวง</option>
-                </select>
-  
-                <label for="soi">ซอย</label>
-                <input type="text" id="soi" name="soi" placeholder="กรุณากรอกซอย" required>
-  
-                <label for="village">หมู่</label>
-                <input type="text" id="village" name="village" placeholder="กรุณากรอกหมู่">
-  
-                <label for="address">ที่อยู่</label>
-                <input type="text" id="address" name="address" placeholder="กรุณากรอกที่อยู่">
-  
-                <label for="volunteer-area">เขต (เขตที่อาสาสมัครสาธารณสุขรับผิดชอบ)</label>
-                <input type="text" id="volunteer-area" name="volunteer-area" placeholder="กรุณากรอกเขตที่รับผิดชอบ">
-                  <div class="button">
-                    <button class="save-btn" id="saveBtn">บันทึก</button>
-                  </div>
-              </div>
-        </div>
-
-        <!-- ขั้นตอนที่ 3: ข้อมูลทางการแพทย์ -->
-        <div class="form-step" id="step-3">
-            <h2 style="font-weight: bold; margin-bottom: 30px;">ข้อมูลทางการแพทย์</h2>
-            <div class="form-group">
-                <label for="patient-group">กลุ่มผู้ป่วย</label>
-                <select id="patient-group" name="patient-group" required>
-                  <option value="">กรุณาเลือกกลุ่มผู้ป่วย</option>
-                </select>
-  
-                <label for="patient-type">ประเภทผู้ป่วย</label>
-                <select id="patient-type" name="patient-type" required>
-                  <option value="">กรุณาเลือกประเภทผู้ป่วย</option>
-                </select>
-  
-                <label for="disease-type">ประเภทโรค</label>
-                <select id="disease-type" name="disease-type" required>
-                  <option value="">กรุณาเลือกประเภทโรค</option>
-                </select>
-  
-                <label for="current-status">สถานะปัจจุบัน</label>
-                <select id="current-status" name="current-status" required>
-                  <option value="">กรุณาเลือกสถานะ</option>
-                </select>
-                
-                <label for="additional-info">เพิ่มเติม</label>
-                <input type="text" id="additional-info" name="additional-info" placeholder=" *ตัวอย่างเช่น แพ้ยา *" required>              
-          
-                  <div class="button">
-                    <button class="save-btn" id="saveBtn">บันทึก</button>
-                  </div>
-              </div>
-        </div>
+  <div class="patient-container">
+    <div class="step-indicator">
+      <div class="step active" onclick="showStep(1)">1 ข้อมูลส่วนตัว</div>
+      <div class="step" onclick="showStep(2)">2 ข้อมูลที่อยู่</div>
+      <div class="step" onclick="showStep(3)">3 ข้อมูลทางการแพทย์</div>
     </div>
 
-    <script>
-        function showStep(step) {
-            // ซ่อนเนื้อหาทั้งหมด
-            const steps = document.querySelectorAll('.form-step');
-            steps.forEach((stepDiv) => stepDiv.classList.remove('active'));
+    <!-- ขั้นตอนที่ 1: ข้อมูลส่วนตัว -->
+    <div class="form-step active" id="step-1">
+      <h2 style="font-weight: bold; margin-bottom: 20px;">ข้อมูลส่วนตัว</h2>
+      <div class="addimage">
+        <label for="profile-image" class="image-label">
+          <img src="camera-icon.png" alt="Upload Profile Image" id="image-preview" />
+          <input type="file" id="profile-image" class="image-input" onchange="previewImage(event)" hidden>
+          <span>Upload Profile</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="rank">คำนำหน้า</label>
+        <input type="text" id="rank" required>
 
-            // แสดงเนื้อหาที่เลือก
-            document.getElementById(`step-${step}`).classList.add('active');
+        <label for="department">ยศ (ถ้ามี)</label>
+        <input type="text" id="department" required>
 
-            // อัปเดตสถานะ active ในตัวบ่งชี้ขั้นตอน
-            const indicators = document.querySelectorAll('.step-indicator .step');
-            indicators.forEach((indicator, index) => {
-                if (index === step - 1) {
-                    indicator.classList.add('active');
-                } else {
-                    indicator.classList.remove('active');
-                }
-            });
-        }               
-    </script>
+        <label for="name">ชื่อ - นามสกุล</label>
+        <input type="text" id="name" required>
 
-    <style>
-        .form-step {
-            display: none;
-        }
+        <label for="id-number">เลขบัตรประชาชน</label>
+        <input type="text" id="id-number" required>
 
-        .form-step.active {
-            display: block;
-        }
+        <label for="marital">สถานภาพสมรส</label>
+        <select id="marital" required>
+          <option value="single">โสด</option>
+          <option value="married">สมรส</option>
+          <option value="divorced">หย่าร้าง</option>
+          <option value="widowed">หม้าย</option>
+        </select>
 
-        .step-indicator .step {
-            display: inline-block;
-            padding: 10px;
-            cursor: pointer;
-        }
+        <label for="birthdate">วันเกิด</label>
+        <input type="date" id="birthdate" required>
 
-        .step-indicator .step.active {
-            font-weight: bold;
-            color: #007bff;
-        }
-    </style>
+        <label for="phone">เบอร์โทรศัพท์</label>
+        <input type="text" id="phone" required>
 
-    <script>
-        // แสดงตัวอย่างรูปภาพที่อัปโหลด
-        function previewImage(event) {
-            const imagePreview = document.getElementById('image-preview');
-            imagePreview.src = URL.createObjectURL(event.target.files[0]);
-        }
+        <label for="emergency-phone">เบอร์โทรศัพท์ญาติ</label>
+        <input type="text" id="emergency-phone" required>
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const patientId = urlParams.get('patient_id');
+        <div class="button">
+          <button class="save-btn" id="saveBtn">บันทึก</button>
+        </div>
+      </div>
+    </div>
 
-        // แสดงข้อมูลผู้ป่วยหลังจากดึงจาก API
-        if (patientId) {
-            $.getJSON(`/chiracarehospital/backend/sql/patient_info/get_patient_by_id.php?patient_id=${patientId}`, function (response) {
-                if (response.status === 'success') {
-                    const patient = response.data;
-                    console.log("ข้อมูลผู้ป่วยที่ดึงมา:", patient);  // ดูข้อมูลผู้ป่วย
-                    $('#name').val(patient.full_name);
-                    $('#id-number').val(patient.id_card);
-                    $('#age').val(patient.age);
+    <!-- ขั้นตอนที่ 2: ข้อมูลที่อยู่ -->
+    <div class="form-step" id="step-2">
+      <h2 style="font-weight: bold; margin-bottom: 30px;">ข้อมูลที่อยู่</h2>
+      <div class="form-group">
+        <label for="postal-code">เลขไปรษณีย์</label>
+        <input type="text" id="postal-code" name="postal-code" placeholder="กรุณากรอกเลขไปรษณีย์" required>
 
-                    const birthDate = new Date(patient.birth_date);
-                    const formattedDate = birthDate.toISOString().slice(0, 10);
-                    $('#birthdate').val(formattedDate);
+        <label for="province">จังหวัด</label>
+        <input type="text" id="province" name="province" placeholder="กรุณากรอกจังหวัด" required>
 
-                    $('#phone').val(patient.phone_number);
-                    $('#emergency-phone').val(patient.emergency_phone);
+        <label for="district">อำเภอ/เขต</label>
+        <input type="text" id="district" name="district" placeholder="กรุณากรอกอำเภอ/เขต" required>
 
-                    if (patient.profile_image) {
-                        $('#image-preview').attr('src', 'data:image/jpeg;base64,' + patient.profile_image);
-                    } else {
-                        $('#image-preview').attr('src', 'default-image-path.jpg');
-                    }
-                } else {
-                    console.log("ข้อผิดพลาด:", response.message);  // ดูข้อความผิดพลาดถ้ามี
-                    alert(response.message);
-                }
-            });
-        } else {
-            alert('ไม่พบข้อมูลผู้ป่วย');
-        }
+        <label for="sub-district">ตำบล/แขวง</label>
+        <input type="text" id="sub-district" name="sub-district" placeholder="กรุณากรอกตำบล/แขวง" required>
 
-        // แสดงข้อมูลที่จะส่งไปยังเซิร์ฟเวอร์ก่อนบันทึก
-        function savePatientInfo() {
-            const patientData = {
-                patient_id: patientId,
-                full_name: $('#name').val(),
-                id_card: $('#id-number').val(),
-                age: $('#age').val(),
-                birth_date: $('#birthdate').val(),
-                phone_number: $('#phone').val(),
-                emergency_phone: $('#emergency-phone').val()
-            };
+        <label for="soi">ซอย</label>
+        <input type="text" id="soi" name="soi" placeholder="กรุณากรอกซอย" required>
 
-            console.log("ข้อมูลที่เตรียมจะบันทึก:", patientData);  // ดูข้อมูลที่จะส่งไปเซิร์ฟเวอร์
+        <label for="village">หมู่</label>
+        <input type="text" id="village" name="village" placeholder="กรุณากรอกหมู่">
 
-            if (!patientData.full_name || !patientData.phone_number) {
-                alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-                return;
+        <label for="address">เลขที่บ้าน</label>
+        <input type="text" id="address" name="address" placeholder="กรุณากรอกที่อยู่">
+
+        <label for="volunteer-area">เขตที่อยู่อาศัย</label>
+        <select id="volunteer-area" name="volunteer-area">
+          <option value="">กรุณาเลือกเขตที่รับผิดชอบ</option>
+          <option value="1">เขต 1</option>
+          <option value="2">เขต 2</option>
+          <option value="3">เขต 3</option>
+          <option value="4">เขต 4</option>
+          <option value="5">เขต 5</option>
+          <option value="6">เขต 6</option>
+          <option value="7">เขต 7</option>
+          <option value="8">เขต 8</option>
+          <option value="9">เขต 9</option>
+          <option value="10">เขต 10</option>
+          <option value="11">เขต 11</option>
+          <option value="12">เขต 12</option>
+          <option value="13">เขต 13</option>
+          <option value="14">เขต 14</option>
+          <option value="15">เขต 15</option>
+          <option value="นอกเขต">นอกเขต</option>
+        </select>
+
+        <button class="save-btn" id="saveBtn">บันทึก</button>
+      </div>
+    </div>
+
+    <!-- ขั้นตอนที่ 3: ข้อมูลทางการแพทย์ -->
+    <div class="form-step" id="step-3">
+      <h2 style="font-weight: bold; margin-bottom: 30px;">ข้อมูลทางการแพทย์</h2>
+      <div class="form-group">
+        <label for="patient-group">กลุ่มผู้ป่วย</label>
+        <select id="patient-group" name="patient-group" required>
+          <option value="กลุ่มผู้ป่วย">กลุ่มผู้ป่วย</option>
+          <option value="กลุ่มสงสัยป่วย">กลุ่มสงสัยป่วย</option>
+          <option value="กลุ่มเสี่ยง">กลุ่มเสี่ยง</option>
+        </select>
+
+        <label for="patient-type">ประเภทผู้ป่วย</label>
+        <select id="patient-type" name="patient-type" required>
+          <option value="ประชาชน">ประชาชน</option>
+          <option value="กำลังพล">กำลังพล</option>
+          <option value="ครอบครัว">ครอบครัว</option>
+        </select>
+
+        <label for="disease-type">ประเภทโรค</label>
+        <div id="disease-type"
+          style="display: flex; flex-wrap: wrap; gap: 95px; justify-content: flex-start; margin-bottom: 15px;">
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="ความดันโลหิตสูง">
+            ความดันโลหิตสูง
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="โรคอ้วน"> โรคอ้วน
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="ไขมันในเลือดสูง">
+            ไขมันในเลือดสูง
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="โรคเบาหวาน"> โรคเบาหวาน
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="CVS Risk"> CVS Risk
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="โรคไต"> โรคไต
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="อื่นๆ" id="other-disease-checkbox"
+              style="margin-right: 10px;"> อื่นๆ
+          </label>
+        </div>
+
+        <!-- ช่องกรอกข้อมูลเมื่อเลือก "อื่นๆ" -->
+        <div id="other-disease-container" style="display: none; margin-top: 10px;">
+          <label for="other-disease">โรคอื่นๆ:</label>
+          <input type="text" id="other-disease" name="other-disease" placeholder="กรุณาระบุโรคอื่นๆ">
+        </div>
+
+        <!-- ใช้ JavaScript เพื่อดึงค่าที่เลือกมา -->
+        <script>
+          const checkboxes = document.querySelectorAll('input[name="disease-type[]"]');
+          const otherCheckbox = document.getElementById('other-disease-checkbox');
+          const otherDiseaseContainer = document.getElementById('other-disease-container');
+
+          // เมื่อเลือก/ยกเลิกเลือก "อื่นๆ"
+          otherCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+              otherDiseaseContainer.style.display = 'block';  // แสดงช่องกรอกข้อมูล
+            } else {
+              otherDiseaseContainer.style.display = 'none';  // ซ่อนช่องกรอกข้อมูล
             }
+          });
 
-            $.ajax({
-                url: 'http://localhost/chiracarehospital/backend/sql/patient_information/update_patient_info.php',
-                type: 'POST',
-                data: JSON.stringify(patientData),
-                contentType: 'application/json',
-                success: function (response) {
-                    console.log("ผลลัพธ์จากการบันทึก:", response);  // ดูผลลัพธ์จากการบันทึก
-                    if (response.status === 'success') {
-                        alert('แก้ไขข้อมูลสำเร็จ');
-                        window.location.href = 'main.html';
-                    } else {
-                        alert(response.message);
-                    }
+          // ฟังก์ชั่นสำหรับดึงค่าที่เลือกจาก checkbox
+          checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+              let selectedDiseases = [];
+              checkboxes.forEach(item => {
+                if (item.checked && item.value !== "อื่นๆ") {
+                  selectedDiseases.push(item.value);
                 }
+              });
+
+              // ตรวจสอบค่าของ "อื่นๆ" หากกรอกข้อมูล
+              if (otherCheckbox.checked && document.getElementById('other-disease').value.trim() !== "") {
+                selectedDiseases.push(document.getElementById('other-disease').value.trim());
+              }
+
+              console.log('โรคที่เลือก: ' + selectedDiseases.join(', '));
             });
+          });
+        </script>
+
+        <label for="current-status">สถานะปัจจุบัน</label>
+        <select id="current-status" name="current-status" required>
+          <option value="ปกติ">ปกติ (มีชีวิต, เป็นผู้ป่วยของรพ.)</option>
+          <option value="เสียชีวิต">เสียชีวิต</option>
+          <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยแล้ว</option>
+        </select>
+
+        <label for="note">เพิ่มเติม</label>
+        <input type="text" id="note" name="additional-info" placeholder=" *ตัวอย่างเช่น แพ้ยา*" required>
+
+        <div class="button">
+          <button class="save-btn" id="saveBtn">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ฟังก์ชั่นโหลดข้อมูลผู้ป่วย
+    function loadPatientData(patient_id) {
+      fetch(`/chiracarehospital/backend/sql/patient_manage/get_patient.php?patient_id=${patient_id}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            alert(data.error);
+          } else {
+            // เติมข้อมูลในฟอร์มส่วนต่างๆ
+            document.getElementById('name').value = data.full_name;
+            document.getElementById('id-number').value = data.id_card;
+            document.getElementById('birthdate').value = data.birth_date;
+            document.getElementById('phone').value = data.phone_number;
+            document.getElementById('emergency-phone').value = data.emergency_phone;
+            document.getElementById('rank').value = data.rank;  // คำนำหน้า
+            document.getElementById('department').value = data.department;  // ยศ (ถ้ามี)
+            document.getElementById('marital').value = data.marital_status;  // สถานภาพสมรส
+
+            // กรอกข้อมูลที่อยู่
+            document.getElementById('postal-code').value = data.postal_code;
+            document.getElementById('province').value = data.province;
+            document.getElementById('district').value = data.amphur;
+            document.getElementById('sub-district').value = data.tambon;
+            document.getElementById('soi').value = data.soi;
+            document.getElementById('village').value = data.moo;
+            document.getElementById('address').value = data.number;
+            document.getElementById('volunteer-area').value = data.area;
+
+            // ข้อมูลทางการแพทย์
+            document.getElementById('patient-group').value = data.patient_group;
+            document.getElementById('patient-type').value = data.patient_type;
+            data.disease_type.forEach(disease => {
+              document.querySelector(`input[name="disease-type[]"][value="${disease}"]`).checked = true;
+            });
+            // ถ้ามีการเลือก "อื่นๆ"
+            if (data.other_disease) {
+              document.getElementById('other-disease-checkbox').checked = true;
+              document.getElementById('other-disease-container').style.display = 'block';
+              document.getElementById('other-disease').value = data.other_disease;
+            }
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const patient_id = urlParams.get('patient_id');
+      if (patient_id) {
+        loadPatientData(patient_id);
+      }
+    });
+
+    // ฟังก์ชั่นบันทึกข้อมูล
+    function updatePatientData(step) {
+      let patientData = {};
+      if (step === 1) {
+        patientData = {
+          patient_id: document.getElementById('patient_id').value,
+          name: document.getElementById('name').value,
+          rank: document.getElementById('rank').value,
+          department: document.getElementById('department').value,
+          id_number: document.getElementById('id-number').value,
+          marital_status: document.getElementById('marital').value,
+          birthdate: document.getElementById('birthdate').value,
+          phone: document.getElementById('phone').value,
+          emergency_phone: document.getElementById('emergency-phone').value
+        };
+      } else if (step === 2) {
+        patientData = {
+          postal_code: document.getElementById('postal-code').value,
+          province: document.getElementById('province').value,
+          district: document.getElementById('district').value,
+          sub_district: document.getElementById('sub-district').value,
+          soi: document.getElementById('soi').value,
+          village: document.getElementById('village').value,
+          address: document.getElementById('address').value,
+          volunteer_area: document.getElementById('volunteer-area').value
+        };
+      } else if (step === 3) {
+        let diseaseTypes = [];
+        const diseaseCheckboxes = document.querySelectorAll('input[name="disease-type[]"]:checked');
+        diseaseCheckboxes.forEach(checkbox => {
+          diseaseTypes.push(checkbox.value);
+        });
+        if (document.getElementById('other-disease-checkbox').checked) {
+          patientData.other_disease = document.getElementById('other-disease').value;
         }
 
-        // ฟังก์ชันนำทางไปยังขั้นตอนถัดไป
-        document.getElementById('nextBtn').addEventListener('click', function () {
-            window.location.href = `editaddinfo2.html?id=${patientId}`;
-        });
-    </script>
+        patientData = {
+          patient_group: document.getElementById('patient-group').value,
+          patient_type: document.getElementById('patient-type').value,
+          disease_type: diseaseTypes
+        };
+      }
 
-    <script>
-        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
-        checkAuth();
+      // ส่งข้อมูลไปอัปเดต
+      fetch('/chiracarehospital/backend/sql/patient_manage/update_patient.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(patientData)
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('บันทึกข้อมูลสำเร็จ');
+          } else {
+            alert('เกิดข้อผิดพลาด: ' + data.error);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 
-        // Load sidebar
-        fetch('sidebar.html')
-            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
-            .then(response => response.text())
-            // แปลงข้อมูลที่ได้รับเป็นข้อความ
-            .then(data => {
-                document.getElementById('sidebar-container').innerHTML = data;
-                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
-                loadSidebarScript();
-                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
-            });
+    // ฟังก์ชั่นเปลี่ยนขั้นตอน
+    function showStep(step) {
+      const steps = document.querySelectorAll('.form-step');
+      steps.forEach((stepDiv, index) => {
+        stepDiv.classList.remove('active');
+        if (index + 1 === step) {
+          stepDiv.classList.add('active');
+        }
+      });
+      const stepIndicators = document.querySelectorAll('.step');
+      stepIndicators.forEach((indicator, index) => {
+        indicator.classList.remove('active');
+        if (index + 1 === step) {
+          indicator.classList.add('active');
+        }
+      });
+    }
 
-        // Load topbar and set the page title
-        fetch('topbar.html')
-            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
-            .then(response => response.text())
-            // แปลงข้อมูลที่ได้รับเป็นข้อความ
-            .then(data => {
-                document.getElementById('topbar-container').innerHTML = data;
-                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-                document.getElementById('page-title').textContent = 'แก้ไขข้อมูลผู้ป่วย';
-                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+    // ฟังก์ชั่นบันทึกข้อมูลแต่ละขั้นตอน
+    document.getElementById('saveBtn').addEventListener('click', function () { updatePatientData(1); });
+  </script>
 
-                // Re-run user.js script after loading topbar
-                const script = document.createElement('script');
-                // สร้างแท็ก script ใหม่
-                script.src = '../method/user.js';
-                // กำหนดแหล่งที่มาของ script เป็น user.js
-                document.body.appendChild(script);
-                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
-            });
-    </script>
+  <style>
+    .form-step {
+      display: none;
+    }
+
+    .form-step.active {
+      display: block;
+    }
+
+    .step-indicator .step {
+      display: inline-block;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .step-indicator .step.active {
+      font-weight: bold;
+      color: #007bff;
+    }
+  </style>
+
+
+
+  <script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
+
+    // Load sidebar
+    fetch('sidebar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+      .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+        loadSidebarScript();
+        // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+      });
+
+    // Load topbar and set the page title
+    fetch('topbar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+      .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
+      .then(data => {
+        document.getElementById('topbar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+        document.getElementById('page-title').textContent = 'แก้ไขข้อมูลผู้ป่วย';
+        // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+        // Re-run user.js script after loading topbar
+        const script = document.createElement('script');
+        // สร้างแท็ก script ใหม่
+        script.src = '../method/user.js';
+        // กำหนดแหล่งที่มาของ script เป็น user.js
+        document.body.appendChild(script);
+        // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+      });
+  </script>
 </body>
 
 </html>
