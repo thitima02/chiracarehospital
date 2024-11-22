@@ -30,9 +30,7 @@
   
     <div class="container">
         <div class="back-button">
-            <button onclick="window.history.back()">
-                <i class="fas fa-arrow-left"></i> ย้อนกลับ
-            </button>
+            <button type="button" class="btn-back" id="backBtn">ย้อนกลับ</button>
         </div>
         <!-- ข้อมูลการผู้ป่วย -->
       <div class="main-content">
@@ -90,6 +88,7 @@
                 </button>
             </div>            
         </div>
+        
         
       </div>
   
@@ -346,6 +345,10 @@ function loadFollowUpHistory() {
           const script = document.createElement('script');
           script.src = '../method/user.js';
           document.body.appendChild(script);
+          // ฟังก์ชันสำหรับปุ่มย้อนกลับ
+        document.getElementById('backBtn').addEventListener('click', function() {
+            window.location.href = 'statustracking.html';
+        });
       });
 </script>
 </body>

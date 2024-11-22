@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โรงพยาบาลค่ายจิรประวัติ</title>
+    <link rel="stylesheet" href="../../css/edittracking.css">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/topbar.css">
+    <link rel="stylesheet" href="../../css/logo.css">
+    <!-- <link rel="stylesheet" href="../../css/test.css"> -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="../method/logout.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+    <script src="../method/user.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+    <script src="../method/loadSidebarScript.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+    <script src="../method/checkAuth.js"></script>
+    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
+</head>
+<body style="background-color:#edeff1;">
+    <div id="sidebar-container"></div>
+    <div id="topbar-container"></div>
+
+    <div class="container">
+        <div class="profile-header">
+            <img src="" alt="โปรไฟล์" class="profile-img">
+            <div class="full_name"></div>
+        </div>
+
+        <form class="follow-up-form">
+            <h2>ข้อมูลการติดตาม</h2>
+            <div class="patient-info">
+                <label for="diseaseType">โรคประจำตัว</label>
+                <input type="text" id="diseaseType" readonly>
+
+                <label for="follow-up-status">สถานะการติดตาม</label>
+                    <select id="follow-up-status">
+                    <!-- ค่าจะถูกเพิ่มจาก JavaScript --> 
+                    </select>
+
+                <label for="treatment-status">สถานะเข้ารับการรักษา</label>
+                    <select id="treatment-status">
+                    <!-- ค่าจะถูกเพิ่มจาก JavaScript -->
+                    </select>
+
+                <label for="reason">วันที่เริ่มติดตาม</label>
+                    <input type="date" id="reason">
+                <label for="occupation">กำหนดส่งงาน</label>
+                    <input type="date" id="occupation">
+            
+                <label for="blood-level">ครั้งที่ติดตาม</label>
+                    <input type="text" id="blood-level" placeholder="กรุณากรอกค่าระดับน้ำตาลในเลือดหากยังไม่ได้กรอก">
+            </div>
+
+            <div class="buttons">
+                <button id="save-status" type="button">บันทึกข้อมูล</button>
+            </div>
+        </form>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async function () {
+                const patientId = getPatientIdFromURL();
+                if (patientId) {
+                    await fetchPatientMedicalData(patientId);
+                    fetchPatientInformation(patientId);
+                    fetchMonitorFormData(patientId);
+                    setupNextButton(patientId);
+                } else {
+                    alert('ไม่พบข้อมูลผู้ป่วย');
+                }
+            });
+    
+            function getPatientIdFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('patient_id');
+            }
+    
+            async function fetchPatientMedicalData(patientId) {
+                try {
+                    const response = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+                    const data = await response.json();
+    
+                    if (data.patient_data && data.patient_data.length > 0) {
+                        const patientMedicalInfo = data.patient_data[0];
+                        document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
+                    } else {
+                        document.getElementById('diseaseType').value = 'ไม่มีข้อมูลโรค';
+                    }
+                } catch (error) {
+                    console.error('Error fetching patient data:', error);
+                    alert('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย');
+                }
+            }
+    
+            function fetchPatientInformation(patientId) {
+                fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            displayPatientInformation(data.data[0]);
+                        } else {
+                            console.error('ไม่พบข้อมูลผู้ป่วย');
+                        }
+                    })
+                    .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+            }
+    
+            function displayPatientInformation(patient) {
+                document.querySelector('.full_name').textContent = patient.full_name || 'ไม่มีชื่อผู้ป่วย';
+                document.querySelector('#reason').value = patient.reason || '';
+                document.querySelector('#occupation').value = patient.occupation || '';
+                document.querySelector('#blood-level').value = patient.blood_level || '';
+                document.querySelector('#symptoms').value = patient.symptoms || '';
+            }
+    
+            function fetchMonitorFormData(patientId) {
+                fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            displayMonitorFormData(data.data[0]);
+                        } else {
+                            console.error('ไม่พบข้อมูล');
+                        }
+                    })
+                    .catch(error => console.error('เกิดข้อผิดพลาด:', error));
+            }
+    
+            function displayMonitorFormData(monitorData) {
+                document.querySelector('#reason').value = monitorData.reason_for_missed_treatment || 'ไม่มีข้อมูล';
+                document.querySelector('#occupation').value = monitorData.vital_signs || 'ไม่มีข้อมูล';
+                document.querySelector('#blood-level').value = monitorData.blood_sugar_level || 'ไม่มีข้อมูล';
+                document.querySelector('#symptoms').value = monitorData.general_symptoms || 'ไม่มีข้อมูล';
+            }
+            </script>
+<script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
+
+    // Load sidebar
+    fetch('sidebar.html')
+        // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+        .then(response => response.text())
+        // แปลงข้อมูลที่ได้รับเป็นข้อความ
+        .then(data => {
+            document.getElementById('sidebar-container').innerHTML = data;
+            // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+            loadSidebarScript();
+            // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+        });
+
+    // Load topbar and set the page title
+    fetch('topbar.html')
+        // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+        .then(response => response.text())
+        // แปลงข้อมูลที่ได้รับเป็นข้อความ
+        .then(data => {
+            document.getElementById('topbar-container').innerHTML = data;
+            // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+            document.getElementById('page-title').textContent = 'test';
+            // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+            // Re-run user.js script after loading topbar
+            const script = document.createElement('script');
+            // สร้างแท็ก script ใหม่
+            script.src = '../method/user.js';
+            // กำหนดแหล่งที่มาของ script เป็น user.js
+            document.body.appendChild(script);
+            // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+        });
+</script>
+</body>
+</html>

@@ -1,16 +1,29 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+* {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f7f7f7;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    margin: 0 auto;
+    width: 60%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+@media (max-width: 768px) {
+    .container {
+        width: 95%; /* เพิ่มความกว้างให้เต็มหน้าจอบนมือถือ */
+        padding: 20px; /* ลดระยะ padding เพื่อความกระชับ */
+    }
+}
+
 
 .back-button button {
     display: flex;
@@ -25,18 +38,19 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.back-button button:hover {
+.btn-back {
     background-color: #007bff;
-    transform: translateY(-2px);
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-.back-button button:active {
-    transform: translateY(1px);
-}
-
-.back-button i {
-    margin-right: 8px;
-    font-size: 10px;
+.btn-back:hover {
+    background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
+    color: white;
 }
 
 .main-content {
