@@ -9,13 +9,32 @@ body {
     background-color: #f7f7f7;
 }
 
-.container {
-    width: 60%;
+.patient-container {
+    width: 80%;
+    max-width: 1200px; /* กำหนดความกว้างสูงสุด */
+    min-width: 300px; /* กำหนดความกว้างต่ำสุดเพื่อป้องกันไม่ให้เล็กเกินไป */
     margin: 50px auto;
     background-color: #fff;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* ปรับขนาดสำหรับหน้าจอที่เล็กลง */
+@media (max-width: 768px) {
+    .patient-container {
+        width: 90%; /* ใช้พื้นที่ให้มากขึ้นในหน้าจอเล็ก */
+        padding: 20px; /* ลดระยะขอบภายใน */
+    }
+}
+
+@media (max-width: 480px) {
+    .patient-container {
+        width: 100%; /* ใช้ความกว้างเต็มจอ */
+        margin: 20px auto; /* ลดระยะขอบด้านบนและล่าง */
+        padding: 15px; /* ลด Padding เพิ่มเติม */
+    }
 }
 
 .step-indicator {
@@ -77,14 +96,16 @@ body {
     justify-content: flex-end; 
 }
 
-.next-btn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
+.save-btn {
+    padding: 6px 20px;
+    background-color: #5D97EF;
+    border: 2px solid #5D97EF;
     border: none;
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 4px;
+    color: #fff;
     cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
 }
 
 /* .next-btn:hover {
@@ -103,6 +124,7 @@ body {
     border-radius: 10px;
     justify-content: center;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .image-label {
