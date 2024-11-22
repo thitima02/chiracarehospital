@@ -332,9 +332,9 @@
 
 /* ตารางผู้ป่วย */
 .table-container {
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   width: 91%;
   padding: 20px;
   box-sizing: border-box;
@@ -342,8 +342,7 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-  width: 100%;
-  overflow: auto;
+  /* width: 100%;  */
 }
 
 .patient-table {
@@ -354,7 +353,6 @@
   font-size: 14px;
   text-align: center;
   overflow-x: auto;
-  min-width: 1000px;
 }
 
 .patient-table thead tr {
@@ -432,6 +430,49 @@
 }
 
 /* การตอบสนองของตาราง */
+@media (max-width: 767px) {
+
+  .table-container {
+    width: 91%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    overflow: auto;
+  }
+
+  .patient-table {
+    width: 100%;
+    table-layout: fixed;
+    /* ให้ความกว้างของคอลัมน์เท่ากัน */
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: center;
+    overflow-x: auto;
+    min-width: 1000px;
+  }
+  .filter-bar {
+    flex-direction: column;
+  }
+
+  .patient-table th,
+  .patient-table td {
+    font-size: 12px;
+  }
+
+  .search-box,
+  .filter {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .edit-btn,
+  .detail-btn {
+    font-size: 10px;
+  }
+}
 
 .statustracking-container {
   width: 93.5%;
@@ -516,6 +557,8 @@
   padding: 20px;
   z-index: 1001;
   overflow-y: auto;
+  width: 95%;
+  max-height: 95%;
   /* เพิ่มเลื่อนในแนวตั้ง */
 }
 
@@ -598,19 +641,5 @@ input[type="checkbox"] {
   height: 18px; /* ปรับขนาดตามต้องการ */
 }
 
-@media screen (max-width: 767px) {
-  .table-container {
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-    width: 91%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    width: 100%;
-    overflow: auto;
-  }
-}
+
+

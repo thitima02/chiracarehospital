@@ -144,7 +144,7 @@
             rows += '<td>' + patient.emergency_phone + '</td>';
             rows += '<td class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</td>';
 
-            rows += '<td>';
+            rows += '<td style="white-space: nowrap;">';
             rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
             rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
             rows += '</td>';

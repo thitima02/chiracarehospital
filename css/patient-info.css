@@ -55,31 +55,30 @@ table th {
   margin-right: 5px;
 }
 
-@media (max-width: 767px) {
-  .search-bar {
+@media screen and (max-width: 767px) {
+    .search-bar {
+    width: 100%;
     flex-direction: column;
     gap: 10px;
   }
+}
 
-  .action-btn {
-    /* display: flex;
-    flex-direction: row; */
-    /* gap: 20px; */
-    position: relative;
-    color: #1d1b31;
-    border: none;
-   
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    background-color: rgb(241, 241, 241);
-  }
+.action-btn {
+  position: relative;
+  color: #1d1b31;
+  border: none;
+  padding: 3px 8px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(241, 241, 241);
+  margin: 0 2px;
 }
 .patientinfo-container {
   width: 93.5%;
   margin: auto;
   padding: 20px;
-  margin-left: 89px;
+  /* margin-left: 89px; */
 }
 
 /* ตารางผู้ป่วย */
@@ -187,13 +186,6 @@ img {
   .detail-btn {
     font-size: 10px;
   }
-
-  .patientinfo-container {
-    width: 93.5%;
-    margin: auto;
-    padding: 20px;
-    /* margin-left: 89px; */
-  }
 }
 
 .action-btn {
@@ -205,7 +197,7 @@ img {
   cursor: pointer;
   border-radius: 5px;
   background-color: rgb(241, 241, 241);
-  margin-left: 15px;
+  /* margin-left: 15px; */
 }
 
 .status-label {

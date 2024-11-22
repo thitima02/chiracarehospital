@@ -83,7 +83,8 @@ h1 {
   text-align: right;
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 767px) {
+ 
   .card h4,
   .card-title {
     text-align: left;
@@ -153,6 +154,7 @@ h1 {
 .status-bar {
   margin-bottom: 10px;
 }
+
 .status-label {
   margin-bottom: 5px;
   font-weight: bold;
@@ -186,6 +188,9 @@ h1 {
 
 #not-followed-bar {
   background-color: #bb4242; /* Red */
+}
+#follow-failed-bar {
+  background-color: #634e8d;
 }
 .follow-up-status-card {
   margin: 20px auto;
@@ -248,6 +253,7 @@ h1 {
   font-size: 0.9rem; /* ลดขนาดวันที่ */
   color: #888;
 }
+
 .status-label {
   margin-bottom: 5px;
   font-weight: bold;
@@ -296,7 +302,6 @@ h1 {
   text-align: left;
 }
 
-/* การตั้งค่าทั่วไปสำหรับ card title */
 .card-title {
   font-size: 1.2rem; /* ลดขนาดหัวข้อ */
   color: #1a1a1a;
@@ -340,25 +345,26 @@ h1 {
   color: #1a1a1a;
 }
 
-.follow-up-dates,
 .latest-update-date {
   font-size: 0.9rem; /* ลดขนาดวันที่ */
   color: #888;
 }
-
-/* ตั้งค่า card ให้เท่ากันในทุก viewport */
-.col-12.col-md-4 {
-    display: flex;
-    flex-direction: column;
+.card-status {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px; /* ปรับ padding ให้น้อยลง */
+  background-color: #fff;
+  text-align: center;
 }
-
-.card-status,
 .card-treatment {
-    flex-grow: 1; /* ขยายการ์ดให้เท่ากัน */
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px; /* ปรับ padding ให้น้อยลง */
+  background-color: #fff;
+  text-align: center;
 }
-
-
-
 /* Flex container for select and button */
 .d-flex {
   display: flex;
@@ -424,15 +430,4 @@ button#exportButton2 {
 button#exportButton2:hover {
   background-color: #007bff;
   cursor: pointer;
-}
-
-
-
-@media only screen and (max-width: 767px) {
-    .dasboard-container {
-        width: 93.5%;
-        margin: auto;
-        padding: 20px;
-       
-      }
 }
