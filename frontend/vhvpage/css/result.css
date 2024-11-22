@@ -3,9 +3,10 @@
   justify-content: center;
   padding-top: 20px;
   /* margin-left: 80px;  */
-  width: 100%;
+  width: 98%;
   align-items: center;
   /* margin-left: 50px; อันเดิมคืออันนี้  */
+  margin-left: 15px;
 }
 
 .box {
