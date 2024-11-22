@@ -343,6 +343,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
   width: 100%;
+  overflow: auto;
 }
 
 .patient-table {
@@ -353,6 +354,7 @@
   font-size: 14px;
   text-align: center;
   overflow-x: auto;
+  min-width: 1000px;
 }
 
 .patient-table thead tr {
@@ -430,27 +432,6 @@
 }
 
 /* การตอบสนองของตาราง */
-@media (max-width: 768px) {
-  .filter-bar {
-    flex-direction: column;
-  }
-
-  .patient-table th,
-  .patient-table td {
-    font-size: 12px;
-  }
-
-  .search-box,
-  .filter {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .edit-btn,
-  .detail-btn {
-    font-size: 10px;
-  }
-}
 
 .statustracking-container {
   width: 93.5%;
@@ -613,26 +594,23 @@ button[type="No"]:hover {
 
 input[type="checkbox"] {
   display: inline-block;
-<<<<<<< HEAD
-<<<<<<< HEAD
   width: 18px; /* ปรับขนาดตามต้องการ */
   height: 18px; /* ปรับขนาดตามต้องการ */
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 66d56798c43af83ae6c72c3a51642cd333ec7b1d
-=======
-=======
->>>>>>> 4cc63f7612a36b68e4354bb85c867ee332abeae2
-  width: 18px;
-  /* ปรับขนาดตามต้องการ */
-  height: 18px;
-  /* ปรับขนาดตามต้องการ */
-<<<<<<< HEAD
+@media screen (max-width: 767px) {
+  .table-container {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    width: 91%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 100%;
+    overflow: auto;
+  }
 }
->>>>>>> 4169b9634b62d8b1bc4cac1d115dbe326afe3a46
-=======
-}
->>>>>>> 4cc63f7612a36b68e4354bb85c867ee332abeae2

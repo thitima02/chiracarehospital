@@ -10,19 +10,21 @@
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
+  <link rel="stylesheet" href="../../css/result.css">
+
   <script src="../method/logout.js"></script>
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <script src="../method/logout.js"></script>
-    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
-    <script src="../method/user.js"></script>
-    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
-    <script src="../method/loadSidebarScript.js"></script>
-    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
-    <script src="../method/checkAuth.js"></script>
-    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+  <script src="../method/user.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+  <script src="../method/loadSidebarScript.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+  <script src="../method/checkAuth.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
 
 </head>
 
@@ -33,48 +35,49 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-  <div class="patientinfo-container">
-    <div class="search-bar">
-      <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
-      <input type="search" placeholder="เบอร์โทรศัพท์" id="phoneFilter" oninput="filterData()">
-      <input type="search" placeholder="เลขบัตรประชาชน" id="idCardFilter" oninput="filterData()">
-      <input type="search" placeholder="เบอร์โทรศัพท์ญาติ..." id="relativePhoneFilter" oninput="filterData()">
-      <select id="treatmentStatusFilter" onchange="filterData()">
-        <option value="">สถานะผู้ป่วย</option>
-        <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
-        <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
-      </select>
-      <button class="add-icon">
-        <a href="addinfo.html">
-          <i class='bx bx-user-plus'></i>
-        </a>
-      </button>
+  <div id="main">
+    <div class="patientinfo-container">
+      <div class="search-bar">
+        <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
+        <input type="search" placeholder="เบอร์โทรศัพท์" id="phoneFilter" oninput="filterData()">
+        <input type="search" placeholder="เลขบัตรประชาชน" id="idCardFilter" oninput="filterData()">
+        <input type="search" placeholder="เบอร์โทรศัพท์ญาติ..." id="relativePhoneFilter" oninput="filterData()">
+        <select id="treatmentStatusFilter" onchange="filterData()">
+          <option value="">สถานะผู้ป่วย</option>
+          <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+          <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+        </select>
+        <button class="add-icon">
+          <a href="addinfo.html">
+            <i class='bx bx-user-plus'></i>
+          </a>
+        </button>
 
-      <button onclick="sortNames()">
-        <i class='bx bx-filter'></i>
-      </button>
+        <button onclick="sortNames()">
+          <i class='bx bx-filter'></i>
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="patient-table">
+          <thead>
+            <tr>
+              <th>ชื่อ - นามสกุล</th>
+              <th>วันเกิด</th>
+              <th>เลขบัตรประชาชน</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>เบอร์โทรศัพท์ญาติ</th>
+              <th>สถานะปัจจุบัน</th>
+              <th>จัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="patient-info-body">
+            <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
+          </tbody>
+        </table>
+      </div>
     </div>
-
-    <div class="table-container">
-    <table class="patient-table">
-      <thead>
-        <tr>
-          <th>ชื่อ - นามสกุล</th>
-          <th>วันเกิด</th>
-          <th>เลขบัตรประชาชน</th>
-          <th>เบอร์โทรศัพท์</th>
-          <th>เบอร์โทรศัพท์ญาติ</th>
-          <th>สถานะปัจจุบัน</th>
-          <th>จัดการ</th>
-        </tr>
-      </thead>
-      <tbody id="patient-info-body">
-        <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
-      </tbody>
-    </table>
   </div>
-</div>
-
   <script>
     // ฟังก์ชันกรองข้อมูล
     function filterData() {
@@ -221,7 +224,7 @@
       }
     }
 
-  
+
   </script>
 
 
@@ -291,42 +294,42 @@
     document.addEventListener('DOMContentLoaded', loadUserData);
   </script>
 
-<script>
-  // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
-  checkAuth();
+  <script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
 
-  // Load sidebar
-  fetch('sidebar.html')
+    // Load sidebar
+    fetch('sidebar.html')
       // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
       .then(response => response.text())
       // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
-          document.getElementById('sidebar-container').innerHTML = data;
-          // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
-          loadSidebarScript();
-          // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+        document.getElementById('sidebar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+        loadSidebarScript();
+        // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
       });
 
-  // Load topbar and set the page title
-  fetch('topbar.html')
+    // Load topbar and set the page title
+    fetch('topbar.html')
       // ใช้ fetch เพื่อดึงข้อมูล topbar.html
       .then(response => response.text())
       // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
-          document.getElementById('topbar-container').innerHTML = data;
-          // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-          document.getElementById('page-title').textContent = 'หน้าหลัก';
-          // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+        document.getElementById('topbar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+        document.getElementById('page-title').textContent = 'หน้าหลัก';
+        // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
-          // Re-run user.js script after loading topbar
-          const script = document.createElement('script');
-          // สร้างแท็ก script ใหม่
-          script.src = '../method/user.js';
-          // กำหนดแหล่งที่มาของ script เป็น user.js
-          document.body.appendChild(script);
-          // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+        // Re-run user.js script after loading topbar
+        const script = document.createElement('script');
+        // สร้างแท็ก script ใหม่
+        script.src = '../method/user.js';
+        // กำหนดแหล่งที่มาของ script เป็น user.js
+        document.body.appendChild(script);
+        // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
       });
-</script>
+  </script>
 </body>
 
 </html>
