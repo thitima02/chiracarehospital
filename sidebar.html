@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>โรงพยาบาลค่ายจิรประวัติ</title>
+  <script src="../method/logout.js"></script>
+
+</head>
+
+<body>
+  <div class="sidebar">
+    <ul class="nav-list">
+      <li>
+        <a href="javascript:void(0);" onclick="handleLogout()">
+          <i class='bx bx-log-out'></i>
+          <span class="links_name">ออกจากระบบ</span>
+        </a>
+        <span class="tooltip">ออกจากระบบ</span>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    function handleLogout() {
+      fetch('./backend/sql/logout.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+
+            window.location.href = './frontend/login.html';
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+
+</body>
+
+</html>
