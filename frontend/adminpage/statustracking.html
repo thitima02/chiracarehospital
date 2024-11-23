@@ -148,7 +148,9 @@
       <table id="popup-table" border="1" style="width: 100%; text-align: left;">
         <thead>
           <tr>
-            <th style="width: 60px;">เลือก</th>
+            <th style="width: 60px;">
+              <input type="checkbox" id="select-all-checkbox" />
+            </th>
             <th>ชื่อผู้ป่วย</th>
             <th>ประเภทโรค</th>
             <th>ประเภทผู้ป่วย</th>
@@ -169,6 +171,15 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <script>
+      document.getElementById('select-all-checkbox').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('.popup-patient-checkbox');
+        checkboxes.forEach(checkbox => {
+          checkbox.checked = this.checked;
+        });
+      });
+    </script>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
