@@ -1,22 +1,22 @@
 .table-container {
-
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   width: 92%;
   padding: 20px;
   box-sizing: border-box;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  overflow: hidden;
-  /* Center the container */
+  margin: auto;
+  overflow: auto;
   margin-left: 6%;
+}
+
+.datatable {
+  min-width: 100%;
 }
 
 .patient-table {
   width: 100%;
+  /* Ensure the table fits within the container */
   border-collapse: collapse;
   font-size: 14px;
   text-align: center;
@@ -25,13 +25,15 @@
 
 .patient-table thead tr {
   background-color: #ececec;
-  color: #5d97ef;
+  color: #5D97EF;
 }
 
 .patient-table th,
 .patient-table td {
   padding: 15px;
-  border-bottom: 1px solid #f4f4f4;
+  padding-right: 33px;
+  border-bottom: 1px solid #F4F4F4;
+
 }
 
 .patient-table tbody tr {
@@ -58,90 +60,26 @@
   font-size: 13px;
 }
 
-/* Responsive styles */
-@media only screen and (max-width: 767px) {
-  .patient-table {
-    font-size: 12px; /* ลดขนาดตัวอักษร */
-  }
-
-  .table-container {
-    width: 100%; /* ขยายให้เต็มหน้าจอ */
-    padding: 10px;
-  }
-
-  .patient-table th,
-  .patient-table td {
-    padding: 10px;
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  .table-container {
-    padding: 5px;
-  }
-
-  .patient-table {
-    font-size: 10px;
-  }
-
-  .patient-table th,
-  .patient-table td {
-    padding: 8px;
-  }
-
-  /* แสดงตารางแบบแนวนอนพร้อม Scroll */
-  .table-container {
-    overflow-x: auto; /* เปิด Scroll */
-  }
-
-  .patient-table {
-    min-width: 700px; /* กำหนดความกว้างขั้นต่ำของตาราง */
-  }
-}
-
-.status.uncomplete {
-  background-color: #f4e1e1;
-  color: #bb4242;
-  font-weight: bold;
-}
-
-.status.in-progress {
-  background-color: #fff5c2;
-  color: #e99050;
-  font-weight: bold;
-}
-
 .status.continue {
-  /* background-color: #F4E1ED; */
-  color: #bb4292;
-  font-weight: bold;
-}
-
-.status.completed {
-  background-color: #e1f4e1;
-  color: #5f8d4e;
+  background-color: #F4E1ED;
+  color: #BB4292;
   font-weight: bold;
 }
 
 .status.sucess {
-  /* background-color: #E3F5FF; */
-  color: #5d97ef;
+  background-color: #d4f7ff;
+  color: #2f7d8f;
   font-weight: bold;
 }
 
 .status.unsucess {
-  /* background-color: #dddddd; */
-  color: #626262;
-}
-
-.status.failed {
-  background-color: #e5e1f4;
-  color: #634e8d;
+  background-color: #ffdfe4;
+  color: #ae5c67;
   font-weight: bold;
 }
 
 .status.other {
-  color: #c0c0c0;
+  color: #000000;
 }
 
 .action-btn {
@@ -157,114 +95,172 @@
 }
 
 .action-btn:hover {
+  background-color: #5D97EF;
+  color: #F4F4F4;
+} 
 
-  background-color: #5d97ef;
-  color: #f4f4f4;
+/* การตอบสนองของตาราง */
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+  }
+
+  .patient-table th, .patient-table td {
+    font-size: 12px;
+  }
+
+  .search-box, .filter {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .edit-btn, .detail-btn {
+    font-size: 10px;
+  }
 }
 
- 
-  
-  .datatable {
-    min-width: 100%;
-  }
-  
-  .patient-table {
-    width: 100%;
-    /* Ensure the table fits within the container */
-    border-collapse: collapse;
-    font-size: 14px;
-    text-align: center;
-    overflow-x: auto;
-  }
-  
-  .patient-table thead tr {
-    background-color: #ececec;
-    color: #5D97EF;
-  }
-  
-  .patient-table th,
-  .patient-table td {
-    padding: 15px;
-    padding-right: 33px;
-    border-bottom: 1px solid #F4F4F4;
-  
-  }
-  
-  .patient-table tbody tr {
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .patient-table tbody tr:last-of-type {
-    border-bottom: 2px solid #f4f4f4;
-  }
-  
-  .patient-table img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 10px;
-    vertical-align: middle;
-  }
-  
-  .status {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: bold;
-  }
-  
-  .status.uncomplete {
-    background-color: #F4E1E1;
-    color: #BB4242;
-  }
-  
-  .status.in-progress {
-    background-color: #FFF5C2;
-    color: #E99050;
-  }
-  
-  .status.continue {
-    background-color: #F4E1ED;
-    color: #BB4292;
-  }
-  
-  .status.completed {
-    background-color: #E1F4E1;
-    color: #5F8D4E;
-  }
-  
-  .status.sucess {
-    background-color: #E3F5FF;
-    color: #5D97EF;
-  }
-  
-  .status.unsucess {
-    background-color: #dddddd;
-    color: #626262;
-  }
-  
-  .status.other {
-    background-color: #e5e1f4;
-    color: #634e8d;
-  }
-  
-  .action-btn {
-    position: relative;
-    color: #1d1b31;
-    border: none;
-    padding: 3px 8px;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    background-color: rgb(241, 241, 241);
-    margin-left: 15px;
-  }
-  
-  .action-btn:hover {
-    background-color: #5D97EF;
-    color: #F4F4F4;
-  } 
+.datatable {
+min-width: 100%;
+}
 
-  
+.patient-table {
+width: 100%;
+/* Ensure the table fits within the container */
+border-collapse: collapse;
+font-size: 14px;
+text-align: center;
+overflow-x: auto;
+}
+
+.patient-table thead tr {
+background-color: #ececec;
+color: #5D97EF;
+}
+
+.patient-table th,
+.patient-table td {
+padding: 15px;
+padding-right: 33px;
+border-bottom: 1px solid #F4F4F4;
+
+}
+
+.patient-table tbody tr {
+background-color: #fff;
+border-bottom: 1px solid #ddd;
+}
+
+.patient-table tbody tr:last-of-type {
+border-bottom: 2px solid #f4f4f4;
+}
+
+.patient-table img {
+width: 30px;
+height: 30px;
+border-radius: 50%;
+margin-right: 10px;
+vertical-align: middle;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+.status {
+display: inline-block;
+padding: 5px 10px;
+border-radius: 5px;
+font-size: 13px;
+}
+
+.status.continue {
+  background-color: #F4E1ED;
+  color: #BB4292;
+  font-weight: bold;
+}
+.status.continue {
+background-color: #F4E1ED;
+color: #BB4292;
+font-weight: bold;
+}
+
+.status.sucess {
+  background-color: #d4f7ff;
+  color: #2f7d8f;
+  font-weight: bold;
+}
+.status.sucess {
+background-color: #d4f7ff;
+color: #2f7d8f;
+font-weight: bold;
+}
+
+.status.unsucess {
+  background-color: #ffdfe4;
+  color: #ae5c67;
+  font-weight: bold;
+}
+.status.unsucess {
+background-color: #ffdfe4;
+color: #ae5c67;
+font-weight: bold;
+}
+
+.status.other {
+  color: #000000;
+}
+
+.action-btn {
+  position: relative;
+  color: #1d1b31;
+  border: none;
+  padding: 3px 8px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(241, 241, 241);
+  margin-left: 15px;
+}
+.status.other {
+color: #000000;
+}
+
+.action-btn {
+position: relative;
+color: #1d1b31;
+border: none;
+padding: 3px 8px;
+font-size: 20px;
+cursor: pointer;
+border-radius: 5px;
+background-color: rgb(241, 241, 241);
+margin-left: 15px;
+}
+
+.action-btn:hover {
+background-color: #5D97EF;
+color: #F4F4F4;
+} 
+
+/* การตอบสนองของตาราง */
+@media (max-width: 768px) {
+.filter-bar {
+  flex-direction: column;
+}
+
+.patient-table th, .patient-table td {
+  font-size: 12px;
+}
+
+.search-box, .filter {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.edit-btn, .detail-btn {
+  font-size: 10px;
+}
+
+}

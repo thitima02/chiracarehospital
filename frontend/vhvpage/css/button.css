@@ -96,3 +96,28 @@ button[type="No"]:hover {
     align-items: center;
     /* Vertically center the content */
 }
+
+/* กลุ่มปุ่ม */
+.button-group {
+    display: flex;
+    justify-content: flex-end; /* จัดกลุ่มปุ่มไปทางมุมขวา */
+    gap: 10px; /* ระยะห่างระหว่างปุ่ม */
+  }
+  
+  /* สไตล์สำหรับปุ่ม */
+  .button-group button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #4a7bce; /* ปรับสีปุ่มตามต้องการ */
+    color: white;
+    margin-top: 10px;
+  }
+  
+  /* ปุ่มเมื่อ hover */
+  .button-group button:hover {
+    background-color: #4a7bce;
+  }
+  
