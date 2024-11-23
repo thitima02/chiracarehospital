@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบจัดการผู้ใช้</title>
+  <style>
+    /* Reset CSS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f9;
+      color: #333;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 32px;
+      color: #333;
+    }
+
+    /* ปุ่มเพิ่มผู้ใช้ */
+    .btn-add {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-add:hover {
+      background-color: #45a049;
+    }
+
+    /* ตาราง */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      font-size: 16px;
+    }
+
+    th {
+      background-color: #009688;
+      color: white;
+    }
+
+    td {
+      background-color: #ffffff;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f9f9f9;
+    }
+
+    td button {
+      padding: 6px 12px;
+      margin-right: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .btn-edit {
+      background-color: #ffa500;
+      color: white;
+    }
+
+    .btn-delete {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .btn-edit:hover, .btn-delete:hover {
+      transform: scale(1.1);
+    }
+
+    /* ฟอร์ม */
+    #userForm {
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      display: none;
+    }
+
+    #formTitle {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #333;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    button[type="button"] {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="button"]:hover {
+      background-color: #e53935;
+    }
+
+    /* Dialog confirm delete */
+    #confirmDeleteDialog {
+      background-color: #fff;
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      text-align: center;
+    }
+
+    #confirmDeleteDialog button {
+      width: 45%;
+      margin: 5px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .btn-add {
+        font-size: 14px;
+        padding: 8px 15px;
+      }
+
+      table {
+        font-size: 14px;
+      }
+
+      input, select, button {
+        font-size: 14px;
+        padding: 8px;
+      }
+
+      #userForm {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>ระบบจัดการผู้ใช้</h1>
+
+  <!-- ปุ่มเพิ่มผู้ใช้ -->
+  <button class="btn-add" onclick="openAddUserForm()">เพิ่มผู้ใช้</button>
+
+  <!-- ตารางแสดงข้อมูลผู้ใช้ -->
+  <table>
+    <thead>
+      <tr>
+        <th>ชื่อผู้ใช้</th>
+        <th>อีเมล์</th>
+        <th>ตำแหน่ง</th>
+        <th>สถานะ</th>
+        <th>การจัดการ</th>
+      </tr>
+    </thead>
+    <tbody id="userTable">
+      <tr>
+        <td>สมชาย</td>
+        <td>somchai@email.com</td>
+        <td>เจ้าหน้าที่โรงพยาบาล</td>
+        <td>เปิดใช้งาน</td>
+        <td>
+          <button class="btn-edit" onclick="openEditUserForm(1)">แก้ไข</button>
+          <button class="btn-delete" onclick="confirmDelete(1)">ลบ</button>
+        </td>
+      </tr>
+      <tr>
+        <td>สมศรี</td>
+        <td>somsri@email.com</td>
+        <td>อาสาสมัครสาธารณสุข</td>
+        <td>ปิดการใช้งาน</td>
+        <td>
+          <button class="btn-edit" onclick="openEditUserForm(2)">แก้ไข</button>
+          <button class="btn-delete" onclick="confirmDelete(2)">ลบ</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ฟอร์มเพิ่ม/แก้ไขผู้ใช้ -->
+  <div id="userForm">
+    <h2 id="formTitle">เพิ่มผู้ใช้ใหม่</h2>
+    <form id="formData">
+      <label for="username">ชื่อผู้ใช้:</label>
+      <input type="text" id="username" name="username" required><br><br>
+
+      <label for="email">อีเมล์:</label>
+      <input type="email" id="email" name="email" required><br><br>
+
+      <label for="role">ตำแหน่ง:</label>
+      <select id="role" name="role" required>
+        <option value="staff">เจ้าหน้าที่โรงพยาบาล</option>
+        <option value="volunteer">อาสาสมัครสาธารณสุข</option>
+        <option value="nurse">เสนารักษ์</option>
+      </select><br><br>
+
+      <label for="status">สถานะ:</label>
+      <select id="status" name="status" required>
+        <option value="active">เปิดใช้งาน</option>
+        <option value="inactive">ปิดการใช้งาน</option>
+      </select><br><br>
+
+      <button type="submit">บันทึกข้อมูล</button>
+      <button type="button" onclick="closeForm()">ยกเลิก</button>
+    </form>
+  </div>
+
+  <!-- Confirm delete dialog -->
+  <div id="confirmDeleteDialog">
+    <p>คุณต้องการลบผู้ใช้นี้ใช่หรือไม่?</p>
+    <button onclick="deleteUser()">ยืนยัน</button>
+    <button onclick="cancelDelete()">ยกเลิก</button>
+  </div>
+
+  <script>
+    // ฟังก์ชันเปิดฟอร์มเพิ่มผู้ใช้
+    function openAddUserForm() {
+      document.getElementById('userForm').style.display = 'block';
+      document.getElementById('formTitle').textContent = 'เพิ่มผู้ใช้ใหม่';
+      document.getElementById('formData').reset();
+    }
+
+    // ฟังก์ชันเปิดฟอร์มแก้ไขผู้ใช้
+    function openEditUserForm(userId) {
+      // เติมข้อมูลผู้ใช้ที่จะแก้ไข
+      document.getElementById('userForm').style.display = 'block';
+      document.getElementById('formTitle').textContent = 'แก้ไขผู้ใช้';
+    }
+
+    // ฟังก์ชันปิดฟอร์ม
+    function closeForm() {
+      document.getElementById('userForm').style.display = 'none';
+    }
+
+    // ฟังก์ชันยืนยันการลบ
+    function confirmDelete(userId) {
+      document.getElementById('confirmDeleteDialog').style.display = 'block';
+    }
+
+    // ฟังก์ชันลบผู้ใช้
+    function deleteUser() {
+      // ลบข้อมูลผู้ใช้จากฐานข้อมูล
+      document.getElementById('confirmDeleteDialog').style.display = 'none';
+    }
+
+    // ฟังก์ชันยกเลิกการลบ
+    function cancelDelete() {
+      document.getElementById('confirmDeleteDialog').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
