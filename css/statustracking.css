@@ -132,6 +132,8 @@
   overflow-y: auto;
   /* ถ้าข้อมูลเยอะเกินพื้นที่ ให้เลื่อนดูได้ */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 95%;
+  max-height: 95%;
   /* เพิ่มเงาให้ป๊อปอัป */
 }
 
@@ -472,6 +474,30 @@
   .detail-btn {
     font-size: 10px;
   }
+
+  #download-pdf-button,
+#assign-button {
+  padding: 10px 20px;
+  /* ขนาดปุ่ม */
+  background-color: #007bff;
+  /* สีพื้นหลัง */
+  color: white;
+  /* สีตัวอักษร */
+  border: none;
+  /* ไม่มีเส้นขอบ */
+  border-radius: 5px;
+  /* มุมมน */
+  cursor: pointer;
+  /* เปลี่ยนเป็น pointer เมื่อ hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* เพิ่มเงา */
+  font-size: 17px;
+  width: 100%;
+}
+
+#popup-modal {
+
+}
 }
 
 .statustracking-container {
@@ -641,5 +667,26 @@ input[type="checkbox"] {
   height: 18px; /* ปรับขนาดตามต้องการ */
 }
 
+.popup--table {
+  overflow: auto;
+}
 
+@media only screen and (max-width:767px) {
+  #popup-table tbody {
+    overflow-y: unset;
+    display: table-row-group;
+    max-height: unset;
+  }
 
+  #generate-pdf-button {
+    position: unset;
+  }
+
+  #popup-modal {
+    overflow-x: hidden;
+  }
+
+  #popup-table {
+    min-width: 700px;
+  }
+}

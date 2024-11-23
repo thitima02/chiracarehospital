@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
   <link rel="stylesheet" href="../../css/result.css">
+
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,51 +23,51 @@
 
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
-  
+
   <div id="main">
-    <div class="container">
-      <div class="step-indicator">
-        <div class="step active">1 ข้อมูลส่วนตัว</div>
-      </div>
-      <form class="addinfo">
-        <h2>ข้อมูลส่วนตัว</h2>
-        <div class="addimage">
-          <label for="profile-image" class="image-label">
-            <img src="camera-icon.png" alt="Upload Profile Image" id="image-preview" />
-            <input type="file" id="profile-image" class="image-input" onchange="previewImage(event)" hidden>
-            <span>Upload Profile</span>
-          </label>
-        </div>
-        <div class="form-group">
-          <label for="name">ชื่อ - นามสกุล</label>
-          <input type="text" id="name" readonly>
-
-          <label for="province">สถานะ</label>
-          <select id="province" name="province" required>
-            <option value="">กรุณาเลือกสถานะ</option>
-            <option value="อาสาสมัครสาธารณสุข">อาสาสมัครสาธารณสุข</option>
-            <option value="เสนารักษ์">เสนารักษ์</option>
-          </select>
-
-          <label for="responsibility-area">เขตที่รับผิดชอบ</label>
-          <select id="responsibility-area" name="responsibility-area" required>
-            <option value="">กรุณาเลือกเขตรับผิดชอบ</option>
-          </select>
-
-          <label for="id-card">เลขบัตรประชาชน</label>
-          <input type="text" id="idcard" readonly>
-
-          <label for="phone-number">เบอร์โทรศัพท์</label>
-          <input type="text" id="phonenumber" readonly>
-
-          <div class="button">
-            <button type="button" class="btn save" id="saveBtn">บันทึก</button>
-          </div>
-        </div>
-
-      </form>
+  <div class="container">
+    <div class="step-indicator">
+      <div class="step active">1 ข้อมูลส่วนตัว</div>
     </div>
+    <form class="addinfo">
+      <h2>ข้อมูลส่วนตัว</h2>
+      <div class="addimage">
+        <label for="profile-image" class="image-label">
+          <img src="camera-icon.png" alt="Upload Profile Image" id="image-preview" />
+          <input type="file" id="profile-image" class="image-input" onchange="previewImage(event)" hidden>
+          <span>Upload Profile</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="name">ชื่อ - นามสกุล</label>
+        <input type="text" id="name" readonly>
+
+        <label for="province">สถานะ</label>
+        <select id="province" name="province" required>
+          <option value="">กรุณาเลือกสถานะ</option>
+          <option value="อาสาสมัครสาธารณสุข">อาสาสมัครสาธารณสุข</option>
+          <option value="เสนารักษ์">เสนารักษ์</option>
+        </select>
+
+        <label for="responsibility-area">เขตที่รับผิดชอบ</label>
+        <select id="responsibility-area" name="responsibility-area" required>
+          <option value="">กรุณาเลือกเขตรับผิดชอบ</option>
+        </select>
+
+        <label for="id-card">เลขบัตรประชาชน</label>
+        <input type="text" id="idcard" readonly>
+
+        <label for="phone-number">เบอร์โทรศัพท์</label>
+        <input type="text" id="phonenumber" readonly>
+
+        <div class="button">
+          <button type="button" class="btn save" id="saveBtn">บันทึก</button>
+        </div>
+      </div>
+
+    </form>
   </div>
+</div>
   <!-- Form -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {

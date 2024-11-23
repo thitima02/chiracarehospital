@@ -137,14 +137,14 @@
           // วนลูปข้อมูลผู้ป่วยเพื่อแสดงในตาราง
           patients.forEach(function (patient) {
             rows += '<tr>';
-            rows += '<td><img src="../../assets/images/cat.jpg" alt="avatar"> ' + patient.full_name + '</td>';
+            rows += '<td><img src="data:image/jpeg;base64,' + patient.patient_image + '" alt="avatar"> ' + patient.full_name + '</td>';
             rows += '<td>' + formatDate(patient.birth_date) + '</td>';
             rows += '<td>' + patient.id_card + '</td>';
             rows += '<td>' + patient.phone_number + '</td>';
             rows += '<td>' + patient.emergency_phone + '</td>';
             rows += '<td class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</td>';
 
-            rows += '<td style="white-space: nowrap;">';
+            rows += '<td>';
             rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
             rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
             rows += '</td>';

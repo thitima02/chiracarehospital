@@ -1,18 +1,17 @@
 /* CSS for Button */
 .add-icon {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .add-icon a i {
-    color: white; /* เปลี่ยนสีไอคอนเป็นสีขาว */
-    font-size: 16px;
-  }
+  color: white; /* เปลี่ยนสีไอคอนเป็นสีขาว */
+  font-size: 16px;
+}
 
 /* Popup Background */
 .popup-overlay {
@@ -78,7 +77,6 @@
   padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
-  
 }
 
 .patient-list th {
