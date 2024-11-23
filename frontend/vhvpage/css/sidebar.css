@@ -3,8 +3,6 @@
     display: flex;
     align-items: center;
     gap: 20px; /* Adjust the spacing between the bell icon and profile details */
-
-   
 }
   
   .icon-button {
@@ -62,7 +60,6 @@
     min-width: 190px;
     padding: 0 15px 0 2px;
   }
-  
 .icon-button {
   position: relative;
   color: #1d1b31;

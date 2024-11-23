@@ -7,6 +7,11 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: auto;
     overflow: auto;
+<<<<<<< HEAD
+=======
+    /* Center the container */
+    margin-left: 110px;
+>>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
   }
 
   .datatable {
@@ -115,6 +120,22 @@
   
     .edit-btn, .detail-btn {
       font-size: 10px;
+    }
+
+    .table-container {
+
+      /* display: flex;
+      justify-content: center;
+      align-items: center; */
+      width: 91%;
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: auto;
+      overflow: auto;
+      /* Center the container */
     }
   }
 

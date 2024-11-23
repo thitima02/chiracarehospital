@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
+  <link rel="stylesheet" href="../../css/result.css">
   <script src="../method/logout.js"></script>
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -24,43 +25,46 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-  <div class="patientinfo-container">
-    <div class="search-bar">
-      <input type="search" placeholder="ค้นหาชื่อ" id="SearchFilter" oninput="filterData()">
-      <input type="search" placeholder="เขตที่รับผิดชอบ" id="responsibility-areaFilter" oninput="filterData()">
+  <div id="main">
+    <div class="patientinfo-container">
+      <div class="search-bar">
+        <input type="search" placeholder="ค้นหาชื่อ" id="SearchFilter" oninput="filterData()">
+        <input type="search" placeholder="เขตที่รับผิดชอบ" id="responsibility-areaFilter" oninput="filterData()">
 
-      <input type="search" placeholder="เบอร์โทรศัพท์" id="PhonenumberFilter" oninput="filterData()">
-      <select class="dropdown-filter" id="StatusFilter" onchange="filterData()">
-        <option>สถานะ</option>
-        <option>อาสาสมัครสาธารณสุข</option>
-        <option>เสนารักษ์</option>
-      </select>
-      <button class="add-icon">
-        <a href="addstaff.html">
-          <i class='bx bx-user-plus'></i>
-        </a>
-      </button>
+        <input type="search" placeholder="เบอร์โทรศัพท์" id="PhonenumberFilter" oninput="filterData()">
+        <select class="dropdown-filter" id="StatusFilter" onchange="filterData()">
+          <option>สถานะ</option>
+          <option>อาสาสมัครสาธารณสุข</option>
+          <option>เสนารักษ์</option>
+        </select>
+        <button class="add-icon">
+          <a href="addstaff.html">
+            <i class='bx bx-user-plus'></i>
+          </a>
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="patient-table">
+          <thead>
+            <tr>
+              <th>ชื่อ - นามสกุล</th>
+              <th>สถานะ</th>
+              <th>เขตที่รับผิดชอบ</th>
+              <th>เลขบัตรประชาชน</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>จัดการ</th>
+            </tr>
+          </thead>
+
+          <tbody id="patient-info-body">
+            <!-- ข้อมูลจะแสดงที่นี่ -->
+          </tbody>
+
+        </table>
+      </div>
     </div>
-
-    <table class="patient-table">
-      <thead>
-        <tr>
-          <th>ชื่อ - นามสกุล</th>
-          <th>สถานะ</th>
-          <th>เขตที่รับผิดชอบ</th>
-          <th>เลขบัตรประชาชน</th>
-          <th>เบอร์โทรศัพท์</th>
-          <th>จัดการ</th>
-        </tr>
-      </thead>
-
-      <tbody id="patient-info-body">
-        <!-- ข้อมูลจะแสดงที่นี่ -->
-      </tbody>
-
-    </table>
   </div>
-
   <script>
     // Load sidebar
     fetch('sidebar.html')

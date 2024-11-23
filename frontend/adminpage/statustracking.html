@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
+  <link rel="stylesheet" href="../../css/result.css">
+
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,61 +36,143 @@
   <div id="sidebar-container"></div>
   <div id="topbar-container"></div>
 
-  <div class="statustracking-container">
-    <!-- Filters -->
-    <section class="filter-section" style="justify-content: center;">
-      <div class="filter-container">
-        <div class="filter-item search-bar">
-          <h5>ค้นหารายชื่อ</h5>
-          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput"
-            oninput="filterData()">
-          <i class='bx bx-search search-icon'></i>
+  <div id="main">
+    <div class="statustracking-container">
+      <!-- Filters -->
+      <section class="filter-section" style="justify-content: center;">
+        <div class="filter-container">
+          <div class="filter-item search-bar">
+            <h5>ค้นหารายชื่อ</h5>
+            <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput"
+              oninput="filterData()">
+            <i class='bx bx-search search-icon'></i>
+          </div>
+          <div class="filter-item">
+            <h5>โรคประจำตัว</h5>
+            <select class="dropdown-filter" id="treatmentCountFilter" onchange="filterData()">
+              <option value="">ทั้งหมด</option>
+              <option value="โรคความดันโลหิตสูง">ความดันโลหิตสูง</option>
+              <option value="โรคอ้วน">โรคอ้วน</option>
+              <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+              <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+              <option value="CVD Risk">CVD Risk</option>
+              <option value="โรคไต">โรคไต</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <h5>วันที่เริ่มติดตาม</h5>
+            <input type="date" class="date-filter" id="appointmentDateFilter" onchange="filterData()">
+          </div>
+          <div class="filter-item">
+            <h5>กำหนดส่งงาน</h5>
+            <input type="date" class="date-filter" id="DeadlineDateFilter" onchange="filterData()">
+          </div>
+          <div class="filter-item">
+            <h5>สถานะเข้ารับการรักษา</h5>
+            <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
+              <option value="ทั้งหมด">ทั้งหมด</option>
+              <option value="มาตามนัด">มาตามนัด</option>
+              <option value="ไม่มาตามนัด">ไม่มาตามนัด</option>
+            </select>
+          </div>
+
+          <div class="filter-item">
+            <h5>สถานะการติดตาม</h5>
+            <select class="dropdown-filter" id="followUpStatusFilter" onchange="filterData()">
+              <option value="ทั้งหมด">ทั้งหมด</option>
+              <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
+              <option value="ติดตามแล้ว">ติดตามแล้ว</option>
+              <option value="กำลังติดตาม">กำลังติดตาม</option>
+              <option value="ติดตามล้มเหลว">ติดตามล้มเหลว</option>
+            </select>
+          </div>
+
+          <div id="download-pdf-button" title='ดาวน์โหลดPDF' style="height: 25px; width: 30px;">
+            <button id="download-pdf-button">
+              <i class='bx bxs-file-pdf'></i>
+            </button>
+          </div>
+
         </div>
-        <div class="filter-item">
-          <h5>โรคประจำตัว</h5>
-          <select class="dropdown-filter" id="treatmentCountFilter" onchange="filterData()">
-            <option value="">ทั้งหมด</option>
-            <option value="โรคความดันโลหิตสูง">ความดันโลหิตสูง</option>
-            <option value="โรคอ้วน">โรคอ้วน</option>
-            <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
-            <option value="โรคเบาหวาน">โรคเบาหวาน</option>
-            <option value="CVD Risk">CVD Risk</option>
-            <option value="โรคไต">โรคไต</option>
-          </select>
-        </div>
-        <div class="filter-item">
-          <h5>วันที่เริ่มติดตาม</h5>
-          <input type="date" class="date-filter" id="appointmentDateFilter" onchange="filterData()">
-        </div>
-        <div class="filter-item">
-          <h5>กำหนดส่งงาน</h5>
-          <input type="date" class="date-filter" id="DeadlineDateFilter" onchange="filterData()">
-        </div>
-        <div class="filter-item">
-          <h5>สถานะเข้ารับการรักษา</h5>
-          <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
-            <option value="ทั้งหมด">ทั้งหมด</option>
-            <option value="มาตามนัด">มาตามนัด</option>
-            <option value="ไม่มาตามนัด">ไม่มาตามนัด</option>
-          </select>
+      </section>
+
+      <!-- Overlay สำหรับป๊อปอัป -->
+      <div id="popup-overlay" style="display: none;"></div>
+
+      <!-- Modal Popup -->
+      <div id="popup-modal" style="display: none;">
+        <span id="close-popup-icon" class="close-icon">&times;</span>
+        <h2>เลือกผู้ป่วยที่ต้องการดาวน์โหลดข้อมูล</h2>
+
+        <!-- ฟิลเตอร์ -->
+        <div class="filter-container" style="margin-bottom: 10px; display: flex; gap: 5px; flex-wrap: wrap;">
+          <div>
+            <label for="filter-patient-name">ชื่อผู้ป่วย:</label>
+            <input type="text" id="filter-patient-name" placeholder="กรอกชื่อผู้ป่วย" />
+          </div>
+          <div>
+            <label for="filter-disease-type">โรคประจำตัว:</label>
+            <select id="filter-disease-type">
+              <option value="">ทั้งหมด</option>
+              <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+              <option value="โรคอ้วน">โรคอ้วน</option>
+              <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+              <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+              <option value="CVD Risk">CVD Risk</option>
+              <option value="โรคไต">โรคไต</option>
+            </select>
+          </div>
+          <div>
+            <label for="filter-patient-type">ประเภทผู้ป่วย:</label>
+            <select id="filter-patient-type">
+              <option value="">ทั้งหมด</option>
+              <option value="ประชาชน">ประชาชน</option>
+              <option value="กำลังพล">กำลังพล</option>
+              <option value="ครอบครัว">ครอบครัว</option>
+            </select>
+          </div>
+          <div>
+            <label for="filter-monitor-start-date">วันที่เริ่มติดตาม:</label>
+            <input type="date" id="filter-monitor-start-date" />
+          </div>
+          <div>
+            <label for="filter-monitor-deadline">กำหนดส่งงาน:</label>
+            <input type="date" id="filter-monitor-deadline" />
+          </div>
+          <div>
+            <label for="filter-monitor-status">สถานะการติดตาม:</label>
+            <select id="filter-monitor-status">
+              <option value="">ทั้งหมด</option>
+              <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
+              <option value="กำลังติดตาม">กำลังติดตาม</option>
+              <option value="ติดตามแล้ว">ติดตามแล้ว</option>
+              <option value="ยังไม่ได้ติดตาม">ติดตามล้มเหลว</option>
+            </select>
+          </div>
         </div>
 
-        <div class="filter-item">
-          <h5>สถานะการติดตาม</h5>
-          <select class="dropdown-filter" id="followUpStatusFilter" onchange="filterData()">
-            <option value="ทั้งหมด">ทั้งหมด</option>
-            <option value="ยังไม่ได้ติดตาม">ยังไม่ได้ติดตาม</option>
-            <option value="ติดตามแล้ว">ติดตามแล้ว</option>
-            <option value="กำลังติดตาม">กำลังติดตาม</option>
-            <option value="ติดตามล้มเหลว">ติดตามล้มเหลว</option>
-          </select>
-        </div>
+        <!-- ตาราง -->
+        <table id="popup-table" border="1" style="width: 100%; text-align: left;">
+          <thead>
+            <tr>
+              <th style="width: 60px;">เลือก</th>
+              <th>ชื่อผู้ป่วย</th>
+              <th>ประเภทโรค</th>
+              <th>ประเภทผู้ป่วย</th>
+              <th>วันที่เริ่มติดตาม</th>
+              <th>กำหนดส่งงาน</th>
+              <th>สถานะการติดตาม</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- ตารางข้อมูลผู้ป่วยจะแสดงในนี้ -->
+          </tbody>
+        </table>
 
-        <div id="download-pdf-button" title='ดาวน์โหลดPDF' style="height: 25px; width: 30px;">
-          <button id="download-pdf-button">
-            <i class='bx bxs-file-pdf'></i>
-          </button>
+        <div class="button_popup" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+          <button id="generate-pdf-button">สร้าง PDF</button>
         </div>
+<<<<<<< HEAD
 
       </div>
     </section>
@@ -166,9 +250,10 @@
 
       <div class="button_popup" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
         <button id="generate-pdf-button">สร้าง PDF</button>
+=======
+>>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
       </div>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
@@ -761,7 +846,7 @@
                 <td>${patient.monitor_round ? patient.monitor_round : `<span class="no-data">ไม่มี</span>`}</td>
                 <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status ? patient.treatment_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
                 <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status ? patient.monitor_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
-                <td>
+                <td style="white-space: nowrap;">
                 
                     <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}';">
   <i class='bx bx-edit'></i>

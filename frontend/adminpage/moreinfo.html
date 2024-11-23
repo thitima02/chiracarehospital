@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="../../css/sidebar.css">
     <link rel="stylesheet" href="../../css/topbar.css">
     <link rel="stylesheet" href="../../css/logo.css">
+    <link rel="stylesheet" href="../../css/result.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -27,6 +29,7 @@
 <body style="background-color: #edeff1;">
     <div id="sidebar-container"></div>
     <div id="topbar-container"></div>
+<<<<<<< HEAD
   
     <div class="container">
         <div class="back-button">
@@ -118,7 +121,106 @@
           </table>
       </div>
     </div>
+=======
+>>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
 
+    <div id="main">
+        <div class="container">
+            <div class="back-button">
+                <button onclick="window.history.back()">
+                    <i class="fas fa-arrow-left"></i> ย้อนกลับ
+                </button>
+            </div>
+            <!-- ข้อมูลการผู้ป่วย -->
+            <div class="main-content">
+                <div class="profile-section">
+                    <div class="patient-profile">
+                        <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
+                        <div>
+                            <h2 id="fullName">ไม่มีข้อมูล</h2>
+                            <p><strong>อายุ:</strong> <span id="age">ไม่มีข้อมูล</span></p>
+                            <p><strong>สถานะปัจจุบัน:</strong> <span id="currentStatus">ไม่มีข้อมูล</span></p>
+                            <p><strong>ประเภทโรค:</strong> <span id="diseaseType">ไม่มีข้อมูล</span></p>
+                            <p><strong>กลุ่มผู้ป่วย:</strong> <span id="patientGroup">ไม่มีข้อมูล</span></p>
+                            <p><strong>ประเภทผู้ป่วย:</strong> <span id="patientType">ไม่มีข้อมูล</span></p>
+                            <p><strong>เลขบัตรประจำตัวประชาชน:</strong> <span id="idCard">ไม่มีข้อมูล</span></p>
+                            <p><strong>วันเกิด:</strong> <span id="birthDate"></span>ไม่มีข้อมูล</p>
+                            <p><strong>เบอร์โทรศัพท์:</strong> <span id="phoneNumber">ไม่มีข้อมูล</span></p>
+                            <p><strong>เบอร์ฉุกเฉิน:</strong> <span id="emergencyPhone">ไม่มีข้อมูล</span></p>
+                            <p><strong>ที่อยู่:</strong> <span id="address">ไม่มีข้อมูล</span></p>
+                            <p><strong>เพิ่มเติม:</strong> <span id="additionalInfo">-</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="follow-up-treatment">
+                    <!-- ข้อมูลการติดตาม -->
+                    <div class="follow-up-info">
+                        <h3>ข้อมูลการติดตามล่าสุด</h3>
+                        <p><strong>โรคของผู้ป่วยที่ติดตาม:</strong> <span id="latestDiseaseType">ไม่มีข้อมูล</span></p>
+                        <p><strong>อาการทั่วไป:</strong> <span id="generalCondition">ไม่มีข้อมูล</span></p>
+                        <p><strong>ค่าสัญญาณชีพ:</strong> <span id="vitalSigns">ไม่มีข้อมูล</span></p>
+                        <p><strong>ค่าระดับน้ำตาลในเลือด:</strong> <span id="bloodSugarLevel">ไม่มีข้อมูล</span></p>
+                        <p><strong>วันเริ่มติดตาม:</strong> <span id="followUpStartDate">ไม่มีข้อมูล</span></p>
+                        <p><strong>ครั้งที่ติดตาม:</strong> <span id="followUpCount">ไม่มีข้อมูล</span></p>
+                        <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span
+                                id="responsibleStaffFollowUp">ไม่มีข้อมูล</span></p>
+                        <p><strong>สถานะการติดตาม:</strong> <span id="followUpStatus"
+                                class="green-status">ไม่มีข้อมูล</span></p>
+                    </div>
+
+                    <!-- ข้อมูลการรักษา -->
+                    <div class="treatment-info">
+                        <h3>ข้อมูลการรักษาล่าสุด</h3>
+                        <p><strong>โรคของผู้ป่วยรักษา:</strong> <span id="treatmentDiseaseType">ไม่มีข้อมูล</span></p>
+                        <p><strong>อาการทั่วไป:</strong> <span id="treatmentGeneralCondition">ไม่มีข้อมูล</span></p>
+                        <p><strong>ประเภทการรักษา:</strong> <span id="treatmentType">ไม่มีข้อมูล</span></p>
+                        <p><strong>วันที่นัดหมาย:</strong> <span id="appointmentDate">ไม่มีข้อมูล</span></p>
+                        <p><strong>วันที่เข้ารับการรักษา:</strong> <span id="treatmentDate">ไม่มีข้อมูล</span></p>
+                        <p><strong>ครั้งที่รักษา:</strong> <span id="treatmentCount">ไม่มีข้อมูล</span></p>
+                        <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span
+                                id="responsibleStaffTreatment">ไม่มีข้อมูล</span></p>
+                        <p><strong>สถานะการรักษา:</strong> <span id="treatmentStatus"
+                                class="red-status">ไม่มีข้อมูล</span></p>
+                    </div>
+
+                    <!-- ปุ่ม "ดูเพิ่มเติม" -->
+                    <div class="more-button">
+                        <button onclick="window.location.href='moreinfo2.html'">
+                            <i class="fas fa-eye"></i> ดูเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Follow-up History Section -->
+            <div class="follow-up-history">
+                <h3>ประวัติการติดตาม</h3>
+                <div class="dropdown">
+                    <select id="departmentSelect" onchange="loadFollowUpHistory()">
+                        <option value="">เลือกแผนก</option>
+                        <option value="อาสาสมัครสาธารณสุข">อาสาสมัครสาธารณสุข</option>
+                        <option value="เจ้าหน้าที่โรงพยาบาล">เจ้าหน้าที่โรงพยาบาล</option>
+                        <option value="เสนารักษ์">เสนารักษ์</option>
+                    </select>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>เจ้าหน้าที่ที่รับผิดชอบ</th>
+                            <th>วันเริ่มติดตาม</th>
+                            <th>วันสิ้นสุด</th>
+                            <th>ครั้งที่ติดตาม</th>
+                        </tr>
+                    </thead>
+                    <tbody id="followUpHistoryTable">
+                        <!-- ข้อมูลจะถูกเติมที่นี่ -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const patientId = getPatientIdFromURL(); // Retrieve patient_id from URL
@@ -130,13 +232,13 @@
                 alert('ไม่พบข้อมูลผู้ป่วย');
             }
         });
-    
+
         // Function to get patient_id from URL
         function getPatientIdFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('patient_id');
         }
-    
+
         // Function to calculate age from birth date
         function calculateAge(birthDate) {
             const birth = new Date(birthDate);
@@ -148,7 +250,7 @@
             }
             return age;
         }
-    
+
         // Main function to fetch patient data and address information
         async function fetchPatientData(patientId) {
             try {
@@ -164,7 +266,7 @@
                     document.getElementById('phoneNumber').textContent = patient.phone_number || '-';
                     document.getElementById('emergencyPhone').textContent = patient.emergency_phone || '-';
                     document.getElementById('additionalInfo').textContent = patient.additional_info || '-';
-    
+
                     // Fetch address information
                     const addressResponse = await fetch(`/chiracarehospital/backend/sql/vhv/get_patient_address.php?patient_id=${patientId}`);
                     const addresses = await addressResponse.json();
@@ -174,7 +276,7 @@
                     } else {
                         document.getElementById('address').textContent = 'ไม่มีข้อมูลที่อยู่';
                     }
-    
+
                     // Fetch medical information
                     const medicalResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
                     const medicalData = await medicalResponse.json();
@@ -193,7 +295,7 @@
                         document.getElementById('latestDiseaseType').textContent = 'ไม่มีข้อมูล';
                         document.getElementById('treatmentDiseaseType').textContent = 'ไม่มีข้อมูล';
                     }
-    
+
                 } else {
                     console.error(data.message);
                     alert('ไม่สามารถดึงข้อมูลผู้ป่วยได้: ' + data.message);
@@ -203,7 +305,7 @@
                 document.getElementById('address').textContent = 'เกิดข้อผิดพลาดในการดึงข้อมูล';
             }
         }
-    
+
         // Function to fetch latest monitor information
         async function fetchMonitorInformation() {
             try {
@@ -221,7 +323,7 @@
                 console.error('Error fetching monitor information:', error);
             }
         }
-    
+
         // Function to fetch latest monitor form data
         async function fetchMonitorFormData(patientId) {
             try {
@@ -241,76 +343,107 @@
             }
         }
     </script>
-    
-<script>
-function loadFollowUpHistory() {
-    const department = document.getElementById('departmentSelect').value;
-    
-    // ตรวจสอบว่าเลือกแผนกหรือยัง
-    if (!department) {
-        const tableBody = document.getElementById('followUpHistoryTable');
-        tableBody.innerHTML = '<tr><td colspan="5">กรุณาเลือกแผนกก่อน</td></tr>';
-        return;
-    }
 
-    fetch(`/chiracarehospital/backend/sql/users/getAlluser.php?department=${department}`)
-        .then(response => response.json())
-        .then(data => {
-            const tableBody = document.getElementById('followUpHistoryTable');
-            tableBody.innerHTML = ''; // ล้างข้อมูลในตารางเดิมออก
+    <script>
+        function loadFollowUpHistory() {
+            const department = document.getElementById('departmentSelect').value;
 
-            if (data.status === 'success' && data.data.length > 0) {
-                data.data.forEach(user => {
-                    const row = document.createElement('tr');
-                    
-                    // สร้าง cell สำหรับแต่ละคอลัมน์
-                    const responsibleStaffCell = document.createElement('td');
-                    responsibleStaffCell.textContent = user.full_name;
-
-                    const startDateCell = document.createElement('td');
-                    startDateCell.textContent = 'วันที่เริ่ม'; // แทนที่ด้วยข้อมูลจริงถ้ามี
-
-                    const endDateCell = document.createElement('td');
-                    endDateCell.textContent = 'วันที่สิ้นสุด'; // แทนที่ด้วยข้อมูลจริงถ้ามี
-
-                    const followUpCountCell = document.createElement('td');
-                    followUpCountCell.textContent = 'จำนวนครั้ง'; // แทนที่ด้วยข้อมูลจริงถ้ามี
-
-        
-
-                    // ใส่ cell แต่ละช่องลงในแถว
-                    row.appendChild(responsibleStaffCell);
-                    row.appendChild(startDateCell);
-                    row.appendChild(endDateCell);
-                    row.appendChild(followUpCountCell);
-                    
-
-                    // ใส่แถวลงใน table body
-                    tableBody.appendChild(row);
-                });
-            } else {
-                const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                cell.colSpan = 5;
-                cell.textContent = data.message || "ไม่พบข้อมูลในแผนกนี้";
-                row.appendChild(cell);
-                tableBody.appendChild(row);
+            // ตรวจสอบว่าเลือกแผนกหรือยัง
+            if (!department) {
+                const tableBody = document.getElementById('followUpHistoryTable');
+                tableBody.innerHTML = '<tr><td colspan="5">กรุณาเลือกแผนกก่อน</td></tr>';
+                return;
             }
-        })
-        .catch(error => {
-            console.error('Fetch Error:', error);
-            const row = document.createElement('tr');
-            const cell = document.createElement('td');
-            cell.colSpan = 5;
-            cell.textContent = "เกิดข้อผิดพลาดในการดึงข้อมูล";
-            row.appendChild(cell);
-            document.getElementById('followUpHistoryTable').appendChild(row);
+
+            fetch(`/chiracarehospital/backend/sql/users/getAlluser.php?department=${department}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('followUpHistoryTable');
+                    tableBody.innerHTML = ''; // ล้างข้อมูลในตารางเดิมออก
+
+                    if (data.status === 'success' && data.data.length > 0) {
+                        data.data.forEach(user => {
+                            const row = document.createElement('tr');
+
+                            // สร้าง cell สำหรับแต่ละคอลัมน์
+                            const responsibleStaffCell = document.createElement('td');
+                            responsibleStaffCell.textContent = user.full_name;
+
+                            const startDateCell = document.createElement('td');
+                            startDateCell.textContent = 'วันที่เริ่ม'; // แทนที่ด้วยข้อมูลจริงถ้ามี
+
+                            const endDateCell = document.createElement('td');
+                            endDateCell.textContent = 'วันที่สิ้นสุด'; // แทนที่ด้วยข้อมูลจริงถ้ามี
+
+                            const followUpCountCell = document.createElement('td');
+                            followUpCountCell.textContent = 'จำนวนครั้ง'; // แทนที่ด้วยข้อมูลจริงถ้ามี
+
+
+
+                            // ใส่ cell แต่ละช่องลงในแถว
+                            row.appendChild(responsibleStaffCell);
+                            row.appendChild(startDateCell);
+                            row.appendChild(endDateCell);
+                            row.appendChild(followUpCountCell);
+
+
+                            // ใส่แถวลงใน table body
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        const row = document.createElement('tr');
+                        const cell = document.createElement('td');
+                        cell.colSpan = 5;
+                        cell.textContent = data.message || "ไม่พบข้อมูลในแผนกนี้";
+                        row.appendChild(cell);
+                        tableBody.appendChild(row);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch Error:', error);
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 5;
+                    cell.textContent = "เกิดข้อผิดพลาดในการดึงข้อมูล";
+                    row.appendChild(cell);
+                    document.getElementById('followUpHistoryTable').appendChild(row);
+                });
+        }
+
+    </script>
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ซ่อนป๊อปอัพและ overlay เมื่อกดปุ่มยกเลิก
+            document.getElementById('cancel-assign').addEventListener('click', function () {
+                document.getElementById('confirmation-popup').style.display = 'none';
+                document.getElementById('overlay').style.display = 'none';
+            });
         });
-}
+    </script>
+    <script>
+        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+        checkAuth();
 
-</script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                loadSidebarScript();
+            });
 
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย';
 
+<<<<<<< HEAD
 
 
 <script>
@@ -351,5 +484,14 @@ function loadFollowUpHistory() {
         });
       });
 </script>
+=======
+                // Re-run user.js script after loading topbar
+                const script = document.createElement('script');
+                script.src = '../method/user.js';
+                document.body.appendChild(script);
+            });
+    </script>
+>>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
 </body>
+
 </html>

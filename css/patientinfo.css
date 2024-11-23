@@ -29,9 +29,8 @@ body {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 767px) {
     .patient-container {
-        width: 100%; /* ใช้ความกว้างเต็มจอ */
         margin: 20px auto; /* ลดระยะขอบด้านบนและล่าง */
         padding: 15px; /* ลด Padding เพิ่มเติม */
     }

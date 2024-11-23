@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
+  <link rel="stylesheet" href="../../css/result.css">
+
   <script src="../method/logout.js"></script>
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -33,27 +35,49 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-  <div class="patientinfo-container">
-    <div class="search-bar">
-      <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
-      <input type="search" placeholder="เบอร์โทรศัพท์" id="phoneFilter" oninput="filterData()">
-      <input type="search" placeholder="เลขบัตรประชาชน" id="idCardFilter" oninput="filterData()">
-      <input type="search" placeholder="เบอร์โทรศัพท์ญาติ..." id="relativePhoneFilter" oninput="filterData()">
-      <select id="treatmentStatusFilter" onchange="filterData()">
-        <option value="">สถานะผู้ป่วย</option>
-        <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
-        <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
-      </select>
-      <button class="add-icon">
-        <a href="addinfo.html">
-          <i class='bx bx-user-plus'></i>
-        </a>
-      </button>
+  <div id="main">
+    <div class="patientinfo-container">
+      <div class="search-bar">
+        <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
+        <input type="search" placeholder="เบอร์โทรศัพท์" id="phoneFilter" oninput="filterData()">
+        <input type="search" placeholder="เลขบัตรประชาชน" id="idCardFilter" oninput="filterData()">
+        <input type="search" placeholder="เบอร์โทรศัพท์ญาติ..." id="relativePhoneFilter" oninput="filterData()">
+        <select id="treatmentStatusFilter" onchange="filterData()">
+          <option value="">สถานะผู้ป่วย</option>
+          <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
+          <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+        </select>
+        <button class="add-icon">
+          <a href="addinfo.html">
+            <i class='bx bx-user-plus'></i>
+          </a>
+        </button>
 
-      <button onclick="sortNames()">
-        <i class='bx bx-filter'></i>
-      </button>
+        <button onclick="sortNames()">
+          <i class='bx bx-filter'></i>
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="patient-table">
+          <thead>
+            <tr>
+              <th>ชื่อ - นามสกุล</th>
+              <th>วันเกิด</th>
+              <th>เลขบัตรประชาชน</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>เบอร์โทรศัพท์ญาติ</th>
+              <th>สถานะปัจจุบัน</th>
+              <th>จัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="patient-info-body">
+            <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
+          </tbody>
+        </table>
+      </div>
     </div>
+<<<<<<< HEAD
 
     <div class="table-container">
       <table class="patient-table">
@@ -75,6 +99,9 @@
     </div>
   </div>
 
+=======
+  </div>
+>>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
   <script>
     // ฟังก์ชันกรองข้อมูล
     function filterData() {
@@ -141,7 +168,7 @@
             rows += '<td>' + patient.emergency_phone + '</td>';
             rows += '<td class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</td>';
 
-            rows += '<td>';
+            rows += '<td style="white-space: nowrap;">';
             rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
             rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
             rows += '</td>';

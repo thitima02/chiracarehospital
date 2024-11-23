@@ -50,7 +50,9 @@
     align-items: center; /* จัดให้อยู่กึ่งกลาง */
     gap: 10px; /* เพิ่มระยะห่างระหว่างกล่อง */
   }
-
+  .box.new {
+    flex-direction: column;
+  }
   .box {
     width: 70%; /* ให้กล่องใช้พื้นที่เต็มหน้าจอ */
     max-width: 90%; /* จำกัดความกว้างกล่อง */
@@ -70,6 +72,7 @@
   max-width: 500px; */
   flex: 1 1 calc(33.33% - 20px);
   margin: 10px;
+  justify-content: center;
 }
 
 .box i {

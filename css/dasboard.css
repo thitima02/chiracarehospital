@@ -1,356 +1,442 @@
 body {
-    font-family: 'Titillium Web', sans-serif;
-    background-color: #f8f9fa;
+  font-family: "Titillium Web", sans-serif;
+  background-color: #f8f9fa;
 }
 
 h1 {
-    text-align: left;
-    margin-top: 20px;
-    color: #343a40;
+  text-align: left;
+  margin-top: 20px;
+  color: #343a40;
 }
 
 .card {
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    display: flex;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
 }
 
 .card h4 {
-    font-size: 1.5rem;
-    color: #495057;
+  font-size: 1.5rem;
+  color: #495057;
 }
 
 .card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #343a40;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #343a40;
 }
 
 .card-text {
-    font-size: 1rem;
-    color: #6c757d;
+  font-size: 1rem;
+  color: #6c757d;
 }
 
 .patient-type {
-    background-color: #ffffff;
-    transition: transform 0.3s ease;
+  background-color: #ffffff;
+  transition: transform 0.3s ease;
 }
 
 .patient-type:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .patient-type i,
 .patient-type .mdi-icon {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
 }
 
 .btn-primary.button {
-    background-color: #007bff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+  background-color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .btn-primary.button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
-
 .list-group-item {
-    border: none;
-    padding: 15px 20px;
+  border: none;
+  padding: 15px 20px;
 }
 
 .list-group-item img {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
 .table thead th {
-    border-bottom: 2px solid #dee2e6;
-    color: #343a40;
-    font-weight: bold;
+  border-bottom: 2px solid #dee2e6;
+  color: #343a40;
+  font-weight: bold;
 }
 
 .table tbody td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .text-right {
-    text-align: right;
+  text-align: right;
 }
 
-@media (max-width: 767.98px) {
-    .card h4, .card-title {
-        text-align: left;
-    }
+@media (max-width: 767px) {
+ 
+  .card h4,
+  .card-title {
+    text-align: left;
+  }
 
-    .card-body {
-        text-align: left;
-    }
+  .card-body {
+    text-align: left;
+  }
 }
 /* css icon  */
 .mdi-human-child {
-  color: #FF947A;
+  color: #ff947a;
   font-size: 34px;
-} 
+}
 .mdi-transfer-up {
   color: #6eec33;
   font-size: 34px;
-} 
+}
 .mdi-medication-outline {
-  color: #FF7ACA;
+  color: #ff7aca;
   font-size: 34px;
-} 
+}
 .mdi-diabetes {
-  color: #83B5FF;
+  color: #83b5ff;
   font-size: 34px;
-} 
+}
 .mdi-heart-pulse {
-  color: #bf83ff; 
+  color: #bf83ff;
   font-size: 34px;
-} 
+}
 .mdi-water-circle {
   color: #fa5a7d;
   font-size: 34px;
-} 
+}
 
 .dasboard-container {
-    width: 93.5%;
+  width: 93.5%;
   margin: auto;
   padding: 20px;
-  margin-left: 89px;
+  /* margin-left: 89px; */
 }
 
 .card.ca1 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 .chart-container {
-    position: relative;
-    width: 100%;
-    height: 400px; /* กำหนดความสูงให้เท่ากัน */
+  position: relative;
+  width: 100%;
+  height: 400px; /* กำหนดความสูงให้เท่ากัน */
 }
 .chart {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    gap: 20px; /* เพิ่มระยะห่างระหว่างการ์ด */
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px; /* เพิ่มระยะห่างระหว่างการ์ด */
 }
 
 .chart .col-12.col-md-6 {
-    flex: 1; /* ให้การ์ดมีขนาดเท่ากัน */
-}
-/*  css สถานะการติดตามล่าสุดและสถานะเข้ารับการรักษาล่าสุด */
-.card-status {
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px; 
-    background-color: #fff;
-    text-align: center;
-}
-.card-treatment {
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px; 
-    background-color: #fff;
-    text-align: center;
+  flex: 1; /* ให้การ์ดมีขนาดเท่ากัน */
 }
 
-.card {
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px; 
-    background-color: #fff;
-    text-align: center;
+.status {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.status-bar {
+  margin-bottom: 10px;
 }
 
-.card-title {
-    font-size: 1.2rem; 
-    color: #1a1a1a;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-.card-text h5 {
-    font-size: 0.9rem; 
-    color: #555;
-}
-
-/* การตั้งค่าทั่วไปสำหรับ card */
-.card {
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px;
-    background-color: #fff;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* การตั้งค่าทั่วไปสำหรับ card title */
-.card-title {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #343a40;
-    margin-bottom: 15px;
-}
-
-/* การตั้งค่าสำหรับ progress */
-.progress {
-    position: relative;
-    height: 25px;
-    border-radius: 10px;
-    background-color: #e0e0e0;
-    overflow: hidden;
-    margin-bottom: 15px;
+.status-label {
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .progress-bar {
-    font-weight: bold;
-    text-align: center;
-    border-radius: 10px;
-    transition: width 0.5s ease;
-    line-height: 25px;
-    color: #fff; /* สีตัวอักษรใน progress bar */
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  position: relative;
+  height: 25px;
+  overflow: hidden;
 }
 
-/* สีสำหรับ progress bar */
-#followed-bar,
-.card-treatment .progress-bar.treatment-success {
-    background-color: #62B661; /* สีเขียว */
+.progress-bar span {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-weight: bold;
+  z-index: 1;
+}
+
+#followed-bar {
+  background-color: #62b661; /* Green */
 }
 
 #following-bar {
-    background-color: #F39B33; /* สีส้ม */
+  background-color: #f39b33; /* Orange */
 }
 
-#not-followed-bar,
-.card-treatment .progress-bar.treatment-fail {
-    background-color: #BB4242; /* สีแดง */
+#not-followed-bar {
+  background-color: #bb4242; /* Red */
 }
-
 #follow-failed-bar {
-    background-color: #634e8d; /* สีม่วง */
+  background-color: #634e8d;
+}
+.follow-up-status-card {
+  margin: 20px auto;
+  max-width: 300px; /* ลดขนาดให้เล็กลง */
 }
 
-/* สไตล์สำหรับข้อความใน progress bar */
-.progress-bar span {
-    position: relative;
-    z-index: 1;
+.card {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px; /* ปรับ padding ให้น้อยลง */
+  background-color: #fff;
+  text-align: center;
 }
 
-/* จัดการข้อความสถานะ */
-.status-label,
+.card-title {
+  font-size: 1.2rem; /* ลดขนาดหัวข้อ */
+  color: #1a1a1a;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
 .card-text h5 {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 5px;
-    font-weight: bold;
+  font-size: 0.9rem; /* ลดขนาดข้อความใน progress */
+  color: #555;
 }
 
-/* ฟอนต์และการจัดข้อความด้านล่าง */
-.patient-count,
+.progress {
+  height: 20px; /* ลดความสูงของ progress bar */
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+.progress-bar {
+  font-weight: bold;
+  line-height: 20px; /* ลดขนาดให้เหมาะกับความสูง */
+  text-align: center;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.patient-count {
+  font-size: 1.3rem; /* ปรับขนาดให้ใหญ่ขึ้น */
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.follow-up-dates {
+  font-size: 0.9rem; /* ลดขนาดวันที่ */
+  color: #888;
+}
 .patient-count-treatment {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #1a1a1a;
+  font-size: 1.3rem; /* ปรับขนาดให้ใหญ่ขึ้น */
+  font-weight: bold;
+  color: #1a1a1a;
 }
 
-.follow-up-dates,
 .latest-update-date {
-    font-size: 0.9rem;
-    color: #888;
+  font-size: 0.9rem; /* ลดขนาดวันที่ */
+  color: #888;
 }
 
-/* ตั้งค่า card ให้เท่ากันในทุก viewport */
-.col-12.col-md-4 {
-    display: flex;
-    flex-direction: column;
+.status-label {
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-.card-status,
+.progress-bar {
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  position: relative;
+  height: 25px;
+  overflow: hidden;
+}
+
+.progress-bar span {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-weight: bold;
+  z-index: 1;
+}
+
+#followed-bar {
+  background-color: #62b661; /* Green */
+}
+
+#following-bar {
+  background-color: #f39b33; /* Orange */
+}
+
+#not-followed-bar {
+  background-color: #bb4242; /* Red */
+}
+.follow-up-status-card {
+  margin: 20px auto;
+  max-width: 300px; /* ลดขนาดให้เล็กลง */
+}
+
+.card {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px; /* ปรับ padding ให้น้อยลง */
+  background-color: #fff;
+  text-align: left;
+}
+
+.card-title {
+  font-size: 1.2rem; /* ลดขนาดหัวข้อ */
+  color: #1a1a1a;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.card-text h5 {
+  font-size: 0.9rem; /* ลดขนาดข้อความใน progress */
+  color: #555;
+}
+
+.progress {
+  height: 20px; /* ลดความสูงของ progress bar */
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+.progress-bar {
+  font-weight: bold;
+  line-height: 20px; /* ลดขนาดให้เหมาะกับความสูง */
+  text-align: center;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.patient-count {
+  font-size: 1.3rem; /* ปรับขนาดให้ใหญ่ขึ้น */
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.follow-up-dates {
+  font-size: 0.9rem; /* ลดขนาดวันที่ */
+  color: #888;
+}
+.patient-count-treatment {
+  font-size: 1.3rem; /* ปรับขนาดให้ใหญ่ขึ้น */
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.latest-update-date {
+  font-size: 0.9rem; /* ลดขนาดวันที่ */
+  color: #888;
+}
+.card-status {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px; /* ปรับ padding ให้น้อยลง */
+  background-color: #fff;
+  text-align: center;
+}
 .card-treatment {
-    flex-grow: 1; /* ขยายการ์ดให้เท่ากัน */
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px; /* ปรับ padding ให้น้อยลง */
+  background-color: #fff;
+  text-align: center;
 }
-
-
-
 /* Flex container for select and button */
 .d-flex {
-    display: flex;
-    align-items: center; /* Vertically align items */
-    gap: 10px; /* Add spacing between select and button */
+  display: flex;
+  align-items: center; /* Vertically align items */
+  gap: 10px; /* Add spacing between select and button */
 }
 
 /* Position container at bottom-right */
 .position-absolute {
-    position: absolute; 
+  position: absolute;
 }
 
 .bottom-0 {
-    bottom: 0; 
+  bottom: 0;
 }
 
 .end-0 {
-    right: 0; 
+  right: 0;
 }
 
 .p-3 {
-    padding: 16px; 
+  padding: 16px;
 }
 
 /* Styling for select dropdown */
 select.form-select {
-    font-size: 16px;
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #ffffff;
-    transition: border-color 0.3s ease;
-    width: auto; /* Adjust width to fit content */
+  font-size: 16px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease;
+  width: auto; /* Adjust width to fit content */
 }
 
 /* Styling for button */
 button#exportButton1 {
-    font-size: 16px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    transition: background-color 0.3s ease;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
 button#exportButton1:hover {
-    background-color: #007bff;
-    cursor: pointer;
+  background-color: #007bff;
+  cursor: pointer;
 }
 
 /* Styling for button */
 button#exportButton2 {
-    font-size: 16px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    transition: background-color 0.3s ease;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
 button#exportButton2:hover {
-    background-color: #007bff;
-    cursor: pointer;
+  background-color: #007bff;
+  cursor: pointer;
 }
+<<<<<<< HEAD
 
 
 
 
 
   
+=======
+>>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
