@@ -14,78 +14,76 @@
     <div class="header">
       <img src="../assets/images/logo.jpg" alt="Hospital Logo" class="logo">
     </div>
-    <form class="registration-form">
+    <form id="registration-form" class="registration-form">
       <label for="name">ชื่อ (name)</label>
-      <input type="text" id="name" name="name" placeholder="กรอกชื่อตามบัตรประชาชน">
+      <input type="text" id="name" name="name" placeholder="กรอกชื่อตามบัตรประชาชน" required>
 
       <label for="surname">นามสกุล (surname)</label>
-      <input type="text" id="surname" name="surname" placeholder="กรอกนามสกุลตามบัตรประชาชน">
+      <input type="text" id="surname" name="surname" placeholder="กรอกนามสกุลตามบัตรประชาชน" required>
 
       <label for="id-card">เลขบัตรประชาชน (ID card number)</label>
-      <input type="text" id="id-card" name="id-card" placeholder="กรอกเลขบัตรประชาชน" 
-                   maxlength="13" oninput="validateIDCard(this)">
+      <input type="text" id="id-card" name="id-card" placeholder="กรอกเลขบัตรประชาชน" maxlength="13" required
+        oninput="validateIDCard(this)">
 
       <label for="phone">หมายเลขโทรศัพท์ (phone number)</label>
-      <input type="text" id="phone" name="phone" placeholder="กรอกหมายเลขโทรศัพท์"
-                        maxlength="10" oninput="validateIDCard(this)">
+      <input type="text" id="phone" name="phone" placeholder="กรอกหมายเลขโทรศัพท์" maxlength="10" required
+        oninput="validatePhone(this)">
 
-                        <label for="status">กรุณาเลือกสถานะ (Status)</label>
-                        <select id="status" name="status" onchange="handleStatusChange()" required>
-                          <option value="" disabled selected>ยังไม่ได้เลือกสถานะ</option>
-                          <option value="volunteer">อาสาสมัครสาธารณสุข</option>
-                          <option value="staff">เจ้าหน้าที่โรงพยาบาล</option>
-                          <option value="medic">เสนารักษ์</option>
-                        </select>
-                        
-                        <label for="responsibility-area">เขตรับผิดชอบ (Responsibility Area)</label>
-                        <select id="responsibility-area" name="responsibility-area" required disabled>
-                          <option value="" disabled selected>กรุณาเลือกเขตรับผิดชอบ</option>
-                          <option value="area1">เขต 1</option>
-                          <option value="area2">เขต 2</option>
-                          <option value="area3">เขต 3</option>
-                          <option value="area4">เขต 4</option>
-                          <option value="area5">เขต 5</option>
-                          <option value="area6">เขต 6</option>
-                          <option value="area7">เขต 7</option>
-                          <option value="area8">เขต 8</option>
-                          <option value="area9">เขต 9</option>
-                          <option value="area10">เขต 10</option>
-                          <option value="area11">เขต 11</option>
-                          <option value="area12">เขต 12</option>
-                          <option value="area13">เขต 13</option>
-                          <option value="area14">เขต 14</option>
-                          <option value="area15">เขต 15</option>
-                        </select>
-                        
+      <label for="status">กรุณาเลือกสถานะ (Status)</label>
+      <select id="status" name="status" onchange="handleStatusChange()" required>
+        <option value="" disabled selected>ยังไม่ได้เลือกสถานะ</option>
+        <option value="volunteer">อาสาสมัครสาธารณสุข</option>
+        <option value="staff">เจ้าหน้าที่โรงพยาบาล</option>
+        <option value="medic">เสนารักษ์</option>
+      </select>
 
-                        <label for="password">รหัสผ่าน</label>
-                        <div class="password-container">
-                          <input type="password" id="password" name="password" placeholder="รหัสผ่านต้องมีจำนวน 6 ตัวอักษร" required minlength="6" maxlength="6" pattern="\d{6}">
-                          <span class="toggle-password" onclick="togglePasswordVisibility()">
-                            <i id="password-icon" class="bx bx-hide"></i>
-                          </span>
-                        </div>
-                        
-                        <label for="confirm-password">ยืนยันรหัสผ่าน</label>
-                        <div class="password-container">
-                          <input type="password" id="confirm-password" name="confirm-password" placeholder="กรุณายืนยันรหัสผ่าน" required minlength="6" maxlength="6" pattern="\d{6}">
-                          <span class="toggle-password" onclick="togglePasswordVisibility()">
-                            <i id="confirm-password-icon" class="bx bx-hide"></i>
-                          </span>
-                        </div>
-                        <p id="password-error" class="error-message">รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน</p>
+      <label for="responsibility-area">เขตรับผิดชอบ (Responsibility Area)</label>
+      <select id="responsibility-area" name="responsibility-area" required disabled>
+        <option value="" disabled selected>กรุณาเลือกเขตรับผิดชอบ</option>
+        <option value="area1">เขต 1</option>
+        <option value="area2">เขต 2</option>
+        <option value="area3">เขต 3</option>
+        <option value="area4">เขต 4</option>
+        <!-- Add more options if needed -->
+      </select>
 
-<button type="submit">ลงทะเบียน</button>
+      <label for="password">รหัสผ่าน</label>
+      <div class="password-container">
+        <input type="password" id="password" name="password" placeholder="รหัสผ่านต้องมีจำนวน 6 ตัวอักษร" required
+          minlength="6" maxlength="6" pattern="\d{6}">
+        <span class="toggle-password" onclick="togglePasswordVisibility()">
+          <i id="password-icon" class="bx bx-hide"></i>
+        </span>
+      </div>
+
+      <label for="confirm-password">ยืนยันรหัสผ่าน</label>
+      <div class="password-container">
+        <input type="password" id="confirm-password" name="confirm-password" placeholder="กรุณายืนยันรหัสผ่าน" required
+          minlength="6" maxlength="6" pattern="\d{6}">
+        <span class="toggle-password" onclick="togglePasswordVisibility()">
+          <i id="confirm-password-icon" class="bx bx-hide"></i>
+        </span>
+      </div>
+      <p id="password-error" class="error-message">รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน</p>
+
+      <button type="submit">ลงทะเบียน</button>
     </form>
   </div>
 </body>
 
 </html>
+
 <script>
+  // ฟังก์ชันตรวจสอบเลขบัตรประชาชน
   function validateIDCard(input) {
-    // กรองเฉพาะตัวเลข
-    input.value = input.value.replace(/[^0-9]/g, '');
+    input.value = input.value.replace(/[^0-9]/g, ''); // กรองเฉพาะตัวเลข
   }
+
+  // ฟังก์ชันตรวจสอบหมายเลขโทรศัพท์
+  function validatePhone(input) {
+    input.value = input.value.replace(/[^0-9]/g, ''); // กรองเฉพาะตัวเลข
+  }
+
   // ฟังก์ชันสลับการแสดง/ซ่อนรหัสผ่าน
   function togglePasswordVisibility() {
     const passwordField = document.getElementById('password');
@@ -114,44 +112,71 @@
     }
   }
 
-    // ฟังก์ชันตรวจสอบสถานะ
-    document.querySelector('form').onsubmit = function(event) {
-    event.preventDefault(); // Prevent the form from submitting immediately.
-
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
-    const errorMessage = document.getElementById('password-error');
-
-    // Check if passwords match
-    if (password !== confirmPassword) {
-        errorMessage.style.display = 'block'; // Show error message
-        document.getElementById('confirm-password').style.borderColor = 'red'; // Change border color to red
-    } else {
-        errorMessage.style.display = 'none'; // Hide error message
-        document.getElementById('confirm-password').style.borderColor = ''; // Reset border color
-
-        // If everything is valid, redirect to login page
-        window.location.href = "login.html"; // Redirect after form validation
-    }
-}
-
   // ฟังก์ชันตรวจสอบสถานะ
   function handleStatusChange() {
     const statusField = document.getElementById('status');
     const responsibilityAreaField = document.getElementById('responsibility-area');
 
     if (statusField.value === 'volunteer' || statusField.value === 'medic') {
-      // เปิดใช้งานเขตรับผิดชอบ
       responsibilityAreaField.disabled = false;
     } else {
-      // ปิดใช้งานเขตรับผิดชอบ
       responsibilityAreaField.disabled = true;
-      responsibilityAreaField.value = ""; // รีเซ็ตตัวเลือก
+      responsibilityAreaField.value = "";
     }
   }
 
-</script>
+  // ฟังก์ชันส่งข้อมูลไปยัง API
+  document.getElementById('registration-form').onsubmit = function (event) {
+    event.preventDefault(); // ป้องกันไม่ให้ฟอร์มส่งข้อมูล
 
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const errorMessage = document.getElementById('password-error');
+
+    // ตรวจสอบว่า password และ confirm password ตรงกันหรือไม่
+    if (password !== confirmPassword) {
+      errorMessage.style.display = 'block'; // แสดงข้อความผิดพลาด
+      document.getElementById('confirm-password').style.borderColor = 'red';
+      return;
+    } else {
+      errorMessage.style.display = 'none'; // ซ่อนข้อความผิดพลาด
+      document.getElementById('confirm-password').style.borderColor = '';
+    }
+
+    // เตรียมข้อมูลที่ต้องส่ง
+    const formData = {
+      user_id: document.getElementById('id-card').value,
+      full_name: document.getElementById('name').value + ' ' + document.getElementById('surname').value,
+      phone_number: document.getElementById('phone').value,
+      role: "user",
+      department: document.getElementById('status').value,
+      responsibility_area: document.getElementById('responsibility-area').value,
+      password: password,
+      username: document.getElementById('id-card').value, // ใช้เลขบัตรประชาชนเป็นชื่อผู้ใช้
+    };
+
+    // ส่งข้อมูลไปยัง API
+    fetch('../backend/sql/register.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          alert(data.message); // แสดงข้อความสำเร็จ
+          window.location.href = "login.html"; // Redirect ไปยังหน้า Login
+        } else if (data.error) {
+          alert(data.error); // แสดงข้อความผิดพลาด
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+</script>
 
 <style>
   * {
@@ -224,6 +249,7 @@
   .registration-form button:hover {
     background-color: #003d82;
   }
+
   .password-container {
     position: relative;
     width: 100%;
@@ -231,7 +257,8 @@
 
   .password-container input {
     width: 100%;
-    padding-right: 40px; /* เพิ่มพื้นที่สำหรับไอคอน */
+    padding-right: 40px;
+    /* เพิ่มพื้นที่สำหรับไอคอน */
   }
 
   .toggle-password {
@@ -250,38 +277,48 @@
   .toggle-password i:hover {
     color: #333;
   }
+
   .error-message {
     color: red;
     display: none;
-    margin-bottom: 20px; /* กำหนดระยะห่างระหว่างข้อความผิดพลาดและปุ่ม */
+    margin-bottom: 20px;
+    /* กำหนดระยะห่างระหว่างข้อความผิดพลาดและปุ่ม */
   }
+
   /* สำหรับ header */
-.header {
-  display: flex;
-  justify-content: center; /* จัดกลางในแนวนอน */
-  align-items: center; /* จัดกลางในแนวตั้ง */
-  padding: 10px;
-}
-
-/* สำหรับโลโก้ */
-.header .logo {
-  max-width: 100%; /* ปรับขนาดโลโก้ให้ไม่เกินขนาดของ container */
-  height: auto; /* ปรับความสูงให้สอดคล้องกับอัตราส่วน */
-  width: auto; /* ให้โลโก้ปรับขนาดตามอัตราส่วน */
-  max-height: 130px; /* กำหนดความสูงสูงสุด (สามารถปรับตามที่ต้องการ) */
-}
-
-/* ถ้าต้องการให้โลโก้มีขนาดเล็กลงเมื่อหน้าจอเล็กลง */
-@media (max-width: 768px) {
-  .header .logo {
-    max-height: 60px; /* ลดขนาดโลโก้ลงสำหรับหน้าจอเล็ก */
+  .header {
+    display: flex;
+    justify-content: center;
+    /* จัดกลางในแนวนอน */
+    align-items: center;
+    /* จัดกลางในแนวตั้ง */
+    padding: 10px;
   }
-}
 
-@media (max-width: 480px) {
+  /* สำหรับโลโก้ */
   .header .logo {
-    max-height: 50px; /* ลดขนาดโลโก้ลงมากขึ้นสำหรับหน้าจอเล็กมาก */
+    max-width: 100%;
+    /* ปรับขนาดโลโก้ให้ไม่เกินขนาดของ container */
+    height: auto;
+    /* ปรับความสูงให้สอดคล้องกับอัตราส่วน */
+    width: auto;
+    /* ให้โลโก้ปรับขนาดตามอัตราส่วน */
+    max-height: 130px;
+    /* กำหนดความสูงสูงสุด (สามารถปรับตามที่ต้องการ) */
   }
-}
 
+  /* ถ้าต้องการให้โลโก้มีขนาดเล็กลงเมื่อหน้าจอเล็กลง */
+  @media (max-width: 768px) {
+    .header .logo {
+      max-height: 60px;
+      /* ลดขนาดโลโก้ลงสำหรับหน้าจอเล็ก */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header .logo {
+      max-height: 50px;
+      /* ลดขนาดโลโก้ลงมากขึ้นสำหรับหน้าจอเล็กมาก */
+    }
+  }
 </style>
