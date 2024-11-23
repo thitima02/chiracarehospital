@@ -4,18 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
   <title>Patient Information</title>
   <link rel="stylesheet" href="../../css/patientinfo.css">
-=======
-  <title>โรงพยาบาลค่ายจิรประวัติ</title>
-  <link rel="stylesheet" href="../../css/addinfo.css">
->>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
-<<<<<<< HEAD
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -389,66 +383,6 @@
     // Load sidebar
     fetch('sidebar.html')
       // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
-=======
-  <link rel="stylesheet" href="../../css/result.css">
-  <!-- Import icon -->
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body style="background-color:#edeff1;">
-  <!-- Sidebar will be loaded here -->
-  <div id="sidebar-container"></div>
-
-  <!-- Topbar will be loaded here -->
-  <div id="topbar-container"></div>
-
-  <div id="main">
-    <div class="container">
-      <div class="step-indicator">
-        <div class="step active">1 ข้อมูลส่วนตัว</div>
-        <div class="step">2 ข้อมูลที่อยู่</div>
-        <div class="step">3 ข้อมูลทางการแพทย์</div>
-      </div>
-      <form class="addinfo">
-        <h2>ข้อมูลส่วนตัว</h2>
-        <div class="addimage">
-          <label for="profile-image" class="image-label">
-            <img src="camera-icon.png" alt="Upload Profile Image" id="image-preview" />
-            <input type="file" id="profile-image" class="image-input" onchange="previewImage(event)" hidden>
-            <span>Upload Profile</span>
-          </label>
-        </div>
-        <div class="form-group">
-          <label for="name">ชื่อ - นามสกุล</label>
-          <input type="text" id="name" placeholder="นายมีมาก มีน้อย">
-
-          <label for="id-number">เลขบัตรประชาชน</label>
-          <input type="text" id="id-number" placeholder="1-66-66-66666-66-6">
-
-          <label for="age">อายุ</label>
-          <input type="text" id="age" placeholder="ปปป">
-
-          <label for="birthdate">วันเกิด</label>
-          <input type="date" id="birthdate">
-
-          <label for="phone">เบอร์โทรศัพท์</label>
-          <input type="text" id="phone" placeholder="080-000-0000">
-
-          <label for="phone-number">เบอร์โทรศัพท์ฉุกเฉิน</label>
-          <input type="text" id="phone-number" placeholder="080-000-0000">
-
-          <div class="button">
-            <button type="button" class="next-btn" id="nextBtn">ถัดไป</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
->>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
       .then(response => response.text())
       // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
@@ -469,7 +403,6 @@
         document.getElementById('page-title').textContent = 'เพิ่มข้อมูลผู้ป่วย';
         // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
-<<<<<<< HEAD
         // Re-run user.js script after loading topbar
         const script = document.createElement('script');
         // สร้างแท็ก script ใหม่
@@ -478,33 +411,6 @@
         document.body.appendChild(script);
         // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
       });
-=======
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-      //acton image
-      function previewImage(event) {
-        const imagePreview = document.getElementById('image-preview');
-        imagePreview.src = URL.createObjectURL(event.target.files[0]);
-      }
-    }
-    document.getElementById('nextBtn').addEventListener('click', function () {
-      // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html
-      window.location.href = 'addinfo2.html';
-    });
->>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
   </script>
 </body>
 

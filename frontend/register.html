@@ -213,9 +213,26 @@
   }
 
   .logo {
-    width: 40%;
-    margin-bottom: 20px;
-  }
+    width: 40%; /* ขนาดเริ่มต้น */
+    margin-bottom: 20px; /* ระยะห่างด้านล่าง */
+}
+
+/* สำหรับหน้าจอขนาดเล็ก (สูงสุด 768px) */
+@media screen and (max-width: 768px) {
+    .logo {
+        width: 50%; /* ปรับขนาดโลโก้สำหรับแท็บเล็ต */
+        margin-bottom: 15px; /* ลดระยะห่างเล็กน้อย */
+    }
+}
+
+/* สำหรับหน้าจอขนาดเล็กมาก (สูงสุด 480px) */
+@media screen and (max-width: 480px) {
+    .logo {
+        width: 60%; /* เพิ่มขนาดโลโก้ให้ใหญ่ขึ้นสำหรับมือถือ */
+        margin-bottom: 10px; /* ลดระยะห่าง */
+    }
+}
+
 
   .registration-form label {
     display: block;
@@ -286,40 +303,4 @@
     /* กำหนดระยะห่างระหว่างข้อความผิดพลาดและปุ่ม */
   }
 
-  /* สำหรับ header */
-  .header {
-    display: flex;
-    justify-content: center;
-    /* จัดกลางในแนวนอน */
-    align-items: center;
-    /* จัดกลางในแนวตั้ง */
-    padding: 10px;
-  }
-
-  /* สำหรับโลโก้ */
-  .header .logo {
-    max-width: 100%;
-    /* ปรับขนาดโลโก้ให้ไม่เกินขนาดของ container */
-    height: auto;
-    /* ปรับความสูงให้สอดคล้องกับอัตราส่วน */
-    width: auto;
-    /* ให้โลโก้ปรับขนาดตามอัตราส่วน */
-    max-height: 130px;
-    /* กำหนดความสูงสูงสุด (สามารถปรับตามที่ต้องการ) */
-  }
-
-  /* ถ้าต้องการให้โลโก้มีขนาดเล็กลงเมื่อหน้าจอเล็กลง */
-  @media (max-width: 768px) {
-    .header .logo {
-      max-height: 60px;
-      /* ลดขนาดโลโก้ลงสำหรับหน้าจอเล็ก */
-    }
-  }
-
-  @media (max-width: 480px) {
-    .header .logo {
-      max-height: 50px;
-      /* ลดขนาดโลโก้ลงมากขึ้นสำหรับหน้าจอเล็กมาก */
-    }
-  }
 </style>
