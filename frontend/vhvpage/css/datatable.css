@@ -3,7 +3,7 @@
   /* display: flex;
   justify-content: center;
   align-items: center; */
-  width: 95%;
+  width: 92%;
   padding: 20px;
   box-sizing: border-box;
   background-color: #ffffff;
@@ -12,6 +12,7 @@
   margin: 20px auto;
   overflow: hidden;
   /* Center the container */
+  margin-left: 6%;
 }
 
 .patient-table {

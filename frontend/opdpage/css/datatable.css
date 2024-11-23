@@ -1,9 +1,5 @@
 .table-container {
-
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-    width: 96%;
+    width: 97%;
     padding: 20px;
     box-sizing: border-box;
     background-color: #ffffff;
@@ -11,8 +7,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: auto;
     overflow: auto;
-    /* Center the container */
-    /* margin-left: 110px; */
   }
 
   .datatable {
