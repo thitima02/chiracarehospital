@@ -9,11 +9,8 @@
     <link rel="stylesheet" href="../../css/sidebar.css">
     <link rel="stylesheet" href="../../css/topbar.css">
     <link rel="stylesheet" href="../../css/popuppatient.css">
-    <link rel="stylesheet" href="../../frontend/opdpage/css/filltermenu.css">
+    <link rel="stylesheet" href="../../css/morestaff.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
-    <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
-    <link rel="stylesheet" href="../../frontend/opdpage/css/result.css">
-    <link rel="stylesheet" href="../../frontend/opdpage/css/datatable.css">
 
     <!-- Import icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -39,14 +36,14 @@
     <!-- the result of many patients -->
     <container>
         <div class="stats-container">
-            <div class="box new">
+            <div class="box">
                 <img style="width: 40px; height: 40px; border-radius: 50%;" src="../../assets/images/cat.jpg"
                     alt="avatar">
-                <h2 id="staff-name">สมหมาย มีสุข</h2>
+                <h2 id="staff-name"></h2>
                 <table>
                     <thead>
-                        <tr>
-                            <th style="padding-right: 5px;">สถานะ</th>
+                        <tr style="background-color: aliceblue;">
+                            <th style="padding-right: 5px;">หน้าที่ที่รับผิดชอบ</th>
                             <th style="padding-right: 5px; ">เขตที่รับผิดชอบ</th>
                             <th style="padding-right: 5px;">เบอร์โทรศัพท์</th>
                         </tr>
@@ -276,7 +273,7 @@
             .then(data => {
                 document.getElementById('topbar-container').innerHTML = data;
                 // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-                document.getElementById('page-title').textContent = 'หน้าหลัก';
+                document.getElementById('page-title').textContent = 'ผู้ป่วยที่รับผิดชอบ';
                 // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
                 // Re-run user.js script after loading topbar
