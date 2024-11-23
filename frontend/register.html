@@ -255,4 +255,33 @@
     display: none;
     margin-bottom: 20px; /* กำหนดระยะห่างระหว่างข้อความผิดพลาดและปุ่ม */
   }
+  /* สำหรับ header */
+.header {
+  display: flex;
+  justify-content: center; /* จัดกลางในแนวนอน */
+  align-items: center; /* จัดกลางในแนวตั้ง */
+  padding: 10px;
+}
+
+/* สำหรับโลโก้ */
+.header .logo {
+  max-width: 100%; /* ปรับขนาดโลโก้ให้ไม่เกินขนาดของ container */
+  height: auto; /* ปรับความสูงให้สอดคล้องกับอัตราส่วน */
+  width: auto; /* ให้โลโก้ปรับขนาดตามอัตราส่วน */
+  max-height: 130px; /* กำหนดความสูงสูงสุด (สามารถปรับตามที่ต้องการ) */
+}
+
+/* ถ้าต้องการให้โลโก้มีขนาดเล็กลงเมื่อหน้าจอเล็กลง */
+@media (max-width: 768px) {
+  .header .logo {
+    max-height: 60px; /* ลดขนาดโลโก้ลงสำหรับหน้าจอเล็ก */
+  }
+}
+
+@media (max-width: 480px) {
+  .header .logo {
+    max-height: 50px; /* ลดขนาดโลโก้ลงมากขึ้นสำหรับหน้าจอเล็กมาก */
+  }
+}
+
 </style>
