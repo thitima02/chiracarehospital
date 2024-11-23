@@ -1,41 +1,27 @@
-<<<<<<< HEAD
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
-
-body {
-    background-color: #f7f7f7;
-}
-
-.container {
-    width: 60%;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-=======
-body {
-  font-family: "Arial", sans-serif;
-  background-color: #f5f5f5;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #f7f7f7;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  margin: 0 auto;
->>>>>>> b673d35baf7fdecd9750987853eed015b2698a56
+  width: 60%;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 @media (max-width: 768px) {
-    .container {
-        width: 95%; /* เพิ่มความกว้างให้เต็มหน้าจอบนมือถือ */
-        padding: 20px; /* ลดระยะ padding เพื่อความกระชับ */
-    }
+  .container {
+      width: 95%; /* เพิ่มความกว้างให้เต็มหน้าจอบนมือถือ */
+      padding: 20px; /* ลดระยะ padding เพื่อความกระชับ */
+  }
 }
 
 
@@ -43,7 +29,6 @@ body {
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  margin-bottom: 10px;
   font-size: 16px;
   color: #fff;
   background-color: #007bff;
@@ -53,18 +38,19 @@ body {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.back-button button:hover {
+.btn-back {
   background-color: #007bff;
-  transform: translateY(-2px);
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.back-button button:active {
-  transform: translateY(1px);
-}
-
-.back-button i {
-  margin-right: 8px;
-  font-size: 10px;
+.btn-back:hover {
+  background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
+  color: white;
 }
 
 .main-content {
@@ -100,8 +86,7 @@ body {
   width: 70%;
 }
 
-.follow-up-info,
-.treatment-info {
+.follow-up-info, .treatment-info {
   background-color: white;
   border-radius: 8px;
   padding: 20px;
@@ -109,25 +94,25 @@ body {
 }
 
 .follow-up-info h3 {
-  color: #4caf50;
-  border-bottom: 2px solid #4caf50;
+  color: #4CAF50;
+  border-bottom: 2px solid #4CAF50;
   padding-bottom: 5px;
   margin-bottom: 15px;
 }
 
 .treatment-info h3 {
-  color: #ff5252;
-  border-bottom: 2px solid #ff5252;
+  color: #FF5252;
+  border-bottom: 2px solid #FF5252;
   padding-bottom: 5px;
   margin-bottom: 15px;
 }
 
 .green-status {
-  color: #4caf50;
+  color: #4CAF50;
 }
 
 .red-status {
-  color: #ff5252;
+  color: #FF5252;
 }
 
 .follow-up-history {
@@ -139,8 +124,8 @@ body {
 }
 
 .follow-up-history h3 {
-  color: #2196f3;
-  border-bottom: 2px solid #2196f3;
+  color: #2196F3;
+  border-bottom: 2px solid #2196F3;
   padding-bottom: 5px;
   margin-bottom: 15px;
 }
@@ -151,8 +136,7 @@ table {
   margin-top: 10px;
 }
 
-th,
-td {
+th, td {
   text-align: left;
   padding: 10px;
   border-bottom: 1px solid #ddd;
@@ -186,6 +170,7 @@ th {
 .follow-up-info,
 .treatment-info {
   flex: 1; /* ให้กล่องแต่ละอันขยายเท่ากัน */
+  min-width: 300px; /* ความกว้างขั้นต่ำ */
   padding: 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -224,6 +209,7 @@ th {
   background-color: #0056b3;
 }
 
+
 /* สถานะเพิ่มเติม */
 .green-status {
   color: #28a745;
@@ -249,247 +235,3 @@ th {
 .btn:hover {
   background-color: #0056b3;
 }
-
-@media only screen and (max-width: 767px) {
-  .container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: 0 auto;
-  }
-  .main-content {
-    /* display: flex;
-        gap: 20px; */
-    flex-direction: column;
-    width: 100%;
-  }
-  .profile-section {
-    width: 100%;
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .follow-up-treatment {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-  }
-
-  .back-button button {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-}
-<<<<<<< HEAD
-
-.btn-back {
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.btn-back:hover {
-    background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
-    color: white;
-}
-
-.main-content {
-    display: flex;
-    gap: 20px;
-}
-
-.profile-section {
-    width: 30%;
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.patient-profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.patient-profile img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 15px;
-}
-
-.follow-up-treatment {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 70%;
-}
-
-.follow-up-info, .treatment-info {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.follow-up-info h3 {
-    color: #4CAF50;
-    border-bottom: 2px solid #4CAF50;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-}
-
-.treatment-info h3 {
-    color: #FF5252;
-    border-bottom: 2px solid #FF5252;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-}
-
-.green-status {
-    color: #4CAF50;
-}
-
-.red-status {
-    color: #FF5252;
-}
-
-.follow-up-history {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
-.follow-up-history h3 {
-    color: #2196F3;
-    border-bottom: 2px solid #2196F3;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-th, td {
-    text-align: left;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-.dropdown select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/* การตั้งค่าพื้นฐานสำหรับ container */
-.follow-up-treatment {
-    display: flex;
-    gap: 20px; /* ระยะห่างระหว่างกล่อง */
-    flex-wrap: wrap; /* ให้กล่องซ้อนลงมาถ้าหน้าจอเล็ก */
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* การตั้งค่าสำหรับแต่ละกล่อง */
-.follow-up-info,
-.treatment-info {
-    flex: 1; /* ให้กล่องแต่ละอันขยายเท่ากัน */
-    min-width: 300px; /* ความกว้างขั้นต่ำ */
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.follow-up-info h3,
-.treatment-info h3 {
-    margin-bottom: 15px;
-    font-size: 18px;
-    color: #333;
-}
-
-/* การตั้งค่าสำหรับปุ่ม */
-.more-button {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end; /* จัดปุ่มให้อยู่ด้านขวา */
-}
-
-.more-button button {
-    padding: 10px 15px;
-    font-size: 14px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.more-button button:hover {
-    background-color: #0056b3;
-}
-
-
-/* สถานะเพิ่มเติม */
-.green-status {
-    color: #28a745;
-}
-
-.red-status {
-    color: #dc3545;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 15px;
-    font-size: 14px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-}
-
-=======
->>>>>>> b673d35baf7fdecd9750987853eed015b2698a56

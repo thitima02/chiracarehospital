@@ -332,9 +332,9 @@
 
 /* ตารางผู้ป่วย */
 .table-container {
-  /* display: flex;
+  display: flex;
   justify-content: center;
-  align-items: center; */
+  align-items: center;
   width: 91%;
   padding: 20px;
   box-sizing: border-box;
@@ -342,7 +342,7 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-  /* width: 100%;  */
+  width: 100%;
 }
 
 .patient-table {
@@ -430,29 +430,7 @@
 }
 
 /* การตอบสนองของตาราง */
-@media (max-width: 767px) {
-
-  .table-container {
-    width: 91%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    overflow: auto;
-  }
-
-  .patient-table {
-    width: 100%;
-    table-layout: fixed;
-    /* ให้ความกว้างของคอลัมน์เท่ากัน */
-    border-collapse: collapse;
-    font-size: 14px;
-    text-align: center;
-    overflow-x: auto;
-    min-width: 1000px;
-  }
+@media (max-width: 768px) {
   .filter-bar {
     flex-direction: column;
   }
@@ -557,8 +535,6 @@
   padding: 20px;
   z-index: 1001;
   overflow-y: auto;
-  width: 95%;
-  max-height: 95%;
   /* เพิ่มเลื่อนในแนวตั้ง */
 }
 
@@ -640,6 +616,3 @@ input[type="checkbox"] {
   width: 18px; /* ปรับขนาดตามต้องการ */
   height: 18px; /* ปรับขนาดตามต้องการ */
 }
-
-
-
