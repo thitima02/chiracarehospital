@@ -16,13 +16,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <script src="../method/logout.js"></script>
-    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
-    <script src="../method/user.js"></script>
-    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
-    <script src="../method/loadSidebarScript.js"></script>
-    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
-    <script src="../method/checkAuth.js"></script>
-    <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+  <script src="../method/user.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+  <script src="../method/loadSidebarScript.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+  <script src="../method/checkAuth.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
 
 </head>
 
@@ -56,24 +56,24 @@
     </div>
 
     <div class="table-container">
-    <table class="patient-table">
-      <thead>
-        <tr>
-          <th>ชื่อ - นามสกุล</th>
-          <th>วันเกิด</th>
-          <th>เลขบัตรประชาชน</th>
-          <th>เบอร์โทรศัพท์</th>
-          <th>เบอร์โทรศัพท์ญาติ</th>
-          <th>สถานะปัจจุบัน</th>
-          <th>จัดการ</th>
-        </tr>
-      </thead>
-      <tbody id="patient-info-body">
-        <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
-      </tbody>
-    </table>
+      <table class="patient-table">
+        <thead>
+          <tr>
+            <th>ชื่อ - นามสกุล</th>
+            <th>วันเกิด</th>
+            <th>เลขบัตรประชาชน</th>
+            <th>เบอร์โทรศัพท์</th>
+            <th>เบอร์โทรศัพท์ญาติ</th>
+            <th>สถานะปัจจุบัน</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody id="patient-info-body">
+          <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 
   <script>
     // ฟังก์ชันกรองข้อมูล
@@ -134,7 +134,7 @@
           // วนลูปข้อมูลผู้ป่วยเพื่อแสดงในตาราง
           patients.forEach(function (patient) {
             rows += '<tr>';
-            rows += '<td><img src="../../assets/images/cat.jpg" alt="avatar"> ' + patient.full_name + '</td>';
+            rows += '<td><img src="data:image/jpeg;base64,' + patient.patient_image + '" alt="avatar"> ' + patient.full_name + '</td>';
             rows += '<td>' + formatDate(patient.birth_date) + '</td>';
             rows += '<td>' + patient.id_card + '</td>';
             rows += '<td>' + patient.phone_number + '</td>';
@@ -220,7 +220,7 @@
       }
     }
 
-  
+
   </script>
 
 
@@ -290,42 +290,42 @@
     document.addEventListener('DOMContentLoaded', loadUserData);
   </script>
 
-<script>
-  // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
-  checkAuth();
+  <script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
 
-  // Load sidebar
-  fetch('sidebar.html')
+    // Load sidebar
+    fetch('sidebar.html')
       // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
       .then(response => response.text())
       // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
-          document.getElementById('sidebar-container').innerHTML = data;
-          // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
-          loadSidebarScript();
-          // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+        document.getElementById('sidebar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+        loadSidebarScript();
+        // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
       });
 
-  // Load topbar and set the page title
-  fetch('topbar.html')
+    // Load topbar and set the page title
+    fetch('topbar.html')
       // ใช้ fetch เพื่อดึงข้อมูล topbar.html
       .then(response => response.text())
       // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
-          document.getElementById('topbar-container').innerHTML = data;
-          // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-          document.getElementById('page-title').textContent = 'หน้าหลัก';
-          // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+        document.getElementById('topbar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+        document.getElementById('page-title').textContent = 'หน้าหลัก';
+        // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
-          // Re-run user.js script after loading topbar
-          const script = document.createElement('script');
-          // สร้างแท็ก script ใหม่
-          script.src = '../method/user.js';
-          // กำหนดแหล่งที่มาของ script เป็น user.js
-          document.body.appendChild(script);
-          // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+        // Re-run user.js script after loading topbar
+        const script = document.createElement('script');
+        // สร้างแท็ก script ใหม่
+        script.src = '../method/user.js';
+        // กำหนดแหล่งที่มาของ script เป็น user.js
+        document.body.appendChild(script);
+        // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
       });
-</script>
+  </script>
 </body>
 
 </html>

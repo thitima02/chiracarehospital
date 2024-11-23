@@ -283,6 +283,12 @@
               document.getElementById('other-disease-container').style.display = 'block';
               document.getElementById('other-disease').value = data.other_disease;
             }
+
+            // ถ้ามีข้อมูล Base64 ของภาพผู้ป่วยให้แสดง
+            if (data.patient_image) {
+              const imageElement = document.getElementById('image-preview');
+              imageElement.src = `data:image/jpeg;base64,${data.patient_image}`;
+            }
           }
         })
         .catch(error => console.error('Error:', error));

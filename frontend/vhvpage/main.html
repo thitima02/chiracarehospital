@@ -37,21 +37,21 @@
     <!-- the resule of many patient -->
     <div id="main">
         <div class="stats-container">
-            <div class="box new-order">
+            <div class="box new-order" id="pendingBox">
                 <i class='bx bx-user'></i>
                 <div>
                     <h2 id="pending-count">0</h2>
                     <p>จำนวนการกรอกข้อมูลการติดตามที่ยังไม่เสร็จสิ้น</p>
                 </div>
             </div>
-            <div class="box box2 visitors">
+            <div class="box box2 visitors" id="completedBox">
                 <i class='bx bx-smile'></i>
                 <div>
                     <h2 id="completed-count">0</h2>
                     <p>ผู้ป่วยทั้งหมดที่ติดตามแล้ว</p>
                 </div>
             </div>
-            <div class="box box3 total-sales">
+            <div class="box box3 total-sales" id="notMonitoredBox">
                 <i class='bx bx-tired'></i>
                 <div>
                     <h2 id="not-monitored-count">0</h2>
@@ -59,116 +59,268 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่ติดตามแล้ว -->
+    <div id="completedModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>ผู้ป่วยที่ติดตามแล้ว</h2>
+            <table id="completedPatientList">
+                <thead>
+                    <tr>
+                        <th>ชื่อผู้ป่วย</th>
+                        <th>ประเภทโรค</th>
+                        <th>สถานะการติดตาม</th>
+                    </tr>
+                </thead>
+                <tbody id="completedPatientListBody">
+                    <!-- รายชื่อผู้ป่วยที่ติดตามแล้วจะถูกแสดงที่นี่ -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                // Fetch patient data from PHP
-                fetch("../../backend/sql/vhv/get_patient_address.php")
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Check if data is not empty or null
-                        if (Array.isArray(data) && data.length > 0) {
-                            // Filter data based on different monitor statuses
-                            const pendingPatients = data.filter(patient =>
-                                patient.monitor_status === "กำลังติดตาม" || patient.monitor_status === "ติดตามล้มเหลว"
-                            );
+    <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่ยังไม่ได้ติดตาม -->
+    <div id="notMonitoredModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>ผู้ป่วยที่ยังไม่ได้ติดตาม</h2>
+            <table id="notMonitoredPatientList">
+                <thead>
+                    <tr>
+                        <th>ชื่อผู้ป่วย</th>
+                        <th>ประเภทโรค</th>
+                        <th>สถานะการติดตาม</th>
+                    </tr>
+                </thead>
+                <tbody id="notMonitoredPatientListBody">
+                    <!-- รายชื่อผู้ป่วยที่ยังไม่ได้ติดตามจะถูกแสดงที่นี่ -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                            const completedPatients = data.filter(patient =>
-                                patient.monitor_status === "ติดตามแล้ว"
-                            );
+    <style>
+        /* Style สำหรับ Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+        }
 
-                            const notMonitoredPatients = data.filter(patient =>
-                                patient.monitor_status === "ยังไม่ได้ติดตาม"
-                            );
+        /* Style สำหรับเนื้อหาของ Modal */
+        .modal .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-                            // Update the counts on the page
-                            document.getElementById('pending-count').textContent = pendingPatients.length || 0;
-                            document.getElementById('completed-count').textContent = completedPatients.length || 0;
-                            document.getElementById('not-monitored-count').textContent = notMonitoredPatients.length || 0;
-                        } else {
-                            console.error("Invalid data structure or empty response received");
-                            document.getElementById('pending-count').textContent = "0";
-                            document.getElementById('completed-count').textContent = "0";
-                            document.getElementById('not-monitored-count').textContent = "0";
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error fetching patient data:", error);
-                        // Set counts to 0 in case of error
+        /* ปุ่ม Close (X) */
+        .modal .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* เปลี่ยนสีเมื่อ hover ที่ปุ่ม Close */
+        .modal .close:hover,
+        .modal .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Style สำหรับตารางใน Modal */
+        .modal table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .modal th,
+        .modal td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .modal th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .modal tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* ปรับปรุง style สำหรับข้อความเมื่อไม่มีข้อมูล */
+        .modal td[colspan="3"] {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch patient data from PHP
+            fetch("../../backend/sql/vhv/get_patient_address.php")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Check if data is not empty or null
+                    if (Array.isArray(data) && data.length > 0) {
+                        // Filter data based on different monitor statuses
+                        const pendingPatients = data.filter(patient =>
+                            patient.monitor_status === "กำลังติดตาม" || patient.monitor_status === "ติดตามล้มเหลว"
+                        );
+
+                        const completedPatients = data.filter(patient =>
+                            patient.monitor_status === "ติดตามแล้ว"
+                        );
+
+                        const notMonitoredPatients = data.filter(patient =>
+                            patient.monitor_status === "ยังไม่ได้ติดตาม"
+                        );
+
+                        // Update the counts on the page
+                        document.getElementById('pending-count').textContent = pendingPatients.length || 0;
+                        document.getElementById('completed-count').textContent = completedPatients.length || 0;
+                        document.getElementById('not-monitored-count').textContent = notMonitoredPatients.length || 0;
+
+                        // Attach event listeners for modals
+                        document.getElementById('completedBox').addEventListener('click', function () {
+                            showModal('completed', completedPatients);
+                        });
+
+                        document.getElementById('pendingBox').addEventListener('click', function () {
+                            showModal('pending', pendingPatients);
+                        });
+
+                        document.getElementById('notMonitoredBox').addEventListener('click', function () {
+                            showModal('notMonitored', notMonitoredPatients);
+                        });
+                    } else {
+                        console.error("Invalid data structure or empty response received");
                         document.getElementById('pending-count').textContent = "0";
                         document.getElementById('completed-count').textContent = "0";
                         document.getElementById('not-monitored-count').textContent = "0";
-                    });
-            });
-        </script>
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching patient data:", error);
+                    // Set counts to 0 in case of error
+                    document.getElementById('pending-count').textContent = "0";
+                    document.getElementById('completed-count').textContent = "0";
+                    document.getElementById('not-monitored-count').textContent = "0";
+                });
+        });
 
-        <!-- ฟิลเตอร์ในการกรองข้อมูล -->
-        <div class="filter-container">
-            <div class="filter-item search-bar">
-                <h5>ค้นหารายชื่อ</h5>
-                <input type="text" id="searchInput" placeholder="ค้นหาที่นี่..." class="search-input">
-                <i class='bx bx-search search-icon'></i>
-            </div>
+        // Function to show the modal and populate it with patient data
+        function showModal(status, patients) {
+            const modalBody = status === 'completed' ? document.getElementById('completedPatientListBody') : document.getElementById('notMonitoredPatientListBody');
+            modalBody.innerHTML = ''; // Clear existing rows
 
-            <div class="filter-item">
-                <h5>กำหนดส่งผลการติดตาม</h5>
-                <input type="date" class="date-filter">
-            </div>
+            if (patients.length > 0) {
+                patients.forEach(patient => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                <td>${patient.full_name}</td>
+                <td>${patient.disease_type}</td>
+                <td>${patient.monitor_status}</td>
+            `;
+                    modalBody.appendChild(tr);
+                });
+            } else {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td colspan="3" style="text-align:center;">ไม่มีผู้ป่วยในสถานะนี้</td>`;
+                modalBody.appendChild(tr);
+            }
 
-            <div class="filter-item">
-                <h5>ครั้งที่ติดตาม</h5>
-                <select class="dropdown-filter" id="monitorRoundFilter">
-                    <option value="ทั้งหมด">ทั้งหมด</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <!-- เพิ่มตัวเลือกตามที่ต้องการ -->
-                </select>
-                <i class='bx bx-chevron-down dropdown-icon'></i>
-            </div>
+            const modal = status === 'completed' ? document.getElementById('completedModal') : document.getElementById('notMonitoredModal');
+            modal.style.display = 'block';
+        }
 
-            <div class="filter-item">
-                <h5>โรคประจำตัว</h5>
-                <select class="dropdown-filter" id="diseaseTypeFilter">
-                    <option value="">ทั้งหมด</option>
-                    <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
-                    <option value="โรคอ้วน">โรคอ้วน</option>
-                    <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
-                    <option value="โรคเบาหวาน">โรคเบาหวาน</option>
-                    <option value="CVD Risk">CVD Risk</option>
-                    <option value="โรคไต">โรคไต</option>
-                </select>
-            </div>
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('completedModal').style.display = 'none';
+            document.getElementById('notMonitoredModal').style.display = 'none';
+        }
+    </script>
+
+    <!-- ฟิลเตอร์ในการกรองข้อมูล -->
+    <div class="filter-container">
+        <div class="filter-item search-bar">
+            <h5>ค้นหารายชื่อ</h5>
+            <input type="text" id="searchInput" placeholder="ค้นหาที่นี่..." class="search-input">
+            <i class='bx bx-search search-icon'></i>
         </div>
 
-        <!-- the datatable  -->
-        <div class="table-container">
-            <table class="patient-table">
-                <thead>
-                    <tr>
-                        <th>รายชื่อผู้ป่วย</th>
-                        <th>โรคประจำตัว</th>
-                        <th>เขตที่อยู่อาศัย</th>
-                        <th>กำหนดส่งรายงาน</th>
-                        <th>ที่อยู่</th>
-                        <th>สถานะการติดตาม</th>
-                        <th>ครั้งที่ติดตาม</th>
-                        <th></th>
-                    </tr>
-                </thead>
-
-                <tbody id="patient-tbody"></tbody>
-
-                </tbody>
-
-            </table>
+        <div class="filter-item">
+            <h5>กำหนดส่งผลการติดตาม</h5>
+            <input type="date" class="date-filter">
         </div>
+
+        <div class="filter-item">
+            <h5>ครั้งที่ติดตาม</h5>
+            <select class="dropdown-filter" id="monitorRoundFilter">
+                <option value="ทั้งหมด">ทั้งหมด</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <!-- เพิ่มตัวเลือกตามที่ต้องการ -->
+            </select>
+            <i class='bx bx-chevron-down dropdown-icon'></i>
+        </div>
+
+        <div class="filter-item">
+            <h5>โรคประจำตัว</h5>
+            <select class="dropdown-filter" id="diseaseTypeFilter">
+                <option value="">ทั้งหมด</option>
+                <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+                <option value="โรคอ้วน">โรคอ้วน</option>
+                <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
+                <option value="โรคเบาหวาน">โรคเบาหวาน</option>
+                <option value="CVD Risk">CVD Risk</option>
+                <option value="โรคไต">โรคไต</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- the datatable  -->
+    <div class="table-container">
+        <table class="patient-table">
+            <thead>
+                <tr>
+                    <th>รายชื่อผู้ป่วย</th>
+                    <th>โรคประจำตัว</th>
+                    <th>เขตที่อยู่อาศัย</th>
+                    <th>กำหนดส่งรายงาน</th>
+                    <th>ที่อยู่</th>
+                    <th>สถานะการติดตาม</th>
+                    <th>ครั้งที่ติดตาม</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="patient-tbody"></tbody>
+        </table>
     </div>
 
     <script>

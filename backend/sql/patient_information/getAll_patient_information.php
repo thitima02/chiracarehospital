@@ -10,6 +10,7 @@ try {
         $patient_id = $_GET['patient_id'];
         
         // คำสั่ง SQL สำหรับดึงข้อมูลเฉพาะ patient_id ที่ระบุ
+<<<<<<< HEAD
         $stmt = $conn->prepare("
             SELECT 
                 patient_id, full_name, birth_date, id_card, phone_number, 
@@ -18,6 +19,9 @@ try {
             FROM patient_information 
             WHERE patient_id = :patient_id
         ");
+=======
+        $stmt = $conn->prepare("SELECT patient_id, full_name, patient_image, birth_date, id_card, phone_number, emergency_phone, current_status FROM patient_information WHERE patient_id = :patient_id");
+>>>>>>> c0d1bc757810e248115a98802ff5fc7223330a18
         $stmt->bindParam(':patient_id', $patient_id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -40,6 +44,7 @@ try {
         }
     } else {
         // กรณีที่ไม่ได้รับ patient_id (ดึงข้อมูลผู้ป่วยทั้งหมด)
+<<<<<<< HEAD
         $stmt = $conn->prepare("
             SELECT 
                 patient_id, full_name, birth_date, id_card, phone_number, 
@@ -47,6 +52,9 @@ try {
                 patient_image, id_patient_address, id_patient_medical_information
             FROM patient_information
         ");
+=======
+        $stmt = $conn->prepare("SELECT patient_id, patient_image, full_name, birth_date, id_card, phone_number, emergency_phone, current_status FROM patient_information");
+>>>>>>> c0d1bc757810e248115a98802ff5fc7223330a18
         $stmt->execute();
 
         // ดึงข้อมูลทั้งหมด

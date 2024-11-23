@@ -1,108 +1,417 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>โรงพยาบาลค่ายจิรประวัติ</title> 
-        <link rel="stylesheet" href="../../css/addinfo.css">
-        <link rel="stylesheet" href="../../styles.css">
-        <link rel="stylesheet" href="../../css/sidebar.css">
-        <link rel="stylesheet" href="../../css/topbar.css">
-        <link rel="stylesheet" href="../../css/logo.css">
-        <!-- Import icon -->
-        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    
-    <body style="background-color:#edeff1;">
-        <!-- Sidebar will be loaded here -->
-      <div id="sidebar-container"></div>
-    
-      <!-- Topbar will be loaded here -->
-      <div id="topbar-container"></div>
 
-      <div class="container">
-        <div class="step-indicator">
-            <div class="step active">1 ข้อมูลส่วนตัว</div>
-            <div class="step">2 ข้อมูลที่อยู่</div>
-            <div class="step">3 ข้อมูลทางการแพทย์</div>
-        </div>
-        <form class="addinfo">
-            <h2>ข้อมูลส่วนตัว</h2> 
-            <div class="addimage">
-                <label for="profile-image" class="image-label">
-                    <img src="camera-icon.png" alt="Upload Profile Image" id="image-preview"/>
-                    <input type="file" id="profile-image" class="image-input" onchange="previewImage(event)" hidden>
-                    <span>Upload Profile</span>
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="name">ชื่อ - นามสกุล</label>
-                <input type="text" id="name" placeholder="นายมีมาก มีน้อย">
-            
-                <label for="id-number">เลขบัตรประชาชน</label>
-                <input type="text" id="id-number" placeholder="1-66-66-66666-66-6">
-            
-                <label for="age">อายุ</label>
-                <input type="text" id="age" placeholder="ปปป">
-            
-                <label for="birthdate">วันเกิด</label>
-                <input type="date" id="birthdate">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Information</title>
+  <link rel="stylesheet" href="../../css/patientinfo.css">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/sidebar.css">
+  <link rel="stylesheet" href="../../css/topbar.css">
+  <link rel="stylesheet" href="../../css/logo.css">
+  <!-- Import icon -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../method/logout.js"></script>
+  <script src="../method/user.js"></script>
+  <script src="../method/loadSidebarScript.js"></script>
+  <script src="../method/checkAuth.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                <label for="phone">เบอร์โทรศัพท์</label>
-                <input type="text" id="phone" placeholder="080-000-0000">
+</head>
 
-                <label for="phone-number">เบอร์โทรศัพท์ฉุกเฉิน</label>
-                <input type="text" id="phone-number" placeholder="080-000-0000">
+<body style="background-color:#edeff1;">
+  <!-- Sidebar will be loaded here -->
+  <div id="sidebar-container"></div>
 
-                <div class="button">
-                    <button type="button" class="next-btn" id="nextBtn">ถัดไป</button>
-                </div>
-            </div>
-        </form>
+  <!-- Topbar will be loaded here -->
+  <div id="topbar-container"></div>
+
+  <div class="patient-container">
+    <div class="step-indicator">
+      <div class="step active" onclick="showStep(1)">1 ข้อมูลส่วนตัว</div>
+      <div class="step" onclick="showStep(2)">2 ข้อมูลที่อยู่</div>
+      <div class="step" onclick="showStep(3)">3 ข้อมูลทางการแพทย์</div>
+    </div>
+
+    <!-- ขั้นตอนที่ 1: ข้อมูลส่วนตัว -->
+    <div class="form-step active" id="step-1">
+      <h2 style="font-weight: bold; margin-bottom: 20px;">ข้อมูลส่วนตัว</h2>
+
+      <div class="addimage">
+        <label for="profile-image" class="image-label">
+          <img src="camera-icon.png" alt="Upload Profile Image" id="image-preview" />
+          <input 
+            type="file" 
+            id="profile-image" 
+            class="image-input" 
+            accept="image/*"
+            onchange="previewImage(event)" 
+            hidden
+          >
+          <span>Upload Profile</span>
+        </label>
+      </div>      
+
+      <div class="form-group">
+        <label for="rank">คำนำหน้า</label>
+        <input type="text" id="rank" required>
+
+        <label for="department">ยศ (ถ้ามี)</label>
+        <input type="text" id="department" required>
+
+        <label for="name">ชื่อ - นามสกุล</label>
+        <input type="text" id="name" required>
+
+        <label for="id-number">เลขบัตรประชาชน</label>
+        <input type="text" id="id-number" required>
+
+        <label for="marital">สถานภาพสมรส</label>
+        <select id="marital" required>
+          <option value="single">โสด</option>
+          <option value="married">สมรส</option>
+          <option value="divorced">หย่าร้าง</option>
+          <option value="widowed">หม้าย</option>
+        </select>
+
+        <label for="birthdate">วันเกิด</label>
+        <input type="date" id="birthdate" required>
+
+        <label for="phone">เบอร์โทรศัพท์</label>
+        <input type="text" id="phone" required>
+
+        <label for="emergency-phone">เบอร์โทรศัพท์ญาติ</label>
+        <input type="text" id="emergency-phone" required>
       </div>
-      <script>
-          // Load sidebar
-     fetch('sidebar.html')
+    </div>
+
+    <!-- ขั้นตอนที่ 2: ข้อมูลที่อยู่ -->
+    <div class="form-step" id="step-2">
+      <h2 style="font-weight: bold; margin-bottom: 30px;">ข้อมูลที่อยู่</h2>
+      <div class="form-group">
+        <label for="postal-code">เลขไปรษณีย์</label>
+        <input type="text" id="postal-code" name="postal-code" placeholder="กรุณากรอกเลขไปรษณีย์" required>
+
+        <label for="province">จังหวัด</label>
+        <input type="text" id="province" name="province" placeholder="กรุณากรอกจังหวัด" required>
+
+        <label for="district">อำเภอ/เขต</label>
+        <input type="text" id="district" name="district" placeholder="กรุณากรอกอำเภอ/เขต" required>
+
+        <label for="sub-district">ตำบล/แขวง</label>
+        <input type="text" id="sub-district" name="sub-district" placeholder="กรุณากรอกตำบล/แขวง" required>
+
+        <label for="soi">ซอย</label>
+        <input type="text" id="soi" name="soi" placeholder="กรุณากรอกซอย" required>
+
+        <label for="village">หมู่</label>
+        <input type="text" id="village" name="village" placeholder="กรุณากรอกหมู่">
+
+        <label for="address">เลขที่บ้าน</label>
+        <input type="text" id="address" name="address" placeholder="กรุณากรอกที่อยู่">
+
+        <label for="volunteer-area">เขตที่อยู่อาศัย</label>
+        <select id="volunteer-area" name="volunteer-area">
+          <option value="">กรุณาเลือกเขตที่รับผิดชอบ</option>
+          <option value="1">เขต 1</option>
+          <option value="2">เขต 2</option>
+          <option value="3">เขต 3</option>
+          <option value="4">เขต 4</option>
+          <option value="5">เขต 5</option>
+          <option value="6">เขต 6</option>
+          <option value="7">เขต 7</option>
+          <option value="8">เขต 8</option>
+          <option value="9">เขต 9</option>
+          <option value="10">เขต 10</option>
+          <option value="11">เขต 11</option>
+          <option value="12">เขต 12</option>
+          <option value="13">เขต 13</option>
+          <option value="14">เขต 14</option>
+          <option value="15">เขต 15</option>
+          <option value="นอกเขต">นอกเขต</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ขั้นตอนที่ 3: ข้อมูลทางการแพทย์ -->
+    <div class="form-step" id="step-3">
+      <h2 style="font-weight: bold; margin-bottom: 30px;">ข้อมูลทางการแพทย์</h2>
+      <div class="form-group">
+        <label for="patient-group">กลุ่มผู้ป่วย</label>
+        <select id="patient-group" name="patient-group" required>
+          <option value="กลุ่มผู้ป่วย">กลุ่มผู้ป่วย</option>
+          <option value="กลุ่มสงสัยป่วย">กลุ่มสงสัยป่วย</option>
+          <option value="กลุ่มเสี่ยง">กลุ่มเสี่ยง</option>
+        </select>
+
+        <label for="patient-type">ประเภทผู้ป่วย</label>
+        <select id="patient-type" name="patient-type" required>
+          <option value="ประชาชน">ประชาชน</option>
+          <option value="กำลังพล">กำลังพล</option>
+          <option value="ครอบครัว">ครอบครัว</option>
+        </select>
+
+        <label for="disease-type">ประเภทโรค</label>
+        <div id="disease-type"
+          style="display: flex; flex-wrap: wrap; gap: 95px; justify-content: flex-start; margin-bottom: 15px;">
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="ความดันโลหิตสูง">
+            ความดันโลหิตสูง
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="โรคอ้วน"> โรคอ้วน
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="ไขมันในเลือดสูง">
+            ไขมันในเลือดสูง
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="โรคเบาหวาน"> โรคเบาหวาน
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="CVS Risk"> CVS Risk
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="โรคไต"> โรคไต
+          </label>
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+            <input type="checkbox" name="disease-type[]" value="อื่นๆ" id="other-disease-checkbox"
+              style="margin-right: 10px;"> อื่นๆ
+          </label>
+        </div>
+
+        <!-- ช่องกรอกข้อมูลเมื่อเลือก "อื่นๆ" -->
+        <div id="other-disease-container" style="display: none; margin-top: 10px;">
+          <label for="other-disease">โรคอื่นๆ:</label>
+          <input type="text" id="other-disease" name="other-disease" placeholder="กรุณาระบุโรคอื่นๆ">
+        </div>
+
+        <!-- ใช้ JavaScript เพื่อดึงค่าที่เลือกมา -->
+        <script>
+          const checkboxes = document.querySelectorAll('input[name="disease-type[]"]');
+          const otherCheckbox = document.getElementById('other-disease-checkbox');
+          const otherDiseaseContainer = document.getElementById('other-disease-container');
+
+          // เมื่อเลือก/ยกเลิกเลือก "อื่นๆ"
+          otherCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+              otherDiseaseContainer.style.display = 'block';  // แสดงช่องกรอกข้อมูล
+            } else {
+              otherDiseaseContainer.style.display = 'none';  // ซ่อนช่องกรอกข้อมูล
+            }
+          });
+
+          // ฟังก์ชั่นสำหรับดึงค่าที่เลือกจาก checkbox
+          checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+              let selectedDiseases = [];
+              checkboxes.forEach(item => {
+                if (item.checked && item.value !== "อื่นๆ") {
+                  selectedDiseases.push(item.value);
+                }
+              });
+
+              // ตรวจสอบค่าของ "อื่นๆ" หากกรอกข้อมูล
+              if (otherCheckbox.checked && document.getElementById('other-disease').value.trim() !== "") {
+                selectedDiseases.push(document.getElementById('other-disease').value.trim());
+              }
+
+              console.log('โรคที่เลือก: ' + selectedDiseases.join(', '));
+            });
+          });
+        </script>
+
+        <label for="current-status">สถานะปัจจุบัน</label>
+        <select id="current-status" name="current-status" required>
+          <option value="ปกติ">ปกติ (มีชีวิต, เป็นผู้ป่วยของรพ.)</option>
+          <option value="เสียชีวิต">เสียชีวิต</option>
+          <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยแล้ว</option>
+        </select>
+
+        <label for="note">เพิ่มเติม</label>
+        <input type="text" id="note" name="additional-info" placeholder=" *ตัวอย่างเช่น แพ้ยา*" required>
+
+        <div class="button">
+          <button class="save-btn" id="saveBtn">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('saveBtn').addEventListener('click', function (event) {
+      event.preventDefault(); // ป้องกันการ submit ฟอร์มแบบปกติ
+
+      // ดึงค่าจากฟอร์ม
+      const rank = document.getElementById('rank').value;
+      const department = document.getElementById('department').value;
+      const name = document.getElementById('name').value;
+      const idNumber = document.getElementById('id-number').value;
+      const maritalStatus = document.getElementById('marital').value;
+      const birthdate = document.getElementById('birthdate').value;
+      const phone = document.getElementById('phone').value;
+      const emergencyPhone = document.getElementById('emergency-phone').value;
+      const postalCode = document.getElementById('postal-code').value;
+      const province = document.getElementById('province').value;
+      const district = document.getElementById('district').value;
+      const subDistrict = document.getElementById('sub-district').value;
+      const soi = document.getElementById('soi').value;
+      const village = document.getElementById('village').value;
+      const address = document.getElementById('address').value;
+      const volunteerArea = document.getElementById('volunteer-area').value;
+      const patientGroup = document.getElementById('patient-group').value;
+      const patientType = document.getElementById('patient-type').value;
+      const currentStatus = document.getElementById('current-status').value;
+      const note = document.getElementById('note').value;
+
+      // สร้างออบเจ็กต์ข้อมูลที่ต้องการส่ง
+      const data = {
+        rank,
+        department,
+        name,
+        idNumber,
+        maritalStatus,
+        birthdate,
+        phone,
+        emergencyPhone,
+        postalCode,
+        province,
+        district,
+        subDistrict,
+        soi,
+        village,
+        address,
+        volunteerArea,
+        patientGroup,
+        patientType,
+        currentStatus,
+        note
+      };
+
+      // ส่งข้อมูลไปยังไฟล์ PHP
+      fetch('save_patient.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('บันทึกข้อมูลผู้ป่วยสำเร็จ');
+            // รีเฟรชหน้าเพจหรือแสดงผลเพิ่มเติมตามต้องการ
+          } else {
+            alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('เกิดข้อผิดพลาด');
+        });
+    });
+  </script>
+
+<script>
+  function previewImage(event) {
+    const file = event.target.files[0]; // รับไฟล์ที่ถูกเลือก
+    if (file) { // ตรวจสอบว่าไฟล์ถูกเลือก
+      const reader = new FileReader(); // สร้าง FileReader
+
+      reader.onload = function (e) {
+        const output = document.getElementById('image-preview');
+        output.src = e.target.result; // ตั้งค่าให้แสดงภาพที่เลือก
+      };
+
+      reader.readAsDataURL(file); // อ่านไฟล์เป็น Data URL และแสดงใน <img>
+    }
+  }
+</script>
+
+  <script>
+    // ฟังก์ชั่นเปลี่ยนขั้นตอน
+    function showStep(step) {
+      const steps = document.querySelectorAll('.form-step');
+      steps.forEach((stepDiv, index) => {
+        stepDiv.classList.remove('active');
+        if (index + 1 === step) {
+          stepDiv.classList.add('active');
+        }
+      });
+      const stepIndicators = document.querySelectorAll('.step');
+      stepIndicators.forEach((indicator, index) => {
+        indicator.classList.remove('active');
+        if (index + 1 === step) {
+          indicator.classList.add('active');
+        }
+      });
+    }
+  </script>
+
+  <style>
+    .form-step {
+      display: none;
+    }
+
+    .form-step.active {
+      display: block;
+    }
+
+    .step-indicator .step {
+      display: inline-block;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .step-indicator .step.active {
+      font-weight: bold;
+      color: #007bff;
+    }
+  </style>
+
+  <script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
+
+    // Load sidebar
+    fetch('sidebar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
       .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
         document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
+        // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+        loadSidebarScript();
+        // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
       });
 
     // Load topbar and set the page title
     fetch('topbar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล topbar.html
       .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'เพิ่มข้อมูลผู้ป่วย'; // Set page title for the history page
-      });
+        // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+        document.getElementById('page-title').textContent = 'เพิ่มข้อมูลผู้ป่วย';
+        // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
-      function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
+        // Re-run user.js script after loading topbar
+        const script = document.createElement('script');
+        // สร้างแท็ก script ใหม่
+        script.src = '../method/user.js';
+        // กำหนดแหล่งที่มาของ script เป็น user.js
+        document.body.appendChild(script);
+        // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
       });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-      //acton image
-      function previewImage(event) {
-            const imagePreview = document.getElementById('image-preview');
-            imagePreview.src = URL.createObjectURL(event.target.files[0]);
-        }
-    }
-    document.getElementById('nextBtn').addEventListener('click', function() {
-            // เปลี่ยนเส้นทางไปที่หน้า edittracking3.html
-            window.location.href = 'addinfo2.html';
-        });
-      </script>
-    </body>
+  </script>
+</body>
+
 </html>
