@@ -464,7 +464,6 @@
     <div class="popup-content">
       <h2>กรุณาตรวจสอบรายชื่อผู้ป่วยที่ต้องการติดตาม</h2>
       <p id="patient-count"></p>
-      <!-- เรียกใช้ตารางแทนรายการผู้ป่วย -->
       <div id="patient-table-wrapper">
         <table id="patient-table">
           <thead>
@@ -472,6 +471,8 @@
               <th>ID ผู้ป่วย</th>
               <th>ชื่อผู้ป่วย</th>
               <th>โรคประจำตัว</th>
+              <th>เขตที่อยู่อาศัย</th> <!-- คอลัมน์ใหม่ -->
+              <th>ผู้รับผิดชอบ</th> <!-- คอลัมน์ใหม่ -->
             </tr>
           </thead>
           <tbody id="patient-list"></tbody>
@@ -525,14 +526,25 @@
         });
       });
 
+      // ปุ่มมอบหมายงาน
       assignButton.addEventListener('click', function () {
         const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
           return {
             patientId: parseInt(checkbox.value),
             fullName: checkbox.getAttribute('data-full-name'),
-            diseaseType: checkbox.getAttribute('data-disease-type')
+            diseaseType: checkbox.getAttribute('data-disease-type'),
+            area: checkbox.getAttribute('data-patient_address_area'),  // ข้อมูลเขตที่อยู่อาศัย
+            responsiblePerson: checkbox.getAttribute('data-responsible') // ข้อมูลผู้รับผิดชอบ
           };
         });
+
+        // ตรวจสอบว่าเขตที่อยู่อาศัยและผู้รับผิดชอบเป็น null หรือไม่
+        const invalidPatients = selectedPatients.filter(patient =>
+          !patient.area || !patient.responsiblePerson || patient.area === 'ไม่มีการกำหนด' || patient.responsiblePerson === 'ไม่มีการกำหนด');
+        if (invalidPatients.length > 0) {
+          alert('ไม่สามารถมอบหมายงานให้ผู้ป่วยที่ยังไม่มีข้อมูลเขตที่อยู่อาศัยหรือผู้รับผิดชอบ');
+          return;
+        }
 
         if (selectedPatients.length === 0) {
           alert('กรุณาเลือกผู้ป่วยก่อนมอบหมายงาน');
@@ -551,6 +563,8 @@
                 <td>${patient.patientId}</td>
                 <td>${patient.fullName}</td>
                 <td>${patient.diseaseType}</td>
+                <td>${patient.area}</td> <!-- แสดงข้อมูลเขตที่อยู่อาศัย -->
+                <td>${patient.responsiblePerson}</td> <!-- แสดงข้อมูลผู้รับผิดชอบ -->
             `;
             patientList.appendChild(tr);
           });
@@ -564,23 +578,27 @@
         document.getElementById('overlay').style.display = 'flex';
       });
 
+      // ปุ่มยืนยันมอบหมายงาน
       document.getElementById('confirm-assign').addEventListener('click', async function () {
         const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
-          return parseInt(checkbox.value);
+          return {
+            patientId: parseInt(checkbox.value),
+            area: checkbox.getAttribute('data-patient_address_area'),
+            responsiblePerson: checkbox.getAttribute('data-responsible')
+          };
         });
 
-        if (selectedPatients.length === 0) {
-          alert('กรุณาเลือกผู้ป่วยก่อนมอบหมายงาน');
+        // ตรวจสอบข้อมูลเขตที่อยู่อาศัยและผู้รับผิดชอบก่อนการอัปเดตสถานะ
+        const invalidPatients = selectedPatients.filter(patient =>
+          !patient.area || !patient.responsiblePerson || patient.area === 'ไม่มีการกำหนด' || patient.responsiblePerson === 'ไม่มีการกำหนด');
+        if (invalidPatients.length > 0) {
+          alert('ไม่สามารถอัปเดตสถานะการติดตามสำหรับผู้ป่วยที่ยังไม่มีข้อมูลเขตที่อยู่อาศัยหรือผู้รับผิดชอบ');
           return;
         }
 
         const monitorStatus = 'กำลังติดตาม'; // สถานะการติดตามที่เราต้องการ
         const monitorDeadline = document.getElementById('monitor-deadline').value; // วันหมดอายุ
         const monitorStartDate = document.getElementById('monitor-start-date').value; // วันเริ่มติดตาม
-
-        // ตรวจสอบค่าวันที่ก่อนส่ง
-        console.log('Monitor Deadline:', monitorDeadline);
-        console.log('Monitor Start Date:', monitorStartDate);
 
         try {
           const response = await fetch('/chiracarehospital/backend/sql/monitoring/update_patient_status.php', {
@@ -590,7 +608,7 @@
             },
             body: JSON.stringify({
               monitorStatus: monitorStatus,
-              patientIds: selectedPatients,
+              patientIds: selectedPatients.map(patient => patient.patientId),
               monitorDeadline: monitorDeadline,
               monitorStartDate: monitorStartDate // ส่งวันที่เริ่มติดตาม
             })
@@ -726,7 +744,7 @@
 
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-full-name='${patient.full_name}' data-disease-type='${patient.disease_type}'>` : `<div class="unselectable-box"></div>`}</td>
+                <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-full-name='${patient.full_name}' data-disease-type='${patient.disease_type}' data-patient_address_area='${patient.patient_address_area}' data-responsible='${patient.responsible_person_name}'>` : `<div class="unselectable-box"></div>`}</td>
                 <td>${patient.full_name ? patient.full_name : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
                 <td>${patient.disease_type ? patient.disease_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
                 <td>${patient.patient_type ? patient.patient_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
