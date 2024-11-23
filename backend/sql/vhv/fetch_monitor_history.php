@@ -12,40 +12,47 @@ if (!isset($_SESSION['user_id'])) {
 
 header('Content-Type: application/json'); // ตั้งค่าหัวเรื่องให้เป็น JSON
 
-// ดึงข้อมูลจาก monitor_form และ filter ด้วย assign_patients_to_vhv ตาม user_id
-$sql = "
-  SELECT 
-    mf.patient_id, 
-    pi.full_name, 
-    pm.disease_type, 
-    mf.blood_sugar_level, 
-    mf.general_symptoms, 
-    mf.vital_signs, 
-    mf.reason_for_missed_treatment, 
-    mf.form_submission_date, 
-    mf.newupdate,
-    mf.user_fullname, 
-    mf.id_user_info
-  FROM monitor_form mf
-  JOIN patient_information pi ON mf.patient_id = pi.patient_id
-  JOIN patient_medical_information pm ON mf.patient_id = pm.patient_id
-  JOIN assign_patients_to_vhv apv ON mf.patient_id = apv.patient_id
-  WHERE apv.user_id = :user_id"; // ใช้ user_id จาก session
+try {
+    // รับ user_id จาก session
+    $user_id = $_SESSION['user_id'];
 
-$stmt = $conn->prepare($sql);
+    // Query สำหรับดึง patient_id ทั้งหมดที่เกี่ยวข้องกับ user_id ใน assign_patients_to_vhv
+    $sql = "
+        SELECT 
+            mf.patient_id, 
+            pi.full_name, 
+            pm.disease_type, 
+            mf.blood_sugar_level, 
+            mf.general_symptoms, 
+            mf.vital_signs, 
+            mf.reason_for_missed_treatment, 
+            mf.form_submission_date, 
+            mf.newupdate,
+            mf.user_fullname, 
+            mf.id_user_info
+        FROM monitor_form mf
+        JOIN patient_information pi ON mf.patient_id = pi.patient_id
+        JOIN patient_medical_information pm ON mf.patient_id = pm.patient_id
+        JOIN assign_patients_to_vhv apv ON mf.patient_id = apv.patient_id
+        WHERE apv.user_id = :user_id
+        ORDER BY mf.form_submission_date DESC"; // เรียงตามวันที่ส่งฟอร์มล่าสุด
 
-// รับค่า user_id จาก session
-$user_id = $_SESSION['user_id'];  // ค่าของ user_id จาก session
+    $stmt = $conn->prepare($sql);
 
-// Bind ค่า user_id ไปยัง query
-$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    // Bind user_id จาก session ไปยัง query
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
-$stmt->execute();
+    $stmt->execute();
 
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ส่งข้อมูลในรูปแบบ JSON
-echo json_encode(['success' => true, 'data' => $results]);
+    // ส่งข้อมูลในรูปแบบ JSON
+    echo json_encode(['success' => true, 'data' => $results]);
+
+} catch (PDOException $e) {
+    // กรณีเกิดข้อผิดพลาด
+    echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
+}
 
 // ปิดการเชื่อมต่อ
 $stmt = null;
