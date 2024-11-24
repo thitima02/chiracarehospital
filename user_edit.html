@@ -78,9 +78,10 @@
             <!-- ช่องใส่รูปภาพ -->
             <label for="profile-picture">อัปโหลดรูปภาพ (Profile Picture)</label>
             <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+			<input type="hidden" id="profile-picture-db" name="profile-picture-db" value="">
+			
             <div id="preview-container">
-                <img id="preview-image" src="" alt="รูปตัวอย่าง"
-                    style="display:none; max-width: 100%; max-height: 200px; margin-top: 10px;">
+                <img id="preview-image" src="" alt="รูปตัวอย่าง" style="max-width: 100%; max-height: 200px; margin-top: 10px;">
             </div>
 
             <label for="password">รหัสผ่าน</label>
@@ -171,7 +172,6 @@
                 } else {
                     console.log(data);
                     // เติมข้อมูลในฟอร์ม
-                    // document.getElementById('name').value + ' ' + document.getElementById('surname').value,
 					document.getElementById('role').value = data.data[0].role || '';
                     document.getElementById('name').value = data.data[0].full_name || '';
                     document.getElementById('id-card').value = data.data[0].username || '';
@@ -180,9 +180,8 @@
                     document.getElementById('responsibility-area').value = data.data[0].responsibility_area || '';
                     document.getElementById('password').value = data.data[0].password || '';
                     document.getElementById('confirm-password').value = data.data[0].password || '';
-                    // document.getElementById('profile-picture').value = data.data[0].user_image || '';
-					// document.getElementById('preview-image').src = 'data:image/jpeg;base64,' + data.data[0].user_image || '';
-					// document.getElementById('preview-image').style.display = 'block';
+					document.getElementById('preview-image').src = 'data:image/jpeg;base64,' + data.data[0].user_image || '';
+					document.getElementById('profile-picture-db').value = data.data[0].user_image || '';
 
                     // เปิด/ปิดฟิลด์ Responsibility Area ตามสถานะ
                     if (data.data[0].status === 'volunteer' || data.data[0].status === 'medic') {
@@ -293,8 +292,48 @@
             // อ่านไฟล์และแปลงเป็น Base64
             reader.readAsDataURL(profilePictureInput.files[0]);
         } else {
-            alert('กรุณาอัปโหลดรูปภาพ');
+            // alert('กรุณาอัปโหลดรูปภาพ');
+			
+			const urlParamsx = new URLSearchParams(window.location.search);
+			const user_idx = urlParamsx.get('id');
+
+			// เตรียมข้อมูลที่ต้องส่ง
+			const formData = {
+				user_id: user_idx,
+				role: document.getElementById('role').value,
+				full_name: document.getElementById('name').value,
+				phone_number: document.getElementById('id-number').value,
+				department: document.getElementById('status').value,
+				responsibility_area: document.getElementById('responsibility-area').value,
+				password: password,
+				username: document.getElementById('id-card').value, // ใช้เลขบัตรประชาชนเป็นชื่อผู้ใช้
+				user_image: document.getElementById('profile-picture-db').value, // ใช้ข้อมูลเดิมใน DB
+			};
+
+			// ส่งข้อมูลไปยัง API
+			fetch('backend/sql/master/editUsers.php', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData),
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.message) {
+					alert(data.message); // แสดงข้อความสำเร็จ
+					window.location.href = "user_manage.html"; // Redirect ไปยังหน้า Login
+				} else if (data.error) {
+					alert(data.error); // แสดงข้อความผิดพลาด
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+			
         }
+		
+		
     };
 
 </script>
