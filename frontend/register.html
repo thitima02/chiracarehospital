@@ -32,20 +32,34 @@
       <label for="status">กรุณาเลือกสถานะ (Status)</label>
       <select id="status" name="status" onchange="handleStatusChange()" required>
         <option value="" disabled selected>ยังไม่ได้เลือกสถานะ</option>
-        <option value="volunteer">อาสาสมัครสาธารณสุข</option>
-        <option value="staff">เจ้าหน้าที่โรงพยาบาล</option>
-        <option value="medic">เสนารักษ์</option>
+        <option value="อาสาสมัครสาธารณสุข">อาสาสมัครสาธารณสุข</option>
+        <option value="เจ้าหน้าที่โรงพยาบาล">เจ้าหน้าที่โรงพยาบาล</option>
+        <option value="เสนารักษ์">เสนารักษ์</option>
       </select>
 
       <label for="responsibility-area">เขตรับผิดชอบ (Responsibility Area)</label>
       <select id="responsibility-area" name="responsibility-area" required disabled>
         <option value="" disabled selected>กรุณาเลือกเขตรับผิดชอบ</option>
-        <option value="area1">เขต 1</option>
-        <option value="area2">เขต 2</option>
-        <option value="area3">เขต 3</option>
-        <option value="area4">เขต 4</option>
-        <!-- Add more options if needed -->
+        <option value="เขต 1">เขต 1</option>
+        <option value="เขต 2">เขต 2</option>
+        <option value="เขต 3">เขต 3</option>
+        <option value="เขต 4">เขต 4</option>
+        <option value="เขต 5">เขต 5</option>
+        <option value="เขต 6">เขต 6</option>
+        <option value="เขต 7">เขต 7</option>
+        <option value="เขต 8">เขต 8</option>
+        <option value="เขต 9">เขต 9</option>
+        <option value="เขต 10">เขต 10</option>
+        <option value="เขต 11">เขต 11</option>
+        <option value="เขต 12">เขต 12</option>
+        <option value="เขต 13">เขต 13</option>
+        <option value="เขต 14">เขต 14</option>
+        <option value="เขต 15">เขต 15</option>
       </select>
+
+      <!-- ช่องใส่รูปภาพ -->
+      <label for="profile-picture">อัปโหลดรูปภาพ (Profile Picture)</label>
+      <input type="file" id="profile-picture" name="profile-picture" accept="image/*" required>
 
       <label for="password">รหัสผ่าน</label>
       <div class="password-container">
@@ -70,6 +84,7 @@
     </form>
   </div>
 </body>
+
 
 </html>
 
@@ -117,13 +132,17 @@
     const statusField = document.getElementById('status');
     const responsibilityAreaField = document.getElementById('responsibility-area');
 
-    if (statusField.value === 'volunteer' || statusField.value === 'medic') {
-      responsibilityAreaField.disabled = false;
+    // เปิดใช้งานเขตรับผิดชอบสำหรับสถานะ "อาสาสมัครสาธารณสุข" หรือ "เสนารักษ์"
+    if (
+        statusField.value === 'อาสาสมัครสาธารณสุข' || 
+        statusField.value === 'เสนารักษ์'
+    ) {
+        responsibilityAreaField.disabled = false;
     } else {
-      responsibilityAreaField.disabled = true;
-      responsibilityAreaField.value = "";
+        responsibilityAreaField.disabled = true;
+        responsibilityAreaField.value = ""; // รีเซ็ตค่า
     }
-  }
+}
 
   // ฟังก์ชันส่งข้อมูลไปยัง API
   document.getElementById('registration-form').onsubmit = function (event) {
@@ -143,8 +162,8 @@
       document.getElementById('confirm-password').style.borderColor = '';
     }
 
-    // เตรียมข้อมูลที่ต้องส่ง
-    const formData = {
+  // เตรียมข้อมูลที่ต้องส่ง
+  const formData = {
       user_id: document.getElementById('id-card').value,
       full_name: document.getElementById('name').value + ' ' + document.getElementById('surname').value,
       phone_number: document.getElementById('phone').value,
@@ -153,6 +172,7 @@
       responsibility_area: document.getElementById('responsibility-area').value,
       password: password,
       username: document.getElementById('id-card').value, // ใช้เลขบัตรประชาชนเป็นชื่อผู้ใช้
+      user_image: "รูปภาพ"
     };
 
     // ส่งข้อมูลไปยัง API
