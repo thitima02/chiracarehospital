@@ -131,7 +131,7 @@
           // วนลูปข้อมูลผู้ป่วยเพื่อแสดงในตาราง
           patients.forEach(function (patient) {
             rows += '<tr>';
-            rows += '<td><img src="data:image/jpeg;base64,' + patient.patient_image + '" alt="avatar"> ' + patient.full_name + '</td>';
+            rows += '<td style="text-align: left; padding-left: 30px"><img src="data:image/jpeg;base64,' + patient.patient_image + '" alt="avatar"> ' + patient.full_name + '</td>';
             rows += '<td>' + formatDate(patient.birth_date) + '</td>';
             rows += '<td>' + patient.id_card + '</td>';
             rows += '<td>' + patient.phone_number + '</td>';
