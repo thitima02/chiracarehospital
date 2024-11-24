@@ -139,7 +139,7 @@
 
             rows += '<td>';
             rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
-            rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
+            rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.patient_id + '\')"><i class="bx bx-trash"></i></button>';
             rows += '</td>';
             rows += '</tr>';
           });
@@ -180,14 +180,28 @@
       window.location.href = `editaddinfo.html?patient_id=${patient_id}`; // ส่ง patient_id ไปที่ URL
     }
 
-    // ฟังก์ชันลบข้อมูลผู้ป่วย
-    function deletePatient(patient_id) {
-      if (confirm('คุณต้องการลบผู้ป่วย ID: ' + patient_id + ' ใช่หรือไม่?')) {
-        // ใส่ logic การลบที่นี่
-        alert('ลบข้อมูลผู้ป่วยเรียบร้อย');
+    function deletePatient(patientId) {
+      // แจ้งเตือนผู้ใช้ก่อนทำการลบ
+      if (confirm("คุณต้องการลบข้อมูลผู้ป่วยนี้หรือไม่?")) {
+        // ส่งคำขอ AJAX ไปยังเซิร์ฟเวอร์เพื่อทำการลบ
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/chiracarehospital/backend/sql/patient_manage/delete_patient.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        // ส่ง patient_id ไปยังเซิร์ฟเวอร์
+        xhr.send("patient_id=" + patientId);
+
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            // ตรวจสอบว่าการลบสำเร็จแล้วให้ทำการอัพเดต UI
+            alert("ลบข้อมูลผู้ป่วยสำเร็จ!");
+            location.reload();  // รีเฟรชหน้าเพื่อลบแถวที่ถูกลบ
+          } else {
+            alert("เกิดข้อผิดพลาดในการลบข้อมูล");
+          }
+        };
       }
     }
-
   </script>
 
   <script>
@@ -215,10 +229,7 @@
           .catch(error => console.error('เกิดข้อผิดพลาด:', error));
       }
     }
-
-
   </script>
-
 
   <!-- fitter เรียงชื่อ  -->
   <script>
