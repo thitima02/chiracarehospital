@@ -13,7 +13,14 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // รับข้อมูล JSON ที่ส่งมาจาก client
     $data = json_decode(file_get_contents('php://input'), true);
+
+    // ตรวจสอบว่าข้อมูลถูกต้องหรือไม่
+    if (!$data) {
+        echo json_encode(['success' => false, 'message' => 'Invalid JSON data']);
+        exit;
+    }
 
     // ตรวจสอบค่าของข้อมูลต่างๆ
     $full_name = !empty($data['name']) ? $data['name'] : '-';
@@ -30,6 +37,8 @@ try {
     $diseaseType = isset($data['diseaseType']) ? implode(",", $data['diseaseType']) : '-';
     $other_disease = !empty($data['otherDisease']) ? $data['otherDisease'] : '-';
     $note = !empty($data['note']) ? $data['note'] : '-';
+    $patient_group = !empty($data['patientGroup']) ? $data['patientGroup'] : '-';
+    $patient_type = !empty($data['patientType']) ? $data['patientType'] : '-';
 
     // ข้อมูลจากตาราง patient_address
     $postal_code = !empty($data['postalCode']) ? $data['postalCode'] : '-';
@@ -40,6 +49,9 @@ try {
     $moo = !empty($data['moo']) ? $data['moo'] : '-';
     $number = !empty($data['number']) ? $data['number'] : '-';
     $area = !empty($data['area']) ? $data['area'] : '-';
+
+    // รับข้อมูลรูปภาพจาก Base64
+    $patientImageBase64 = isset($data['patientImageBase64']) ? $data['patientImageBase64'] : null;
 
     // ฟังก์ชันเพื่อสุ่มหมายเลข patient_id ที่ไม่ซ้ำ
     function generateUniquePatientId($pdo) {
@@ -57,8 +69,8 @@ try {
     $patient_id = generateUniquePatientId($pdo);
 
     // ใส่ข้อมูลลงในตาราง patient_information
-    $stmt1 = $pdo->prepare("INSERT INTO patient_information (patient_id, full_name, id_card, rank, department, phone_number, emergency_phone, birth_date, current_status, marital_status)
-                            VALUES (:patient_id, :full_name, :id_card, :rank, :department, :phone_number, :emergency_phone, :birth_date, :current_status, :marital_status)");
+    $stmt1 = $pdo->prepare("INSERT INTO patient_information (patient_id, full_name, id_card, rank, department, phone_number, emergency_phone, birth_date, current_status, marital_status, patient_image)
+                            VALUES (:patient_id, :full_name, :id_card, :rank, :department, :phone_number, :emergency_phone, :birth_date, :current_status, :marital_status, :patient_image)");
     $stmt1->bindParam(':patient_id', $patient_id);
     $stmt1->bindParam(':full_name', $full_name);
     $stmt1->bindParam(':id_card', $id_card);
@@ -69,6 +81,7 @@ try {
     $stmt1->bindParam(':birth_date', $birth_date);
     $stmt1->bindParam(':current_status', $current_status);
     $stmt1->bindParam(':marital_status', $marital_status);
+    $stmt1->bindParam(':patient_image', $patientImageBase64);
 
     // ใส่ข้อมูลลงในตาราง patient_address
     $stmt2 = $pdo->prepare("INSERT INTO patient_address (patient_id, postal_code, province, amphur, tambon, soi, moo, number, area)
@@ -84,18 +97,20 @@ try {
     $stmt2->bindParam(':area', $area);
 
     // ใส่ข้อมูลลงในตาราง patient_medical_information
-    $stmt3 = $pdo->prepare("INSERT INTO patient_medical_information (patient_id, disease_type, note)
-                            VALUES (:patient_id, :disease_type, :note)");
+    $stmt3 = $pdo->prepare("INSERT INTO patient_medical_information (patient_id, disease_type, note, patient_group, patient_type)
+                            VALUES (:patient_id, :disease_type, :note, :patient_group, :patient_type)");
     $stmt3->bindParam(':patient_id', $patient_id);
     $stmt3->bindParam(':disease_type', $diseaseType);
     $stmt3->bindParam(':note', $note);
+    $stmt3->bindParam(':patient_group', $patient_group);
+    $stmt3->bindParam(':patient_type', $patient_type);
 
     // ดำเนินการเพิ่มข้อมูลทั้งหมด
     $pdo->beginTransaction();
 
     if ($stmt1->execute() && $stmt2->execute() && $stmt3->execute()) {
         $pdo->commit();
-        echo json_encode(['success' => true]);
+        echo json_encode(['success' => true, 'message' => 'Data inserted successfully']);
     } else {
         $pdo->rollBack();
         echo json_encode(['success' => false, 'message' => 'ไม่สามารถเพิ่มข้อมูลได้']);
