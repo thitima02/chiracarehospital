@@ -203,96 +203,105 @@
   </div>
 
   <script>
- document.addEventListener('DOMContentLoaded', function () {
-    // ฟังก์ชันดึงข้อมูลผู้ป่วย
-    function fetchPatientData(patient_id) {
-        // ส่งคำขอไปยัง PHP API โดยใช้ Fetch API
-        fetch(`/chiracarehospital/backend/sql/patient_manage/get_patient.php?patient_id=${patient_id}`)
-            .then(response => response.json())
-            .then(data => {
-                // ตรวจสอบว่ามีข้อมูลหรือไม่
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    // กรอกข้อมูลลงในฟอร์ม
-                    document.getElementById('rank').value = data.rank || '';
-                    document.getElementById('depart').value = data.department || '';
-                    document.getElementById('name').value = data.full_name || '';
-                    document.getElementById('id-number').value = data.id_card || '';
-                    document.getElementById('marital').value = data.marital_status || '';
-                    document.getElementById('birthdate').value = data.birth_date || '';
-                    document.getElementById('phone').value = data.phone_number || '';
-                    document.getElementById('emergency-phone').value = data.emergency_phone || '';
-                    document.getElementById('postal-code').value = data.postal_code || '';
-                    document.getElementById('province').value = data.province || '';
-                    document.getElementById('district').value = data.amphur || '';
-                    document.getElementById('sub-district').value = data.tambon || '';
-                    document.getElementById('soi').value = data.soi || '';
-                    document.getElementById('village').value = data.moo || '';
-                    document.getElementById('address').value = data.number || '';
-                    document.getElementById('volunteer-area').value = data.area || '';
+  document.addEventListener('DOMContentLoaded', function () {
+  // ฟังก์ชันดึงข้อมูลผู้ป่วย
+  function fetchPatientData(patient_id) {
+    fetch(`/chiracarehospital/backend/sql/patient_manage/get_patient.php?patient_id=${patient_id}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Fetched Patient Data:', data); // ตรวจสอบข้อมูลที่ดึงมา
 
-                    // สำหรับข้อมูลทางการแพทย์ (โรคประจำตัว)
-                    const diseaseTypes = data.disease_type ? data.disease_type.split(',') : [];
-                    const diseaseCheckboxes = document.querySelectorAll('input[name="disease-type[]"]');
+        if (data.error) {
+          alert(data.error);
+        } else {
+          // อัพเดทข้อมูลที่ได้รับ
+          document.getElementById('rank').value = data.rank || '';
+          document.getElementById('depart').value = data.department || '';
+          document.getElementById('name').value = data.full_name || '';
+          document.getElementById('id-number').value = data.id_card || '';
+          document.getElementById('marital').value = data.marital_status || '';
+          document.getElementById('birthdate').value = data.birth_date || '';
+          document.getElementById('phone').value = data.phone_number || '';
+          document.getElementById('emergency-phone').value = data.emergency_phone || '';
+          document.getElementById('postal-code').value = data.postal_code || '';
+          document.getElementById('province').value = data.province || '';
+          document.getElementById('district').value = data.amphur || '';
+          document.getElementById('sub-district').value = data.tambon || '';
+          document.getElementById('soi').value = data.soi || '';
+          document.getElementById('village').value = data.moo || '';
+          document.getElementById('address').value = data.number || '';
+          document.getElementById('volunteer-area').value = data.area || '';
 
-                    // ตรวจสอบและทำเครื่องหมาย checkbox ที่ตรงกับข้อมูลที่ดึงมา
-                    diseaseCheckboxes.forEach(checkbox => {
-                        checkbox.checked = diseaseTypes.includes(checkbox.value);
-                    });
+          // แสดงภาพผู้ป่วย
+          const patientImage = data.patient_image ? `data:image/jpeg;base64,${data.patient_image}` : 'path/to/placeholder/image.jpg'; // ใช้ภาพ placeholder ถ้าภาพเป็น null
+          document.getElementById('profile-picture').src = patientImage;
 
-                    // หากเลือก "อื่นๆ" ให้แสดงช่องกรอกข้อมูลเพิ่มเติม
-                    const otherDiseaseCheckbox = document.getElementById('other-disease-checkbox');
-                    if (diseaseTypes.includes('อื่นๆ')) {
-                        document.getElementById('other-disease-container').style.display = 'block';
-                        document.getElementById('other-disease').value = data.other_disease || ''; // แสดงข้อมูล "อื่นๆ" ถ้ามี
-                    } else {
-                        document.getElementById('other-disease-container').style.display = 'none';
-                        document.getElementById('other-disease').value = ''; // เคลียร์ข้อมูล "อื่นๆ"
-                    }
+          const diseaseTypes = data.disease_type ? data.disease_type.split(',') : [];
+          const diseaseCheckboxes = document.querySelectorAll('input[name="disease-type[]"]');
+          diseaseCheckboxes.forEach(checkbox => {
+            checkbox.checked = diseaseTypes.includes(checkbox.value);
+          });
 
-                    document.getElementById('note').value = data.note || '';
-                    document.getElementById('patient-group').value = data.patient_group || 'กลุ่มผู้ป่วย';
-                    document.getElementById('patient-type').value = data.patient_type || 'ประชาชน';
-                    document.getElementById('current').value = data.current_status || 'ปกติ (มีชีวิต, เป็นผู้ป่วยของรพ.)';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
+          const otherDiseaseCheckbox = document.getElementById('other-disease-checkbox');
+          if (diseaseTypes.includes('อื่นๆ')) {
+            document.getElementById('other-disease-container').style.display = 'block';
+            document.getElementById('other-disease').value = data.other_disease || '';
+          } else {
+            document.getElementById('other-disease-container').style.display = 'none';
+            document.getElementById('other-disease').value = '';
+          }
 
-    // ดึงค่า patient_id จาก URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const patient_id = urlParams.get('patient_id');
-    if (patient_id) {
+          document.getElementById('note').value = data.note || '';
+          document.getElementById('patient-group').value = data.patient_group || 'กลุ่มผู้ป่วย';
+          document.getElementById('patient-type').value = data.patient_type || 'ประชาชน';
+          document.getElementById('current').value = data.current_status || 'ปกติ (มีชีวิต, เป็นผู้ป่วยของรพ.)';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const patient_id = urlParams.get('patient_id');
+      if (patient_id) {
         fetchPatientData(patient_id);
-    }
+      } else {
+        alert("ไม่พบหมายเลขผู้ป่วยใน URL");
+      }
 
-      // ตรวจสอบการคลิกปุ่ม
+      function getSelectedDiseases() {
+        const selectedDiseases = [];
+        const diseaseCheckboxes = document.querySelectorAll('input[name="disease-type[]"]:checked');
+        diseaseCheckboxes.forEach(checkbox => {
+          selectedDiseases.push(checkbox.value);
+        });
+        return selectedDiseases;
+      }
+
       document.getElementById("editBtn").addEventListener("click", function (event) {
         event.preventDefault();
 
-        const patientIdElement = document.getElementById("patient-id");
-        if (!patientIdElement) {
-          console.error('Element with id "patient-id" not found.');
-          return;
-        }
-        const patientId = patientIdElement.value;
-
-        if (!patientId) {
-          alert("กรุณาเลือกผู้ป่วยที่ต้องการแก้ไข");
+        const urlParams = new URLSearchParams(window.location.search);
+        const patient_id = urlParams.get('patient_id');
+        if (!patient_id) {
+          alert("ไม่พบหมายเลขผู้ป่วยใน URL");
           return;
         }
 
-        // ดึงข้อมูลจากฟอร์ม
+        const name = document.getElementById("name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        if (!name || !phone) {
+          alert("กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน");
+          return;
+        }
+
         const rank = document.getElementById("rank").value || "-";
         const department = document.getElementById("depart").value || "-";
-        const name = document.getElementById("name").value || "-";
         const idNumber = document.getElementById("id-number").value || "-";
         const maritalStatus = document.getElementById("marital").value || "-";
         const birthdate = document.getElementById("birthdate").value || "-";
-        const phone = document.getElementById("phone").value || "-";
         const emergencyPhone = document.getElementById("emergency-phone").value || "-";
         const postalCode = document.getElementById("postal-code").value || "-";
         const province = document.getElementById("province").value || "-";
@@ -326,7 +335,7 @@
 
         function sendUpdateData() {
           const updatedPatientData = {
-            patientId, // ใช้ patientId จากฟอร์ม
+            patientId: patient_id,  // ตรวจสอบให้แน่ใจว่ามีค่า
             rank,
             department,
             name,
@@ -352,7 +361,8 @@
             patientImageBase64
           };
 
-          // ส่งข้อมูลไปยังเซิร์ฟเวอร์
+          console.log('Sending Update Data:', updatedPatientData); // ตรวจสอบข้อมูลที่ส่ง
+
           fetch("/chiracarehospital/backend/sql/patient_manage/update_patient.php", {
             method: "POST",
             headers: {
@@ -362,14 +372,17 @@
           })
             .then(response => response.json())
             .then(data => {
+              console.log('Response from Server:', data); // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
               if (data.success) {
                 alert("แก้ไขข้อมูลผู้ป่วยสำเร็จ!");
                 document.querySelector("form").reset();
               } else {
-                alert("เกิดข้อผิดพลาดในการแก้ไขข้อมูล");
+                alert("ไม่สามารถแก้ไขข้อมูลได้");
               }
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => {
+              console.error("เกิดข้อผิดพลาดในการส่งข้อมูล:", error);
+            });
         }
       });
     });

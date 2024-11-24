@@ -36,13 +36,14 @@
   <div class="patientinfo-container">
     <div class="search-bar">
       <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
-      <input type="search" placeholder="เบอร์โทรศัพท์" id="phoneFilter" oninput="filterData()">
       <input type="search" placeholder="เลขบัตรประชาชน" id="idCardFilter" oninput="filterData()">
+      <input type="search" placeholder="เบอร์โทรศัพท์" id="phoneFilter" oninput="filterData()">
       <input type="search" placeholder="เบอร์โทรศัพท์ญาติ..." id="relativePhoneFilter" oninput="filterData()">
       <select id="treatmentStatusFilter" onchange="filterData()">
-        <option value="">สถานะผู้ป่วย</option>
-        <option value="นัดติดตามต่อเนื่อง">นัดติดตามต่อเนื่อง</option>
-        <option value="รักษาเสร็จสิ้น">รักษาเสร็จสิ้น</option>
+        <option value="">ทั้งหมด</option>
+        <option value="ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)">ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)</option>
+        <option value="เสียชีวิต">เสียชีวิต</option>
+        <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยแล้ว</option>
       </select>
       <button class="add-icon">
         <a href="addinfo.html">

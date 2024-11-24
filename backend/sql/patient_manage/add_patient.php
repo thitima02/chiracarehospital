@@ -22,13 +22,6 @@ try {
         exit;
     }
 
-    // ตรวจสอบค่า patientId
-    $patientId = isset($data['patientId']) ? $data['patientId'] : null;
-    if (!$patientId) {
-        echo json_encode(['success' => false, 'message' => 'Patient ID not provided']);
-        exit;
-    }
-
     // ตรวจสอบค่าของข้อมูลต่างๆ
     $full_name = !empty($data['name']) ? $data['name'] : '-';
     $id_card = !empty($data['idNumber']) ? $data['idNumber'] : '-';
@@ -60,41 +53,69 @@ try {
     // รับข้อมูลรูปภาพจาก Base64
     $patientImageBase64 = isset($data['patientImageBase64']) ? $data['patientImageBase64'] : null;
 
-    // คำสั่ง SQL เพื่ออัปเดตข้อมูลผู้ป่วยในฐานข้อมูล
-    $stmt = $pdo->prepare("UPDATE patient_information SET 
-                                full_name = :full_name, 
-                                id_card = :id_card, 
-                                rank = :rank, 
-                                department = :department, 
-                                phone_number = :phone_number, 
-                                emergency_phone = :emergency_phone, 
-                                birth_date = :birth_date, 
-                                current_status = :current_status, 
-                                marital_status = :marital_status, 
-                                patient_image = :patient_image
-                            WHERE patient_id = :patient_id");
-
-    // ผูกค่ากับ SQL
-    $stmt->bindParam(':patient_id', $patientId);
-    $stmt->bindParam(':full_name', $full_name);
-    $stmt->bindParam(':id_card', $id_card);
-    $stmt->bindParam(':rank', $rank);
-    $stmt->bindParam(':department', $department);
-    $stmt->bindParam(':phone_number', $phone_number);
-    $stmt->bindParam(':emergency_phone', $emergency_phone);
-    $stmt->bindParam(':birth_date', $birth_date);
-    $stmt->bindParam(':current_status', $current_status);
-    $stmt->bindParam(':marital_status', $marital_status);
-    $stmt->bindParam(':patient_image', $patientImageBase64);
-
-    // ตรวจสอบการอัปเดต
-    if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'ข้อมูลผู้ป่วยได้รับการอัปเดตเรียบร้อย']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'ไม่สามารถอัปเดตข้อมูลได้']);
+    // ฟังก์ชันเพื่อสุ่มหมายเลข patient_id ที่ไม่ซ้ำ
+    function generateUniquePatientId($pdo) {
+        do {
+            $patient_id = mt_rand(1000, 9999);
+            $sql = "SELECT COUNT(*) FROM patient_information WHERE patient_id = :patient_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['patient_id' => $patient_id]);
+            $result = $stmt->fetchColumn();
+        } while ($result > 0);
+        return $patient_id;
     }
 
+    // สร้าง patient_id ใหม่
+    $patient_id = generateUniquePatientId($pdo);
+
+    // ใส่ข้อมูลลงในตาราง patient_information
+    $stmt1 = $pdo->prepare("INSERT INTO patient_information (patient_id, full_name, id_card, rank, department, phone_number, emergency_phone, birth_date, current_status, marital_status, patient_image)
+                            VALUES (:patient_id, :full_name, :id_card, :rank, :department, :phone_number, :emergency_phone, :birth_date, :current_status, :marital_status, :patient_image)");
+    $stmt1->bindParam(':patient_id', $patient_id);
+    $stmt1->bindParam(':full_name', $full_name);
+    $stmt1->bindParam(':id_card', $id_card);
+    $stmt1->bindParam(':rank', $rank);
+    $stmt1->bindParam(':department', $department);
+    $stmt1->bindParam(':phone_number', $phone_number);
+    $stmt1->bindParam(':emergency_phone', $emergency_phone);
+    $stmt1->bindParam(':birth_date', $birth_date);
+    $stmt1->bindParam(':current_status', $current_status);
+    $stmt1->bindParam(':marital_status', $marital_status);
+    $stmt1->bindParam(':patient_image', $patientImageBase64);
+
+    // ใส่ข้อมูลลงในตาราง patient_address
+    $stmt2 = $pdo->prepare("INSERT INTO patient_address (patient_id, postal_code, province, amphur, tambon, soi, moo, number, area)
+                            VALUES (:patient_id, :postal_code, :province, :amphur, :tambon, :soi, :moo, :number, :area)");
+    $stmt2->bindParam(':patient_id', $patient_id);
+    $stmt2->bindParam(':postal_code', $postal_code);
+    $stmt2->bindParam(':province', $province);
+    $stmt2->bindParam(':amphur', $amphur);
+    $stmt2->bindParam(':tambon', $tambon);
+    $stmt2->bindParam(':soi', $soi);
+    $stmt2->bindParam(':moo', $moo);
+    $stmt2->bindParam(':number', $number);
+    $stmt2->bindParam(':area', $area);
+
+    // ใส่ข้อมูลลงในตาราง patient_medical_information
+    $stmt3 = $pdo->prepare("INSERT INTO patient_medical_information (patient_id, disease_type, note, patient_group, patient_type)
+                            VALUES (:patient_id, :disease_type, :note, :patient_group, :patient_type)");
+    $stmt3->bindParam(':patient_id', $patient_id);
+    $stmt3->bindParam(':disease_type', $diseaseType);
+    $stmt3->bindParam(':note', $note);
+    $stmt3->bindParam(':patient_group', $patient_group);
+    $stmt3->bindParam(':patient_type', $patient_type);
+
+    // ดำเนินการเพิ่มข้อมูลทั้งหมด
+    $pdo->beginTransaction();
+
+    if ($stmt1->execute() && $stmt2->execute() && $stmt3->execute()) {
+        $pdo->commit();
+        echo json_encode(['success' => true, 'message' => 'Data inserted successfully']);
+    } else {
+        $pdo->rollBack();
+        echo json_encode(['success' => false, 'message' => 'ไม่สามารถเพิ่มข้อมูลได้']);
+    }
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล']);
+    echo json_encode(['success' => false, 'message' => 'เกิดข้อผิดพลาด: ' . $e->getMessage()]);
 }
 ?>
