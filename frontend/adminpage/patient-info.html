@@ -49,10 +49,6 @@
           <i class='bx bx-user-plus'></i>
         </a>
       </button>
-
-      <button onclick="sortNames()">
-        <i class='bx bx-filter'></i>
-      </button>
     </div>
 
     <div class="table-container">
@@ -239,20 +235,6 @@
           row.style.display = 'none';
         }
       });
-    }
-
-    // ฟังก์ชันสำหรับเรียงชื่อ
-    function sortNames() {
-      const tbody = document.getElementById('patient-info-body');
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-
-      rows.sort((a, b) => {
-        const nameA = a.querySelector('td').innerText;
-        const nameB = b.querySelector('td').innerText;
-        return nameA.localeCompare(nameB, 'th');
-      });
-
-      rows.forEach(row => tbody.appendChild(row));
     }
 
   </script>
