@@ -6,13 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../styles.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <title>Fort Chiraprawat Hospital Registration</title>
+  <title>โรงพยาบาลค่ายจิรประวัติ</title>
+	
+	    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body, button, input, select {
+            font-family: Noto Sans Thai, sans-serif;
+        }
+    </style>
+	
 </head>
 
 <body>
   <div class="container">
     <div class="header">
-      <img src="../assets/images/logo.jpg" alt="Hospital Logo" class="logo">
+		<h1>เพิ่มผู้ใช้งาน</h1>
     </div>
     <form id="registration-form" class="registration-form">
       <label for="name">ชื่อ (name)</label>
@@ -59,12 +70,11 @@
 
       <!-- ช่องใส่รูปภาพ -->
       <label for="profile-picture">อัปโหลดรูปภาพ (Profile Picture)</label>
-      <input type="file" id="profile-picture" name="profile-picture" accept=".png, .PNG, .jpg, .JPG" required>
+      <input type="file" id="profile-picture" name="profile-picture" accept="image/*" required>
       <div id="preview-container">
         <img id="preview-image" src="" alt="รูปตัวอย่าง"
           style="display:none; max-width: 100%; max-height: 200px; margin-top: 10px;">
       </div>
-      
 
       <label for="password">รหัสผ่าน</label>
       <div class="password-container">
@@ -85,13 +95,9 @@
       </div>
       <p id="password-error" class="error-message">รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน</p>
 
-      <button type="submit">ลงทะเบียน</button>
+      <button type="submit">เพิ่มข้อมูลผู้ใช้</button>
     </form>
   </div>
-</body>
-
-
-</html>
 
 <script>
   // ฟังก์ชันตรวจสอบเลขบัตรประชาชน
@@ -212,7 +218,7 @@
         };
 
         // ส่งข้อมูลไปยัง API
-        fetch('../backend/sql/register.php', {
+        fetch('backend/sql/master/addUsers.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -223,7 +229,7 @@
           .then(data => {
             if (data.message) {
               alert(data.message); // แสดงข้อความสำเร็จ
-              window.location.href = "login.html"; // Redirect ไปยังหน้า Login
+              window.location.href = "user_manage.html"; // Redirect ไปยังหน้า Login
             } else if (data.error) {
               alert(data.error); // แสดงข้อความผิดพลาด
             }
@@ -384,3 +390,7 @@
     /* กำหนดระยะห่างระหว่างข้อความผิดพลาดและปุ่ม */
   }
 </style>
+	
+	</body>
+
+</html>

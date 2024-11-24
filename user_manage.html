@@ -1,372 +1,117 @@
-<!DOCTYPE html>
-<html lang="th">
+<!doctype html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="sidebar.css">
-    <link rel="stylesheet" href="topbar.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>โรงพยาบาลค่ายจิรประวัติ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
 
-    <title>ระบบจัดการผู้ใช้</title>
     <style>
-        /* Reset CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-
-        body {
-            background-color: #f4f6f9;
-            color: #333;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 32px;
-            color: #333;
-        }
-
-        /* ปุ่มเพิ่มผู้ใช้ */
-        .btn-add {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-add:hover {
-            background-color: #45a049;
-        }
-
-        /* ตาราง */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        th,
-        td {
-            padding: 12px;
-            text-align: left;
-            font-size: 16px;
-        }
-
-        th {
-            background-color: #009688;
-            color: white;
-        }
-
-        td {
-            background-color: #ffffff;
-        }
-
-        tr:nth-child(even) td {
-            background-color: #f9f9f9;
-        }
-
-        td button {
-            padding: 6px 12px;
-            margin-right: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .btn-edit {
-            background-color: #ffa500;
-            color: white;
-        }
-
-        .btn-delete {
-            background-color: #f44336;
-            color: white;
-        }
-
-        .btn-edit:hover,
-        .btn-delete:hover {
-            transform: scale(1.1);
-        }
-
-        /* ฟอร์ม */
-        #userForm {
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            width: 100%;
-            max-width: 500px;
-            margin: 20px auto;
-            display: none;
-        }
-
-        #formTitle {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        label {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #333;
-            display: block;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        button[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        button[type="button"] {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button[type="button"]:hover {
-            background-color: #e53935;
-        }
-
-        /* Dialog confirm delete */
-        #confirmDeleteDialog {
-            background-color: #fff;
-            padding: 20px;
-            width: 300px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            text-align: center;
-        }
-
-        #confirmDeleteDialog button {
-            width: 45%;
-            margin: 5px;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            .btn-add {
-                font-size: 14px;
-                padding: 8px 15px;
-            }
-
-            table {
-                font-size: 14px;
-            }
-
-            input,
-            select,
-            button {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            #userForm {
-                padding: 15px;
-            }
+        body, button, input, select {
+            font-family: Noto Sans Thai, sans-serif;
         }
     </style>
 </head>
 
-<div id="sidebar-container"></div>
-
-<div id="topbar-container"></div>
-
 <body>
 
+    <div class="container py-4">
 
-    <h1>ระบบจัดการผู้ใช้</h1>
+        <div class="d-flex justify-content-between mb-4">
+            <h1 class="h3 fw-bold mb-0">ระบบจัดการผู้ใช้</h1>
+            <a class="btn btn-primary" href="user_register.html">เพิ่มผู้ใช้งาน</a>
+        </div>
 
-    <!-- ปุ่มเพิ่มผู้ใช้ -->
-    <button class="btn-add" onclick="openAddUserForm()">เพิ่มผู้ใช้</button>
-
-    <!-- ตารางแสดงข้อมูลผู้ใช้ -->
-    <table>
-        <thead>
-            <tr>
-                <th>ชื่อผู้ใช้</th>
-                <th>อีเมล์</th>
-                <th>ตำแหน่ง</th>
-                <th>สถานะ</th>
-                <th>การจัดการ</th>
-            </tr>
-        </thead>
-        <tbody id="userTable">
-            <tr>
-                <td>สมชาย</td>
-                <td>somchai@email.com</td>
-                <td>เจ้าหน้าที่โรงพยาบาล</td>
-                <td>เปิดใช้งาน</td>
-                <td>
-                    <button class="btn-edit" onclick="openEditUserForm(1)">แก้ไข</button>
-                    <button class="btn-delete" onclick="confirmDelete(1)">ลบ</button>
-                </td>
-            </tr>
-            <tr>
-                <td>สมศรี</td>
-                <td>somsri@email.com</td>
-                <td>อาสาสมัครสาธารณสุข</td>
-                <td>ปิดการใช้งาน</td>
-                <td>
-                    <button class="btn-edit" onclick="openEditUserForm(2)">แก้ไข</button>
-                    <button class="btn-delete" onclick="confirmDelete(2)">ลบ</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- ฟอร์มเพิ่ม/แก้ไขผู้ใช้ -->
-    <div id="userForm">
-        <h2 id="formTitle">เพิ่มผู้ใช้ใหม่</h2>
-        <form id="formData">
-            <label for="username">ชื่อผู้ใช้:</label>
-            <input type="text" id="username" name="username" required><br><br>
-
-            <label for="email">อีเมล์:</label>
-            <input type="email" id="email" name="email" required><br><br>
-
-            <label for="role">ตำแหน่ง:</label>
-            <select id="role" name="role" required>
-                <option value="staff">เจ้าหน้าที่โรงพยาบาล</option>
-                <option value="volunteer">อาสาสมัครสาธารณสุข</option>
-                <option value="nurse">เสนารักษ์</option>
-            </select><br><br>
-
-            <label for="status">สถานะ:</label>
-            <select id="status" name="status" required>
-                <option value="active">เปิดใช้งาน</option>
-                <option value="inactive">ปิดการใช้งาน</option>
-            </select><br><br>
-
-            <button type="submit">บันทึกข้อมูล</button>
-            <button type="button" onclick="closeForm()">ยกเลิก</button>
-        </form>
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="table-success">
+                    <tr>
+                        <th scope="col">ชื่อ-นามสกุล</th>
+                        <th scope="col">ชื่อผู้ใช้</th>
+                        <th scope="col">เขตที่รับผิดชอบ</th>
+                        <th scope="col">เบอร์โทรศัพท์</th>
+                        <th scope="col">สถานะ</th>
+                        <th scope="col">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <!-- Confirm delete dialog -->
-    <div id="confirmDeleteDialog">
-        <p>คุณต้องการลบผู้ใช้นี้ใช่หรือไม่?</p>
-        <button onclick="deleteUser()">ยืนยัน</button>
-        <button onclick="cancelDelete()">ยกเลิก</button>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        // ฟังก์ชันเปิดฟอร์มเพิ่มผู้ใช้
-        function openAddUserForm() {
-            document.getElementById('userForm').style.display = 'block';
-            document.getElementById('formTitle').textContent = 'เพิ่มผู้ใช้ใหม่';
-            document.getElementById('formData').reset();
-        }
+        $(document).ready(function () {
+            // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
+            $.getJSON('/chiracarehospital/backend/sql/master/getUsers.php', function (response) {
+                if (response.status === 'success') {
+                    var staffs = response.data;
+                    var rows = '';
 
-        // ฟังก์ชันเปิดฟอร์มแก้ไขผู้ใช้
-        function openEditUserForm(userId) {
-            // เติมข้อมูลผู้ใช้ที่จะแก้ไข
-            document.getElementById('userForm').style.display = 'block';
-            document.getElementById('formTitle').textContent = 'แก้ไขผู้ใช้';
-        }
+                    // วนลูปข้อมูลผู้ใช้เพื่อแสดงในตาราง
+                    staffs.forEach(function (staff) {
+                        // ดึงข้อมูล user_info
+                        rows += ` <tr>
+                         <td>${staff.full_name}</td>
+                         <td>${staff.username}</td>
+                         <td>${staff.responsibility_area}</td>
+                        <td>${staff.phone_number}</td>
+						<td>${staff.department}</td>
+                        <td>
+                    <a class="btn btn-sm btn-outline-primary m-1" href="user_edit.html?id=${staff.id}">แก้ไข</a>
+                    <button class="btn btn-sm btn-outline-danger m-1" onclick="confirmDelete(${staff.id})">ลบ</button>
+                </td>
+            </tr>`;
 
-        // ฟังก์ชันปิดฟอร์ม
-        function closeForm() {
-            document.getElementById('userForm').style.display = 'none';
-        }
 
-        // ฟังก์ชันยืนยันการลบ
+                    });
+
+                    // แทรกข้อมูลในตาราง
+                    $('#userTable').html(rows);
+                } else {
+                    alert(response.message);
+                }
+            });
+        });
+
         function confirmDelete(userId) {
-            document.getElementById('confirmDeleteDialog').style.display = 'block';
+            if (confirm('คุณแน่ใจว่าต้องการลบข้อมูลนี้?')) {
+                // ส่งคำขอลบไปยัง API
+                $.ajax({
+                    url: '/chiracarehospital/backend/sql/master/deleteUsers.php',
+                    method: 'GET',
+                    data: {
+                        user_id: userId,
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            // รีโหลดหน้าเว็บหลังจากลบสำเร็จ
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
+            }
         }
-
-        // ฟังก์ชันลบผู้ใช้
-        function deleteUser() {
-            // ลบข้อมูลผู้ใช้จากฐานข้อมูล
-            document.getElementById('confirmDeleteDialog').style.display = 'none';
-        }
-
-        // ฟังก์ชันยกเลิกการลบ
-        function cancelDelete() {
-            document.getElementById('confirmDeleteDialog').style.display = 'none';
-        }
-    </script>
-
-    <script>
-        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
-        checkAuth();
-
-        // Load sidebar
-        fetch('sidebar.html')
-            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
-            .then(response => response.text())
-            // แปลงข้อมูลที่ได้รับเป็นข้อความ
-            .then(data => {
-                document.getElementById('sidebar-container').innerHTML = data;
-                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
-                loadSidebarScript();
-                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
-            });
-
-        // Load topbar and set the page title
-        fetch('topbar.html')
-            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
-            .then(response => response.text())
-            // แปลงข้อมูลที่ได้รับเป็นข้อความ
-            .then(data => {
-                document.getElementById('topbar-container').innerHTML = data;
-                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-                document.getElementById('page-title').textContent = 'ติดตามผู้ป่วยที่ไม่มาเข้ารับการรักษา';
-                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
-
-                // Re-run user.js script after loading topbar
-                const script = document.createElement('script');
-                // สร้างแท็ก script ใหม่
-                script.src = '../method/user.js';
-                // กำหนดแหล่งที่มาของ script เป็น user.js
-                document.body.appendChild(script);
-                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
-            });
     </script>
 </body>
 

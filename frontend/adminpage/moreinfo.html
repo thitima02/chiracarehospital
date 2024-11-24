@@ -92,32 +92,7 @@
         
       </div>
   
-      <!-- Follow-up History Section -->
-      <div class="follow-up-history">
-          <h3>ประวัติการติดตาม</h3>
-          <div class="dropdown">
-              <select id="departmentSelect" onchange="loadFollowUpHistory()">
-                  <option value="">เลือกแผนก</option>
-                  <option value="อาสาสมัครสาธารณสุข">อาสาสมัครสาธารณสุข</option>
-                  <option value="เจ้าหน้าที่โรงพยาบาล">เจ้าหน้าที่โรงพยาบาล</option>
-                  <option value="เสนารักษ์">เสนารักษ์</option>
-              </select>
-          </div>
-          <table>
-              <thead>
-                  <tr>
-                      <th>เจ้าหน้าที่ที่รับผิดชอบ</th>
-                      <th>วันเริ่มติดตาม</th>
-                      <th>วันสิ้นสุด</th>
-                      <th>ครั้งที่ติดตาม</th>
-                  </tr>
-              </thead>
-              <tbody id="followUpHistoryTable">
-                  <!-- ข้อมูลจะถูกเติมที่นี่ -->
-              </tbody>
-          </table>
-      </div>
-    </div>
+      
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -223,23 +198,48 @@
         }
     
         // Function to fetch latest monitor form data
-        async function fetchMonitorFormData(patientId) {
-            try {
-                const response = await fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`);
-                const data = await response.json();
-                if (data.status === 'success' && data.data.length > 0) {
-                    const monitorFormRecord = data.data[0];
-                    document.getElementById('generalCondition').textContent = monitorFormRecord.general_symptoms || "ไม่มีข้อมูล";
-                    document.getElementById('vitalSigns').textContent = monitorFormRecord.vital_signs || "ไม่มีข้อมูล";
-                    document.getElementById('bloodSugarLevel').textContent = monitorFormRecord.blood_sugar_level || "ไม่มีข้อมูล";
-                    document.getElementById('latestDiseaseType').textContent = monitorFormRecord.disease_type || "ไม่มีข้อมูล";
+        function fetchMonitorData() {
+    fetch('/chiracarehospital/backend/sql/get_monitor_form.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' && data.data.length > 0) {
+                const monitorData = data.data[0]; // ใช้ข้อมูลรายการแรก
+
+                // เติมค่าลงในฟิลด์
+                document.getElementById('missingAppointments').value = monitorData.reason_for_missed_treatment || 'ไม่มีข้อมูล';
+                document.getElementById('generalCondition').value = monitorData.general_symptoms || 'ไม่มีข้อมูล';
+                document.getElementById('vitalSigns').value = monitorData.vital_signs || 'ไม่มีข้อมูล';
+                document.getElementById('bloodSugarLevel').value = monitorData.blood_sugar_level || 'ไม่มีข้อมูล';
+
+                // แสดงวันที่อัปเดต
+                const submissionDate = monitorData.form_submission_date;
+                if (submissionDate) {
+                    const formattedDate = new Date(submissionDate).toLocaleString('th-TH', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                    });
+                    document.getElementById('newUpdateDate').textContent = formattedDate;
                 } else {
-                    console.log("ไม่มีข้อมูลที่พบใน monitor form");
+                    document.getElementById('newUpdateDate').textContent = 'ไม่มีข้อมูล';
                 }
-            } catch (error) {
-                console.error('Error fetching monitor form data:', error);
+            } else {
+                console.error('ไม่พบข้อมูล');
             }
-        }
+        })
+        .catch(error => {
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+        });
+}
+
+// เพิ่มการเรียกฟังก์ชัน fetchMonitorData() เมื่อหน้าโหลด
+window.onload = function() {
+    fetchMonitorData();  // เรียกใช้งานเมื่อโหลดหน้า
+};
+
     </script>
     
 <script>

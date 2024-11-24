@@ -26,16 +26,16 @@ body {
 
 
 .back-button button {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
+  padding: 10px 15px;
+  font-size: 14px;
   background-color: #007bff;
+  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .btn-back {
@@ -46,11 +46,6 @@ body {
   border-radius: 5px;
   font-size: 14px;
   cursor: pointer;
-}
-
-.btn-back:hover {
-  background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
-  color: white;
 }
 
 .main-content {
