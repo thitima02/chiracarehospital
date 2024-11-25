@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>โรงพยาบาลค่ายจิรประวัติ</title>
-  <link rel="stylesheet" href="../../css/patient-info.css">
+  <link rel="stylesheet" href="../../css/staffinfo.css">
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
@@ -15,7 +15,14 @@
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <script src="../method/logout.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับจัดการการออกจากระบบ -->
+  <script src="../method/user.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับการจัดการข้อมูลผู้ใช้ -->
+  <script src="../method/loadSidebarScript.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับโหลดสคริปต์ sidebar -->
+  <script src="../method/checkAuth.js"></script>
+  <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
 </head>
 
 <body style="background-color:#edeff1;">
@@ -25,6 +32,7 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
+<<<<<<< HEAD
   <div id="main">
     <div class="patientinfo-container">
       <div class="search-bar">
@@ -100,6 +108,82 @@
     }
   </script>
 
+=======
+  <div class="patientinfo-container">
+    <section class="filter-section" style="justify-content: center;">
+      <div class="filter-container">
+        <div class="filter-item search-bar">
+          <h5>ค้นหารายชื่อ</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput"
+            oninput="filterData()">
+          <i class='bx bx-search search-icon'></i>
+        </div>
+        <div class="filter-item">
+          <h5>หน้าที่ที่รับผิดชอบ</h5>
+          <select class="dropdown-filter" id="treatmentCountFilter" onchange="filterData()">
+            <option value="">ทั้งหมด</option>
+            <option value="โรคความดันโลหิตสูง">อาสาสมัครสาธารณสุข</option>
+            <option value="โรคอ้วน">เสนารักษ์</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <h5>เขตที่รับผิดชอบ</h5>
+          <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
+            <option value="ทั้งหมด">ทั้งหมด</option>
+            <option value="1">เขต 1</option>
+            <option value="2">เขต 2</option>
+            <option value="3">เขต 3</option>
+            <option value="4">เขต 4</option>
+            <option value="5">เขต 5</option>
+            <option value="6">เขต 6</option>
+            <option value="7">เขต 7</option>
+            <option value="8">เขต 8</option>
+            <option value="9">เขต 9</option>
+            <option value="10">เขต 10</option>
+            <option value="11">เขต 11</option>
+            <option value="12">เขต 12</option>
+            <option value="13">เขต 13</option>
+            <option value="14">เขต 14</option>
+            <option value="15">เขต 15</option>
+            <option value="15">นอกเขต</option>
+          </select>
+        </div>
+
+        <div class="filter-item search-bar">
+          <h5>เลขบัตรประชาชน</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchPatientInput"
+            style="color: aquamarine;" oninput="filterData()">
+          <i class='bx bx-search search-other-icon'></i>
+        </div>
+
+        <div class="filter-item search-bar">
+          <h5>เบอร์โทรศัพท์</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchPatientInput" oninput="filterData()">
+          <i class='bx bx-search search-other-icon'></i>
+        </div>
+      </div>
+    </section>
+
+    <div class="table-container">
+      <table class="patient-table">
+        <thead>
+          <tr>
+            <th>ชื่อ - นามสกุล</th>
+            <th>หน้าที่ที่รับผิดชอบ</th>
+            <th>เขตที่รับผิดชอบ</th>
+            <th>เลขบัตรประชาชน</th>
+            <th>เบอร์โทรศัพท์</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+
+        <tbody id="patient-info-body">
+          <!-- ข้อมูลจะแสดงที่นี่ -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+>>>>>>> 5925e207b12778ecdc4a84ad84a5b8ffaa417e94
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
@@ -112,17 +196,15 @@
 
           // วนลูปข้อมูลผู้ใช้เพื่อแสดงในตาราง
           staffs.forEach(function (staff) {
-            // กรองเฉพาะผู้ที่มีสถานะเป็น 'อาสาสมัครสาธารณะสุข' หรือ 'เสนารักษ์'
+            // กรองเฉพาะผู้ที่มีสถานะเป็น 'อาสาสมัครสาธารณสุข' หรือ 'เสนารักษ์'
             if (staff.department === 'อาสาสมัครสาธารณสุข' || staff.department === 'เสนารักษ์') {
               rows += '<tr>';
-              rows += '<td><img src="../../assets/images/cat.jpg" alt="avatar"> ' + staff.full_name + '</td>';
+              rows += '<td style="text-align: left; padding-left: 30px"><img src="../../assets/images/cat.jpg" alt="avatar"> ' + staff.full_name + '</td>';
               rows += '<td>' + staff.department + '</td>';
               rows += '<td>' + staff.responsibility_area + '</td>';
               rows += '<td>' + (staff.id_card ? staff.id_card : '-') + '</td>';
               rows += '<td>' + staff.phone_number + '</td>';
-              rows += '<td>' + '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editStaff(\'' + staff.id + '\')"><i class="bx bxs-edit"></i></button>';
-              rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deleteStaff(\'' + staff.id + '\')"><i class="bx bx-trash"></i></button>';
-              rows += '<button class="action-btn" title="ดูเพิ่มเติม" onclick="moreStaff(\'' + staff.id + '\')" ><i class="bx bx-right-arrow-alt"></i></button>';
+              rows += '<td>' + '<button class="action-btn" title="ดูผู้ป่วยที่รับผิดชอบ" onclick="moreStaff(\'' + staff.id + '\')" ><i class="bx bx-handicap"></i></button>';
               rows += '</td>';
               rows += '</tr>';
             }
@@ -136,120 +218,74 @@
       });
     });
 
-
-    // ฟังก์ชันแก้ไขข้อมูล
-    function editStaff(id) {
-      window.location.href = `editaddstaff.html?id=${id}`;
-
-    }
-
     function moreStaff(id) {
       window.location.href = `morestaff.html?id=${id}`;
       if (id) {
-        console.log("Editing Patient ID:", patient_id);  // เช็คค่า ID ที่ส่งเข้ามา
-        window.location.href = `editaddinfo.html?patient_id=${patient_id}`;
-
+        console.log("Viewing Patient ID:", id);  // เช็คค่า ID ที่ส่งเข้ามา
       } else {
         console.error("ไม่พบ ID ของผู้ป่วย"); // แจ้งเตือนหาก id ไม่ถูกต้อง
       }
     }
 
-    // ฟังก์ชันลบข้อมูล
-    function deleteStaff(id) {
-      if (confirm('คุณแน่ใจว่าต้องการลบข้อมูลนี้?')) {
-        // ส่งคำขอลบไปยัง API
-        $.ajax({
-          url: '/chiracarehospital/backend/sql/staff_information/delete_staff.php',
-          method: 'POST',
-          data: { id: id },
-          success: function (response) {
-            if (response.status === 'success') {
-              // รีโหลดหน้าเว็บหลังจากลบสำเร็จ
-              location.reload();
-            } else {
-              alert(response.message);
-            }
-          }
-        });
-      }
-    }
-  </script>
-
-  <script>
-    function getUserIdFromURL() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('id');
-    }
-
-    function loadUserData() {
-      const userId = getUserIdFromURL();
-      if (userId) {
-        fetch(`/chiracarehospital/backend/sql/users/getAlluser.php?id=${userId}`)
-          .then(response => response.json())
-          .then(data => {
-            if (data.status === 'success') {
-              // แสดงข้อมูลในฟอร์ม เช่น
-              document.getElementById('name').value = data.data.full_name;
-              document.getElementById('idcard').value = data.data.id;
-              document.getElementById('phonenumber').value = data.data.phone_number;
-              // กำหนดข้อมูลอื่น ๆ
-            } else {
-              alert(data.message); // แจ้งเตือนถ้าข้อมูลผิดพลาด
-            }
-          })
-          .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-      }
-    }
-
-    // เรียกใช้เมื่อโหลดหน้า
-    document.addEventListener('DOMContentLoaded', loadUserData);
-
     // filter data 
     function filterData() {
-      // รับค่า input ของชื่อที่ต้องการค้นหา
-      var searchValue = document.getElementById('SearchFilter').value.toLowerCase();
-
-      // รับค่าของ option ที่เลือกใน select
-      var searchArea = document.getElementById('responsibility-areaFilter').value;
-
-      var selectStatus = document.getElementById('StatusFilter').value;
-
-      // รับค่าของ option ที่เลือกใน select
-      var searchPhonenumber = document.getElementById('PhonenumberFilter').value;
-
-      //ดึงข้อมูลอสมและเสนารักษ์ทั้งหมดในตาราง
+      var searchValue = document.getElementById('searchPatientInput').value.toLowerCase();
       var rows = document.querySelectorAll('#patient-info-body tr');
 
       rows.forEach(function (row) {
-        var staffName = row.cells[0].innerText.toLowerCase(); // ชื่ออสม
+        var staffName = row.cells[0].innerText.toLowerCase();
+        var staffstatus = row.cells[1].innerText.toLowerCase();
+        var staffarea = row.cells[2].innerText;
+        var staffphonenumber = row.cells[4].innerText;
 
-        var staffstatus = row.cells[1].innerText.toLowerCase(); // สถานะอสมหรือเสนารักษ์
-
-        var staffarea = row.cells[2].innerText; // เขตที่ผู้ป่วยอาศัย
-
-        var staffphonenumber = row.cells[4].innerText; // เขตที่ผู้ป่วยอาศัย
-
-        // ตรวจสอบเงื่อนไขการค้นหาและกรองข้อมูล
         var isNameMatch = staffName.includes(searchValue);
+        var isAreaMatch = staffarea.includes(searchValue);
+        var isPhoneMatch = staffphonenumber.includes(searchValue);
 
-        var isAreaMatch = staffarea.includes(searchArea);
-
-        var isStatusMatch = selectStatus === "สถานะ" || staffstatus === selectStatus;
-
-        var isPhoneMatch = staffphonenumber.includes(searchPhonenumber);
-
-        // แสดงหรือซ่อนแถวตามเงื่อนไขการกรอง
-        if (isNameMatch && isAreaMatch && isPhoneMatch && isStatusMatch) {
+        if (isNameMatch || isAreaMatch || isPhoneMatch) {
           row.style.display = '';
         } else {
           row.style.display = 'none';
         }
       });
     }
-
-
   </script>
 
-</body>
+<script>
+  // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+  checkAuth();
 
+  // Load sidebar
+  fetch('sidebar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+      .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
+      .then(data => {
+          document.getElementById('sidebar-container').innerHTML = data;
+          // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+          loadSidebarScript();
+          // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+      });
+
+  // Load topbar and set the page title
+  fetch('topbar.html')
+      // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+      .then(response => response.text())
+      // แปลงข้อมูลที่ได้รับเป็นข้อความ
+      .then(data => {
+          document.getElementById('topbar-container').innerHTML = data;
+          // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+          document.getElementById('page-title').textContent = 'จัดการข้อมูลเจ้าหน้าที่อาสาสมัครสาธารณสุขและเสนารักษ์';
+          // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+          // Re-run user.js script after loading topbar
+          const script = document.createElement('script');
+          // สร้างแท็ก script ใหม่
+          script.src = '../method/user.js';
+          // กำหนดแหล่งที่มาของ script เป็น user.js
+          document.body.appendChild(script);
+          // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+      });
+</script>
+</body>
 </html>

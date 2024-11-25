@@ -35,6 +35,7 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
+<<<<<<< HEAD
   <div id="main">
     <div class="patientinfo-container">
       <div class="search-bar">
@@ -57,6 +58,26 @@
           <i class='bx bx-filter'></i>
         </button>
       </div>
+=======
+  <div class="patientinfo-container">
+    <div class="search-bar">
+      <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
+      <input type="search" placeholder="เลขบัตรประชาชน" id="idCardFilter" oninput="filterData()">
+      <input type="search" placeholder="เบอร์โทรศัพท์" id="phoneFilter" oninput="filterData()">
+      <input type="search" placeholder="เบอร์โทรศัพท์ญาติ..." id="relativePhoneFilter" oninput="filterData()">
+      <select id="treatmentStatusFilter" onchange="filterData()">
+        <option value="">ทั้งหมด</option>
+        <option value="ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)">ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)</option>
+        <option value="เสียชีวิต">เสียชีวิต</option>
+        <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยแล้ว</option>
+      </select>
+      <button class="add-icon">
+        <a href="addinfo.html">
+          <i class='bx bx-user-plus'></i>
+        </a>
+      </button>
+    </div>
+>>>>>>> 5925e207b12778ecdc4a84ad84a5b8ffaa417e94
 
       <div class="table-container">
         <table class="patient-table">
@@ -137,7 +158,7 @@
           // วนลูปข้อมูลผู้ป่วยเพื่อแสดงในตาราง
           patients.forEach(function (patient) {
             rows += '<tr>';
-            rows += '<td><img src="data:image/jpeg;base64,' + patient.patient_image + '" alt="avatar"> ' + patient.full_name + '</td>';
+            rows += '<td style="text-align: left; padding-left: 30px"><img src="data:image/jpeg;base64,' + patient.patient_image + '" alt="avatar"> ' + patient.full_name + '</td>';
             rows += '<td>' + formatDate(patient.birth_date) + '</td>';
             rows += '<td>' + patient.id_card + '</td>';
             rows += '<td>' + patient.phone_number + '</td>';
@@ -146,7 +167,7 @@
 
             rows += '<td style="white-space: nowrap;">';
             rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
-            rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.id + '\')"><i class="bx bx-trash"></i></button>';
+            rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.patient_id + '\')"><i class="bx bx-trash"></i></button>';
             rows += '</td>';
             rows += '</tr>';
           });
@@ -187,14 +208,28 @@
       window.location.href = `editaddinfo.html?patient_id=${patient_id}`; // ส่ง patient_id ไปที่ URL
     }
 
-    // ฟังก์ชันลบข้อมูลผู้ป่วย
-    function deletePatient(patient_id) {
-      if (confirm('คุณต้องการลบผู้ป่วย ID: ' + patient_id + ' ใช่หรือไม่?')) {
-        // ใส่ logic การลบที่นี่
-        alert('ลบข้อมูลผู้ป่วยเรียบร้อย');
+    function deletePatient(patientId) {
+      // แจ้งเตือนผู้ใช้ก่อนทำการลบ
+      if (confirm("คุณต้องการลบข้อมูลผู้ป่วยนี้หรือไม่?")) {
+        // ส่งคำขอ AJAX ไปยังเซิร์ฟเวอร์เพื่อทำการลบ
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/chiracarehospital/backend/sql/patient_manage/delete_patient.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        // ส่ง patient_id ไปยังเซิร์ฟเวอร์
+        xhr.send("patient_id=" + patientId);
+
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            // ตรวจสอบว่าการลบสำเร็จแล้วให้ทำการอัพเดต UI
+            alert("ลบข้อมูลผู้ป่วยสำเร็จ!");
+            location.reload();  // รีเฟรชหน้าเพื่อลบแถวที่ถูกลบ
+          } else {
+            alert("เกิดข้อผิดพลาดในการลบข้อมูล");
+          }
+        };
       }
     }
-
   </script>
 
   <script>
@@ -222,10 +257,7 @@
           .catch(error => console.error('เกิดข้อผิดพลาด:', error));
       }
     }
-
-
   </script>
-
 
   <!-- fitter เรียงชื่อ  -->
   <script>
@@ -242,20 +274,6 @@
           row.style.display = 'none';
         }
       });
-    }
-
-    // ฟังก์ชันสำหรับเรียงชื่อ
-    function sortNames() {
-      const tbody = document.getElementById('patient-info-body');
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-
-      rows.sort((a, b) => {
-        const nameA = a.querySelector('td').innerText;
-        const nameB = b.querySelector('td').innerText;
-        return nameA.localeCompare(nameB, 'th');
-      });
-
-      rows.forEach(row => tbody.appendChild(row));
     }
 
   </script>
@@ -317,7 +335,7 @@
       .then(data => {
         document.getElementById('topbar-container').innerHTML = data;
         // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-        document.getElementById('page-title').textContent = 'หน้าหลัก';
+        document.getElementById('page-title').textContent = 'จัดการข้อมูลผู้ป่วย';
         // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
         // Re-run user.js script after loading topbar

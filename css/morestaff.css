@@ -4,7 +4,8 @@
     align-items: center;
     padding: 10px;
     border-radius: 8px;
-    width: 100%;
+    width: 93%;
+    margin-left: 6% ;
 }
 
 .filter-item {
@@ -139,15 +140,15 @@ table th {
 
 /* ตารางผู้ป่วย */
 .table-container {
-    width: 91%;
+    width: 92%;
     padding: 20px;
     box-sizing: border-box;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
-    width: 100%;
     overflow: auto;
+    margin-left: 6.5%;
 }
 
 .patient-table {
@@ -279,4 +280,47 @@ img {
 
 .status-label.blue {
     color: rgb(0, 13, 255);
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    /* margin-left: 80px;  */
+    width: 93%;
+    align-items: center;
+    /* margin-left: 50px; อันเดิมคืออันนี้  */
+    margin-left: 6%;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* min-width: 300px;
+    max-width: 500px; */
+    flex: 1 1 calc(33.33% - 20px);
+    margin: 10px;
+}
+
+.stats-container tr {
+    background-color: #ffffff;
+}
+
+.stats-container thead {
+    background-color: #ffffff;
+}
+
+.stats-container table th {
+    background-color: #ffffff;
+}
+
+.stats-container table{
+    background-color: aliceblue;
+    width: 70%;
+    text-align: right;
+    vertical-align: middle;
 }
