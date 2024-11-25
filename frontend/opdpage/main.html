@@ -178,7 +178,7 @@
                         } else {
                             // ถ้าไม่มีข้อมูล ให้แสดงข้อความว่าไม่มีผู้ป่วย
                             const tr = document.createElement('tr');
-                            tr.innerHTML = `<td colspan="3" style="text-align:center;">ไม่มีผู้ป่วยในสถานะนี้</td>`;
+                            tr.innerHTML = `<td colspan="3" style="text-align:center;">ไม่มี</td>`;
                             patientTableBody.appendChild(tr);
                         }
 
@@ -375,7 +375,7 @@
                                 tbody.appendChild(row);
                             });
                         } else {
-                            tbody.innerHTML = `<tr><td colspan='7' style='text-align: center;'>ไม่มีผู้ป่วยที่ต้องเข้ารับการรักษาในวันนี้</td></tr>`;
+                            tbody.innerHTML = `<tr><td colspan='7' style='text-align: center;'>ไม่มีผู้ป่วยที่ต้องเข้ารับการรักษา</td></tr>`;
                         }
                     })
                     .catch(error => console.error("Error fetching data:", error));

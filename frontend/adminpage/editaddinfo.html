@@ -173,10 +173,10 @@
           <label style="display: flex; align-items: center; margin-bottom: 10px;">
             <input type="checkbox" name="disease-type[]" value="โรคไต"> โรคไต
           </label>
-          <label style="display: flex; align-items: center; margin-bottom: 10px;">
+          <!-- <label style="display: flex; align-items: center; margin-bottom: 10px;">
             <input type="checkbox" name="disease-type[]" value="อื่นๆ" id="other-disease-checkbox"
               style="margin-right: 10px;"> อื่นๆ
-          </label>
+          </label> -->
         </div>
 
         <!-- ช่องกรอกข้อมูลเมื่อเลือก "อื่นๆ" -->
@@ -242,14 +242,15 @@
             checkbox.checked = diseaseTypes.includes(checkbox.value);
           });
 
-          const otherDiseaseCheckbox = document.getElementById('other-disease-checkbox');
-          if (diseaseTypes.includes('อื่นๆ')) {
-            document.getElementById('other-disease-container').style.display = 'block';
-            document.getElementById('other-disease').value = data.other_disease || '';
-          } else {
-            document.getElementById('other-disease-container').style.display = 'none';
-            document.getElementById('other-disease').value = '';
-          }
+          // const otherDiseaseCheckbox = document.getElementById('other-disease-checkbox');
+          // if (diseaseTypes.includes('อื่นๆ')) {
+          //   document.getElementById('other-disease-container').style.display = 'block';
+          //   document.getElementById('other-disease').value = data.other_disease || '';
+          // } 
+          // else {
+          //   document.getElementById('other-disease-container').style.display = 'none';
+          //   document.getElementById('other-disease').value = '';
+          // }
 
           document.getElementById('note').value = data.note || '';
           document.getElementById('patient-group').value = data.patient_group || 'กลุ่มผู้ป่วย';
@@ -409,16 +410,16 @@
 
     // ใช้ JavaScript เพื่อดึงค่าที่เลือกมา
     const checkboxes = document.querySelectorAll('input[name="disease-type[]"]');
-    const otherCheckbox = document.getElementById('other-disease-checkbox');
+    // const otherCheckbox = document.getElementById('other-disease-checkbox');
     const otherDiseaseContainer = document.getElementById('other-disease-container');
 
-    otherCheckbox.addEventListener('change', function () {
-      if (this.checked) {
-        otherDiseaseContainer.style.display = 'block';
-      } else {
-        otherDiseaseContainer.style.display = 'none';
-      }
-    });
+    // otherCheckbox.addEventListener('change', function () {
+    //   if (this.checked) {
+    //     otherDiseaseContainer.style.display = 'block';
+    //   } else {
+    //     otherDiseaseContainer.style.display = 'none';
+    //   }
+    // });
   </script>
 
   <style>

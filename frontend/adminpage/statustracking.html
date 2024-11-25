@@ -48,7 +48,7 @@
           <h5>โรคประจำตัว</h5>
           <select class="dropdown-filter" id="treatmentCountFilter" onchange="filterData()">
             <option value="">ทั้งหมด</option>
-            <option value="โรคความดันโลหิตสูง">ความดันโลหิตสูง</option>
+            <option value="โรคความดันโลหิตสูง">โรคความดันโลหิตสูง</option>
             <option value="โรคอ้วน">โรคอ้วน</option>
             <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
             <option value="โรคเบาหวาน">โรคเบาหวาน</option>
@@ -111,7 +111,7 @@
           <label for="filter-disease-type">โรคประจำตัว:</label>
           <select id="filter-disease-type">
             <option value="">ทั้งหมด</option>
-            <option value="ความดันโลหิตสูง">ความดันโลหิตสูง</option>
+            <option value="โรคความดันโลหิตสูง">โรคความดันโลหิตสูง</option>
             <option value="โรคอ้วน">โรคอ้วน</option>
             <option value="ไขมันในเลือดสูง">ไขมันในเลือดสูง</option>
             <option value="โรคเบาหวาน">โรคเบาหวาน</option>
@@ -550,7 +550,7 @@
         const invalidPatients = selectedPatients.filter(patient =>
           !patient.area || !patient.responsiblePerson || patient.area === 'ไม่มีการกำหนด' || patient.responsiblePerson === 'ไม่มีการกำหนด');
         if (invalidPatients.length > 0) {
-          alert('ไม่สามารถมอบหมายงานให้ผู้ป่วยที่ยังไม่มีข้อมูลเขตที่อยู่อาศัยหรือผู้รับผิดชอบ');
+          alert('ไม่สามารถเลือกติดตามได้เนื่องจากยังไม่มีการกำหนดว่าใครคือผู้รับผิดชอบ');
           return;
         }
 
@@ -756,11 +756,11 @@
                 <td>${patient.full_name ? patient.full_name : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
                 <td>${patient.disease_type ? patient.disease_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
                 <td>${patient.patient_type ? patient.patient_type : `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-                <td>${patient.monitor_date ? patient.monitor_date : `<span class="no-data">ไม่มี</span>`}</td>
-                <td>${patient.monitor_deadline ? patient.monitor_deadline : `<span class="no-data">ไม่มี</span>`}</td>
-                <td>${patient.monitor_round ? patient.monitor_round : `<span class="no-data">ไม่มี</span>`}</td>
-                <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status ? patient.treatment_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
-                <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status ? patient.monitor_status : `<span class="no-data">ไม่มีข้อมูล</span>`}</span></td>
+                <td>${patient.monitor_date ? patient.monitor_date : `<span class="no-data">ยังไม่มี</span>`}</td>
+                <td>${patient.monitor_deadline ? patient.monitor_deadline : `<span class="no-data">ยังไม่มี</span>`}</td>
+                <td>${patient.monitor_round ? patient.monitor_round : `<span class="no-data">ยังไม่มี</span>`}</td>
+                <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status ? patient.treatment_status : `<span class="no-data">ยังไม่มี</span>`}</span></td>
+                <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status ? patient.monitor_status : `<span class="no-data">ไม่ต้องติดตาม</span>`}</span></td>
                 <td>
                 
                     <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}';">
