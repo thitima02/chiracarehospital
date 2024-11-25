@@ -88,14 +88,31 @@
                 <div class="filter-item">
                     <h5>กลุ่มผู้ป่วย</h5>
                     <select class="dropdown-filter" id="patientgroupFilter" onchange="filterDatatable()">
-                        <option value="ทั้งหมด">กลุ่มผู้ป่วย</option>
+                        <option value="ทั้งหมด">ทั้งหมด</option>
+                        <option value="กลุ่มผู้ป่วย">กลุ่มผู้ป่วย</option>
+                        <option value="กลุ่มสงสัยป่วย">กลุ่มสงสัยป่วย</option>
+                        <option value="กลุ่มเสี่ยง">กลุ่มเสี่ยง</option>
                     </select>
                 </div>
                 <div class="filter-item">
                     <h5>เขตที่รับผิดชอบ</h5>
                     <select class="dropdown-filter" id="searchArea" onchange="filterDatatable()">
                         <option value="ทั้งหมด">ทั้งหมด</option>
-                        <option value="1">1</option>
+                        <option value="1">เขต 1</option>
+                        <option value="2">เขต 2</option>
+                        <option value="3">เขต 3</option>
+                        <option value="4">เขต 4</option>
+                        <option value="5">เขต 5</option>
+                        <option value="6">เขต 6</option>
+                        <option value="7">เขต 7</option>
+                        <option value="8">เขต 8</option>
+                        <option value="9">เขต 9</option>
+                        <option value="10">เขต 10</option>
+                        <option value="11">เขต 11</option>
+                        <option value="12">เขต 12</option>
+                        <option value="13">เขต 13</option>
+                        <option value="14">เขต 14</option>
+                        <option value="15">เขต 15</option>
                         <option value="นอกเขต">นอกเขต</option>
                     </select>
                 </div>
@@ -114,16 +131,30 @@
 
     <!-- Popup -->
     <div class="popup-overlay" id="popupOverlay">
-        <div class="popup-content">
+        <div class="popup-content" style="width: 40%;">
             <div style="text-align: right;">
                 <button class="close-btn" onclick="outsideClosePopup()">X</button>
             </div>
             <div class="popup-header">
                 <input type="text" placeholder="ค้นหารายชื่อ" id="searchPatientInput" oninput="filterData()">
                 <select id="areaSelect" onchange="filterData()">
-                    <option value="ทั้งหมด">เขตทั้งหมด</option>
-                    <option value="1">เขต 1</option>
-                    <option value="นอกเขต">นอกเขต</option>
+                    <option value="ทั้งหมด">ทั้งหมด</option>
+                        <option value="1">เขต 1</option>
+                        <option value="2">เขต 2</option>
+                        <option value="3">เขต 3</option>
+                        <option value="4">เขต 4</option>
+                        <option value="5">เขต 5</option>
+                        <option value="6">เขต 6</option>
+                        <option value="7">เขต 7</option>
+                        <option value="8">เขต 8</option>
+                        <option value="9">เขต 9</option>
+                        <option value="10">เขต 10</option>
+                        <option value="11">เขต 11</option>
+                        <option value="12">เขต 12</option>
+                        <option value="13">เขต 13</option>
+                        <option value="14">เขต 14</option>
+                        <option value="15">เขต 15</option>
+                        <option value="นอกเขต">นอกเขต</option>
                 </select>
             </div>
             <div class="patient-list">
@@ -473,8 +504,8 @@
                 } else {
                     alert(response.message);
                 }
-            }); 
-        }); 
+            });
+        });
 
         // Update selected count based on checkbox clicks
         function updateSelectedCount() {
