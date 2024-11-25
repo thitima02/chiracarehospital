@@ -1,17 +1,17 @@
+
 .search-bar {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
-.search-bar input,
-.search-bar select {
+.search-bar input, .search-bar select {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
   width: 100%;
 }
 
-.search-bar .add-icon {
+.search-bar .add-icon{
   background-color: #007bff;
   color: white;
   border: none;
@@ -36,8 +36,7 @@ table {
   border-collapse: collapse;
   margin-bottom: 20px;
 }
-table th,
-table td {
+table th, table td {
   padding: 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -55,30 +54,20 @@ table th {
   margin-right: 5px;
 }
 
-@media screen and (max-width: 767px) {
-    .search-bar {
-    width: 100%;
-    flex-direction: column;
-    gap: 10px;
+@media screen and (max-width: 768px) {
+  .search-bar input, .search-bar select {
+      width: calc(50% - 10px); /* Adjust width on smaller screens */
+  }
+
+  .search-bar button {
+      width: 100%; /* Full width button for smaller screens */
   }
 }
-
-.action-btn {
-  position: relative;
-  color: #1d1b31;
-  border: none;
-  padding: 3px 8px;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: rgb(241, 241, 241);
-  margin: 0 2px;
-}
-.patientinfo-container {
+.patientinfo-container{
   width: 93.5%;
   margin: auto;
   padding: 20px;
-  /* margin-left: 89px; */
+  margin-left: 89px;
 }
 
 /* ตารางผู้ป่วย */
@@ -107,23 +96,19 @@ table th {
 
 .patient-table thead tr {
   background-color: #ececec;
-  color: #5d97ef;
+  color: #5D97EF;
 }
 
 .patient-table th,
 .patient-table td {
   padding: 15px 10px;
   padding-right: 33px;
-<<<<<<< HEAD
-  border-bottom: 1px solid #f4f4f4;
-=======
   border-bottom: 1px solid #F4F4F4;
   text-align: center;
   /* จัดข้อความให้อยู่ตรงกลางแนวนอน */
   vertical-align: middle;
   /* จัดข้อความให้อยู่ตรงกลางแนวตั้ง */
 
->>>>>>> 5925e207b12778ecdc4a84ad84a5b8ffaa417e94
 }
 
 .patient-table tbody tr {
@@ -147,8 +132,7 @@ img {
   vertical-align: middle;
 }
 
-.edit-btn,
-.detail-btn {
+.edit-btn, .detail-btn {
   padding: 8px 12px;
   border: none;
   border-radius: 8px;
@@ -181,19 +165,16 @@ img {
     flex-direction: column;
   }
 
-  .patient-table th,
-  .patient-table td {
+  .patient-table th, .patient-table td {
     font-size: 12px;
   }
 
-  .search-box,
-  .filter {
+  .search-box, .filter {
     width: 100%;
     margin-bottom: 10px;
   }
 
-  .edit-btn,
-  .detail-btn {
+  .edit-btn, .detail-btn {
     font-size: 10px;
   }
 }
@@ -207,7 +188,7 @@ img {
   cursor: pointer;
   border-radius: 5px;
   background-color: rgb(241, 241, 241);
-  /* margin-left: 15px; */
+  margin-left: 15px;
 }
 
 .status-label {
@@ -218,20 +199,23 @@ img {
 }
 
 .status-label.green {
-  color: rgb(0, 154, 0);
+  color:  rgb(0, 154, 0);
 }
 
 .status-label.red {
-  color: rgb(255, 0, 0);
+  color:  rgb(255, 0, 0);
 }
 
 .status-label.blue {
-  color: rgb(0, 13, 255);
+  color:  rgb(0, 13, 255);
 }
+
 
 /* 
 .status-label.yellow {
   background-color: #FFEB3B; 
 } */
+
+
 
 /* สีอื่น ๆ สามารถเพิ่มได้ตามต้องการ */

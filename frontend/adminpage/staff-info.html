@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
-  <link rel="stylesheet" href="../../css/result.css">
   <script src="../method/logout.js"></script>
   <!-- Import icon -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -32,81 +31,80 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-  <div id="main">
-    <div class="patientinfo-container">
-      <div class="search-bar">
-        <input type="search" placeholder="ค้นหาชื่อ" id="SearchFilter" oninput="filterData()">
-        <input type="search" placeholder="เขตที่รับผิดชอบ" id="responsibility-areaFilter" oninput="filterData()">
+  <div class="patientinfo-container">
+    <section class="filter-section" style="justify-content: center;">
+      <div class="filter-container">
+        <div class="filter-item search-bar">
+          <h5>ค้นหารายชื่อ</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput"
+            oninput="filterData()">
+          <i class='bx bx-search search-icon'></i>
+        </div>
+        <div class="filter-item">
+          <h5>หน้าที่ที่รับผิดชอบ</h5>
+          <select class="dropdown-filter" id="treatmentCountFilter" onchange="filterData()">
+            <option value="">ทั้งหมด</option>
+            <option value="โรคความดันโลหิตสูง">อาสาสมัครสาธารณสุข</option>
+            <option value="โรคอ้วน">เสนารักษ์</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <h5>เขตที่รับผิดชอบ</h5>
+          <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
+            <option value="ทั้งหมด">ทั้งหมด</option>
+            <option value="1">เขต 1</option>
+            <option value="2">เขต 2</option>
+            <option value="3">เขต 3</option>
+            <option value="4">เขต 4</option>
+            <option value="5">เขต 5</option>
+            <option value="6">เขต 6</option>
+            <option value="7">เขต 7</option>
+            <option value="8">เขต 8</option>
+            <option value="9">เขต 9</option>
+            <option value="10">เขต 10</option>
+            <option value="11">เขต 11</option>
+            <option value="12">เขต 12</option>
+            <option value="13">เขต 13</option>
+            <option value="14">เขต 14</option>
+            <option value="15">เขต 15</option>
+            <option value="15">นอกเขต</option>
+          </select>
+        </div>
 
-        <input type="search" placeholder="เบอร์โทรศัพท์" id="PhonenumberFilter" oninput="filterData()">
-        <select class="dropdown-filter" id="StatusFilter" onchange="filterData()">
-          <option>สถานะ</option>
-          <option>อาสาสมัครสาธารณสุข</option>
-          <option>เสนารักษ์</option>
-        </select>
-        <button class="add-icon">
-          <a href="addstaff.html">
-            <i class='bx bx-user-plus'></i>
-          </a>
-        </button>
+        <div class="filter-item search-bar">
+          <h5>เลขบัตรประชาชน</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchPatientInput"
+            style="color: aquamarine;" oninput="filterData()">
+          <i class='bx bx-search search-other-icon'></i>
+        </div>
+
+        <div class="filter-item search-bar">
+          <h5>เบอร์โทรศัพท์</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchPatientInput" oninput="filterData()">
+          <i class='bx bx-search search-other-icon'></i>
+        </div>
       </div>
+    </section>
 
-      <div class="table-container">
-        <table class="patient-table">
-          <thead>
-            <tr>
-              <th>ชื่อ - นามสกุล</th>
-              <th>สถานะ</th>
-              <th>เขตที่รับผิดชอบ</th>
-              <th>เลขบัตรประชาชน</th>
-              <th>เบอร์โทรศัพท์</th>
-              <th>จัดการ</th>
-            </tr>
-          </thead>
+    <div class="table-container">
+      <table class="patient-table">
+        <thead>
+          <tr>
+            <th>ชื่อ - นามสกุล</th>
+            <th>หน้าที่ที่รับผิดชอบ</th>
+            <th>เขตที่รับผิดชอบ</th>
+            <th>เลขบัตรประชาชน</th>
+            <th>เบอร์โทรศัพท์</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
 
-          <tbody id="patient-info-body">
-            <!-- ข้อมูลจะแสดงที่นี่ -->
-          </tbody>
-
-        </table>
-      </div>
+        <tbody id="patient-info-body">
+          <!-- ข้อมูลจะแสดงที่นี่ -->
+        </tbody>
+      </table>
     </div>
   </div>
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
-
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'จัดการข้อมูลเจ้าหน้าที่ติดตามผู้ป่วย'; // Set page title for the history page
-      });
-
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
-
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-        }
-      }
-    }
-  </script>
-
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
@@ -198,7 +196,7 @@
       .then(data => {
           document.getElementById('topbar-container').innerHTML = data;
           // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-          document.getElementById('page-title').textContent = 'จัดการ  ';
+          document.getElementById('page-title').textContent = 'จัดการข้อมูลเจ้าหน้าที่ผู้รับผิดชอบ';
           // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
           // Re-run user.js script after loading topbar
