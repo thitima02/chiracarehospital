@@ -1,112 +1,50 @@
-.filter-container {
+
+.search-bar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .search-bar input, .search-bar select {
     padding: 10px;
     border-radius: 8px;
+    border: 1px solid #ddd;
     width: 100%;
-}
-
-.filter-item {
-    flex: 1;
-    position: relative;
-    /* Needed to position the icon inside the input */
-}
-
-.filter-item:last-child {
-    margin-right: 0;
-}
-
-.search-bar .search-input {
-    padding-left: 40px;
-    /* Add padding to leave space for the icon */
-}
-
-.search-input {
-    width: 96%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    background-color: #E8F1FF;
-}
-
-.search-bar .search {
-    padding-left: 40px;
-    /* Add padding to leave space for the icon */
-}
-
-.search {
-    width: 96%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    background-color: #ffffff;
-}
-
-.date-filter,
-.dropdown-filter {
-    width: 96%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    background-color: #fff;
-    color: #333;
-}
-
-.dropdown-filter {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: url('data:image/svg+xml;base64,<svg ... >') no-repeat right center;
-    background-size: 12px 12px;
-    background-color: #fff;
-}
-
-.search-icon {
-    position: absolute;
-    left: 12px;
-    top: 67%;
-    transform: translateY(-50%);
-    font-size: 12px;
-    color: #5D97EF;
-}
-
-.search-other-icon {
-    position: absolute;
-    left: 12px;
-    top: 67%;
-    transform: translateY(-50%);
-    font-size: 12px;
-    color: #666666;
-}
-
-.add-icon a i {
+  }
+  
+  .search-bar .add-icon{
+    background-color: #007bff;
     color: white;
-    /* เปลี่ยนสีไอคอนเป็นสีขาว */
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .add-icon a i {
+    color: white; /* เปลี่ยนสีไอคอนเป็นสีขาว */
     font-size: 20px;
-}
-
-table {
+  }
+  
+  .table-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-}
-
-table th,
-table td {
+  }
+  table th, table td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-}
-
-table th {
+  }
+  table th {
     background-color: #f1f3f6;
-}
-
-.table-actions button {
+  }
+  .table-actions button {
     background-color: #ff5e5e;
     color: white;
     border: none;
@@ -114,31 +52,26 @@ table th {
     border-radius: 8px;
     cursor: pointer;
     margin-right: 5px;
-}
-
-@media screen and (max-width: 768px) {
-
-    .search-bar input,
-    .search-bar select {
-        width: calc(50% - 10px);
-        /* Adjust width on smaller screens */
+  }
+  
+  @media screen and (max-width: 768px) {
+    .search-bar input, .search-bar select {
+        width: calc(50% - 10px); /* Adjust width on smaller screens */
     }
-
+  
     .search-bar button {
-        width: 100%;
-        /* Full width button for smaller screens */
+        width: 100%; /* Full width button for smaller screens */
     }
-}
-
-.patientinfo-container {
+  }
+  .patientinfo-container{
     width: 93.5%;
     margin: auto;
     padding: 20px;
     margin-left: 89px;
-}
-
-/* ตารางผู้ป่วย */
-.table-container {
+  }
+  
+  /* ตารางผู้ป่วย */
+  .table-container {
     width: 91%;
     padding: 20px;
     box-sizing: border-box;
@@ -148,9 +81,9 @@ table th {
     margin: 20px auto;
     width: 100%;
     overflow: auto;
-}
-
-.patient-table {
+  }
+  
+  .patient-table {
     width: 100%;
     table-layout: fixed;
     /* ให้ความกว้างของคอลัมน์เท่ากัน */
@@ -159,15 +92,15 @@ table th {
     font-size: 14px;
     text-align: center;
     overflow-x: auto;
-}
-
-.patient-table thead tr {
+  }
+  
+  .patient-table thead tr {
     background-color: #ececec;
     color: #5D97EF;
-}
-
-.patient-table th,
-.patient-table td {
+  }
+  
+  .patient-table th,
+  .patient-table td {
     padding: 15px 10px;
     padding-right: 33px;
     border-bottom: 1px solid #F4F4F4;
@@ -175,81 +108,78 @@ table th {
     /* จัดข้อความให้อยู่ตรงกลางแนวนอน */
     vertical-align: middle;
     /* จัดข้อความให้อยู่ตรงกลางแนวตั้ง */
-}
-
-.patient-table tbody tr {
+  
+  }
+  
+  .patient-table tbody tr {
     background-color: #fff;
     border-bottom: 1px solid #ddd;
     text-align: center;
     /* จัดข้อความให้อยู่ตรงกลางแนวนอน */
     vertical-align: middle;
     /* จัดข้อความให้อยู่ตรงกลางแนวตั้ง */
-}
-
-.patient-table tbody tr:last-of-type {
+  }
+  
+  .patient-table tbody tr:last-of-type {
     border-bottom: 2px solid #f4f4f4;
-}
-
-img {
+  }
+  
+  img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
     vertical-align: middle;
-}
-
-.edit-btn,
-.detail-btn {
+  }
+  
+  .edit-btn, .detail-btn {
     padding: 8px 12px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 12px;
     transition: background-color 0.3s ease;
-}
-
-.edit-btn {
+  }
+  
+  .edit-btn {
     background-color: #6c757d;
     color: white;
     margin-right: 5px;
-}
-
-.edit-btn:hover {
+  }
+  
+  .edit-btn:hover {
     background-color: #0056b3;
-}
-
-.detail-btn {
+  }
+  
+  .detail-btn {
     background-color: #6c757d;
     color: white;
-}
-
-.detail-btn:hover {
+  }
+  
+  .detail-btn:hover {
     background-color: #5a6268;
-}
-
-@media (max-width: 768px) {
+  }
+  
+  @media (max-width: 768px) {
     .filter-bar {
-        flex-direction: column;
+      flex-direction: column;
     }
-
-    .patient-table th,
-    .patient-table td {
-        font-size: 12px;
+  
+    .patient-table th, .patient-table td {
+      font-size: 12px;
     }
-
-    .search-box,
-    .filter {
-        width: 100%;
-        margin-bottom: 10px;
+  
+    .search-box, .filter {
+      width: 100%;
+      margin-bottom: 10px;
     }
-
-    .edit-btn,
-    .detail-btn {
-        font-size: 10px;
+  
+    .edit-btn, .detail-btn {
+      font-size: 10px;
     }
-}
-
-.action-btn {
+  }
+  
+  .action-btn {
     position: relative;
     color: #1d1b31;
     border: none;
@@ -259,24 +189,33 @@ img {
     border-radius: 5px;
     background-color: rgb(241, 241, 241);
     margin-left: 15px;
-}
-
-.status-label {
+  }
+  
+  .status-label {
     text-align: center;
     padding: 5px 10px;
     border-radius: 5px;
-    color: rgb(0, 0, 0);
-    /* ข้อความในสถานะ */
-}
-
-.status-label.green {
-    color: rgb(0, 154, 0);
-}
-
-.status-label.red {
-    color: rgb(255, 0, 0);
-}
-
-.status-label.blue {
-    color: rgb(0, 13, 255);
-}
+    color: rgb(0, 0, 0); /* ข้อความในสถานะ */
+  }
+  
+  .status-label.green {
+    color:  rgb(0, 154, 0);
+  }
+  
+  .status-label.red {
+    color:  rgb(255, 0, 0);
+  }
+  
+  .status-label.blue {
+    color:  rgb(0, 13, 255);
+  }
+  
+  
+  /* 
+  .status-label.yellow {
+    background-color: #FFEB3B; 
+  } */
+  
+  
+  
+  /* สีอื่น ๆ สามารถเพิ่มได้ตามต้องการ */

@@ -32,7 +32,6 @@
   <!-- Topbar will be loaded here -->
   <div id="topbar-container"></div>
 
-<<<<<<< HEAD
   <div id="main">
     <div class="patientinfo-container">
       <div class="search-bar">
@@ -108,82 +107,6 @@
     }
   </script>
 
-=======
-  <div class="patientinfo-container">
-    <section class="filter-section" style="justify-content: center;">
-      <div class="filter-container">
-        <div class="filter-item search-bar">
-          <h5>ค้นหารายชื่อ</h5>
-          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput"
-            oninput="filterData()">
-          <i class='bx bx-search search-icon'></i>
-        </div>
-        <div class="filter-item">
-          <h5>หน้าที่ที่รับผิดชอบ</h5>
-          <select class="dropdown-filter" id="treatmentCountFilter" onchange="filterData()">
-            <option value="">ทั้งหมด</option>
-            <option value="โรคความดันโลหิตสูง">อาสาสมัครสาธารณสุข</option>
-            <option value="โรคอ้วน">เสนารักษ์</option>
-          </select>
-        </div>
-        <div class="filter-item">
-          <h5>เขตที่รับผิดชอบ</h5>
-          <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
-            <option value="ทั้งหมด">ทั้งหมด</option>
-            <option value="1">เขต 1</option>
-            <option value="2">เขต 2</option>
-            <option value="3">เขต 3</option>
-            <option value="4">เขต 4</option>
-            <option value="5">เขต 5</option>
-            <option value="6">เขต 6</option>
-            <option value="7">เขต 7</option>
-            <option value="8">เขต 8</option>
-            <option value="9">เขต 9</option>
-            <option value="10">เขต 10</option>
-            <option value="11">เขต 11</option>
-            <option value="12">เขต 12</option>
-            <option value="13">เขต 13</option>
-            <option value="14">เขต 14</option>
-            <option value="15">เขต 15</option>
-            <option value="15">นอกเขต</option>
-          </select>
-        </div>
-
-        <div class="filter-item search-bar">
-          <h5>เลขบัตรประชาชน</h5>
-          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchPatientInput"
-            style="color: aquamarine;" oninput="filterData()">
-          <i class='bx bx-search search-other-icon'></i>
-        </div>
-
-        <div class="filter-item search-bar">
-          <h5>เบอร์โทรศัพท์</h5>
-          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchPatientInput" oninput="filterData()">
-          <i class='bx bx-search search-other-icon'></i>
-        </div>
-      </div>
-    </section>
-
-    <div class="table-container">
-      <table class="patient-table">
-        <thead>
-          <tr>
-            <th>ชื่อ - นามสกุล</th>
-            <th>หน้าที่ที่รับผิดชอบ</th>
-            <th>เขตที่รับผิดชอบ</th>
-            <th>เลขบัตรประชาชน</th>
-            <th>เบอร์โทรศัพท์</th>
-            <th>จัดการ</th>
-          </tr>
-        </thead>
-
-        <tbody id="patient-info-body">
-          <!-- ข้อมูลจะแสดงที่นี่ -->
-        </tbody>
-      </table>
-    </div>
-  </div>
->>>>>>> 5925e207b12778ecdc4a84ad84a5b8ffaa417e94
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
