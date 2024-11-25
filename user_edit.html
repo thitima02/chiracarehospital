@@ -7,32 +7,37 @@
     <link rel="stylesheet" href="../../styles.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>โรงพยาบาลค่ายจิรประวัติ</title>
-	
-	    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
-        body, button, input, select {
+        body,
+        button,
+        input,
+        select {
             font-family: Noto Sans Thai, sans-serif;
         }
     </style>
-	
+
 </head>
 
 <body>
     <div class="container">
+        <button type="button" onclick="window.history.back()">
+            <i class='bx bx-arrow-back' style="vertical-align: middle;  margin-right: 5px;"></i>ย้อนกลับ</button>
         <div class="header">
-			<h1>แก้ไขข้อมูล</h1>
+            <h3>แก้ไขข้อมูล</h3>
         </div>
         <form id="registration-form" class="registration-form">
-			
-			<label for="role">Role</label>
-			<select id="role" name="role">
-				<option value="admin">admin</option>
-				<option value="user">user</option>
-			</select>
-			
+
+            <label for="role">Role</label>
+            <select id="role" name="role">
+                <option value="admin">admin</option>
+                <option value="user">user</option>
+            </select>
+
             <label for="name">ชื่อ (name)</label>
             <input type="text" id="name" name="name" placeholder="กรอกชื่อตามบัตรประชาชน" required>
 
@@ -78,10 +83,11 @@
             <!-- ช่องใส่รูปภาพ -->
             <label for="profile-picture">อัปโหลดรูปภาพ (Profile Picture)</label>
             <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
-			<input type="hidden" id="profile-picture-db" name="profile-picture-db" value="">
-			
+            <input type="hidden" id="profile-picture-db" name="profile-picture-db" value="">
+
             <div id="preview-container">
-                <img id="preview-image" src="" alt="รูปตัวอย่าง" style="max-width: 100%; max-height: 200px; margin-top: 10px;">
+                <img id="preview-image" src="" alt="รูปตัวอย่าง"
+                    style="max-width: 100%; max-height: 200px; margin-top: 10px;">
             </div>
 
             <label for="password">รหัสผ่าน</label>
@@ -103,168 +109,211 @@
             </div>
             <p id="password-error" class="error-message">รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน</p>
 
-            <button type="submit">บันทึกข้อมูลผู้ใช้</button>
+            <button type="submit">บันทึกการแก้ไข</button>
         </form>
     </div>
 
-<script>
-    // ฟังก์ชันตรวจสอบเลขบัตรประชาชน
-    function validateIDCard(input) {
-        input.value = input.value.replace(/[^0-9]/g, ''); // กรองเฉพาะตัวเลข
-    }
-
-    // ฟังก์ชันตรวจสอบหมายเลขโทรศัพท์
-    function validatePhone(input) {
-        input.value = input.value.replace(/[^0-9]/g, ''); // กรองเฉพาะตัวเลข
-    }
-
-    // ฟังก์ชันสลับการแสดง/ซ่อนรหัสผ่าน
-    function togglePasswordVisibility() {
-        const passwordField = document.getElementById('password');
-        const confirmPasswordField = document.getElementById('confirm-password');
-        const passwordIcon = document.getElementById('password-icon');
-        const confirmPasswordIcon = document.getElementById('confirm-password-icon');
-
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
-            passwordIcon.classList.remove('bx-hide');
-            passwordIcon.classList.add('bx-show-alt');
-        } else {
-            passwordField.type = 'password';
-            passwordIcon.classList.remove('bx-show-alt');
-            passwordIcon.classList.add('bx-hide');
+    <script>
+        // ฟังก์ชันตรวจสอบเลขบัตรประชาชน
+        function validateIDCard(input) {
+            input.value = input.value.replace(/[^0-9]/g, ''); // กรองเฉพาะตัวเลข
         }
 
-        if (confirmPasswordField.type === 'password') {
-            confirmPasswordField.type = 'text';
-            confirmPasswordIcon.classList.remove('bx-hide');
-            confirmPasswordIcon.classList.add('bx-show-alt');
-        } else {
-            confirmPasswordField.type = 'password';
-            confirmPasswordIcon.classList.remove('bx-show-alt');
-            confirmPasswordIcon.classList.add('bx-hide');
+        // ฟังก์ชันตรวจสอบหมายเลขโทรศัพท์
+        function validatePhone(input) {
+            input.value = input.value.replace(/[^0-9]/g, ''); // กรองเฉพาะตัวเลข
         }
-    }
 
-    // ฟังก์ชันตรวจสอบสถานะ
-    function handleStatusChange() {
-        const statusField = document.getElementById('status');
-        const responsibilityAreaField = document.getElementById('responsibility-area');
+        // ฟังก์ชันสลับการแสดง/ซ่อนรหัสผ่าน
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirm-password');
+            const passwordIcon = document.getElementById('password-icon');
+            const confirmPasswordIcon = document.getElementById('confirm-password-icon');
 
-        // เปิดใช้งานเขตรับผิดชอบสำหรับสถานะ "อาสาสมัครสาธารณสุข" หรือ "เสนารักษ์"
-        if (
-            statusField.value === 'อาสาสมัครสาธารณสุข' ||
-            statusField.value === 'เสนารักษ์'
-        ) {
-            responsibilityAreaField.disabled = false;
-        } else {
-            responsibilityAreaField.disabled = true;
-            responsibilityAreaField.value = ""; // รีเซ็ตค่า
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                passwordIcon.classList.remove('bx-hide');
+                passwordIcon.classList.add('bx-show-alt');
+            } else {
+                passwordField.type = 'password';
+                passwordIcon.classList.remove('bx-show-alt');
+                passwordIcon.classList.add('bx-hide');
+            }
+
+            if (confirmPasswordField.type === 'password') {
+                confirmPasswordField.type = 'text';
+                confirmPasswordIcon.classList.remove('bx-hide');
+                confirmPasswordIcon.classList.add('bx-show-alt');
+            } else {
+                confirmPasswordField.type = 'password';
+                confirmPasswordIcon.classList.remove('bx-show-alt');
+                confirmPasswordIcon.classList.add('bx-hide');
+            }
         }
-    }
 
-    function loadPatientData(user_id) {
-        fetch(`/chiracarehospital/backend/sql/master/getOneUsers.php?id=${user_id}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    console.log(data);
-                    // เติมข้อมูลในฟอร์ม
-					document.getElementById('role').value = data.data[0].role || '';
-                    document.getElementById('name').value = data.data[0].full_name || '';
-                    document.getElementById('id-card').value = data.data[0].username || '';
-                    document.getElementById('id-number').value = data.data[0].phone_number || '';
-                    document.getElementById('status').value = data.data[0].department || '';
-                    document.getElementById('responsibility-area').value = data.data[0].responsibility_area || '';
-                    document.getElementById('password').value = data.data[0].password || '';
-                    document.getElementById('confirm-password').value = data.data[0].password || '';
-					document.getElementById('preview-image').src = 'data:image/jpeg;base64,' + data.data[0].user_image || '';
-					document.getElementById('profile-picture-db').value = data.data[0].user_image || '';
+        // ฟังก์ชันตรวจสอบสถานะ
+        function handleStatusChange() {
+            const statusField = document.getElementById('status');
+            const responsibilityAreaField = document.getElementById('responsibility-area');
 
-                    // เปิด/ปิดฟิลด์ Responsibility Area ตามสถานะ
-                    if (data.data[0].status === 'volunteer' || data.data[0].status === 'medic') {
-                        document.getElementById('responsibility-area').disabled = false;
+            // เปิดใช้งานเขตรับผิดชอบสำหรับสถานะ "อาสาสมัครสาธารณสุข" หรือ "เสนารักษ์"
+            if (
+                statusField.value === 'อาสาสมัครสาธารณสุข' ||
+                statusField.value === 'เสนารักษ์'
+            ) {
+                responsibilityAreaField.disabled = false;
+            } else {
+                responsibilityAreaField.disabled = true;
+                responsibilityAreaField.value = ""; // รีเซ็ตค่า
+            }
+        }
+
+        function loadPatientData(user_id) {
+            fetch(`/chiracarehospital/backend/sql/master/getOneUsers.php?id=${user_id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
                     } else {
-                        document.getElementById('responsibility-area').disabled = true;
+                        console.log(data);
+                        // เติมข้อมูลในฟอร์ม
+                        document.getElementById('role').value = data.data[0].role || '';
+                        document.getElementById('name').value = data.data[0].full_name || '';
+                        document.getElementById('id-card').value = data.data[0].username || '';
+                        document.getElementById('id-number').value = data.data[0].phone_number || '';
+                        document.getElementById('status').value = data.data[0].department || '';
+                        document.getElementById('responsibility-area').value = data.data[0].responsibility_area || '';
+                        document.getElementById('password').value = data.data[0].password || '';
+                        document.getElementById('confirm-password').value = data.data[0].password || '';
+                        document.getElementById('preview-image').src = 'data:image/jpeg;base64,' + data.data[0].user_image || '';
+                        document.getElementById('profile-picture-db').value = data.data[0].user_image || '';
+
+                        // เปิด/ปิดฟิลด์ Responsibility Area ตามสถานะ
+                        if (data.data[0].status === 'volunteer' || data.data[0].status === 'medic') {
+                            document.getElementById('responsibility-area').disabled = false;
+                        } else {
+                            document.getElementById('responsibility-area').disabled = true;
+                        }
                     }
-                }
-            })
-            .catch(error => console.error('Error fetching user data:', error));
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const user_id = urlParams.get('id'); // รับ user_id จาก URL เช่น ?user_id=1
-        if (user_id) {
-            loadPatientData(user_id); // โหลดข้อมูลเมื่อมี user_id
-        }
-    });
-
-    document.getElementById('profile-picture').addEventListener('change', function () {
-        const fileInput = this;
-        const previewImage = document.getElementById('preview-image');
-
-        if (fileInput.files && fileInput.files[0]) {
-            const reader = new FileReader();
-
-            // เมื่ออ่านไฟล์เสร็จ
-            reader.onload = function (e) {
-                previewImage.src = e.target.result; // ตั้งค่าแหล่งที่มาของรูปภาพตัวอย่าง
-                previewImage.style.display = 'block'; // แสดงรูปตัวอย่าง
-            };
-
-            reader.readAsDataURL(fileInput.files[0]); // อ่านไฟล์รูปภาพ
-        } else {
-            previewImage.style.display = 'none'; // ซ่อนรูปตัวอย่างถ้าไม่มีไฟล์
-            previewImage.src = '';
-        }
-    });
-
-
-    document.getElementById('registration-form').onsubmit = function (event) {
-        event.preventDefault(); // ป้องกันไม่ให้ฟอร์มส่งข้อมูล
-
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirm-password').value;
-        const errorMessage = document.getElementById('password-error');
-
-        // ตรวจสอบว่า password และ confirm password ตรงกันหรือไม่
-        if (password !== confirmPassword) {
-            errorMessage.style.display = 'block'; // แสดงข้อความผิดพลาด
-            document.getElementById('confirm-password').style.borderColor = 'red';
-            return;
-        } else {
-            errorMessage.style.display = 'none'; // ซ่อนข้อความผิดพลาด
-            document.getElementById('confirm-password').style.borderColor = '';
+                })
+                .catch(error => console.error('Error fetching user data:', error));
         }
 
-        const profilePictureInput = document.getElementById('profile-picture');
-        if (profilePictureInput.files.length > 0) {
-            const reader = new FileReader();
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const user_id = urlParams.get('id'); // รับ user_id จาก URL เช่น ?user_id=1
+            if (user_id) {
+                loadPatientData(user_id); // โหลดข้อมูลเมื่อมี user_id
+            }
+        });
 
-            // เมื่ออ่านไฟล์เสร็จ
-            reader.onload = function (e) {
-                let base64Image = e.target.result;
+        document.getElementById('profile-picture').addEventListener('change', function () {
+            const fileInput = this;
+            const previewImage = document.getElementById('preview-image');
 
-                // ลบส่วนหัว `data:image/jpeg;base64,` หรือ `data:image/png;base64,` ออก
-                base64Image = base64Image.replace(/^data:image\/[a-z]+;base64,/, '');
-				
-				const urlParamsx = new URLSearchParams(window.location.search);
-        		const user_idx = urlParamsx.get('id');
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+
+                // เมื่ออ่านไฟล์เสร็จ
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result; // ตั้งค่าแหล่งที่มาของรูปภาพตัวอย่าง
+                    previewImage.style.display = 'block'; // แสดงรูปตัวอย่าง
+                };
+
+                reader.readAsDataURL(fileInput.files[0]); // อ่านไฟล์รูปภาพ
+            } else {
+                previewImage.style.display = 'none'; // ซ่อนรูปตัวอย่างถ้าไม่มีไฟล์
+                previewImage.src = '';
+            }
+        });
+
+
+        document.getElementById('registration-form').onsubmit = function (event) {
+            event.preventDefault(); // ป้องกันไม่ให้ฟอร์มส่งข้อมูล
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorMessage = document.getElementById('password-error');
+
+            // ตรวจสอบว่า password และ confirm password ตรงกันหรือไม่
+            if (password !== confirmPassword) {
+                errorMessage.style.display = 'block'; // แสดงข้อความผิดพลาด
+                document.getElementById('confirm-password').style.borderColor = 'red';
+                return;
+            } else {
+                errorMessage.style.display = 'none'; // ซ่อนข้อความผิดพลาด
+                document.getElementById('confirm-password').style.borderColor = '';
+            }
+
+            const profilePictureInput = document.getElementById('profile-picture');
+            if (profilePictureInput.files.length > 0) {
+                const reader = new FileReader();
+
+                // เมื่ออ่านไฟล์เสร็จ
+                reader.onload = function (e) {
+                    let base64Image = e.target.result;
+
+                    // ลบส่วนหัว `data:image/jpeg;base64,` หรือ `data:image/png;base64,` ออก
+                    base64Image = base64Image.replace(/^data:image\/[a-z]+;base64,/, '');
+
+                    const urlParamsx = new URLSearchParams(window.location.search);
+                    const user_idx = urlParamsx.get('id');
+
+                    // เตรียมข้อมูลที่ต้องส่ง
+                    const formData = {
+                        user_id: user_idx,
+                        role: document.getElementById('role').value,
+                        full_name: document.getElementById('name').value,
+                        phone_number: document.getElementById('id-number').value,
+                        department: document.getElementById('status').value,
+                        responsibility_area: document.getElementById('responsibility-area').value,
+                        password: password,
+                        username: document.getElementById('id-card').value, // ใช้เลขบัตรประชาชนเป็นชื่อผู้ใช้
+                        user_image: base64Image, // รูปภาพในรูปแบบ Base64 (ไม่มีส่วนหัว)
+                    };
+
+                    // ส่งข้อมูลไปยัง API
+                    fetch('backend/sql/master/editUsers.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                alert(data.message); // แสดงข้อความสำเร็จ
+                                window.location.href = "user_manage.html"; // Redirect ไปยังหน้า Login
+                            } else if (data.error) {
+                                alert(data.error); // แสดงข้อความผิดพลาด
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                };
+
+                // อ่านไฟล์และแปลงเป็น Base64
+                reader.readAsDataURL(profilePictureInput.files[0]);
+            } else {
+                // alert('กรุณาอัปโหลดรูปภาพ');
+
+                const urlParamsx = new URLSearchParams(window.location.search);
+                const user_idx = urlParamsx.get('id');
 
                 // เตรียมข้อมูลที่ต้องส่ง
                 const formData = {
                     user_id: user_idx,
-					role: document.getElementById('role').value,
+                    role: document.getElementById('role').value,
                     full_name: document.getElementById('name').value,
                     phone_number: document.getElementById('id-number').value,
                     department: document.getElementById('status').value,
                     responsibility_area: document.getElementById('responsibility-area').value,
                     password: password,
                     username: document.getElementById('id-card').value, // ใช้เลขบัตรประชาชนเป็นชื่อผู้ใช้
-                    user_image: base64Image, // รูปภาพในรูปแบบ Base64 (ไม่มีส่วนหัว)
+                    user_image: document.getElementById('profile-picture-db').value, // ใช้ข้อมูลเดิมใน DB
                 };
 
                 // ส่งข้อมูลไปยัง API
@@ -287,201 +336,227 @@
                     .catch(error => {
                         console.error('Error:', error);
                     });
-            };
 
-            // อ่านไฟล์และแปลงเป็น Base64
-            reader.readAsDataURL(profilePictureInput.files[0]);
-        } else {
-            // alert('กรุณาอัปโหลดรูปภาพ');
-			
-			const urlParamsx = new URLSearchParams(window.location.search);
-			const user_idx = urlParamsx.get('id');
+            }
 
-			// เตรียมข้อมูลที่ต้องส่ง
-			const formData = {
-				user_id: user_idx,
-				role: document.getElementById('role').value,
-				full_name: document.getElementById('name').value,
-				phone_number: document.getElementById('id-number').value,
-				department: document.getElementById('status').value,
-				responsibility_area: document.getElementById('responsibility-area').value,
-				password: password,
-				username: document.getElementById('id-card').value, // ใช้เลขบัตรประชาชนเป็นชื่อผู้ใช้
-				user_image: document.getElementById('profile-picture-db').value, // ใช้ข้อมูลเดิมใน DB
-			};
 
-			// ส่งข้อมูลไปยัง API
-			fetch('backend/sql/master/editUsers.php', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formData),
-			})
-			.then(response => response.json())
-			.then(data => {
-				if (data.message) {
-					alert(data.message); // แสดงข้อความสำเร็จ
-					window.location.href = "user_manage.html"; // Redirect ไปยังหน้า Login
-				} else if (data.error) {
-					alert(data.error); // แสดงข้อความผิดพลาด
-				}
-			})
-			.catch(error => {
-				console.error('Error:', error);
-			});
-			
+        };
+
+    </script>
+
+    <style>
+        #preview-container {
+            text-align: center;
+            /* จัดรูปให้อยู่ตรงกลาง */
+            margin-top: 10px;
         }
-		
-		
-    };
 
-</script>
-
-<style>
-    #preview-container {
-        text-align: center;
-        /* จัดรูปให้อยู่ตรงกลาง */
-        margin-top: 10px;
-    }
-
-    #preview-image {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        background-image: url('../assets/images/Loginbackground.jpg');
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 150vh;
-        width: 100%;
-    }
-
-    .container {
-        /* background-color: rgba(255, 255, 255, 0.9); */
-        /* background-color: white; */
-        padding: 40px;
-        width: 100%;
-        max-width: 600px;
-        border-radius: 10px;
-        /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
-        text-align: center;
-    }
-
-    .header {
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-
-    .logo {
-        width: 40%;
-        /* ขนาดเริ่มต้น */
-        margin-bottom: 20px;
-        /* ระยะห่างด้านล่าง */
-    }
-
-    /* สำหรับหน้าจอขนาดเล็ก (สูงสุด 768px) */
-    @media screen and (max-width: 768px) {
-        .logo {
-            width: 50%;
-            /* ปรับขนาดโลโก้สำหรับแท็บเล็ต */
-            margin-bottom: 15px;
-            /* ลดระยะห่างเล็กน้อย */
+        #preview-image {
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
-    }
 
-    /* สำหรับหน้าจอขนาดเล็กมาก (สูงสุด 480px) */
-    @media screen and (max-width: 480px) {
-        .logo {
-            width: 60%;
-            /* เพิ่มขนาดโลโก้ให้ใหญ่ขึ้นสำหรับมือถือ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('../assets/images/Loginbackground.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .container {
+            /* background-color: rgba(255, 255, 255, 0.9); */
+            /* background-color: white; */
+            padding: 40px;
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 10px;
+            /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
+        }
+
+        .header {
+            font-size: 24px;
             margin-bottom: 10px;
-            /* ลดระยะห่าง */
         }
-    }
 
+        .logo {
+            width: 40%;
+            /* ขนาดเริ่มต้น */
+            margin-bottom: 20px;
+            /* ระยะห่างด้านล่าง */
+        }
 
-    .registration-form label {
-        display: block;
-        margin: 10px 0 5px;
-        font-size: 0.9em;
-        color: #333;
-        text-align: left;
-        font-size: 1em;
-    }
+        button[type="button"] {
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: #202020;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            width: auto;
+            box-sizing: border-box;
+            background: none;
+            /* ไม่มีพื้นหลัง */
+            border: none;
+            /* ไม่มีกรอบ */
+            margin-bottom: 20px;
+        }
 
-    .registration-form input,
-    .registration-form select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        /* font-size: 1em; */
-    }
+        button[type="button"]:hover {
+            color: #0078d4;
+            /* เปลี่ยนสีตัวอักษรเมื่อ hover */
+        }
 
-    .registration-form button {
-        width: 100%;
-        padding: 10px;
-        background-color: #0056b3;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 1em;
-        cursor: pointer;
-    }
+        /* ปุ่ม Submit */
+        button[type="submit"] {
+            padding: 12px 20px;
+            background-color: #0078d4;
+            /* สีพื้นหลังของปุ่ม */
+            color: #ffffff;
+            /* สีข้อความในปุ่ม */
+            border: none;
+            /* ไม่มีกรอบ */
+            border-radius: 5px;
+            /* มุมมน */
+            font-size: 16px;
+            /* ขนาดตัวอักษร */
+            cursor: pointer;
+            /* เปลี่ยนเคอร์เซอร์เมื่อ hover */
+            width: 100%;
+            /* ความกว้างเต็ม */
+            margin-top: 20px;
+            /* เว้นระยะห่างด้านบน */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            /* เพิ่มการเคลื่อนไหวในการเปลี่ยนสีและขนาด */
+        }
 
-    .registration-form button:hover {
-        background-color: #003d82;
-    }
+        button[type="submit"]:hover {
+            background-color: #005fa3;
+            /* สีพื้นหลังของปุ่มเมื่อ hover */
+            transform: scale(1.05);
+            /* ขยายขนาดเล็กน้อยเมื่อ hover */
+        }
 
-    .password-container {
-        position: relative;
-        width: 100%;
-    }
+        button[type="submit"]:active {
+            background-color: #004a87;
+            /* สีพื้นหลังของปุ่มเมื่อคลิก */
+            transform: scale(1);
+            /* รีเซ็ตขนาดเมื่อคลิก */
+        }
 
-    .password-container input {
-        width: 100%;
-        padding-right: 40px;
-        /* เพิ่มพื้นที่สำหรับไอคอน */
-    }
+        /* สำหรับหน้าจอขนาดเล็ก (สูงสุด 768px) */
+        @media screen and (max-width: 768px) {
+            .logo {
+                width: 50%;
+                /* ปรับขนาดโลโก้สำหรับแท็บเล็ต */
+                margin-bottom: 15px;
+                /* ลดระยะห่างเล็กน้อย */
+            }
+        }
 
-    .toggle-password {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        cursor: pointer;
-    }
+        /* สำหรับหน้าจอขนาดเล็กมาก (สูงสุด 480px) */
+        @media screen and (max-width: 480px) {
+            .logo {
+                width: 60%;
+                /* เพิ่มขนาดโลโก้ให้ใหญ่ขึ้นสำหรับมือถือ */
+                margin-bottom: 10px;
+                /* ลดระยะห่าง */
+            }
+        }
 
-    .toggle-password i {
-        font-size: 20px;
-        color: #888;
-    }
+        .registration-form {
+            width: 100%;
+            max-width: 1000px;
+            /* กำหนดความกว้างสูงสุดของฟอร์ม */
+            margin: 0 auto;
+            /* จัดกลางฟอร์ม */
+            padding: 20px;
+            background-color: #f9f9f9;
+            /* พื้นหลังฟอร์ม */
+            border-radius: 8px;
+            /* มุมฟอร์มมน */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* เงาเบาๆ */
+        }
 
-    .toggle-password i:hover {
-        color: #333;
-    }
+        .registration-form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 0.9em;
+            color: #333;
+            text-align: left;
+            font-size: 1em;
+        }
 
-    .error-message {
-        color: red;
-        display: none;
-        margin-bottom: 20px;
-        /* กำหนดระยะห่างระหว่างข้อความผิดพลาดและปุ่ม */
-    }
-</style>
-	
-	</body>
+        .registration-form input,
+        .registration-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            /* font-size: 1em; */
+        }
 
+        .registration-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .registration-form button:hover {
+            background-color: #003d82;
+        }
+
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding-right: 40px;
+            /* เพิ่มพื้นที่สำหรับไอคอน */
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .toggle-password i {
+            font-size: 20px;
+            color: #888;
+        }
+
+        .toggle-password i:hover {
+            color: #333;
+        }
+
+        .error-message {
+            color: red;
+            display: none;
+            margin-bottom: 20px;
+            /* กำหนดระยะห่างระหว่างข้อความผิดพลาดและปุ่ม */
+        }
+    </style>
+</body>
 
 </html>
