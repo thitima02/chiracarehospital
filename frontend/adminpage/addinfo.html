@@ -67,10 +67,11 @@
 
         <label for="marital">สถานภาพสมรส</label>
         <select id="marital" required>
-          <option value="โสด">โสด</option>
-          <option value="สมรส (อยู่ด้วยกัน)">สมรส (อยู่ด้วยกัน)</option>
-          <option value="หย่าร้าง">หย่าร้าง</option>
-          <option value="หม้าย">หม้าย</option>
+          <option value="">กรุณาเลือกสถานภาพสมรส</option>
+          <option value="single">โสด</option>
+          <option value="married">สมรส</option>
+          <option value="divorced">หย่าร้าง</option>
+          <option value="widowed">หม้าย</option>
         </select>
 
         <label for="birthdate">วันเกิด</label>
@@ -154,8 +155,8 @@
         <div id="disease-type"
           style="display: flex; flex-wrap: wrap; gap: 95px; justify-content: flex-start; margin-bottom: 15px;">
           <label style="display: flex; align-items: center; margin-bottom: 10px;">
-            <input type="checkbox" name="disease-type[]" value="โรคความดันโลหิตสูง">
-            โรคความดันโลหิตสูง
+            <input type="checkbox" name="disease-type[]" value="ความดันโลหิตสูง">
+            ความดันโลหิตสูง
           </label>
           <label style="display: flex; align-items: center; margin-bottom: 10px;">
             <input type="checkbox" name="disease-type[]" value="โรคอ้วน"> โรคอ้วน
@@ -173,10 +174,10 @@
           <label style="display: flex; align-items: center; margin-bottom: 10px;">
             <input type="checkbox" name="disease-type[]" value="โรคไต"> โรคไต
           </label>
-          <!-- <label style="display: flex; align-items: center; margin-bottom: 10px;">
+          <label style="display: flex; align-items: center; margin-bottom: 10px;">
             <input type="checkbox" name="disease-type[]" value="อื่นๆ" id="other-disease-checkbox"
               style="margin-right: 10px;"> อื่นๆ
-          </label> -->
+          </label>
         </div>
 
         <!-- ช่องกรอกข้อมูลเมื่อเลือก "อื่นๆ" -->
@@ -187,7 +188,7 @@
 
         <label for="current">สถานะปัจจุบัน</label>
         <select id="current" name="current" required>
-          <option value="ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)">ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)</option>
+          <option value="ปกติ (มีชีวิต, เป็นผู้ป่วยของรพ.)">ปกติ (มีชีวิต, เป็นผู้ป่วยของรพ.)</option>
           <option value="เสียชีวิต">เสียชีวิต</option>
           <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยแล้ว</option>
         </select>
@@ -222,27 +223,27 @@
     });
 
     function getSelectedDiseases() {
-      const checkboxes = document.querySelectorAll('input[name="disease-type[]"]');
-      const otherCheckbox = document.querySelector('input[name="other-checkbox"]');
-      let selectedDiseases = [];
+  const checkboxes = document.querySelectorAll('input[name="disease-type[]"]');
+  const otherCheckbox = document.querySelector('input[name="other-checkbox"]');
+  let selectedDiseases = [];
 
-      if (checkboxes) {
-        checkboxes.forEach(checkbox => {
-          if (checkbox.checked && checkbox.value !== "อื่นๆ") {
-            selectedDiseases.push(checkbox.value);
-          }
-        });
+  if (checkboxes) {
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked && checkbox.value !== "อื่นๆ") {
+        selectedDiseases.push(checkbox.value);
       }
+    });
+  }
 
-      if (otherCheckbox && otherCheckbox.checked) {
-        const otherDiseaseValue = document.getElementById('other-disease')?.value.trim();
-        if (otherDiseaseValue) {
-          selectedDiseases.push(otherDiseaseValue);
-        }
-      }
-
-      return selectedDiseases;
+  if (otherCheckbox && otherCheckbox.checked) {
+    const otherDiseaseValue = document.getElementById('other-disease')?.value.trim();
+    if (otherDiseaseValue) {
+      selectedDiseases.push(otherDiseaseValue);
     }
+  }
+
+  return selectedDiseases;
+}
 
 
     document.getElementById("saveBtn").addEventListener("click", function (event) {
@@ -374,6 +375,9 @@
         otherDiseaseContainer.style.display = 'none';
       }
     });
+
+   
+
   </script>
 
   <style>
