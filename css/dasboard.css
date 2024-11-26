@@ -49,15 +49,18 @@ h1 {
 }
 
 .btn-primary.button {
-    background-color: #007bff;
+    font-size: 16px;
+    padding: 6px 10px;
+    border-radius: 6px;
     border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
     transition: background-color 0.3s ease;
 }
 
 .btn-primary.button:hover {
-    background-color: #0056b3;
+    background-color: #007bff;
+    cursor: pointer;
 }
 
 

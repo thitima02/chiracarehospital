@@ -121,10 +121,10 @@
 
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end">
-                                <button class="btn btn-primary button"
-                                    onclick="window.location.href='statustracking.html'">ดูเพิ่มเติม</button>
+                                <button class="btn btn-primary button" onclick="downloadExcel()">ดาวน์โหลด Excel</button>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -262,7 +262,7 @@
                 </div>
             </div>
         </div>
-            
+    
         </div>
         </div>
     </div>
@@ -792,6 +792,33 @@ fetch('/chiracarehospital/backend/sql/get_patient_medical_information.php')
     // Call the function when the page loads
     window.onload = updateDashboard;
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+    // Function สำหรับดาวน์โหลดข้อมูลในรูปแบบ Excel
+    function downloadExcel() {
+        // Data ที่จะใช้ในการสร้าง Excel
+        const data = [
+            ["ประเภทผู้ป่วย", "ประชาชน", "ครอบครัว", "กำลังพล"],
+            ["ความดันโลหิตสูง", document.getElementById('public_hypertension').innerText, document.getElementById('family_hypertension').innerText, document.getElementById('military_hypertension').innerText],
+            ["โรคอ้วน", document.getElementById('public_obesity').innerText, document.getElementById('family_obesity').innerText, document.getElementById('military_obesity').innerText],
+            ["ไขมันในเลือดสูง", document.getElementById('public_cholesterol').innerText, document.getElementById('family_cholesterol').innerText, document.getElementById('military_cholesterol').innerText],
+            ["โรคเบาหวาน", document.getElementById('public_diabetes').innerText, document.getElementById('family_diabetes').innerText, document.getElementById('military_diabetes').innerText],
+            ["CVD Risk", document.getElementById('public_cvd').innerText, document.getElementById('family_cvd').innerText, document.getElementById('military_cvd').innerText],
+            ["โรคไต", document.getElementById('public_kidney').innerText, document.getElementById('family_kidney').innerText, document.getElementById('military_kidney').innerText]
+        ];
+
+        // สร้าง Workbook และ Worksheet
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+        // เพิ่ม Worksheet ลงใน Workbook
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Patient Data");
+
+        // ดาวน์โหลดไฟล์ Excel
+        XLSX.writeFile(workbook, "patient_data.xlsx");
+    }
+</script>
+
 
     <script>
         // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
