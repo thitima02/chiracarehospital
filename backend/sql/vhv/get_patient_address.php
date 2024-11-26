@@ -1,4 +1,5 @@
 <?php 
+header('Content-Type: application/json');
 include '../db_connection.php'; // รวมไฟล์การเชื่อมต่อฐานข้อมูล
 session_start(); // เริ่มต้น session เพื่อดึงข้อมูล user_id
 
