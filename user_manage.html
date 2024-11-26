@@ -24,10 +24,9 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="d-flex justify-content-between mb-4">
-            <h1 class="h3 fw-bold mb-0">หน้าจัดการสิทธิ์ผู้ใช้</h1>
+            <h1 class="h3 fw-bold mb-0">หน้าจัดการข้อมูลผู้ใช้งาน</h1>
             <a class="btn btn-primary" href="user_register.html">
                 <i class='bx bx-user-plus' style="font-size: 1.5rem; vertical-align: middle;"></i>
                 เพิ่มผู้ใช้งาน
@@ -70,35 +69,36 @@
             // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
             $.getJSON('/chiracarehospital/backend/sql/master/getUsers.php', function (response) {
                 if (response.status === 'success') {
-                    var staffs = response.data;
-                    var rows = '';
+                    const staffs = response.data;
+                    let rows = '';
 
                     // วนลูปข้อมูลผู้ใช้เพื่อแสดงในตาราง
                     staffs.forEach(function (staff) {
-                        // ดึงข้อมูล user_info
-                        rows += ` <tr>
-            <td style="text-align: left; padding-left: 30px">
-                <img src="${staff.user_image ? 'data:image/jpeg;base64,' + staff.user_image : 'assets/images/cat.jpg'}" 
-                     alt="รูปภาพผู้ใช้งาน" 
-                     style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
-                ${staff.full_name}
-            </td>
-            <td>${staff.username}</td>
-            <td>${staff.responsibility_area}</td>
-            <td>${staff.phone_number}</td>
-            <td>${staff.department}</td>
-            <td>
-                <a class="btn btn-sm btn-outline-primary m-1" href="user_edit.html?id=${staff.id}">
-                    <i class='bx bxs-edit' style="vertical-align: middle;"></i>แก้ไข</a>
-                <button class="btn btn-sm btn-outline-danger m-1" onclick="confirmDelete(${staff.id})">
-                    <i class='bx bx-trash' style="vertical-align: middle;"></i>ลบ</button>
-            </td>
-         </tr>`;
-
+                        rows += `<tr>
+                    <td style="text-align: left; padding-left: 30px">
+                        <img src="${staff.user_image ? 'data:image/jpeg;base64,' + staff.user_image : 'assets/images/cat.jpg'}" 
+                             alt="รูปภาพผู้ใช้งาน" 
+                             style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                        ${staff.full_name}
+                    </td>
+                    <td>${staff.username}</td>
+                    <td>${staff.responsibility_area}</td>
+                    <td>${staff.phone_number}</td>
+                    <td>${staff.department}</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary m-1" href="user_edit.html?id=${staff.id}">
+                            <i class='bx bxs-edit' style="vertical-align: middle;"></i>แก้ไข</a>
+                        <button class="btn btn-sm btn-outline-danger m-1" onclick="confirmDelete(${staff.id})">
+                            <i class='bx bx-trash' style="vertical-align: middle;"></i>ลบ</button>
+                    </td>
+                </tr>`;
                     });
 
                     // แทรกข้อมูลในตาราง
                     $('#userTable').html(rows);
+
+                    // สร้าง pagination หลังจากข้อมูลทั้งหมดถูกโหลด
+                    setupPagination();
                 } else {
                     alert(response.message);
                 }
@@ -128,10 +128,10 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const rowsPerPage = 5;  // จำนวนแถวที่จะแสดงในแต่ละหน้า
-            const table = document.querySelector('table');
-            const tbody = table.querySelector('tbody');
+        // ฟังก์ชันตั้งค่า Pagination
+        function setupPagination() {
+            const rowsPerPage = 10; // จำนวนแถวที่จะแสดงในแต่ละหน้า
+            const tbody = document.querySelector('#userTable');
             const rows = Array.from(tbody.querySelectorAll('tr'));
             const totalPages = Math.ceil(rows.length / rowsPerPage);
             let currentPage = 1;
@@ -152,26 +152,41 @@
 
             // ฟังก์ชันสร้าง pagination controls
             function createPagination() {
-                const pagination = document.createElement('div');
-                pagination.classList.add('pagination');
+                const paginationContainer = document.querySelector('.pagination');
+                paginationContainer.innerHTML = ''; // ล้าง pagination เก่า
 
                 for (let i = 1; i <= totalPages; i++) {
                     const pageBtn = document.createElement('button');
                     pageBtn.textContent = i;
+
+                    if (i === currentPage) {
+                        pageBtn.classList.add('active'); // ไฮไลต์หน้าปัจจุบัน
+                    }
+
                     pageBtn.addEventListener('click', function () {
                         currentPage = i;
                         displayPage(currentPage);
-                    });
-                    pagination.appendChild(pageBtn);
-                }
 
-                table.parentElement.appendChild(pagination);
+                        // อัปเดตสถานะ active
+                        document.querySelectorAll('.pagination button').forEach((btn) => btn.classList.remove('active'));
+                        pageBtn.classList.add('active');
+                    });
+
+                    paginationContainer.appendChild(pageBtn);
+                }
             }
 
             // แสดงหน้าปัจจุบัน
             displayPage(currentPage);
+
+            // สร้าง pagination controls
+            const table = document.querySelector('table');
+            const pagination = document.createElement('div');
+            pagination.classList.add('pagination');
+            table.parentElement.appendChild(pagination);
+
             createPagination();
-        });
+        }
     </script>
 
 </body>
@@ -248,8 +263,8 @@
         overflow-x: auto;
     }
 
-       /* กำหนดรูปแบบของปุ่ม pagination */
-       .pagination {
+    /* กำหนดรูปแบบของปุ่ม pagination */
+    .pagination {
         display: flex;
         justify-content: center;
         margin-top: 20px;
