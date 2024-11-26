@@ -34,8 +34,21 @@ h1 {
 }
 
 .patient-type {
-    background-color: #ffffff;
-    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 200px;
+    /* ความสูงขั้นต่ำ */
+    height: 90%;
+    /* ให้ขนาดเต็มตาม parent */
+    padding: 1rem;
+    box-sizing: border-box;
+    /* ให้รวม padding ในขนาด */
+    transform: scale(0.9);
+    /* ลดขนาดลง 80% */
+    transform-origin: center;
+    /* จุดศูนย์กลางการย่อ */
 }
 
 .patient-type:hover {
@@ -49,18 +62,15 @@ h1 {
 }
 
 .btn-primary.button {
-    font-size: 16px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: none;
     background-color: #007bff;
-    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
     transition: background-color 0.3s ease;
 }
 
 .btn-primary.button:hover {
-    background-color: #007bff;
-    cursor: pointer;
+    background-color: #0056b3;
 }
 
 
@@ -87,102 +97,106 @@ h1 {
     text-align: right;
 }
 
-@media (max-width: 767.98px) {
-    .card h4, .card-title {
-        text-align: left;
-    }
-
-    .card-body {
-        text-align: left;
-    }
-}
 /* css icon  */
 .mdi-human-child {
-  color: #FF947A;
-  font-size: 34px;
-} 
+    color: #FF947A;
+    font-size: 34px;
+}
+
 .mdi-transfer-up {
-  color: #6eec33;
-  font-size: 34px;
-} 
+    color: #6eec33;
+    font-size: 34px;
+}
+
 .mdi-medication-outline {
-  color: #FF7ACA;
-  font-size: 34px;
-} 
+    color: #FF7ACA;
+    font-size: 34px;
+}
+
 .mdi-diabetes {
-  color: #83B5FF;
-  font-size: 34px;
-} 
+    color: #83B5FF;
+    font-size: 34px;
+}
+
 .mdi-heart-pulse {
-  color: #bf83ff; 
-  font-size: 34px;
-} 
+    color: #bf83ff;
+    font-size: 34px;
+}
+
 .mdi-water-circle {
-  color: #fa5a7d;
-  font-size: 34px;
-} 
+    color: #fa5a7d;
+    font-size: 34px;
+}
 
 .dasboard-container {
     width: 93.5%;
-  margin: auto;
-  padding: 20px;
-  margin-left: 89px;
+    margin: auto;
+    padding: 20px;
+    margin-left: 89px;
 }
 
 .card.ca1 {
     margin-bottom: 20px;
 }
+
 .chart-container {
     position: relative;
     width: 100%;
-    height: 400px; /* กำหนดความสูงให้เท่ากัน */
+    height: 400px;
+    /* กำหนดความสูงให้เท่ากัน */
 }
+
 .chart {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    gap: 20px; /* เพิ่มระยะห่างระหว่างการ์ด */
+    gap: 20px;
+    /* เพิ่มระยะห่างระหว่างการ์ด */
 }
 
 .chart .col-12.col-md-6 {
-    flex: 1; /* ให้การ์ดมีขนาดเท่ากัน */
+    flex: 1;
+    /* ให้การ์ดมีขนาดเท่ากัน */
 }
+
 /*  css สถานะการติดตามล่าสุดและสถานะเข้ารับการรักษาล่าสุด */
 .card-status {
     border: 1px solid #f0f0f0;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px; 
+    padding: 15px;
     background-color: #fff;
     text-align: center;
 }
+
 .card-treatment {
     border: 1px solid #f0f0f0;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px; 
+    padding: 15px;
     background-color: #fff;
     text-align: center;
 }
 
-.card {
+.card-reason {
     border: 1px solid #f0f0f0;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px; 
+    padding: 15px;
     background-color: #fff;
     text-align: center;
+    height: 100%; /* ให้ความสูงเต็มที่ */
 }
 
 .card-title {
-    font-size: 1.2rem; 
+    font-size: 1.2rem;
     color: #1a1a1a;
     margin-bottom: 15px;
     font-weight: bold;
 }
 
 .card-text h5 {
-    font-size: 0.9rem; 
+    font-size: 0.9rem;
     color: #555;
 }
 
@@ -221,26 +235,31 @@ h1 {
     border-radius: 10px;
     transition: width 0.5s ease;
     line-height: 25px;
-    color: #fff; /* สีตัวอักษรใน progress bar */
+    color: #fff;
+    /* สีตัวอักษรใน progress bar */
 }
 
 /* สีสำหรับ progress bar */
 #followed-bar,
 .card-treatment .progress-bar.treatment-success {
-    background-color: #62B661; /* สีเขียว */
+    background-color: #62B661;
+    /* สีเขียว */
 }
 
 #following-bar {
-    background-color: #F39B33; /* สีส้ม */
+    background-color: #F39B33;
+    /* สีส้ม */
 }
 
 #not-followed-bar,
 .card-treatment .progress-bar.treatment-fail {
-    background-color: #BB4242; /* สีแดง */
+    background-color: #BB4242;
+    /* สีแดง */
 }
 
 #follow-failed-bar {
-    background-color: #634e8d; /* สีม่วง */
+    background-color: #634e8d;
+    /* สีม่วง */
 }
 
 /* สไตล์สำหรับข้อความใน progress bar */
@@ -272,41 +291,48 @@ h1 {
     color: #888;
 }
 
+.patient-count-treatment{
+    margin-top: 132px; 
+    justify-content: flex-end;
+}
+
 /* ตั้งค่า card ให้เท่ากันในทุก viewport */
 .col-12.col-md-4 {
     display: flex;
     flex-direction: column;
 }
 
+.card-reason
 .card-status,
 .card-treatment {
-    flex-grow: 1; /* ขยายการ์ดให้เท่ากัน */
+    flex-grow: 1;
+    /* ขยายการ์ดให้เท่ากัน */
 }
-
-
 
 /* Flex container for select and button */
 .d-flex {
     display: flex;
-    align-items: center; /* Vertically align items */
-    gap: 10px; /* Add spacing between select and button */
+    align-items: center;
+    /* Vertically align items */
+    gap: 10px;
+    /* Add spacing between select and button */
 }
 
 /* Position container at bottom-right */
 .position-absolute {
-    position: absolute; 
+    position: absolute;
 }
 
 .bottom-0 {
-    bottom: 0; 
+    bottom: 0;
 }
 
 .end-0 {
-    right: 0; 
+    right: 0;
 }
 
 .p-3 {
-    padding: 16px; 
+    padding: 16px;
 }
 
 /* Styling for select dropdown */
@@ -317,7 +343,8 @@ select.form-select {
     border-radius: 8px;
     background-color: #ffffff;
     transition: border-color 0.3s ease;
-    width: auto; /* Adjust width to fit content */
+    width: auto;
+    /* Adjust width to fit content */
 }
 
 /* Styling for button */
@@ -352,8 +379,76 @@ button#exportButton2:hover {
     cursor: pointer;
 }
 
+.chart-container {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    /* กำหนดความสูงสูงสุด */
+}
 
+.patient-statistics-yearly {
+    width: 100%;
+    height: 100% !important;
+    /* ปรับขนาดกราฟให้ยืดหยุ่น */
+}
 
+/* ตั้งค่าให้เหมาะกับหน้าจอเล็ก */
+@media (max-width: 768px) {
+    .dashboard-container .row {
+        display: flex;
+        flex-direction: column;
+        /* เรียงแนวตั้ง */
+    }
 
+    .card {
+        margin-bottom: 1rem;
+        /* เพิ่มช่องว่างระหว่างการ์ด */
+    }
 
-  
+    .chart-container {
+        width: 100%;
+        /* กราฟเต็มพื้นที่ */
+    }
+
+    .patient-type {
+        padding: 1rem;
+        /* ลด padding ของการ์ด */
+    }
+
+    .button {
+        width: 100%;
+        /* ปุ่มขยายเต็มหน้าจอ */
+    }
+
+    .patient-statistics-yearly {
+        height: 150px;/
+    }
+
+    /* ตั้งค่าเพิ่มเติมสำหรับหน้าจอแคบมาก (มือถือ) */
+    @media (max-width: 576px) {
+        .card h5 {
+            font-size: 1rem;
+            /* ลดขนาดหัวข้อ */
+        }
+
+        .card p {
+            font-size: 0.875rem;
+            /* ลดขนาดข้อความ */
+        }
+
+        .chart-container canvas {
+            height: auto;
+            /* ปรับความสูงกราฟ */
+        }
+
+        .status-bar {
+            flex-direction: column;
+            /* ปรับแถบสถานะให้ซ้อนกัน */
+        }
+
+        .progress-bar span {
+            font-size: 0.75rem;
+            /* ขนาดตัวอักษรเล็กลง */
+        }
+    }
+}

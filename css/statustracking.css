@@ -616,3 +616,48 @@ input[type="checkbox"] {
   width: 18px; /* ปรับขนาดตามต้องการ */
   height: 18px; /* ปรับขนาดตามต้องการ */
 }
+
+/* ปรับขนาดตารางให้เหมาะสมบนมือถือ */
+@media (max-width: 768px) {
+  .filter-item {
+    min-width: 100%; /* ฟิลเตอร์จะเต็มความกว้าง */
+    max-width: 100%; /* ขนาดสูงสุดเป็น 100% */
+  }
+
+  #popup-table {
+    font-size: 14px;
+    overflow-x: auto; /* ทำให้สามารถเลื่อนตารางได้ */
+  }
+
+  #popup-table th, #popup-table td {
+    padding: 6px;
+  }
+}
+
+/* สำหรับมือถือขนาดเล็ก */
+@media (max-width: 480px) {
+  .filter-section {
+    flex-direction: column; /* จัดฟิลเตอร์เป็นคอลัมน์ */
+  }
+
+  .filter-item {
+    min-width: 100%; /* ฟิลเตอร์เต็มความกว้าง */
+    max-width: 100%; /* ขนาดสูงสุดเป็น 100% */
+    margin-bottom: 10px;
+  }
+
+  #popup-table {
+    font-size: 12px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  #popup-table th, #popup-table td {
+    padding: 5px;
+  }
+
+  #generate-pdf-button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}

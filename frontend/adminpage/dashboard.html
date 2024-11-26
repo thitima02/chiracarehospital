@@ -38,10 +38,10 @@
             <div class="col-12 col-md-12">
                 <div class="card ca1">
                     <div class="card-body">
-                        <h4>ประเภทผู้ป่วย</h4>
+                        <h4 style="text-align: left; margin-bottom: 10px; font-weight: bold;">จำนวนผู้ป่วยตามโรคประจำตัว</h4>
                         <div class="row">
                             <!-- ความดันโลหิตสูง -->
-                            <div class="col-2 col-md-2 mb-2">
+                            <div class="col-6 col-md-2">
                                 <div class="card patient-type text-center">
                                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                         <span class="mdi mdi-water-circle"></span>
@@ -54,7 +54,7 @@
                             </div>
 
                             <!-- โรคอ้วน -->
-                            <div class="col-2 col-md-2 mb-2">
+                            <div class="col-6 col-md-2">
                                 <div class="card patient-type text-center">
                                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                         <span class="mdi mdi-human-child"></span>
@@ -67,7 +67,7 @@
                             </div>
 
                             <!-- ไขมันในเลือดสูง -->
-                            <div class="col-2 col-md-2 mb-2">
+                            <div class="col-6 col-md-2">
                                 <div class="card patient-type text-center">
                                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                         <span class="mdi mdi-transfer-up"></span>
@@ -80,7 +80,7 @@
                             </div>
 
                             <!-- โรคเบาหวาน -->
-                            <div class="col-2 col-md-2 mb-2">
+                            <div class="col-6 col-md-2">
                                 <div class="card patient-type text-center">
                                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                         <span class="mdi mdi-diabetes"></span>
@@ -93,7 +93,7 @@
                             </div>
 
                             <!-- CVD Risk -->
-                            <div class="col-2 col-md-2 mb-2">
+                            <div class="col-6 col-md-2">
                                 <div class="card patient-type text-center">
                                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                         <span class="mdi mdi-heart-pulse"></span>
@@ -106,7 +106,7 @@
                             </div>
 
                             <!-- โรคไต -->
-                            <div class="col-2 col-md-2 mb-2">
+                            <div class="col-6 col-md-2">
                                 <div class="card patient-type text-center">
                                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                         <span class="mdi mdi-medication-outline"></span>
@@ -128,10 +128,11 @@
                     </div>
                 </div>
             </div>
+            
             <div class="col-12 col-md-6 mb-2"> <!-- First chart container -->
                 <div class="card mb-4 position-relative"> <!-- Added position-relative -->
                     <div class="card-body">
-                        <h4 class="card-title">สถิติของกลุ่มผู้ป่วย</h4>
+                        <h4 class="card-title" style="text-align: left; margin-bottom: 15px;">กราฟแสดงสถิติของประเภทผู้ป่วย</h4>
                         <div class="chart-container mb-4">
                             <canvas id="patient-type-chart" class="patient-statistics-yearly" width="400" height="200"></canvas>
                         </div>
@@ -145,12 +146,10 @@
                 </div>
             </div>
             
-            
-            
             <div class="col-12 col-md-6 mb-2"> <!-- Second chart container -->
                 <div class="card mb-4 position-relative"> <!-- Added position-relative -->
                     <div class="card-body">
-                        <h4 class="card-title">กราฟแสดงสถิติของกลุ่มผู้ป่วย</h4>
+                        <h4 class="card-title" style="text-align: left; margin-bottom: 15px;">กราฟแสดงสถิติของกลุ่มผู้ป่วย</h4>
                         <div class="chart-container mb-4">
                             <canvas id="patient-group-chart" class="chart-canvas" width="400" height="200"></canvas>
                         </div>
@@ -167,9 +166,9 @@
         <div class="row">
             <!-- Card 1: Reasons for missed appointments -->
             <div class="col-12 col-md-4 mb-2 d-flex">
-                <div class="card mb-4 w-100 h-100">
+                <div class="card-reason w-100 h-100">
                     <div class="card-body">
-                        <h4 class="card-title">อันดับสาเหตุของการขาดนัด</h4>
+                        <h4 class="card-title" style="text-align: left; margin-bottom: 15px;">อันดับสาเหตุของการขาดนัด</h4>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -191,7 +190,7 @@
             <div class="col-12 col-md-4 mb-2 d-flex">
                 <div class="card-status w-100 h-100">
                     <div class="card-body">
-                        <h4 class="card-title">สถานะการติดตามล่าสุด</h4>
+                        <h4 class="card-title" style="text-align: left; margin-bottom: 15px;">สถานะการติดตามล่าสุด</h4>
                         <div class="card-text">
                             <div class="status-bar">
                                 <div class="status-label">ติดตามแล้ว</div>
@@ -237,7 +236,7 @@
             <div class="col-12 col-md-4 mb-2 d-flex">
                 <div class="card-treatment w-100 h-100">
                     <div class="card-body">
-                        <h4 class="card-title">สถานะเข้ารับการรักษาล่าสุด</h4>
+                        <h4 class="card-title" style="text-align: left; margin-bottom: 15px;">สถานะเข้ารับการรักษาล่าสุด</h4>
                         <div class="card-text">
                             <div id="status-container" class="mb-2">
                                 <h5>มาตามนัด</h5>
@@ -256,8 +255,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="patient-count-treatment text-center mt-4"></div>
-                        <div class="latest-update-date text-center mt-2"></div>
+                        <div class="patient-count-treatment"></div>
+                        <div class="latest-update-date"></div>
                     </div>
                 </div>
             </div>

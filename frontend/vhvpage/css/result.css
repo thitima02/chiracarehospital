@@ -62,31 +62,35 @@
 @media only screen and (max-width: 767px) {
   
   .stats-container {
+    margin-left: 0%;
     flex-direction: column; /* จัดกล่องในแนวตั้ง */
     align-items: center; /* จัดให้อยู่กึ่งกลาง */
-    gap: 10px; /* เพิ่มระยะห่างระหว่างกล่อง */
+    gap: 2px; /* เพิ่มระยะห่างระหว่างกล่อง */
   }
 
   .box {
-    width: 70%; /* ให้กล่องใช้พื้นที่เต็มหน้าจอ */
-    max-width: 90%; /* จำกัดความกว้างกล่อง */
+    width: 90%; /* ให้กล่องใช้พื้นที่เต็มหน้าจอ */
+    max-width: 100%; /* จำกัดความกว้างกล่อง */
     text-align: center;
+    max-height: 80px;
   }
   
 }
 
 .box i {
-  font-size: 40px;
+  font-size: 30px;
   margin-right: 20px;
 }
 
 .box h2 {
   margin: 10px;
-  font-size: 24px;
+  font-size: 18px;
   color: #333;
+  text-align: left;
 }
 
 .box p {
+  font-size: 12px;
   margin: 10px;
   color: #525252;
 }

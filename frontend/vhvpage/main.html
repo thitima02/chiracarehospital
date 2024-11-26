@@ -198,10 +198,12 @@
                             patient.monitor_status === "ยังไม่ได้ติดตาม"
                         );
 
-                        // Update the counts on the page
-                        document.getElementById('pending-count').textContent = pendingPatients.length || 0;
-                        document.getElementById('completed-count').textContent = completedPatients.length || 0;
-                        document.getElementById('not-monitored-count').textContent = notMonitoredPatients.length || 0;
+                        // Use setTimeout to delay the updating of counts for 1 second
+                        setTimeout(() => {
+                            document.getElementById('pending-count').textContent = pendingPatients.length || 0;
+                            document.getElementById('completed-count').textContent = completedPatients.length || 0;
+                            document.getElementById('not-monitored-count').textContent = notMonitoredPatients.length || 0;
+                        }, 1000); // Delay of 1 second
 
                         // Attach event listeners for modals
                         document.getElementById('completedBox').addEventListener('click', function () {
