@@ -44,6 +44,27 @@ if ($result->num_rows > 0) {
         // ตรวจสอบว่า patient_address_area เป็น NULL หรือไม่
         $row['patient_address_area'] = $row['patient_address_area'] ?? 'ไม่มีการกำหนด'; // กำหนดค่า default
 
+        // ตรวจสอบว่า monitor_deadline ไม่เป็น NULL และทำการเปรียบเทียบกับวันที่ปัจจุบัน
+        if ($row['monitor_deadline'] !== NULL) {
+            $current_date = new DateTime(); // วันเวลาปัจจุบัน
+            $deadline_date = new DateTime($row['monitor_deadline']); // วันกำหนดส่งงาน
+
+            // ตรวจสอบว่าเลยกำหนดหรือยัง
+            if ($current_date > $deadline_date) {
+                // ถ้าเลยกำหนดให้เปลี่ยนสถานะเป็น "ติดตามล้มเหลว"
+                $row['monitor_status'] = 'ติดตามล้มเหลว';
+            } else {
+                // ถ้ายังไม่เลยกำหนดให้เปลี่ยนสถานะเป็น "กำลังติดตาม"
+                $row['monitor_status'] = 'กำลังติดตาม';
+            }
+
+            // อัพเดตสถานะในฐานข้อมูล
+            $update_sql = "UPDATE monitor_information SET monitor_status = ? WHERE patient_id = ?";
+            $stmt = $conn->prepare($update_sql);
+            $stmt->bind_param("si", $row['monitor_status'], $row['patient_id']);
+            $stmt->execute();
+        }
+
         $data[] = $row; // เก็บแต่ละแถวเป็น array
     }
 } else {
