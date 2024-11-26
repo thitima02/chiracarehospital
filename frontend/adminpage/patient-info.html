@@ -34,23 +34,52 @@
   <div id="topbar-container"></div>
 
   <div class="patientinfo-container">
-    <div class="search-bar">
-      <input type="search" placeholder="ค้นหาชื่อ" id="searchPatientInput" oninput="filterData()">
-      <input type="search" placeholder="เลขบัตรประชาชน" id="idCardFilter" oninput="filterData()">
-      <input type="search" placeholder="เบอร์โทรศัพท์" id="phoneFilter" oninput="filterData()">
-      <input type="search" placeholder="เบอร์โทรศัพท์ญาติ..." id="relativePhoneFilter" oninput="filterData()">
-      <select id="treatmentStatusFilter" onchange="filterData()">
-        <option value="">ทั้งหมด</option>
-        <option value="ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)">ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)</option>
-        <option value="เสียชีวิต">เสียชีวิต</option>
-        <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยแล้ว</option>
-      </select>
-      <button class="add-icon">
-        <a href="addinfo.html">
-          <i class='bx bx-user-plus'></i>
-        </a>
-      </button>
-    </div>
+    <section class="filter-section" style="justify-content: center;">
+      <div class="filter-container">
+        <div class="filter-item search-bar">
+          <h5>ค้นหารายชื่อ</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput"
+            oninput="filterData()">
+          <i class='bx bx-search search-icon'></i>
+        </div>
+
+        <div class="filter-item search-bar">
+          <h5>เลขบัตรประชาชน</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="other-input" id="idCardFilter" oninput="filterData()">
+          <i class='bx bxs-id-card other-icon'></i>
+        </div>
+
+        <div class="filter-item search-bar">
+          <h5>เบอร์โทรศัพท์</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="other-input" id="phoneFilter" oninput="filterData()">
+          <i class='bx bxs-phone-call other-icon'></i>
+        </div>
+
+        <div class="filter-item search-bar">
+          <h5>เบอร์โทรศัพท์ญาติ</h5>
+          <input type="text" placeholder="ค้นหาที่นี่..." class="other-input" id="relativePhoneFilter"
+            oninput="filterData()">
+          <i class='bx bx-phone-call other-icon'></i>
+        </div>
+
+        <div class="filter-item">
+          <h5>สถานะปัจจุบัน</h5>
+          <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
+            <option value="">ทั้งหมด</option>
+            <option value="ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)">ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)</option>
+            <option value="เสียชีวิต">เสียชีวิต</option>
+            <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยแล้ว</option>
+          </select>
+          <i class='bx bx-chevron-down down-icon'></i>
+        </div>
+
+        <button class="add-icon">
+          <a href="addinfo.html">
+            <i class='bx bx-user-plus'></i> 
+          </a>
+        </button>
+      </div>
+    </section>
 
     <div class="table-container">
       <table class="patient-table">
@@ -69,8 +98,59 @@
           <!-- ข้อมูลผู้ป่วยจะแสดงตรงนี้ -->
         </tbody>
       </table>
+      <!-- Pagination Controls -->
+      <div id="pagination-controls">
+        <button id="prevPage" onclick="changePage(-1)"><i class='bx bx-chevron-left'></i></button>
+        <button id="nextPage" onclick="changePage(1)"><i class='bx bx-chevron-right'></i></button>
+      </div>
     </div>
   </div>
+
+  <style>
+    #pagination-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    #pagination-controls button {
+      background-color: transparent;
+      /* ไม่มีพื้นหลัง */
+      color: #007bff;
+      /* สีตัวอักษร */
+      border: 2px solid #007bff;
+      /* ขอบปุ่มมีสีเขียว */
+      padding: 5px 5px;
+      margin: 0 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    #pagination-controls button:hover {
+      background-color: #007bff;
+      /* สีพื้นหลังเมื่อ hover */
+      color: white;
+      /* สีตัวอักษรเมื่อ hover */
+    }
+
+    #pagination-controls button:disabled {
+      color: #ccc;
+      /* สีของตัวอักษรเมื่อปุ่มถูกปิดการใช้งาน */
+      border-color: #ccc;
+      /* สีของขอบปุ่มเมื่อปิดการใช้งาน */
+      cursor: not-allowed;
+      /* เปลี่ยน cursor เมื่อปุ่มถูกปิดการใช้งาน */
+    }
+
+    #pagination-controls button:disabled:hover {
+      background-color: transparent;
+      /* ไม่มีพื้นหลังเมื่อ hover ปุ่มที่ถูกปิดการใช้งาน */
+      color: #ccc;
+      /* สีตัวอักษรเมื่อปุ่มถูกปิดการใช้งาน */
+    }
+  </style>
 
   <script>
     // ฟังก์ชันกรองข้อมูล
@@ -121,60 +201,77 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    $(document).ready(function () {
-      // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
-      $.getJSON('/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
-        if (response.status === 'success') {
-          var patients = response.data;
-          var rows = '';
+    var patients = [];
+    var pageLength = 10;  // จำนวนผู้ป่วยที่แสดงต่อหน้า
+    var currentPage = 1;  // หน้าเริ่มต้น
 
-          // วนลูปข้อมูลผู้ป่วยเพื่อแสดงในตาราง
-          patients.forEach(function (patient) {
-            rows += '<tr>';
-            rows += '<td style="text-align: left; padding-left: 30px"><img src="data:image/jpeg;base64,' + patient.patient_image + '" alt="avatar"> ' + patient.full_name + '</td>';
-            rows += '<td>' + formatDate(patient.birth_date) + '</td>';
-            rows += '<td>' + patient.id_card + '</td>';
-            rows += '<td>' + patient.phone_number + '</td>';
-            rows += '<td>' + patient.emergency_phone + '</td>';
-            rows += '<td class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</td>';
+    // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
+    $.getJSON('/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+      if (response.status === 'success') {
+        patients = response.data;
+        paginateData();  // แสดงข้อมูลที่หน้าแรก
+      } else {
+        alert(response.message);
+      }
+    });
 
-            rows += '<td>';
-            rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
-            rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.patient_id + '\')"><i class="bx bx-trash"></i></button>';
-            rows += '</td>';
-            rows += '</tr>';
-          });
+    // ฟังก์ชันที่แบ่งข้อมูลตามหน้า
+    function paginateData() {
+      var filteredPatients = applyFilters(patients); // ใช้ฟังก์ชันกรองข้อมูล
+      var startIndex = (currentPage - 1) * pageLength;
+      var endIndex = startIndex + pageLength;
+      var pageData = filteredPatients.slice(startIndex, endIndex);
 
-          // แทรกข้อมูลในตาราง
-          $('#patient-info-body').html(rows);
-        } else {
-          alert(response.message);
-        }
+      var rows = '';
+      pageData.forEach(function (patient) {
+        rows += '<tr>';
+        rows += '<td style="text-align: left; padding-left: 30px"><img src="data:image/jpeg;base64,' + patient.patient_image + '" alt="avatar"> ' + patient.full_name + '</td>';
+        rows += '<td>' + formatDate(patient.birth_date) + '</td>';
+        rows += '<td>' + patient.id_card + '</td>';
+        rows += '<td>' + patient.phone_number + '</td>';
+        rows += '<td>' + patient.emergency_phone + '</td>';
+        rows += '<td class="status-label ' + getStatusColor(patient.current_status) + '">' + patient.current_status + '</td>';
+        rows += '<td>';
+        rows += '<button class="action-btn" title="แก้ไขข้อมูล" onclick="editPatient(\'' + patient.patient_id + '\')"><i class="bx bxs-edit"></i></button>';
+        rows += '<button class="action-btn" title="ลบข้อมูล" onclick="deletePatient(\'' + patient.patient_id + '\')"><i class="bx bx-trash"></i></button>';
+        rows += '</td>';
+        rows += '</tr>';
       });
 
-      // ฟังก์ชันสำหรับฟอร์แมตวันเกิด
-      function formatDate(dateStr) {
-        var date = new Date(dateStr);
-        var day = String(date.getDate()).padStart(2, '0');
-        var month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0
-        var year = date.getFullYear();
-        return day + '-' + month + '-' + year;
+      // แทรกข้อมูลในตาราง
+      $('#patient-info-body').html(rows);
+
+      // ปรับปรุงการแสดงผลปุ่มเปลี่ยนหน้า
+      $('#prevPage').prop('disabled', currentPage === 1);
+      $('#nextPage').prop('disabled', currentPage * pageLength >= filteredPatients.length);
+    }
+
+    // ฟังก์ชันเปลี่ยนหน้า
+    function changePage(direction) {
+      currentPage += direction;
+      paginateData();
+    }
+
+    // ฟังก์ชันสำหรับฟอร์แมตวันเกิด
+    function formatDate(dateStr) {
+      var date = new Date(dateStr);
+      var day = String(date.getDate()).padStart(2, '0');
+      var month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0
+      var year = date.getFullYear();
+      return day + '-' + month + '-' + year;
+    }
+
+    function getStatusColor(status) {
+      if (status === 'ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)') {
+        return 'green'; // สถานะสีเขียวสำหรับปกติ
+      } else if (status === 'เสียชีวิต') {
+        return 'red'; // สถานะสีแดงสำหรับเสียชีวิต
+      } else if (status === 'ไม่เป็นผู้ป่วยแล้ว') {
+        return 'blue'; // สีน้ำเงินสำหรับไม่เป็นผู้ป่วยแล้ว
+      } else {
+        return ''; // ค่าเริ่มต้น ถ้าไม่มีสถานะที่ตรงกัน
       }
-
-
-      function getStatusColor(status) {
-        if (status === 'ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)') {
-          return 'green'; // สถานะสีเขียวสำหรับปกติ
-        } else if (status === 'เสียชีวิต') {
-          return 'red'; // สถานะสีแดงสำหรับเสียชีวิต
-        } else if (status === 'ไม่เป็นผู้ป่วยแล้ว') {
-          return 'blue'; // สีน้ำเงินสำหรับไม่เป็นผู้ป่วยแล้ว
-        } else {
-          return ''; // ค่าเริ่มต้น ถ้าไม่มีสถานะที่ตรงกัน
-        }
-      }
-
-    });
+    }
 
     // ฟังก์ชันแก้ไขข้อมูลผู้ป่วย
     function editPatient(patient_id) {
@@ -203,14 +300,48 @@
         };
       }
     }
-  </script>
 
-  <script>
+    // ฟังก์ชันกรองข้อมูล
+    function filterData() {
+      paginateData();  // เรียกฟังก์ชัน paginateData ใหม่ทุกครั้งที่มีการกรองข้อมูล
+    }
+
+    // ฟังก์ชันกรองข้อมูล
+    function applyFilters(data) {
+      const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
+      const phone = document.getElementById('phoneFilter').value;
+      const idCard = document.getElementById('idCardFilter').value.trim();
+      const relativePhone = document.getElementById('relativePhoneFilter').value;
+      const treatmentStatus = document.getElementById('treatmentStatusFilter').value;
+
+      return data.filter(patient => {
+        const name = patient.full_name.toLowerCase();
+        const phoneValue = patient.phone_number.trim();
+        const idCardValue = patient.id_card.trim();
+        const relativePhoneValue = patient.emergency_phone.trim();
+        const treatmentStatusValue = patient.current_status.trim();
+
+        let isVisible = true;
+
+        if (searchName && !name.includes(searchName)) isVisible = false;
+        if (phone && !phoneValue.includes(phone)) isVisible = false;
+        if (idCard && !idCardValue.includes(idCard)) isVisible = false;
+        if (relativePhone && !relativePhoneValue.includes(relativePhone)) isVisible = false;
+        if (treatmentStatus && treatmentStatusValue !== treatmentStatus) isVisible = false;
+
+        return isVisible;
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadUserData);
+
+    // ฟังก์ชันดึงข้อมูลผู้ใช้จาก URL
     function getUserIdFromURL() {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get('patient_id');
     }
 
+    // ฟังก์ชันโหลดข้อมูลผู้ใช้
     function loadUserData() {
       const userId = getUserIdFromURL();
       if (userId) {
@@ -230,58 +361,6 @@
           .catch(error => console.error('เกิดข้อผิดพลาด:', error));
       }
     }
-  </script>
-
-  <!-- fitter เรียงชื่อ  -->
-  <script>
-    // ฟังก์ชันสำหรับกรองชื่อ
-    function filterNames() {
-      const input = document.getElementById('nameSearch').value.toLowerCase();
-      const rows = document.querySelectorAll('#patient-info-body tr');
-
-      rows.forEach(row => {
-        const name = row.querySelector('td').innerText.toLowerCase();
-        if (name.includes(input)) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
-      });
-    }
-
-  </script>
-
-  <script>
-    function filterData() {
-      const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
-      const phone = document.getElementById('phoneFilter').value;
-      const idCard = document.getElementById('idCardFilter').value.trim();
-      const relativePhone = document.getElementById('relativePhoneFilter').value;
-      const treatmentStatus = document.getElementById('treatmentStatusFilter').value;
-
-      const rows = document.querySelectorAll('#patient-info-body tr');
-
-      rows.forEach(row => {
-        const name = row.cells[0].textContent.toLowerCase();
-        const phoneValue = row.cells[3].textContent.trim();
-        const idCardValue = row.cells[2].textContent.trim();
-        const relativePhoneValue = row.cells[4].textContent.trim();
-        const treatmentStatusValue = row.cells[5].textContent.trim();
-
-        console.log('Comparing idCard:', idCard, 'with idCardValue:', idCardValue); // Debug line
-
-        let isVisible = true;
-
-        if (searchName && !name.includes(searchName)) isVisible = false;
-        if (phone && !phoneValue.includes(phone)) isVisible = false;
-        if (idCard && !idCardValue.includes(idCard)) isVisible = false;
-        if (relativePhone && !relativePhoneValue.includes(relativePhone)) isVisible = false;
-        if (treatmentStatus && treatmentStatusValue !== treatmentStatus) isVisible = false;
-
-        row.style.display = isVisible ? '' : 'none';
-      });
-    }
-    document.addEventListener('DOMContentLoaded', loadUserData);
   </script>
 
   <script>

@@ -367,7 +367,7 @@
               console.log('Response from Server:', data); // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
               if (data.success) {
                 alert("แก้ไขข้อมูลผู้ป่วยสำเร็จ!");
-                document.querySelector("form").reset();
+                window.location.href = "patient-info.html"; // กลับไปหน้าก่อนหน้า
               } else {
                 alert("ไม่สามารถแก้ไขข้อมูลได้");
               }

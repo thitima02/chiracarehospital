@@ -1,28 +1,121 @@
-
-.search-bar {
+.filter-container {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.search-bar input, .search-bar select {
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #ddd;
   width: 100%;
 }
 
-.search-bar .add-icon{
+.filter-item {
+  flex: 1;
+  position: relative;
+  /* Needed to position the icon inside the input */
+}
+
+.filter-item:last-child {
+  margin-right: 0;
+}
+
+.search-bar .search-input {
+  padding-left: 40px;
+  /* Add padding to leave space for the icon */
+}
+
+.search-input {
+  width: 96%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: #E8F1FF;
+}
+
+.other-input {
+  width: 96%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.other-icon{
+  position: absolute;
+  right: 25px;
+  top: 67%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  /* ปรับขนาดไอคอน */
+  color: #afafaf;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 67%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  /* ปรับขนาดไอคอน */
+  color: #5D97EF;
+}
+
+.down-icon {
+  position: absolute;
+  right: 20px;
+  top: 67%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  /* ปรับขนาดไอคอน */
+  color: #000000;
+}
+
+.date-filter,
+.dropdown-filter {
+  width: 96%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #333;
+}
+
+.dropdown-filter {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url('data:image/svg+xml;base64,<svg ... >') no-repeat right center;
+  background-size: 12px 12px;
+  background-color: #fff;
+}
+
+.add-icon a {
+  text-decoration: none;
+}
+
+.add-icon {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px;
+  padding: 8px 10px;
   border-radius: 8px;
   cursor: pointer;
+  margin-top: 18px;
 }
 
-.add-icon a i {
-  color: white; /* เปลี่ยนสีไอคอนเป็นสีขาว */
-  font-size: 20px;
+.add-icon i {
+  color: white;
+  font-size: 22px;
+}
+
+.add-icon:hover {
+  background-color: #0056b3;
+}
+
+.add-icon a:hover i {
+  color: #fff;
+  /* เปลี่ยนสีของไอคอนเมื่อเอาเมาส์ไปเหนือ */
 }
 
 .table-container {
@@ -31,19 +124,24 @@
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
 }
-table th, table td {
+
+table th,
+table td {
   padding: 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
+
 table th {
   background-color: #f1f3f6;
 }
+
 .table-actions button {
   background-color: #ff5e5e;
   color: white;
@@ -55,15 +153,20 @@ table th {
 }
 
 @media screen and (max-width: 768px) {
-  .search-bar input, .search-bar select {
-      width: calc(50% - 10px); /* Adjust width on smaller screens */
+
+  .search-bar input,
+  .search-bar select {
+    width: calc(50% - 10px);
+    /* Adjust width on smaller screens */
   }
 
   .search-bar button {
-      width: 100%; /* Full width button for smaller screens */
+    width: 100%;
+    /* Full width button for smaller screens */
   }
 }
-.patientinfo-container{
+
+.patientinfo-container {
   width: 93.5%;
   margin: auto;
   padding: 20px;
@@ -132,7 +235,8 @@ img {
   vertical-align: middle;
 }
 
-.edit-btn, .detail-btn {
+.edit-btn,
+.detail-btn {
   padding: 8px 12px;
   border: none;
   border-radius: 8px;
@@ -165,16 +269,19 @@ img {
     flex-direction: column;
   }
 
-  .patient-table th, .patient-table td {
+  .patient-table th,
+  .patient-table td {
     font-size: 12px;
   }
 
-  .search-box, .filter {
+  .search-box,
+  .filter {
     width: 100%;
     margin-bottom: 10px;
   }
 
-  .edit-btn, .detail-btn {
+  .edit-btn,
+  .detail-btn {
     font-size: 10px;
   }
 }
@@ -195,19 +302,20 @@ img {
   text-align: center;
   padding: 5px 10px;
   border-radius: 5px;
-  color: rgb(0, 0, 0); /* ข้อความในสถานะ */
+  color: rgb(0, 0, 0);
+  /* ข้อความในสถานะ */
 }
 
 .status-label.green {
-  color:  rgb(0, 154, 0);
+  color: rgb(0, 154, 0);
 }
 
 .status-label.red {
-  color:  rgb(255, 0, 0);
+  color: rgb(255, 0, 0);
 }
 
 .status-label.blue {
-  color:  rgb(0, 13, 255);
+  color: rgb(0, 13, 255);
 }
 
 
