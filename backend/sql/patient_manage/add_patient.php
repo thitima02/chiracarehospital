@@ -105,16 +105,29 @@ try {
     $stmt3->bindParam(':patient_group', $patient_group);
     $stmt3->bindParam(':patient_type', $patient_type);
 
-    // ดำเนินการเพิ่มข้อมูลทั้งหมด
-    $pdo->beginTransaction();
+// ใส่ข้อมูลลงในตาราง monitor_information
+$stmt4 = $pdo->prepare("INSERT INTO monitor_information (patient_id, monitor_round) VALUES (:patient_id, :monitor_round)");
+$monitor_round = 0; // รอบเริ่มต้น
+$stmt4->bindParam(':patient_id', $patient_id);
+$stmt4->bindParam(':monitor_round', $monitor_round);
 
-    if ($stmt1->execute() && $stmt2->execute() && $stmt3->execute()) {
-        $pdo->commit();
-        echo json_encode(['success' => true, 'message' => 'Data inserted successfully']);
-    } else {
-        $pdo->rollBack();
-        echo json_encode(['success' => false, 'message' => 'ไม่สามารถเพิ่มข้อมูลได้']);
-    }
+// ใส่ข้อมูลลงในตาราง treatment_information
+$stmt5 = $pdo->prepare("INSERT INTO treatment_information (patient_id, treatment_round) VALUES (:patient_id, :treatment_round)");
+$treatment_round = 0; // สถานะเริ่มต้น
+$stmt5->bindParam(':patient_id', $patient_id);
+$stmt5->bindParam(':treatment_round', $treatment_round);
+
+
+// ดำเนินการเพิ่มข้อมูลทั้งหมด
+$pdo->beginTransaction();
+
+if ($stmt1->execute() && $stmt2->execute() && $stmt3->execute() && $stmt4->execute() && $stmt5->execute()) {
+$pdo->commit();
+echo json_encode(['success' => true, 'message' => 'Data inserted successfully']);
+} else {
+$pdo->rollBack();
+echo json_encode(['success' => false, 'message' => 'ไม่สามารถเพิ่มข้อมูลได้']);
+}
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'เกิดข้อผิดพลาด: ' . $e->getMessage()]);
 }
