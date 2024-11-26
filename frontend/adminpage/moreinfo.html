@@ -41,11 +41,11 @@
                       <h2 id="fullName">ไม่มีข้อมูล</h2>
                       <p><strong>อายุ:</strong> <span id="age">ไม่มีข้อมูล</span></p>
                       <p><strong>สถานะปัจจุบัน:</strong> <span id="currentStatus">ไม่มีข้อมูล</span></p>
-                      <p><strong>ประเภทโรค:</strong> <span id="diseaseType">ไม่มีข้อมูล</span></p>
+                      <p><strong>โรคประจำตัว:</strong> <span id="diseaseType">ไม่มีข้อมูล</span></p>
                       <p><strong>กลุ่มผู้ป่วย:</strong> <span id="patientGroup">ไม่มีข้อมูล</span></p>
                       <p><strong>ประเภทผู้ป่วย:</strong> <span id="patientType">ไม่มีข้อมูล</span></p>
                       <p><strong>เลขบัตรประจำตัวประชาชน:</strong> <span id="idCard">ไม่มีข้อมูล</span></p>
-                      <p><strong>วันเกิด:</strong> <span id="birthDate"></span>ไม่มีข้อมูล</p>
+                      <p><strong>วันเกิด:</strong> <span id="birthDate"></span></p>
                       <p><strong>เบอร์โทรศัพท์:</strong> <span id="phoneNumber">ไม่มีข้อมูล</span></p>
                       <p><strong>เบอร์ฉุกเฉิน:</strong> <span id="emergencyPhone">ไม่มีข้อมูล</span></p>
                       <p><strong>ที่อยู่:</strong> <span id="address">ไม่มีข้อมูล</span></p>
@@ -58,27 +58,21 @@
             <!-- ข้อมูลการติดตาม -->
             <div class="follow-up-info">
                 <h3>ข้อมูลการติดตามล่าสุด</h3>
-                <p><strong>โรคของผู้ป่วยที่ติดตาม:</strong> <span id="latestDiseaseType">ไม่มีข้อมูล</span></p>
+                <p><strong>โรคประจำตัว:</strong> <span id="latestDiseaseType">ไม่มีข้อมูล</span></p>
+                <p><strong>สาเหตุการขาดนัด:</strong> <span id="missingAppointments">ไม่มีข้อมูล</span></p>
                 <p><strong>อาการทั่วไป:</strong> <span id="generalCondition">ไม่มีข้อมูล</span></p>
                 <p><strong>ค่าสัญญาณชีพ:</strong> <span id="vitalSigns">ไม่มีข้อมูล</span></p>
                 <p><strong>ค่าระดับน้ำตาลในเลือด:</strong> <span id="bloodSugarLevel">ไม่มีข้อมูล</span></p>
-                <p><strong>วันเริ่มติดตาม:</strong> <span id="followUpStartDate">ไม่มีข้อมูล</span></p>
-                <p><strong>ครั้งที่ติดตาม:</strong> <span id="followUpCount">ไม่มีข้อมูล</span></p>
                 <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="responsibleStaffFollowUp">ไม่มีข้อมูล</span></p>
-                <p><strong>สถานะการติดตาม:</strong> <span id="followUpStatus" class="green-status">ไม่มีข้อมูล</span></p>
             </div>
         
             <!-- ข้อมูลการรักษา -->
             <div class="treatment-info">
                 <h3>ข้อมูลการรักษาล่าสุด</h3>
-                <p><strong>โรคของผู้ป่วยรักษา:</strong> <span id="treatmentDiseaseType">ไม่มีข้อมูล</span></p>
-                <p><strong>อาการทั่วไป:</strong> <span id="treatmentGeneralCondition">ไม่มีข้อมูล</span></p>
-                <p><strong>ประเภทการรักษา:</strong> <span id="treatmentType">ไม่มีข้อมูล</span></p>
-                <p><strong>วันที่นัดหมาย:</strong> <span id="appointmentDate">ไม่มีข้อมูล</span></p>
-                <p><strong>วันที่เข้ารับการรักษา:</strong> <span id="treatmentDate">ไม่มีข้อมูล</span></p>
-                <p><strong>ครั้งที่รักษา:</strong> <span id="treatmentCount">ไม่มีข้อมูล</span></p>
+                <p><strong>โรคประจำตัว:</strong> <span id="treatmentDiseaseType">ไม่มีข้อมูล</span></p>
+                <p><strong>วันที่นัดหมายครั้งถัดไป:</strong> <span id="treatmentDiseaseType">ไม่มีข้อมูล</span></p>
                 <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="responsibleStaffTreatment">ไม่มีข้อมูล</span></p>
-                <p><strong>สถานะการรักษา:</strong> <span id="treatmentStatus" class="red-status">ไม่มีข้อมูล</span></p>
+                <p><strong>หมายเหตุ:</strong> <span id="treatmentNotes">ไม่มีข้อมูล</span></p>
             </div>
         
             <!-- ปุ่ม "ดูเพิ่มเติม" -->
@@ -141,7 +135,7 @@
                     document.getElementById('additionalInfo').textContent = patient.additional_info || '-';
     
                     // Fetch address information
-                    const addressResponse = await fetch(`/chiracarehospital/backend/sql/vhv/get_patient_address.php?patient_id=${patientId}`);
+                    const addressResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_address.php?patient_id=${patientId}`);
                     const addresses = await addressResponse.json();
                     if (addresses.length > 0) {
                         const address = addresses[0];
@@ -178,141 +172,66 @@
                 document.getElementById('address').textContent = 'เกิดข้อผิดพลาดในการดึงข้อมูล';
             }
         }
-    
-        // Function to fetch latest monitor information
-        async function fetchMonitorInformation() {
-            try {
-                const response = await fetch('/chiracarehospital/backend/sql/get_monitor_information.php');
-                const data = await response.json();
-                if (data.length > 0) {
-                    const latestRecord = data[0];
-                    document.getElementById('followUpStartDate').textContent = latestRecord.follow_up_start_date || "ไม่มีข้อมูล";
-                    document.getElementById('followUpCount').textContent = latestRecord.monitor_round || "ไม่มีข้อมูล";
-                    document.getElementById('followUpStatus').textContent = latestRecord.monitor_status || "ไม่มีข้อมูล";
-                } else {
-                    console.log("ไม่มีข้อมูลที่พบในการติดตาม");
-                }
-            } catch (error) {
-                console.error('Error fetching monitor information:', error);
-            }
-        }
-    
-        // Function to fetch latest monitor form data
-        function fetchMonitorData() {
-    fetch('/chiracarehospital/backend/sql/get_monitor_form.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success' && data.data.length > 0) {
-                const monitorData = data.data[0]; // ใช้ข้อมูลรายการแรก
-
-                // เติมค่าลงในฟิลด์
-                document.getElementById('missingAppointments').value = monitorData.reason_for_missed_treatment || 'ไม่มีข้อมูล';
-                document.getElementById('generalCondition').value = monitorData.general_symptoms || 'ไม่มีข้อมูล';
-                document.getElementById('vitalSigns').value = monitorData.vital_signs || 'ไม่มีข้อมูล';
-                document.getElementById('bloodSugarLevel').value = monitorData.blood_sugar_level || 'ไม่มีข้อมูล';
-
-                // แสดงวันที่อัปเดต
-                const submissionDate = monitorData.form_submission_date;
-                if (submissionDate) {
-                    const formattedDate = new Date(submissionDate).toLocaleString('th-TH', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                    });
-                    document.getElementById('newUpdateDate').textContent = formattedDate;
-                } else {
-                    document.getElementById('newUpdateDate').textContent = 'ไม่มีข้อมูล';
-                }
-            } else {
-                console.error('ไม่พบข้อมูล');
-            }
-        })
-        .catch(error => {
-            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
-        });
-}
-
-// เพิ่มการเรียกฟังก์ชัน fetchMonitorData() เมื่อหน้าโหลด
-window.onload = function() {
-    fetchMonitorData();  // เรียกใช้งานเมื่อโหลดหน้า
-};
 
     </script>
     
-<script>
-function loadFollowUpHistory() {
-    const department = document.getElementById('departmentSelect').value;
+    <script>
+    // Function to fetch data from the API
+    function fetchFollowUpData() {
+        fetch('/chiracarehospital/backend/sql/get_monitor_form.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Extract the relevant information from the API response
+                    const latestData = data.data[0]; // Assuming the first entry contains the latest data
     
-    // ตรวจสอบว่าเลือกแผนกหรือยัง
-    if (!department) {
-        const tableBody = document.getElementById('followUpHistoryTable');
-        tableBody.innerHTML = '<tr><td colspan="5">กรุณาเลือกแผนกก่อน</td></tr>';
-        return;
+                    // Update the HTML elements with the fetched data
+                    document.getElementById('latestDiseaseType').textContent = latestData.general_symptoms || 'ไม่มีข้อมูล';
+                    document.getElementById('missingAppointments').textContent = latestData.reason_for_missed_treatment || 'ไม่มีข้อมูล';
+                    document.getElementById('generalCondition').textContent = latestData.general_symptoms || 'ไม่มีข้อมูล';
+                    document.getElementById('vitalSigns').textContent = latestData.vital_signs || 'ไม่มีข้อมูล';
+                    document.getElementById('bloodSugarLevel').textContent = latestData.blood_sugar_level || 'ไม่มีข้อมูล';
+                    document.getElementById('responsibleStaffFollowUp').textContent = latestData.responsible_staff || 'ไม่มีข้อมูล';
+                } else {
+                    // If no data is found or there is an error, display a default message
+                    console.log('Error fetching data:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
-
-    fetch(`/chiracarehospital/backend/sql/users/getAlluser.php?department=${department}`)
-        .then(response => response.json())
-        .then(data => {
-            const tableBody = document.getElementById('followUpHistoryTable');
-            tableBody.innerHTML = ''; // ล้างข้อมูลในตารางเดิมออก
-
-            if (data.status === 'success' && data.data.length > 0) {
-                data.data.forEach(user => {
-                    const row = document.createElement('tr');
-                    
-                    // สร้าง cell สำหรับแต่ละคอลัมน์
-                    const responsibleStaffCell = document.createElement('td');
-                    responsibleStaffCell.textContent = user.full_name;
-
-                    const startDateCell = document.createElement('td');
-                    startDateCell.textContent = 'วันที่เริ่ม'; // แทนที่ด้วยข้อมูลจริงถ้ามี
-
-                    const endDateCell = document.createElement('td');
-                    endDateCell.textContent = 'วันที่สิ้นสุด'; // แทนที่ด้วยข้อมูลจริงถ้ามี
-
-                    const followUpCountCell = document.createElement('td');
-                    followUpCountCell.textContent = 'จำนวนครั้ง'; // แทนที่ด้วยข้อมูลจริงถ้ามี
-
+    
+    // Call the function to fetch and display the data
+    fetchFollowUpData();
+    </script>
+    <script>
+        // Function to fetch data from the API
+        function fetchTreatmentData() {
+            fetch('/chiracarehospital/backend/sql/get_treatment_form.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const latestData = data[0]; // ใช้ข้อมูลแถวแรกเป็นข้อมูลล่าสุด
         
-
-                    // ใส่ cell แต่ละช่องลงในแถว
-                    row.appendChild(responsibleStaffCell);
-                    row.appendChild(startDateCell);
-                    row.appendChild(endDateCell);
-                    row.appendChild(followUpCountCell);
-                    
-
-                    // ใส่แถวลงใน table body
-                    tableBody.appendChild(row);
+                        // อัปเดตข้อมูลในหน้าเว็บ
+                        document.getElementById('treatmentDiseaseType').textContent = latestData.disease_type || 'ไม่มีข้อมูล';
+                        document.getElementById('nextAppointmentDate').textContent = latestData.next_appointment_date || 'ไม่มีข้อมูล';
+                        document.getElementById('responsibleStaffTreatment').textContent = latestData.responsible_staff || 'ไม่มีข้อมูล';
+                        document.getElementById('treatmentNotes').textContent = latestData.notes || 'ไม่มีข้อมูล';
+                    } else {
+                        // กรณีไม่พบข้อมูล
+                        console.log('No treatment data found');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching treatment data:', error);
                 });
-            } else {
-                const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                cell.colSpan = 5;
-                cell.textContent = data.message || "ไม่พบข้อมูลในแผนกนี้";
-                row.appendChild(cell);
-                tableBody.appendChild(row);
-            }
-        })
-        .catch(error => {
-            console.error('Fetch Error:', error);
-            const row = document.createElement('tr');
-            const cell = document.createElement('td');
-            cell.colSpan = 5;
-            cell.textContent = "เกิดข้อผิดพลาดในการดึงข้อมูล";
-            row.appendChild(cell);
-            document.getElementById('followUpHistoryTable').appendChild(row);
-        });
-}
-
-</script>
-
-
-
-
+        }
+        
+        // เรียกใช้งานฟังก์ชันเพื่อดึงข้อมูล
+        fetchTreatmentData();
+        </script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     // ซ่อนป๊อปอัพและ overlay เมื่อกดปุ่มยกเลิก
