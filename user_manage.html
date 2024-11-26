@@ -10,9 +10,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Import icon -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
     <style>
-        body, button, input, select {
+        body,
+        button,
+        input,
+        select {
             font-family: Noto Sans Thai, sans-serif;
         }
     </style>
@@ -20,11 +25,13 @@
 
 <body>
 
-    <div class="container py-4">
-
+    <div class="container">
         <div class="d-flex justify-content-between mb-4">
-            <h1 class="h3 fw-bold mb-0">ระบบจัดการผู้ใช้</h1>
-            <a class="btn btn-primary" href="user_register.html">เพิ่มผู้ใช้งาน</a>
+            <h1 class="h3 fw-bold mb-0">หน้าจัดการสิทธิ์ผู้ใช้</h1>
+            <a class="btn btn-primary" href="user_register.html">
+                <i class='bx bx-user-plus' style="font-size: 1.5rem; vertical-align: middle;"></i>
+                เพิ่มผู้ใช้งาน
+            </a>
         </div>
 
         <div class="table-responsive">
@@ -70,17 +77,23 @@
                     staffs.forEach(function (staff) {
                         // ดึงข้อมูล user_info
                         rows += ` <tr>
-                         <td>${staff.full_name}</td>
-                         <td>${staff.username}</td>
-                         <td>${staff.responsibility_area}</td>
-                        <td>${staff.phone_number}</td>
-						<td>${staff.department}</td>
-                        <td>
-                    <a class="btn btn-sm btn-outline-primary m-1" href="user_edit.html?id=${staff.id}">แก้ไข</a>
-                    <button class="btn btn-sm btn-outline-danger m-1" onclick="confirmDelete(${staff.id})">ลบ</button>
-                </td>
-            </tr>`;
-
+            <td style="text-align: left; padding-left: 30px">
+                <img src="${staff.user_image ? 'data:image/jpeg;base64,' + staff.user_image : 'assets/images/cat.jpg'}" 
+                     alt="รูปภาพผู้ใช้งาน" 
+                     style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                ${staff.full_name}
+            </td>
+            <td>${staff.username}</td>
+            <td>${staff.responsibility_area}</td>
+            <td>${staff.phone_number}</td>
+            <td>${staff.department}</td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary m-1" href="user_edit.html?id=${staff.id}">
+                    <i class='bx bxs-edit' style="vertical-align: middle;"></i>แก้ไข</a>
+                <button class="btn btn-sm btn-outline-danger m-1" onclick="confirmDelete(${staff.id})">
+                    <i class='bx bx-trash' style="vertical-align: middle;"></i>ลบ</button>
+            </td>
+         </tr>`;
 
                     });
 
@@ -113,6 +126,176 @@
             }
         }
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rowsPerPage = 5;  // จำนวนแถวที่จะแสดงในแต่ละหน้า
+            const table = document.querySelector('table');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const totalPages = Math.ceil(rows.length / rowsPerPage);
+            let currentPage = 1;
+
+            // ฟังก์ชันแสดงแถวตามหน้า
+            function displayPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+
+                rows.forEach((row, index) => {
+                    if (index >= start && index < end) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            // ฟังก์ชันสร้าง pagination controls
+            function createPagination() {
+                const pagination = document.createElement('div');
+                pagination.classList.add('pagination');
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.textContent = i;
+                    pageBtn.addEventListener('click', function () {
+                        currentPage = i;
+                        displayPage(currentPage);
+                    });
+                    pagination.appendChild(pageBtn);
+                }
+
+                table.parentElement.appendChild(pagination);
+            }
+
+            // แสดงหน้าปัจจุบัน
+            displayPage(currentPage);
+            createPagination();
+        });
+    </script>
+
 </body>
+
+<style>
+    /* Container Styling */
+    .container {
+        margin: 0 auto;
+        padding: 2rem;
+        max-width: 1600px;
+    }
+
+    .table-responsive {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        overflow: auto;
+    }
+
+    /* Header Section */
+    .h3 {
+        font-weight: bold;
+        color: #000000;
+        margin-bottom: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    /* Table Styling */
+    .table {
+        width: 100%;
+        table-layout: fixed;
+        /* ให้ความกว้างของคอลัมน์เท่ากัน */
+        min-width: 1000px;
+        border-collapse: collapse;
+        font-size: 16px;
+        text-align: center;
+        overflow-x: auto;
+    }
+
+    .table th,
+    .table td {
+        text-align: center;
+        /* จัดข้อความให้อยู่กึ่งกลางแนวนอน */
+        vertical-align: middle;
+        /* จัดข้อความให้อยู่กึ่งกลางแนวตั้ง */
+        padding: 15px;
+        border-bottom: 1px solid #dcdcdc;
+    }
+
+    .table th {
+        font-weight: bold;
+        color: #5d97ef;
+        background-color: #ececec !important;
+        /* สีฟ้า */
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+       /* กำหนดรูปแบบของปุ่ม pagination */
+       .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination button {
+        padding: 8px 16px;
+        margin: 0 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        color: #007bff;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .pagination button:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .pagination button:disabled {
+        background-color: #e0e0e0;
+        color: #aaa;
+        cursor: not-allowed;
+    }
+
+    /* Adjustments for Mobile Devices */
+    @media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+
+        .h3 {
+            font-size: 1.25rem;
+        }
+
+        .btn-primary {
+            font-size: 0.875rem;
+            padding: 0.375rem 0.75rem;
+        }
+
+        .table {
+            font-size: 0.875rem;
+        }
+    }
+</style>
 
 </html>
