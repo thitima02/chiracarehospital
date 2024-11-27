@@ -45,6 +45,16 @@
     background-color: #ffffff;
 }
 
+.down-icon {
+    position: absolute;
+    right: 20px;
+    top: 67%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    /* ปรับขนาดไอคอน */
+    color: #000000;
+}
+
 .date-filter,
 .dropdown-filter {
     width: 96%;
@@ -251,14 +261,57 @@ img {
 
 .action-btn {
     position: relative;
-    color: #1d1b31;
+    color: #ffffff;
     border: none;
-    padding: 3px 8px;
-    font-size: 20px;
+    padding: 8px 16px;
+    /* เพิ่มขนาดปุ่ม */
+    font-size: 16px;
+    /* ปรับขนาดฟอนต์ให้เหมาะสม */
     cursor: pointer;
     border-radius: 5px;
-    background-color: rgb(241, 241, 241);
+    /* ปรับให้มุมปุ่มมน */
+    background-color: #007bff;
+    /* สีพื้นหลัง */
     margin-left: 15px;
+    transition: all 0.3s ease;
+    /* เพิ่มแอนิเมชันเมื่อมีการเปลี่ยนแปลง */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    /* เงาปุ่ม */
+}
+
+.action-btn i {
+    margin-right: 5px;
+    /* เพิ่มระยะห่างระหว่างไอคอนกับข้อความ */
+    font-size: 20px;
+    /* ปรับขนาดไอคอน */
+}
+
+.action-btn p {
+    font-size: 14px;
+    /* ปรับขนาดไอคอน */
+}
+
+/* เอฟเฟกต์เมื่อ hover */
+.action-btn:hover {
+    background-color: #4a82d5;
+    /* สีพื้นหลังเมื่อ hover */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    /* เพิ่มเงาเมื่อ hover */
+    transform: translateY(-2px);
+    /* ปุ่มเลื่อนขึ้นเมื่อ hover */
+}
+
+/* เอฟเฟกต์เมื่อกด (active) */
+.action-btn:active {
+    background-color: #3c6fa2;
+    /* เปลี่ยนสีพื้นหลังเมื่อคลิก */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+    /* ลดขนาดเงา */
+    transform: translateY(1px);
+    /* ลดระยะของปุ่มเมื่อกด */
 }
 
 .status-label {

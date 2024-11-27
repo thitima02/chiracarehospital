@@ -31,6 +31,16 @@
   background-color: #E8F1FF;
 }
 
+.down-icon {
+  position: absolute;
+  right: 20px;
+  top: 67%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  /* ปรับขนาดไอคอน */
+  color: #000000;
+}
+
 .date-filter,
 .dropdown-filter {
   width: 96%;
@@ -117,8 +127,6 @@
 #popup-modal {
   width: 80%;
   /* สามารถกำหนดเป็นค่าคงที่ เช่น 600px */
-  height: 70%;
-  /* สามารถกำหนดเป็นค่าคงที่ เช่น 400px */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -129,8 +137,6 @@
   display: none;
   z-index: 1000;
   /* Ensures it is above overlay */
-  overflow-y: auto;
-  /* ถ้าข้อมูลเยอะเกินพื้นที่ ให้เลื่อนดูได้ */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   /* เพิ่มเงาให้ป๊อปอัป */
 }
@@ -198,16 +204,20 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  position: absolute; /* กำหนดตำแหน่งแบบ absolute ภายในป๊อปอัป */
-  bottom: 20px; /* ระยะห่างจากขอบล่าง */
+
+  bottom: 20px;
+  /* ระยะห่างจากขอบล่าง */
+  margin-top: 20ox;
 }
 
 #generate-pdf-button {
-  right: 20px; /* ระยะห่างจากขอบขวา */
+  right: 20px;
+  /* ระยะห่างจากขอบขวา */
 }
 
 #close-popup-button {
-  right: 150px; /* ระยะห่างจากขอบขวาเพื่อเว้นระยะระหว่างปุ่ม */
+  right: 150px;
+  /* ระยะห่างจากขอบขวาเพื่อเว้นระยะระหว่างปุ่ม */
 }
 
 #generate-pdf-button:hover,
@@ -613,23 +623,29 @@ button[type="No"]:hover {
 
 input[type="checkbox"] {
   display: inline-block;
-  width: 18px; /* ปรับขนาดตามต้องการ */
-  height: 18px; /* ปรับขนาดตามต้องการ */
+  width: 18px;
+  /* ปรับขนาดตามต้องการ */
+  height: 18px;
+  /* ปรับขนาดตามต้องการ */
 }
 
 /* ปรับขนาดตารางให้เหมาะสมบนมือถือ */
 @media (max-width: 768px) {
   .filter-item {
-    min-width: 100%; /* ฟิลเตอร์จะเต็มความกว้าง */
-    max-width: 100%; /* ขนาดสูงสุดเป็น 100% */
+    min-width: 100%;
+    /* ฟิลเตอร์จะเต็มความกว้าง */
+    max-width: 100%;
+    /* ขนาดสูงสุดเป็น 100% */
   }
 
   #popup-table {
     font-size: 14px;
-    overflow-x: auto; /* ทำให้สามารถเลื่อนตารางได้ */
+    overflow-x: auto;
+    /* ทำให้สามารถเลื่อนตารางได้ */
   }
 
-  #popup-table th, #popup-table td {
+  #popup-table th,
+  #popup-table td {
     padding: 6px;
   }
 }
@@ -637,12 +653,15 @@ input[type="checkbox"] {
 /* สำหรับมือถือขนาดเล็ก */
 @media (max-width: 480px) {
   .filter-section {
-    flex-direction: column; /* จัดฟิลเตอร์เป็นคอลัมน์ */
+    flex-direction: column;
+    /* จัดฟิลเตอร์เป็นคอลัมน์ */
   }
 
   .filter-item {
-    min-width: 100%; /* ฟิลเตอร์เต็มความกว้าง */
-    max-width: 100%; /* ขนาดสูงสุดเป็น 100% */
+    min-width: 100%;
+    /* ฟิลเตอร์เต็มความกว้าง */
+    max-width: 100%;
+    /* ขนาดสูงสุดเป็น 100% */
     margin-bottom: 10px;
   }
 
@@ -652,7 +671,8 @@ input[type="checkbox"] {
     display: block;
   }
 
-  #popup-table th, #popup-table td {
+  #popup-table th,
+  #popup-table td {
     padding: 5px;
   }
 
