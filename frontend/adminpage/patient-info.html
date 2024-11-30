@@ -75,11 +75,16 @@
 
         <button class="add-icon">
           <a href="addinfo.html">
-            <i class='bx bx-user-plus'></i> 
+            <i class='bx bx-user-plus'></i>
           </a>
         </button>
       </div>
     </section>
+
+    <select id="sortOption" onchange="sortData()">
+      <option value="name">เรียงตามชื่อ</option>
+      <option value="latest">ใหม่ล่าสุด</option>
+    </select>
 
     <div class="table-container">
       <table class="patient-table">
@@ -306,6 +311,11 @@
       paginateData();  // เรียกฟังก์ชัน paginateData ใหม่ทุกครั้งที่มีการกรองข้อมูล
     }
 
+    function sortData() {
+      currentPage = 1; // รีเซ็ตหน้าเริ่มต้น
+      paginateData();  // อัพเดตข้อมูลตามตัวเลือกการเรียงลำดับ
+    }
+
     // ฟังก์ชันกรองข้อมูล
     function applyFilters(data) {
       const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
@@ -313,8 +323,9 @@
       const idCard = document.getElementById('idCardFilter').value.trim();
       const relativePhone = document.getElementById('relativePhoneFilter').value;
       const treatmentStatus = document.getElementById('treatmentStatusFilter').value;
+      const sortOption = document.getElementById('sortOption').value;
 
-      return data.filter(patient => {
+      let filteredData = data.filter(patient => {
         const name = patient.full_name.toLowerCase();
         const phoneValue = patient.phone_number.trim();
         const idCardValue = patient.id_card.trim();
@@ -331,6 +342,15 @@
 
         return isVisible;
       });
+
+      // เรียงลำดับข้อมูล
+      if (sortOption === 'name') {
+        filteredData.sort((a, b) => a.full_name.localeCompare(b.full_name));
+      } else if (sortOption === 'latest') {
+        filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      }
+
+      return filteredData;
     }
 
     document.addEventListener('DOMContentLoaded', loadUserData);
