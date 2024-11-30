@@ -9,7 +9,7 @@ $dbname = "chiracare_follow_up_db";
 $username = "root";
 $password = "";
 
-try {
+try {       
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -114,11 +114,13 @@ try {
 
     // อัปเดตข้อมูล patient_medical_information
     $stmt3 = $pdo->prepare("UPDATE patient_medical_information SET 
-                            disease_type = :disease_type,
-                            note = :note,
-                            patient_group = :patient_group,
-                            patient_type = :patient_type
-                            WHERE patient_id = :patient_id");
+    disease_type = :disease_type,
+    note = :note,
+    patient_group = :patient_group,
+    patient_type = :patient_type,
+    last_update = NOW() 
+    WHERE patient_id = :patient_id");
+
     $stmt3->execute([
         ':disease_type' => $diseaseType,
         ':note' => $note,

@@ -101,14 +101,14 @@ try {
     $stmt2->bindParam(':number', $number);
     $stmt2->bindParam(':area', $area);
 
-    // ใส่ข้อมูลลงในตาราง patient_medical_information
-    $stmt3 = $pdo->prepare("INSERT INTO patient_medical_information (patient_id, disease_type, note, patient_group, patient_type)
-                            VALUES (:patient_id, :disease_type, :note, :patient_group, :patient_type)");
-    $stmt3->bindParam(':patient_id', $patient_id);
-    $stmt3->bindParam(':disease_type', $diseaseType);
-    $stmt3->bindParam(':note', $note);
-    $stmt3->bindParam(':patient_group', $patient_group);
-    $stmt3->bindParam(':patient_type', $patient_type);
+// ใส่ข้อมูลลงในตาราง patient_medical_information
+$stmt3 = $pdo->prepare("INSERT INTO patient_medical_information (patient_id, disease_type, note, patient_group, patient_type, last_update)
+                        VALUES (:patient_id, :disease_type, :note, :patient_group, :patient_type, NOW())");
+$stmt3->bindParam(':patient_id', $patient_id);
+$stmt3->bindParam(':disease_type', $diseaseType);
+$stmt3->bindParam(':note', $note);
+$stmt3->bindParam(':patient_group', $patient_group);
+$stmt3->bindParam(':patient_type', $patient_type);
 
 // ใส่ข้อมูลลงในตาราง monitor_information
 $stmt4 = $pdo->prepare("INSERT INTO monitor_information (patient_id, monitor_round) VALUES (:patient_id, :monitor_round)");

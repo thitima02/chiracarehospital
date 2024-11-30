@@ -78,6 +78,8 @@
             <i class='bx bx-user-plus'></i>
           </a>
         </button>
+        <button class="import-icon" style="margin-left: 5px;">
+          <i class='bx bxs-file-import'></i>
       </div>
     </section>
 
@@ -319,12 +321,13 @@
     // ฟังก์ชันกรองข้อมูล
     function applyFilters(data) {
       const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
-      const phone = document.getElementById('phoneFilter').value;
+      const phone = document.getElementById('phoneFilter').value.trim();
       const idCard = document.getElementById('idCardFilter').value.trim();
-      const relativePhone = document.getElementById('relativePhoneFilter').value;
+      const relativePhone = document.getElementById('relativePhoneFilter').value.trim();
       const treatmentStatus = document.getElementById('treatmentStatusFilter').value;
       const sortOption = document.getElementById('sortOption').value;
 
+      // กรองข้อมูล
       let filteredData = data.filter(patient => {
         const name = patient.full_name.toLowerCase();
         const phoneValue = patient.phone_number.trim();
@@ -334,6 +337,7 @@
 
         let isVisible = true;
 
+        // ตรวจสอบเงื่อนไขการกรอง
         if (searchName && !name.includes(searchName)) isVisible = false;
         if (phone && !phoneValue.includes(phone)) isVisible = false;
         if (idCard && !idCardValue.includes(idCard)) isVisible = false;
@@ -345,9 +349,15 @@
 
       // เรียงลำดับข้อมูล
       if (sortOption === 'name') {
-        filteredData.sort((a, b) => a.full_name.localeCompare(b.full_name));
+        // เรียงตามชื่อ
+        filteredData.sort((a, b) => a.full_name.localeCompare(b.full_name, 'th')); // รองรับภาษาไทย
       } else if (sortOption === 'latest') {
-        filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        // เรียงจากวันที่อัปเดตล่าสุดไปเก่าสุด
+        filteredData.sort((a, b) => {
+          const lastUpdateA = new Date(a.last_update || 0); // ใช้ค่า 0 หากไม่มีวันที่อัปเดต
+          const lastUpdateB = new Date(b.last_update || 0);
+          return lastUpdateB - lastUpdateA; // เรียงจากวันที่อัปเดตล่าสุดไปเก่าสุด
+        });
       }
 
       return filteredData;

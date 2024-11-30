@@ -118,6 +118,34 @@
   /* เปลี่ยนสีของไอคอนเมื่อเอาเมาส์ไปเหนือ */
 }
 
+.import-icon a {
+  text-decoration: none;
+}
+
+.import-icon {
+  background-color: #0cba00;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 18px;
+}
+
+.import-icon i {
+  color: white;
+  font-size: 22px;
+}
+
+.import-icon:hover {
+  background-color: #065700;
+}
+
+.import-icon a:hover i {
+  color: #fff;
+  /* เปลี่ยนสีของไอคอนเมื่อเอาเมาส์ไปเหนือ */
+}
+
 .table-container {
   background-color: white;
   padding: 20px;
@@ -318,12 +346,40 @@ img {
   color: rgb(0, 13, 255);
 }
 
+/* ตั้งค่าพื้นฐานของ select */
+#sortOption {
+  width: 130px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  appearance: none; /* ซ่อนลูกศรปกติในเบราว์เซอร์ */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23999' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
 
-/* 
-.status-label.yellow {
-  background-color: #FFEB3B; 
-} */
+/* เปลี่ยนสีเมื่อ hover */
+#sortOption:hover {
+  border-color: #888;
+  background-color: #fff;
+}
 
+/* เปลี่ยนสีเมื่อ focus */
+#sortOption:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
 
-
-/* สีอื่น ๆ สามารถเพิ่มได้ตามต้องการ */
+/* ปรับแต่ง option */
+#sortOption option {
+  font-size: 14px;
+  color: #333;
+}
