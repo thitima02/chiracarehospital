@@ -112,3 +112,23 @@
     padding: 0 15px 0 2px;
   }
 }
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .top nav .profile-details {
+    min-width: 150px;
+    height: 45px;
+    padding: 0 10px 0 5px;
+    flex-grow: 1; /* ให้ยืดหดได้เมื่อพื้นที่จำกัด */
+  }
+}
+
+@media (max-width: 480px) {
+  .top nav .profile-details {
+    min-width: 120px;
+    height: 40px;
+    padding: 0 8px 0 5px;
+    font-size: 14px;
+    flex-grow: 1; /* ยืดตัวให้เหมาะกับพื้นที่ */
+  }
+}

@@ -121,11 +121,14 @@
                     return `วันที่ ${day} ${month} ${year}`;
                 }
 
-                // แสดงวันที่ปัจจุบันในข้อความ
+                // กำหนดเวลาเป็นเที่ยงคืน
                 const currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0); // ตั้งเวลาเป็น 00:00:00
+
+                // แสดงวันที่ปัจจุบันในข้อความ
                 const formattedDate = formatDateThai(currentDate);
                 const totalAppointmentsText = document.querySelector("#totalAppointmentsBox p");
-                totalAppointmentsText.textContent = `ผู้ป่วยทั้งหมดที่มีนัดรักษา${formattedDate}`;
+                totalAppointmentsText.textContent = `ผู้ป่วยทั้งหมดที่มีนัดรักษา ${formattedDate}`;
 
                 // ดึงข้อมูลจำนวนผู้ป่วยทั้งหมด
                 fetch("/chiracarehospital/backend/sql/opd/fetch_appointments.php")

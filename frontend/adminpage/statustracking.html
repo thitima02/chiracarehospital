@@ -55,6 +55,7 @@
             <option value="CVD Risk">CVD Risk</option>
             <option value="โรคไต">โรคไต</option>
           </select>
+          <i class='bx bx-chevron-down down-icon'></i>
         </div>
         <div class="filter-item">
           <h5>วันที่เริ่มติดตาม</h5>
@@ -71,6 +72,7 @@
             <option value="มาตามนัด">มาตามนัด</option>
             <option value="ไม่มาตามนัด">ไม่มาตามนัด</option>
           </select>
+          <i class='bx bx-chevron-down down-icon'></i>
         </div>
 
         <div class="filter-item">
@@ -82,6 +84,7 @@
             <option value="กำลังติดตาม">กำลังติดตาม</option>
             <option value="ติดตามล้มเหลว">ติดตามล้มเหลว</option>
           </select>
+          <i class='bx bx-chevron-down down-icon'></i>
         </div>
 
         <div id="download-pdf-button" title='ดาวน์โหลดPDF' style="height: 25px; width: 30px;">
@@ -101,7 +104,8 @@
       <h2>เลือกผู้ป่วยที่ต้องการดาวน์โหลดข้อมูล</h2>
 
       <!-- ฟิลเตอร์ -->
-      <div class="filter-container" style="margin-bottom: 10px; display: flex; gap: 5px; flex-wrap: wrap;">
+      <div class="filter-container"
+        style="margin-bottom: 15px; margin-bottom: 15px; display: flex; gap: 15px; flex-wrap: wrap;">
         <div>
           <label for="filter-patient-name">ชื่อผู้ป่วย:</label>
           <input type="text" id="filter-patient-name" placeholder="กรอกชื่อผู้ป่วย" />
@@ -162,7 +166,6 @@
           <!-- ตารางข้อมูลผู้ป่วยจะแสดงในนี้ -->
         </tbody>
       </table>
-
       <div class="button_popup" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
         <button id="generate-pdf-button">สร้าง PDF</button>
       </div>
@@ -319,7 +322,7 @@
               return;
             }
 
-            // สร้างออบเจ็กต์สำหรับแต่ละแถว
+            // ตรวจสอบว่าแถวนี้มีข้อมูลหรือไม่
             const rowData = {
               'ชื่อผู้ป่วย': '',          // กำหนดค่าพื้นฐาน
               'ประเภทโรค': '',
@@ -329,11 +332,16 @@
               'ผู้รับผิดชอบ': ''
             };
 
+            let isRowEmpty = true;
+
             // เก็บข้อมูลจากแต่ละเซลล์ของแถวในออบเจ็กต์
             Array.from(row.querySelectorAll('td')).forEach((cell, index) => {
               const cellText = cell.textContent.trim();
 
-              console.log(`Index: ${index}, Cell Text: ${cellText}`); // ตรวจสอบข้อมูลที่ดึงออกมาจากเซลล์
+              // ตรวจสอบว่ามีข้อมูลในเซลล์หรือไม่
+              if (cellText !== '' && cellText !== 'ไม่ระบุ') {
+                isRowEmpty = false; // ถ้ามีข้อมูลให้เปลี่ยนสถานะแถวเป็นไม่ว่าง
+              }
 
               // กำหนดค่าที่จะเก็บในออบเจ็กต์ตามลำดับที่ถูกต้อง
               switch (index) {
@@ -360,8 +368,10 @@
               }
             });
 
-            // เพิ่มข้อมูลแถวที่ประมวลผลแล้วไปยัง tableData
-            tableData.push(rowData);
+            // เพิ่มแถวข้อมูลใน tableData หากแถวนี้ไม่ว่าง
+            if (!isRowEmpty) {
+              tableData.push(rowData);
+            }
           });
 
           // Log the table data to the console
@@ -491,8 +501,8 @@
         <label for="monitor-deadline">กำหนดส่งผลการติดตาม:</label>
         <input type="date" id="monitor-deadline" required>
       </div>
-      <button type="No" id="cancel-assign">ยกเลิก</button>
       <button type="Yes" id="confirm-assign">ยืนยัน</button>
+      <button type="No" id="cancel-assign">ยกเลิก</button>
     </div>
   </div>
 
@@ -856,7 +866,7 @@
 
 <style>
   .no-data {
-    color: red;
+    color: #c0c0c0;
     /* กำหนดสีของข้อความเป็นสีแดง */
     /* font-style: italic; */
   }

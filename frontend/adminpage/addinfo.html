@@ -188,9 +188,10 @@
 
         <label for="current">สถานะปัจจุบัน</label>
         <select id="current" name="current" required>
-          <option value="ปกติ (มีชีวิต, เป็นผู้ป่วยของรพ.)">ปกติ (มีชีวิต, เป็นผู้ป่วยของรพ.)</option>
+          <option value="ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)">ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)</option>
           <option value="เสียชีวิต">เสียชีวิต</option>
-          <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยแล้ว</option>
+          <option value="ไม่ได้เป็นผู้ป่วยแล้ว">รักษาต่อที่รพบ.อื่น</option>
+          <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยของรพบ.แล้ว</option>
         </select>
 
         <label for="note">เพิ่มเติม</label>
@@ -210,9 +211,18 @@
       if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
+          // อ่านข้อมูลรูปภาพและลบ header ออก
+          let base64Image = e.target.result;
+          base64Image = base64Image.replace(/^data:image\/(?:jpeg|png);base64,/, '');
+
+          // ตรวจสอบผลลัพธ์
+          console.log("Base64 (ไม่มี header):", base64Image);
+
+          // นำ Base64 มาแสดงตัวอย่างอีกครั้ง (เพิ่ม header กลับ)
+          const mimeType = file.type; // ดึง MIME type จากไฟล์
           const previewImage = document.getElementById('preview-image');
           if (previewImage) {
-            previewImage.src = e.target.result;
+            previewImage.src = `data:${mimeType};base64,${base64Image}`; // เพิ่ม header กลับ
             previewImage.style.display = 'block';
           } else {
             console.error("ไม่พบองค์ประกอบ preview-image");
@@ -223,28 +233,27 @@
     });
 
     function getSelectedDiseases() {
-  const checkboxes = document.querySelectorAll('input[name="disease-type[]"]');
-  const otherCheckbox = document.querySelector('input[name="other-checkbox"]');
-  let selectedDiseases = [];
+      const checkboxes = document.querySelectorAll('input[name="disease-type[]"]');
+      const otherCheckbox = document.querySelector('input[name="other-checkbox"]');
+      let selectedDiseases = [];
 
-  if (checkboxes) {
-    checkboxes.forEach(checkbox => {
-      if (checkbox.checked && checkbox.value !== "อื่นๆ") {
-        selectedDiseases.push(checkbox.value);
+      if (checkboxes) {
+        checkboxes.forEach(checkbox => {
+          if (checkbox.checked && checkbox.value !== "อื่นๆ") {
+            selectedDiseases.push(checkbox.value);
+          }
+        });
       }
-    });
-  }
 
-  if (otherCheckbox && otherCheckbox.checked) {
-    const otherDiseaseValue = document.getElementById('other-disease')?.value.trim();
-    if (otherDiseaseValue) {
-      selectedDiseases.push(otherDiseaseValue);
+      if (otherCheckbox && otherCheckbox.checked) {
+        const otherDiseaseValue = document.getElementById('other-disease')?.value.trim();
+        if (otherDiseaseValue) {
+          selectedDiseases.push(otherDiseaseValue);
+        }
+      }
+
+      return selectedDiseases;
     }
-  }
-
-  return selectedDiseases;
-}
-
 
     document.getElementById("saveBtn").addEventListener("click", function (event) {
       event.preventDefault();
@@ -336,7 +345,7 @@
           .then(data => {
             if (data.success) {
               alert("เพิ่มข้อมูลผู้ป่วยสำเร็จ!");
-              document.querySelector("form").reset();
+              window.location.href = "patient-info.html";
             } else {
               alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูลผู้ป่วย");
             }

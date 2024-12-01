@@ -47,7 +47,9 @@
             <option value="โรคความดันโลหิตสูง">อาสาสมัครสาธารณสุข</option>
             <option value="โรคอ้วน">เสนารักษ์</option>
           </select>
+          <i class='bx bx-chevron-down down-icon'></i>
         </div>
+
         <div class="filter-item">
           <h5>เขตที่รับผิดชอบ</h5>
           <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
@@ -69,6 +71,7 @@
             <option value="15">เขต 15</option>
             <option value="15">นอกเขต</option>
           </select>
+          <i class='bx bx-chevron-down down-icon'></i>
         </div>
 
         <div class="filter-item search-bar">
@@ -125,7 +128,11 @@
               rows += '<td>' + staff.responsibility_area + '</td>';
               rows += '<td>' + (staff.id_card ? staff.id_card : '-') + '</td>';
               rows += '<td>' + staff.phone_number + '</td>';
-              rows += '<td>' + '<button class="action-btn" title="ดูผู้ป่วยที่รับผิดชอบ" onclick="moreStaff(\'' + staff.id + '\')" ><i class="bx bx-handicap"></i></button>';
+              rows += '<td>' +
+                '<button class="action-btn" title="ดูผู้ป่วยที่รับผิดชอบ" onclick="moreStaff(\'' + staff.id + '\')" >' +
+                '<i class="bx bx-handicap"></i> <p>ดูผู้ป่วยที่รับผิดชอบ</p>' +
+                '</button>' +
+                '</td>';
               rows += '</td>';
               rows += '</tr>';
             }
@@ -172,41 +179,42 @@
     }
   </script>
 
-<script>
-  // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
-  checkAuth();
+  <script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
 
-  // Load sidebar
-  fetch('sidebar.html')
+    // Load sidebar
+    fetch('sidebar.html')
       // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
       .then(response => response.text())
       // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
-          document.getElementById('sidebar-container').innerHTML = data;
-          // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
-          loadSidebarScript();
-          // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+        document.getElementById('sidebar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+        loadSidebarScript();
+        // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
       });
 
-  // Load topbar and set the page title
-  fetch('topbar.html')
+    // Load topbar and set the page title
+    fetch('topbar.html')
       // ใช้ fetch เพื่อดึงข้อมูล topbar.html
       .then(response => response.text())
       // แปลงข้อมูลที่ได้รับเป็นข้อความ
       .then(data => {
-          document.getElementById('topbar-container').innerHTML = data;
-          // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-          document.getElementById('page-title').textContent = 'จัดการข้อมูลเจ้าหน้าที่ผู้รับผิดชอบ';
-          // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+        document.getElementById('topbar-container').innerHTML = data;
+        // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+        document.getElementById('page-title').textContent = 'จัดการข้อมูลเจ้าหน้าที่ผู้รับผิดชอบ';
+        // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
-          // Re-run user.js script after loading topbar
-          const script = document.createElement('script');
-          // สร้างแท็ก script ใหม่
-          script.src = '../method/user.js';
-          // กำหนดแหล่งที่มาของ script เป็น user.js
-          document.body.appendChild(script);
-          // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+        // Re-run user.js script after loading topbar
+        const script = document.createElement('script');
+        // สร้างแท็ก script ใหม่
+        script.src = '../method/user.js';
+        // กำหนดแหล่งที่มาของ script เป็น user.js
+        document.body.appendChild(script);
+        // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
       });
-</script>
+  </script>
 </body>
+
 </html>
