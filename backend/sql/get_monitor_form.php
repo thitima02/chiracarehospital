@@ -17,11 +17,13 @@ try {
         SELECT 
             id,
             patient_id,
+            user_fullname,  -- Added user_fullname field
             blood_sugar_level,
             general_symptoms,
             vital_signs,
             reason_for_missed_treatment,
             form_submission_date,
+            newupdate,  -- Added newupdate field
             COUNT(reason_for_missed_treatment) AS reason_count
         FROM 
             monitor_form

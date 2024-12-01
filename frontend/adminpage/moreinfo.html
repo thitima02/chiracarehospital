@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ข้อมูลเพิ่มเติมผู้ป่วย</title>
+    <title>โรงพยาบาลค่ายจิรประวัติ</title>
     <link rel="stylesheet" href="../../css/moreinfo.css">
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="../../css/sidebar.css">
@@ -63,30 +63,31 @@
                 <p><strong>อาการทั่วไป:</strong> <span id="generalCondition">ไม่มีข้อมูล</span></p>
                 <p><strong>ค่าสัญญาณชีพ:</strong> <span id="vitalSigns">ไม่มีข้อมูล</span></p>
                 <p><strong>ค่าระดับน้ำตาลในเลือด:</strong> <span id="bloodSugarLevel">ไม่มีข้อมูล</span></p>
-                <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="responsibleStaffFollowUp">ไม่มีข้อมูล</span></p>
+                <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="staffFollowUp">ไม่มีข้อมูล</span></p>
             </div>
         
             <!-- ข้อมูลการรักษา -->
             <div class="treatment-info">
                 <h3>ข้อมูลการรักษาล่าสุด</h3>
-                <p><strong>โรคประจำตัว:</strong> <span id="treatmentDiseaseType">ไม่มีข้อมูล</span></p>
-                <p><strong>วันที่นัดหมายครั้งถัดไป:</strong> <span id="treatmentDiseaseType">ไม่มีข้อมูล</span></p>
-                <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="responsibleStaffTreatment">ไม่มีข้อมูล</span></p>
+                <p><strong>โรคประจำตัว:</strong> <span id="treatmentdiseaseType">ไม่มีข้อมูล</span></p>
+                <p><strong>วันที่นัดหมายครั้งถัดไป:</strong> <span id="treatmentDate">ไม่มีข้อมูล</span></p>
+                <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="staffTreatment">ไม่มีข้อมูล</span></p>
                 <p><strong>หมายเหตุ:</strong> <span id="treatmentNotes">ไม่มีข้อมูล</span></p>
             </div>
-        
-            <!-- ปุ่ม "ดูเพิ่มเติม" -->
-            <div class="more-button">
-                <button onclick="window.location.href='moreinfo2.html'">
+
+            <!-- <div class="more-button">
+                <button onclick="window.location.href='test2.html'">
                     <i class="fas fa-eye"></i> ดูเพิ่มเติม
                 </button>
-            </div>            
+            </div>   -->
+            <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo2.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}';">
+                <i class='bx bx-right-arrow-alt'></i>
+            </button>
+            
+            <!-- ปุ่ม "ดูเพิ่มเติม" -->
+            <!-- <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='test2.html?patient_id=${patient.patient_id}&full_name=${patient.full_name}&disease=${patient.disease_type}';"><i class='bx bx-right-arrow-alt'></i></button>         -->
         </div>
-        
-        
       </div>
-  
-      
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -153,7 +154,7 @@
                         document.getElementById('patientGroup').textContent = patientMedicalInfo.patient_group || '-';
                         document.getElementById('patientType').textContent = patientMedicalInfo.patient_type || '-';
                         document.getElementById('latestDiseaseType').textContent = patientMedicalInfo.disease_type || 'ไม่มีข้อมูล';
-                        document.getElementById('treatmentDiseaseType').textContent = patientMedicalInfo.disease_type || 'ไม่มีข้อมูล';
+                        document.getElementById('treatmentdiseaseType').textContent = patientMedicalInfo.disease_type || 'ไม่มีข้อมูล';
                     } else {
                         console.error('No medical data found.');
                         document.getElementById('diseaseType').textContent = 'ไม่มีข้อมูลโรค';
@@ -186,12 +187,11 @@
                     const latestData = data.data[0]; // Assuming the first entry contains the latest data
     
                     // Update the HTML elements with the fetched data
-                    document.getElementById('latestDiseaseType').textContent = latestData.general_symptoms || 'ไม่มีข้อมูล';
                     document.getElementById('missingAppointments').textContent = latestData.reason_for_missed_treatment || 'ไม่มีข้อมูล';
                     document.getElementById('generalCondition').textContent = latestData.general_symptoms || 'ไม่มีข้อมูล';
                     document.getElementById('vitalSigns').textContent = latestData.vital_signs || 'ไม่มีข้อมูล';
                     document.getElementById('bloodSugarLevel').textContent = latestData.blood_sugar_level || 'ไม่มีข้อมูล';
-                    document.getElementById('responsibleStaffFollowUp').textContent = latestData.responsible_staff || 'ไม่มีข้อมูล';
+                    document.getElementById('staffFollowUp').textContent = latestData.user_fullname || 'ไม่มีข้อมูล';
                 } else {
                     // If no data is found or there is an error, display a default message
                     console.log('Error fetching data:', data.message);
@@ -215,9 +215,8 @@
                         const latestData = data[0]; // ใช้ข้อมูลแถวแรกเป็นข้อมูลล่าสุด
         
                         // อัปเดตข้อมูลในหน้าเว็บ
-                        document.getElementById('treatmentDiseaseType').textContent = latestData.disease_type || 'ไม่มีข้อมูล';
-                        document.getElementById('nextAppointmentDate').textContent = latestData.next_appointment_date || 'ไม่มีข้อมูล';
-                        document.getElementById('responsibleStaffTreatment').textContent = latestData.responsible_staff || 'ไม่มีข้อมูล';
+                        document.getElementById('treatmentDate').textContent = latestData.next_appointment_date || 'ไม่มีข้อมูล';
+                        document.getElementById('staffTreatment').textContent = latestData.user_fullname || 'ไม่มีข้อมูล';
                         document.getElementById('treatmentNotes').textContent = latestData.notes || 'ไม่มีข้อมูล';
                     } else {
                         // กรณีไม่พบข้อมูล

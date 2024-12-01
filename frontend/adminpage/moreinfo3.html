@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โรงพยาบาลค่ายจิรประวัติ</title>
-    <link rel="stylesheet" href="../../css/test.css">
+    <link rel="stylesheet" href="../../css/moreinfo3.css">
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="../../css/sidebar.css">
     <link rel="stylesheet" href="../../css/topbar.css">
@@ -125,10 +125,6 @@
         // เรียกฟังก์ชันเมื่อโหลดหน้า
         fetchPatientInfo();
     </script>
-    
-    
-    
-    
     <script>
         // ดึงข้อมูลโรค
 function fetchPatientData() {
@@ -151,8 +147,9 @@ function fetchPatientData() {
 }
 
 // ดึงข้อมูลติดตามผู้ป่วย
-function fetchMonitorData() {
-    fetch('/chiracarehospital/backend/sql/get_monitor_form.php')
+function fetchMonitorData(patient_id) {
+    // Update the URL to include the patient_id as a query parameter
+    fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patient_id}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success' && data.data.length > 0) {
@@ -189,8 +186,15 @@ function fetchMonitorData() {
 }
 
 // ดึงข้อมูลการรักษา
-function fetchTreatmentData() {
-    fetch('/chiracarehospital/backend/sql/get_treatment_form.php')
+function fetchTreatmentData(patientId) {
+    if (!patientId) {
+        console.error('ไม่พบค่า patientId');
+        return; // หยุดการทำงานถ้าไม่มี patientId
+    }
+
+    const url = `/chiracarehospital/backend/sql/get_treatment_form.php?patient_id=${patientId}`;
+
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data && data.length > 0) {
@@ -223,6 +227,17 @@ function fetchTreatmentData() {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
         });
 }
+
+// เรียกฟังก์ชันเมื่อหน้าโหลด
+document.addEventListener('DOMContentLoaded', () => {
+    // ดึง patientId จาก URL หรือฟิลด์ HTML
+    const urlParams = new URLSearchParams(window.location.search);
+    const patientId = urlParams.get('patient_id'); // รับค่าจาก URL เช่น ?patient_id=101
+
+    // เรียกใช้งานฟังก์ชันด้วย patientId
+    fetchTreatmentData(patientId);
+});
+
 
 // เรียกใช้ฟังก์ชันทั้งหมดเมื่อโหลดหน้าเว็บ
 window.onload = () => {

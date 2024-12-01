@@ -1,80 +1,144 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    
     <title>โรงพยาบาลค่ายจิรประวัติ</title>
-    <link rel="stylesheet" href="../../css/moreinfo2.css">
+    <!-- <link rel="stylesheet" href="../../css/moreinfo2.css"> -->
     <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
   <link rel="stylesheet" href="../../css/logo.css">
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../method/logout.js"></script>
     <script src="../method/user.js"></script>
     <script src="../method/loadSidebarScript.js"></script>
     <script src="../method/checkAuth.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .profile-header .name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .section {
+            background-color: #fff;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f1f1f1;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .section-header.blue {
+            color: #007bff;
+        }
+
+        .section-header.red {
+            color: #dc3545;
+        }
+
+        .section-header i {
+            margin-right: 10px;
+        }
+
+        .section-content {
+            padding: 15px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .timestamp {
+            text-align: right;
+            font-size: 12px;
+            color: #777;
+            padding: 10px 15px;
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 <body style="background-color:#edeff1;">
-  <div id="sidebar-container"></div>
-  <div id="topbar-container"></div>
-  <div class="container">
-    <div class="header">
-      <div class="back-button">
-        <button onclick="window.history.back()">
-          <i class="fas fa-arrow-left"></i> ย้อนกลับ
-        </button>
-        <!-- <div class="more-button">
-            <button onclick="window.location.href='moreinfo2.html'">
-                <i class=""></i> ถัดไป
-            </button>
-        </div>  -->
-      </div>
-      <div class="header">
-        <div class="patient-profile">
-            <img src="../../assets/images/profile-picture.png" alt="โปรไฟล์" class="profile-img">
-            <div><h2 id="fullName">ไม่มีข้อมูล</h2></div>
-        </div>
-        <div class="more-button">
-            <button onclick="window.location.href='moreinfo3.html'">
-                <i class=""></i>แก้ไขข้อมูลทั้งหมด
-            </button>
-        </div>
-    </div>
-    
+    <div id="sidebar-container"></div>
+    <div id="topbar-container"></div>
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+        <img id="profile-img" src="../../assets/images/profile-picture.png" alt="โปรไฟล์" class="profile-img">
+        <div id="fullName" class="fullName">กำลังโหลด...</div>
     </div>
 
-    <!-- Follow-Up Information -->
-    <div class="follow-up-treatment">
-            <!-- ข้อมูลการติดตาม -->
-            <div class="follow-up-info">
-                <h3>ข้อมูลการติดตาม <span id="newUpdateDate">ไม่มีข้อมูล</span></h3>
-                <p><strong>โรคประจำตัว:</strong> <span id="diseaseType">ไม่มีข้อมูล</span></p>
+        <!-- Follow-Up Information Section -->
+        <div class="section">
+            <div class="section-header blue">
+                <i class="icon">&#128196;</i> ข้อมูลการติดตาม
+            </div>
+            <div class="section-content">
+                <p><strong>โรคประจำตัว:</strong> <span id="latestDiseaseType">ไม่มีข้อมูล</span></p>
                 <p><strong>สาเหตุการขาดนัด:</strong> <span id="missingAppointments">ไม่มีข้อมูล</span></p>
                 <p><strong>อาการทั่วไป:</strong> <span id="generalCondition">ไม่มีข้อมูล</span></p>
                 <p><strong>ค่าสัญญาณชีพ:</strong> <span id="vitalSigns">ไม่มีข้อมูล</span></p>
                 <p><strong>ค่าระดับน้ำตาลในเลือด:</strong> <span id="bloodSugarLevel">ไม่มีข้อมูล</span></p>
                 <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="staffFollowUp">ไม่มีข้อมูล</span></p>
+            </div>            
+            <div class="timestamp"><span id="newUpdateDate">ไม่มีข้อมูล</span></div>
+        </div>
+
+        <!-- Treatment Information Section -->
+        <div class="section">
+            <div class="section-header red">
+                <i class="icon">&#128214;</i> ข้อมูลการรักษา
             </div>
-        
-            <!-- ข้อมูลการรักษา -->
-            <div class="treatment-info">
-                <h3>ข้อมูลการรักษา <span id="NewUpdateDate">ไม่มีข้อมูล</span></h3>
-                <p><strong>โรคประจำตัว:</strong> <span id="treatmentDiseaseType">ไม่มีข้อมูล</span></p>
+            <div class="section-content">
+                <p><strong>โรคประจำตัว:</strong> <span id="treatmentdiseaseType">ไม่มีข้อมูล</span></p>
                 <p><strong>วันที่นัดหมายครั้งถัดไป:</strong> <span id="treatmentDate">ไม่มีข้อมูล</span></p>
                 <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="staffTreatment">ไม่มีข้อมูล</span></p>
-                <p><strong>หมายเหตุ:</strong> <span id="treatmentNotes" >ไม่มีข้อมูล</span></p>
+                <p><strong>หมายเหตุ:</strong> <span id="treatmentNotes">ไม่มีข้อมูล</span></p>
             </div>
-  </div>
-  <script>
+            <div class="timestamp"><span id="NewUpdateDate">ไม่มีข้อมูล</span></div>
+        </div>
+    </div>
+</body>
+<script>
     
     // ฟังก์ชันเพื่อดึง patientId จาก URL query string
     function getPatientIdFromURL() {
@@ -168,7 +232,7 @@
                 if (patient.patient_image) {
                     profileImg.src = `data:image/jpeg;base64,${patient.patient_image}`;
                 } else {
-                    profileImg.src = '../../assets/images/profile-picture.png';
+                    profileImg.src = '../../assets/images/default_profile.jpg';
                 }
             } else {
                 console.error(result.message);
@@ -193,7 +257,7 @@
         }
     }
 </script>
-  <script>
+<script>
     // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
     checkAuth();
   
@@ -218,5 +282,4 @@
             document.body.appendChild(script);
         });
   </script>
-</body>
 </html>
