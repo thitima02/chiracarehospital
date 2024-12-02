@@ -102,7 +102,7 @@
         </form>
 
         <!-- แสดงผลลัพธ์ -->
-        <div id="result"></div>
+        <div id="result" style="margin-top: 10px;"></div>
 
         <!-- ปุ่มปิด Modal -->
         <button class="close-btn" id="closeModalBtn">&#10006;</button>
@@ -138,7 +138,6 @@
         });
 
         const result = await response.json();
-        console.log(result); // เพื่อตรวจสอบว่าข้อมูลที่ได้รับคืออะไร
         document.getElementById("result").innerHTML = result.message || result.error;
       });
 
