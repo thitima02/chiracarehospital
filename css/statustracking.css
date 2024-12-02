@@ -342,9 +342,6 @@
 
 /* ตารางผู้ป่วย */
 .table-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 91%;
   padding: 20px;
   box-sizing: border-box;
@@ -353,6 +350,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
   width: 100%;
+  overflow: auto;
 }
 
 .patient-table {
@@ -375,12 +373,19 @@
   padding: 15px 10px;
   padding-right: 33px;
   border-bottom: 1px solid #F4F4F4;
-
+  text-align: center;
+  /* จัดข้อความให้อยู่ตรงกลางแนวนอน */
+  vertical-align: middle;
+  /* จัดข้อความให้อยู่ตรงกลางแนวตั้ง */
 }
 
 .patient-table tbody tr {
   background-color: #fff;
   border-bottom: 1px solid #ddd;
+  text-align: center;
+  /* จัดข้อความให้อยู่ตรงกลางแนวนอน */
+  vertical-align: middle;
+  /* จัดข้อความให้อยู่ตรงกลางแนวตั้ง */
 }
 
 .patient-table tbody tr:last-of-type {

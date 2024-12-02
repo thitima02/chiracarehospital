@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>โรงพยาบาลค่ายจิรประวัติ</title>
   <link rel="stylesheet" href="../../css/patient-info.css">
+  <link rel="stylesheet" href="../../css/excel.css">
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../../css/sidebar.css">
   <link rel="stylesheet" href="../../css/topbar.css">
@@ -78,10 +79,76 @@
             <i class='bx bx-user-plus'></i>
           </a>
         </button>
-        <button class="import-icon" style="margin-left: 5px;">
+        <button id="openModalBtn" class="import-icon" style="margin-left: 5px;">
           <i class='bx bxs-file-import'></i>
       </div>
     </section>
+
+    <!-- Popup Modal -->
+    <div id="csvModal" class="modal">
+      <div class="modal-content">
+        <h2>อัปโหลดข้อมูลในรูปแบบไฟล์ Excel</h2>
+
+        <!-- ปุ่มดาวน์โหลดไฟล์ CSV -->
+        <a href="/chiracarehospital/backend/sql/excel/generate_csv.php" download>ดาวน์โหลดไฟล์ต้นฉบับ</a>
+
+        <hr style="margin-top: 10px;">
+
+        <!-- ฟอร์มอัปโหลดไฟล์ CSV -->
+        <form id="uploadForm" enctype="multipart/form-data">
+          <label for="csvFile">อัปโหลดไฟล์ :</label>
+          <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
+          <button type="submit">คลิกเพื่ออัปโหลด</button>
+        </form>
+
+        <!-- แสดงผลลัพธ์ -->
+        <div id="result"></div>
+
+        <!-- ปุ่มปิด Modal -->
+        <button class="close-btn" id="closeModalBtn">&#10006;</button>
+      </div>
+    </div>
+
+    <script>
+      // เปิดและปิด Popup Modal
+      const modal = document.getElementById("csvModal");
+      const openModalBtn = document.getElementById("openModalBtn");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+
+      openModalBtn.addEventListener("click", () => {
+        modal.style.display = "flex";
+      });
+
+      closeModalBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+
+      // JavaScript สำหรับอัปโหลดไฟล์ CSV
+      document.getElementById("uploadForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+        const fileInput = document.getElementById("csvFile");
+        formData.append("csvFile", fileInput.files[0]);
+
+        // ส่งไฟล์ไปที่ PHP backend
+        const response = await fetch("/chiracarehospital/backend/sql/excel/upload_csv.php", {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+        console.log(result); // เพื่อตรวจสอบว่าข้อมูลที่ได้รับคืออะไร
+        document.getElementById("result").innerHTML = result.message || result.error;
+      });
+
+      // ปิด Modal เมื่อคลิกภายนอก
+      window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+    </script>
 
     <select id="sortOption" onchange="sortData()">
       <option value="name">เรียงตามชื่อ</option>

@@ -1,0 +1,141 @@
+      /* Popup Modal */
+      .modal {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+          transition: opacity 0.3s ease-in-out;
+      }
+
+      .modal.show {
+          display: flex;
+          opacity: 1;
+      }
+
+      /* Popup Modal Content */
+      .modal-content {
+          background: #fff;
+          padding: 30px;
+          border-radius: 12px;
+          width: 80%;
+          max-width: 600px;
+          text-align: center;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+          animation: fadeIn 0.3s ease-out;
+          position: relative;
+          /* เพิ่ม position relative เพื่อให้ close-btn อยู่ในตำแหน่ง absolute */
+      }
+
+      @keyframes fadeIn {
+          from {
+              opacity: 0;
+              transform: translateY(-50px);
+          }
+
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+
+      .modal h2 {
+          font-size: 24px;
+          color: #333;
+          margin-bottom: 20px;
+      }
+
+      /* ปุ่มดาวน์โหลดไฟล์ CSV */
+      .modal a {
+          display: inline-block;
+          background: #4CAF50;
+          color: #fff;
+          padding: 12px 24px;
+          margin-bottom: 20px;
+          text-decoration: none;
+          border-radius: 4px;
+          font-size: 16px;
+          transition: background 0.3s ease;
+      }
+
+      .modal a:hover {
+          background: #45a049;
+      }
+
+      hr {
+          border: 0;
+          border-top: 1px solid #eee;
+          margin: 20px 0;
+      }
+
+      /* ฟอร์มอัปโหลดไฟล์ CSV */
+      #uploadForm {
+          margin-top: 20px;
+      }
+
+      label {
+          font-size: 18px;
+          color: #555;
+          display: block;
+          margin-bottom: 10px;
+      }
+
+      input[type="file"] {
+          padding: 10px;
+          border-radius: 6px;
+          border: 1px solid #ccc;
+          width: 100%;
+          box-sizing: border-box;
+          margin-bottom: 20px;
+          font-size: 16px;
+      }
+
+      input[type="file"]:focus {
+          border-color: #4CAF50;
+          outline: none;
+      }
+
+      button[type="submit"] {
+          background: #4CAF50;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 6px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background 0.3s ease;
+      }
+
+      button[type="submit"]:hover {
+          background: #45a049;
+      }
+
+      /* ปุ่มปิด Modal (Close Button) */
+      .close-btn {
+          background: transparent;
+          color: #333;
+          font-size: 25px;
+          border: none;
+          cursor: pointer;
+          position: absolute;
+          /* ใช้ absolute เพื่อให้อยู่มุมขวาบน */
+          top: 10px;
+          /* ระยะห่างจากมุมบน */
+          right: 20px;
+          /* ระยะห่างจากมุมขวา */
+          padding: 0;
+          transition: color 0.3s ease;
+      }
+
+      .close-btn:hover {
+          color: #f44336;
+      }
+
+      .close-btn:focus {
+          outline: none;
+      }
