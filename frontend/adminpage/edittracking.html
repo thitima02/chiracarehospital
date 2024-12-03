@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,309 +20,291 @@
     <script src="../method/checkAuth.js"></script>
     <!-- เชื่อมโยงไฟล์ JavaScript สำหรับตรวจสอบการพิสูจน์ตัวตน (Authentication) -->
 </head>
+
 <body style="background-color:#edeff1;">
     <div id="sidebar-container"></div>
     <div id="topbar-container"></div>
 
-    <div class="container"> 
+    <div class="container">
         <div class="profile-header">
-            <img src="../../assets/images/default_profile.jpg" alt="avatar" class="profile-img" id="profile-img">
+            <img src="../../assets/images/cat.jpg" alt="avatar" class="profile-img" id="profile-img">
             <div class="full_name"></div>
         </div>
-    
+
         <form class="follow-up-form">
             <h2>ข้อมูลการติดตาม</h2>
             <div class="patient-info">
                 <label for="diseaseType">โรคประจำตัว</label>
                 <input type="text" id="diseaseType" readonly>
-    
+
                 <label for="follow-up-status">สถานะการติดตาม</label>
                 <select id="follow-up-status">
                     <!-- ค่าจะถูกเพิ่มจาก JavaScript -->
                 </select>
-    
+
                 <label for="treatment-status">สถานะเข้ารับการรักษา</label>
                 <select id="treatment-status">
                     <!-- ค่าจะถูกเพิ่มจาก JavaScript -->
                 </select>
-    
+
                 <label for="appointmentdate">วันที่เข้ารับการรักษา</label>
                 <input type="date" id="appointmentdate">
-    
+
                 <label for="monitordate">วันที่เริ่มติดตาม</label>
                 <input type="date" id="monitordate">
-    
+
                 <label for="monitordeadline">กำหนดส่งงาน</label>
                 <input type="date" id="monitordeadline">
-                
+
                 <label for="monitorround">ครั้งที่ติดตาม</label>
                 <input type="text" id="monitorround">
             </div>
-    
+
             <div class="buttons">
                 <button type="button" class="btn-back" id="backBtn">ย้อนกลับ</button>
                 <button id="save-status" type="button">บันทึกข้อมูล</button>
             </div>
         </form>
-    </div>    
+    </div>
+
     <script>
-document.addEventListener('DOMContentLoaded', async function () {
-    const patientId = getPatientIdFromURL();
-    if (patientId) {
-        try {
-            await fetchPatientMedicalData(patientId);
-            await loadStatusData(patientId);
-            setupSaveButton(patientId);
-        } catch (error) {
-            console.error('Error during initialization:', error);
-            alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
-        }
-    } else {
-        alert('ไม่พบข้อมูลผู้ป่วย');
-    }
-});
-
-function getPatientIdFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('patient_id');
-}
-
-async function fetchPatientMedicalData(patientId) {
-    try {
-        const response = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
-        const data = await response.json();
-
-        if (data.patient_data && data.patient_data.length > 0) {
-            const patientMedicalInfo = data.patient_data[0];
-            document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
-        } else {
-            document.getElementById('diseaseType').value = 'ไม่มีข้อมูลโรค';
-        }
-    } catch (error) {
-        console.error('Error fetching patient data:', error);
-        alert('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย');
-    }
-}
-
-async function loadStatusData(patientId) {
-    try {
-        const [followUpData, treatmentData] = await Promise.all([
-            fetch(`/chiracarehospital/backend/sql/get_monitor_information.php?patient_id=${patientId}`),
-            fetch(`/chiracarehospital/backend/sql/get_treatment_information.php?patient_id=${patientId}`)
-        ]);
-
-        const followUpJson = await followUpData.json();
-        const treatmentJson = await treatmentData.json();
-
-        if (Array.isArray(followUpJson) && Array.isArray(treatmentJson)) {
-            const followUp = followUpJson.find(item => item.patient_id === patientId);
-            const treatment = treatmentJson.find(item => item.patient_id === patientId);
-
-            populateStatusDropdown('follow-up-status', followUp?.monitor_status || 'ไม่ต้องติดตาม', [
-                { value: 'ไม่ต้องติดตาม', text: 'ไม่ต้องติดตาม' },
-                { value: 'ยังไม่ได้ติดตาม', text: 'ยังไม่ได้ติดตาม' },
-                { value: 'กำลังติดตาม', text: 'กำลังติดตาม' },
-                { value: 'ติดตามแล้ว', text: 'ติดตามแล้ว' },
-                { value: 'ติดตามล้มเหลว', text: 'ติดตามล้มเหลว' },
-            ]);
-
-            populateStatusDropdown('treatment-status', treatment?.treatment_status || 'ยังไม่มี', [
-                { value: 'ยังไม่มี', text: 'ยังไม่มี' },
-                { value: 'มาตามนัด', text: 'มาตามนัด' },
-                { value: 'ไม่มาตามนัด', text: 'ไม่มาตามนัด' },
-            ]);
-
-            document.getElementById('monitordate').value = followUp?.monitor_date || '';
-            document.getElementById('monitordeadline').value = followUp?.monitor_deadline || '';
-            document.getElementById('monitorround').value = followUp?.monitor_round || '';
-            document.getElementById('appointmentdate').value = treatment?.appointment_date || '';
-        }
-    } catch (error) {
-        console.error('Error loading status data:', error);
-        alert('เกิดข้อผิดพลาดในการดึงข้อมูลสถานะ');
-    }
-}
-
-
-function populateStatusDropdown(selectId, selectedStatus = '', statuses) {
-    const statusSelect = document.getElementById(selectId);
-    statusSelect.innerHTML = '';
-    statuses.forEach(status => {
-        const option = document.createElement('option');
-        option.value = status.value;
-        option.textContent = status.text;
-        if (status.value === selectedStatus) {
-            option.selected = true;
-        }
-        statusSelect.appendChild(option);
-    });
-}
-
-function setupSaveButton(patientId) {
-    const saveButton = document.getElementById('save-status');
-    if (!saveButton) {
-        console.error('ไม่พบปุ่มบันทึกใน DOM');
-        return;
-    }
-
-    saveButton.addEventListener('click', async function () {
-        const selectedFollowUpStatus = document.getElementById('follow-up-status')?.value;
-        const selectedTreatmentStatus = document.getElementById('treatment-status')?.value;
-        const diseaseType = document.getElementById('diseaseType')?.value;
-        const monitorDate = document.getElementById('monitordate')?.value;
-        const monitorDeadline = document.getElementById('monitordeadline')?.value;
-        const monitorRound = document.getElementById('monitorround')?.value;
-        const appointmentDate = document.getElementById('appointmentdate')?.value;
-
-        if (!selectedFollowUpStatus || !selectedTreatmentStatus) {
-            alert('กรุณาเลือกสถานะการติดตามและสถานะการรักษา');
-            return;
-        }
-
-        try {
-            const response = await fetch('/chiracarehospital/backend/sql/update_monitor_and_treatment.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    patient_id: patientId,
-                    monitor_status: selectedFollowUpStatus,
-                    treatment_status: selectedTreatmentStatus,
-                    disease_type: diseaseType,
-                    monitor_date: monitorDate,
-                    monitor_deadline: monitorDeadline,
-                    monitor_round: monitorRound,
-                    appointment_date: appointmentDate
-                })
-            });
-
-            const result = await response.json();
-            if (result.status === 'success') {
-                alert('บันทึกข้อมูลสำเร็จ');
-                window.location.href = `statustracking.html?patient_id=${patientId}`;
+        document.addEventListener('DOMContentLoaded', async function () {
+            const patientId = getPatientIdFromURL();
+            console.log('Patient ID from URL:', patientId); // ตรวจสอบว่า patient_id ถูกต้องไหม
+            if (patientId) {
+                try {
+                    await fetchPatientMedicalData(patientId); // ดึงข้อมูลโรคประจำตัว
+                    await fetchPatientInformation(patientId); // ดึงข้อมูลส่วนตัว เช่น รูปภาพ ยศ และแผนก
+                    await loadStatusData(patientId); // ดึงข้อมูลสถานะ
+                    setupSaveButton(patientId); // ตั้งค่าปุ่มบันทึก
+                } catch (error) {
+                    console.error('Error during initialization:', error);
+                    alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+                }
             } else {
-                alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' + (result.message || 'ไม่ทราบข้อผิดพลาด'));
-            }
-        } catch (error) {
-            console.error('Error saving status:', error);
-            alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-        }
-    });
-}
-
-
-
-        </script>
-<script>
-    document.addEventListener('DOMContentLoaded', async function () {
-        const patientId = getPatientIdFromURL();
-        if (patientId) {
-            try {
-                await fetchPatientMedicalData(patientId); // ดึงข้อมูลโรคประจำตัว
-                await fetchPatientInformation(patientId); // ดึงข้อมูลส่วนตัว เช่น รูปภาพ ยศ และแผนก
-            } catch (error) {
-                console.error('Error during initialization:', error);
-                alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
-            }
-        } else {
-            alert('ไม่พบข้อมูลผู้ป่วย');
-        }
-    });
-
-    function getPatientIdFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('patient_id');
-    }
-
-    async function fetchPatientMedicalData(patientId) {
-        try {
-            const response = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
-            const data = await response.json();
-
-            if (data.patient_data && data.patient_data.length > 0) {
-                const patientMedicalInfo = data.patient_data[0];
-                document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
-            } else {
-                document.getElementById('diseaseType').value = 'ไม่มีข้อมูลโรค';
-            }
-        } catch (error) {
-            console.error('Error fetching patient data:', error);
-            alert('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย');
-        }
-    }
-
-    async function fetchPatientInformation(patientId) {
-        try {
-            const response = await fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
-            const data = await response.json();
-
-            if (data.status === 'success' && data.data.length > 0) {
-                const patient = data.data[0];
-                displayPatientInformation(patient);
-            } else {
-                console.error('ไม่พบข้อมูลผู้ป่วย');
                 alert('ไม่พบข้อมูลผู้ป่วย');
             }
-        } catch (error) {
-            console.error('Error fetching patient information:', error);
-            alert('เกิดข้อผิดพลาดในการดึงข้อมูลส่วนตัว');
+        });
+
+        // ฟังก์ชันที่ใช้ดึง patient_id จาก URL
+        function getPatientIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('patient_id');
+            if (!patientId) {
+                alert('ไม่พบ patient_id ใน URL');
+                return null;
+            }
+            return patientId;
         }
-    }
 
-    function displayPatientInformation(patient) {
-        // แสดงชื่อ
-        document.querySelector('.full_name').textContent = patient.full_name || 'ไม่มีชื่อผู้ป่วย';
+        // ดึงข้อมูลโรคประจำตัวของผู้ป่วย
+        async function fetchPatientMedicalData(patientId) {
+            try {
+                const response = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+                const data = await response.json();
+                console.log('Medical data:', data); // ตรวจสอบข้อมูลที่ได้จาก API
 
-        // แสดงรูปภาพในรูปแบบ Base64
-        const profileImg = document.getElementById('profile-img');
-        if (patient.patient_image) {
-            // ใช้รูปภาพ Base64 ที่ดึงมาจากฐานข้อมูล
-            profileImg.src = 'data:image/jpeg;base64,' + patient.patient_image;
-        } else {
-            // ถ้าไม่มีข้อมูลรูปภาพ ให้ใช้รูปภาพเริ่มต้น
-            profileImg.src = '../../assets/images/default_profile.jpg';
+                if (data.patient_data && data.patient_data.length > 0) {
+                    const patientMedicalInfo = data.patient_data[0];
+                    document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
+                } else {
+                    document.getElementById('diseaseType').value = 'ไม่มีข้อมูลโรค';
+                }
+            } catch (error) {
+                console.error('Error fetching patient data:', error);
+                alert('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ป่วย');
+            }
         }
-    }
-</script>
 
-<script>
-    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
-    checkAuth();
+        // ดึงข้อมูลส่วนตัวของผู้ป่วย เช่น ชื่อ รูปภาพ และข้อมูลเพิ่มเติม
+        async function fetchPatientInformation(patientId) {
+            try {
+                const response = await fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
+                const data = await response.json();
+                console.log('Patient information:', data); // ตรวจสอบข้อมูลที่ได้จาก API
 
-    // Load sidebar
-    fetch('sidebar.html')
-        // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
-        .then(response => response.text())
-        // แปลงข้อมูลที่ได้รับเป็นข้อความ
-        .then(data => {
-            document.getElementById('sidebar-container').innerHTML = data;
-            // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
-            loadSidebarScript();
-            // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
-        });
+                if (data.status === 'success' && data.data.length > 0) {
+                    const patient = data.data[0];
+                    displayPatientInformation(patient);
+                } else {
+                    console.error('ไม่พบข้อมูลผู้ป่วย');
+                    alert('ไม่พบข้อมูลผู้ป่วย');
+                }
+            } catch (error) {
+                console.error('Error fetching patient information:', error);
+                alert('เกิดข้อผิดพลาดในการดึงข้อมูลส่วนตัว');
+            }
+        }
 
-    // Load topbar and set the page title
-    fetch('topbar.html')
-        // ใช้ fetch เพื่อดึงข้อมูล topbar.html
-        .then(response => response.text())
-        // แปลงข้อมูลที่ได้รับเป็นข้อความ
-        .then(data => {
-            document.getElementById('topbar-container').innerHTML = data;
-            // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-            document.getElementById('page-title').textContent = 'แก้ไขข้อมูลการติดตาม';
-            // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+        // ฟังก์ชันในการแสดงข้อมูลผู้ป่วย
+        function displayPatientInformation(patient) {
+            const fullNameElement = document.querySelector('.full_name');
+            if (fullNameElement) {
+                fullNameElement.textContent = patient.full_name || 'ไม่มีชื่อผู้ป่วย';
+            } else {
+                console.error('ไม่พบองค์ประกอบ .full_name');
+            }
 
-            // Re-run user.js script after loading topbar
-            const script = document.createElement('script');
-            // สร้างแท็ก script ใหม่
-            script.src = '../method/user.js';
-            // กำหนดแหล่งที่มาของ script เป็น user.js
-            document.body.appendChild(script);
-            // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
-            // ฟังก์ชันสำหรับปุ่มย้อนกลับ
-            document.getElementById('backBtn').addEventListener('click', function() {
-            window.location.href = 'statustracking.html';
-        });
-        });
-</script>
+            const profileImg = document.getElementById('profile-img');
+            if (profileImg) {
+                if (patient.patient_image) {
+                    profileImg.src = 'data:image/jpeg;base64,' + patient.patient_image;
+                } else {
+                    profileImg.src = '../../assets/images/cat.jpg';
+                }
+            } else {
+                console.error('ไม่พบองค์ประกอบ #profile-img');
+            }
+        }
+
+        // ฟังก์ชันที่ใช้ดึงข้อมูลสถานะการติดตามและการรักษา
+        async function loadStatusData(patientId) {
+            try {
+                const [followUpData, treatmentData] = await Promise.all([
+                    fetch(`/chiracarehospital/backend/sql/get_monitor_information.php?patient_id=${patientId}`),
+                    fetch(`/chiracarehospital/backend/sql/get_treatment_information.php?patient_id=${patientId}`)
+                ]);
+
+                const followUpJson = await followUpData.json();
+                const treatmentJson = await treatmentData.json();
+
+                if (Array.isArray(followUpJson) && Array.isArray(treatmentJson)) {
+                    const followUp = followUpJson.find(item => item.patient_id === patientId);
+                    const treatment = treatmentJson.find(item => item.patient_id === patientId);
+
+                    populateStatusDropdown('follow-up-status', followUp?.monitor_status || 'ไม่ต้องติดตาม', [
+                        { value: 'ไม่ต้องติดตาม', text: 'ไม่ต้องติดตาม' },
+                        { value: 'ยังไม่ได้ติดตาม', text: 'ยังไม่ได้ติดตาม' },
+                        { value: 'กำลังติดตาม', text: 'กำลังติดตาม' },
+                        { value: 'ติดตามแล้ว', text: 'ติดตามแล้ว' },
+                        { value: 'ติดตามล้มเหลว', text: 'ติดตามล้มเหลว' },
+                    ]);
+
+                    populateStatusDropdown('treatment-status', treatment?.treatment_status || 'ยังไม่มี', [
+                        { value: 'ยังไม่มี', text: 'ยังไม่มี' },
+                        { value: 'มาตามนัด', text: 'มาตามนัด' },
+                        { value: 'ไม่มาตามนัด', text: 'ไม่มาตามนัด' },
+                    ]);
+
+                    document.getElementById('monitordate').value = followUp?.monitor_date || '';
+                    document.getElementById('monitordeadline').value = followUp?.monitor_deadline || '';
+                    document.getElementById('monitorround').value = followUp?.monitor_round || '';
+                    document.getElementById('appointmentdate').value = treatment?.appointment_date || '';
+                }
+            } catch (error) {
+                console.error('Error loading status data:', error);
+                alert('เกิดข้อผิดพลาดในการดึงข้อมูลสถานะ');
+            }
+        }
+
+        // ฟังก์ชันที่ใช้เติมข้อมูลสถานะลงใน dropdown
+        function populateStatusDropdown(selectId, selectedStatus = '', statuses) {
+            const statusSelect = document.getElementById(selectId);
+            statusSelect.innerHTML = '';
+            statuses.forEach(status => {
+                const option = document.createElement('option');
+                option.value = status.value;
+                option.textContent = status.text;
+                if (status.value === selectedStatus) {
+                    option.selected = true;
+                }
+                statusSelect.appendChild(option);
+            });
+        }
+
+        // ตั้งค่าปุ่มบันทึกข้อมูล
+        function setupSaveButton(patientId) {
+            const saveButton = document.getElementById('save-status');
+            if (!saveButton) {
+                console.error('ไม่พบปุ่มบันทึกใน DOM');
+                return;
+            }
+
+            saveButton.addEventListener('click', async function () {
+                const selectedFollowUpStatus = document.getElementById('follow-up-status')?.value;
+                const selectedTreatmentStatus = document.getElementById('treatment-status')?.value;
+                const diseaseType = document.getElementById('diseaseType')?.value;
+                const monitorDate = document.getElementById('monitordate')?.value;
+                const monitorDeadline = document.getElementById('monitordeadline')?.value;
+                const monitorRound = document.getElementById('monitorround')?.value;
+                const appointmentDate = document.getElementById('appointmentdate')?.value;
+
+                if (!selectedFollowUpStatus || !selectedTreatmentStatus) {
+                    alert('กรุณาเลือกสถานะการติดตามและสถานะการรักษา');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/chiracarehospital/backend/sql/update_monitor_and_treatment.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            patient_id: patientId,
+                            monitor_status: selectedFollowUpStatus,
+                            treatment_status: selectedTreatmentStatus,
+                            disease_type: diseaseType,
+                            monitor_date: monitorDate,
+                            monitor_deadline: monitorDeadline,
+                            monitor_round: monitorRound,
+                            appointment_date: appointmentDate
+                        })
+                    });
+
+                    const result = await response.json();
+                    if (result.status === 'success') {
+                        alert('บันทึกข้อมูลสำเร็จ');
+                        window.location.href = `statustracking.html?patient_id=${patientId}`;
+                    } else {
+                        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                    }
+                } catch (error) {
+                    console.error('Error saving data:', error);
+                    alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+        checkAuth();
+
+        // Load sidebar
+        fetch('sidebar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล sidebar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน sidebar-container
+                loadSidebarScript();
+                // เรียกฟังก์ชัน loadSidebarScript() เพื่อทำงานเพิ่มเติมกับ sidebar
+            });
+
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            // ใช้ fetch เพื่อดึงข้อมูล topbar.html
+            .then(response => response.text())
+            // แปลงข้อมูลที่ได้รับเป็นข้อความ
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                // นำข้อมูลที่ดึงมาแสดงใน topbar-container
+                document.getElementById('page-title').textContent = 'แก้ไขข้อมูลการติดตาม';
+                // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
+
+                // Re-run user.js script after loading topbar
+                const script = document.createElement('script');
+                // สร้างแท็ก script ใหม่
+                script.src = '../method/user.js';
+                // กำหนดแหล่งที่มาของ script เป็น user.js
+                document.body.appendChild(script);
+                // เพิ่มแท็ก script ลงใน body ของเอกสารเพื่อทำการโหลดสคริปต์
+                // ฟังก์ชันสำหรับปุ่มย้อนกลับ
+                document.getElementById('backBtn').addEventListener('click', function () {
+                    window.location.href = 'statustracking.html';
+                });
+            });
+    </script>
 </body>
+
 </html>
