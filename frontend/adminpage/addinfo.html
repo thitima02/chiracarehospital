@@ -174,16 +174,6 @@
           <label style="display: flex; align-items: center; margin-bottom: 10px;">
             <input type="checkbox" name="disease-type[]" value="โรคไต"> โรคไต
           </label>
-          <label style="display: flex; align-items: center; margin-bottom: 10px;">
-            <input type="checkbox" name="disease-type[]" value="อื่นๆ" id="other-disease-checkbox"
-              style="margin-right: 10px;"> อื่นๆ
-          </label>
-        </div>
-
-        <!-- ช่องกรอกข้อมูลเมื่อเลือก "อื่นๆ" -->
-        <div id="other-disease-container" style="display: none; margin-top: 10px;">
-          <label for="other-disease">โรคประจำตัวนอกจากที่กำหนด:</label>
-          <input type="text" id="other-disease" name="other-disease" placeholder="กรุณาระบุโรคประจำตัวอื่นๆ">
         </div>
 
         <label for="current">สถานะปัจจุบัน</label>
@@ -211,18 +201,15 @@
       if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
-          // อ่านข้อมูลรูปภาพและลบ header ออก
           let base64Image = e.target.result;
           base64Image = base64Image.replace(/^data:image\/(?:jpeg|png);base64,/, '');
 
-          // ตรวจสอบผลลัพธ์
           console.log("Base64 (ไม่มี header):", base64Image);
 
-          // นำ Base64 มาแสดงตัวอย่างอีกครั้ง (เพิ่ม header กลับ)
-          const mimeType = file.type; // ดึง MIME type จากไฟล์
+          const mimeType = file.type;
           const previewImage = document.getElementById('preview-image');
           if (previewImage) {
-            previewImage.src = `data:${mimeType};base64,${base64Image}`; // เพิ่ม header กลับ
+            previewImage.src = `data:${mimeType};base64,${base64Image}`;
             previewImage.style.display = 'block';
           } else {
             console.error("ไม่พบองค์ประกอบ preview-image");
@@ -232,24 +219,17 @@
       }
     });
 
+    // ฟังก์ชันดึงข้อมูลโรคที่เลือก
     function getSelectedDiseases() {
       const checkboxes = document.querySelectorAll('input[name="disease-type[]"]');
-      const otherCheckbox = document.querySelector('input[name="other-checkbox"]');
       let selectedDiseases = [];
 
       if (checkboxes) {
         checkboxes.forEach(checkbox => {
-          if (checkbox.checked && checkbox.value !== "อื่นๆ") {
+          if (checkbox.checked && checkbox.value !== "อื่นๆ") {  // ไม่ให้เลือก "อื่นๆ"
             selectedDiseases.push(checkbox.value);
           }
         });
-      }
-
-      if (otherCheckbox && otherCheckbox.checked) {
-        const otherDiseaseValue = document.getElementById('other-disease')?.value.trim();
-        if (otherDiseaseValue) {
-          selectedDiseases.push(otherDiseaseValue);
-        }
       }
 
       return selectedDiseases;
@@ -258,7 +238,6 @@
     document.getElementById("saveBtn").addEventListener("click", function (event) {
       event.preventDefault();
 
-      // ดึงข้อมูลจากฟอร์ม
       const rank = document.getElementById("rank").value || "-";
       const department = document.getElementById("depart").value || "-";
       const name = document.getElementById("name").value || "-";
@@ -278,33 +257,26 @@
 
       const patientGroup = document.getElementById("patient-group").value || "-";
       const patientType = document.getElementById("patient-type").value || "-";
-      const diseaseType = getSelectedDiseases();
-      const other_disease = document.getElementById("other-disease").value.trim() || "-";
-
-      // ถ้ามีค่าอื่น ๆ ใน "other-disease" ให้เพิ่มเข้าไปใน Array
-      diseaseType.push(other_disease);
-
+      const diseaseType = getSelectedDiseases();  // ดึงข้อมูลโรคที่เลือก
       const currentStatus = document.getElementById("current").value || "-";
       const note = document.getElementById("note").value || "-";
 
-      // ตรวจสอบว่ามีการเลือกรูปภาพหรือไม่
       const profilePicture = document.getElementById('profile-picture').files[0];
       let patientImageBase64 = null;
 
       if (profilePicture) {
         const reader = new FileReader();
         reader.onloadend = function () {
-          patientImageBase64 = reader.result; // แปลงรูปภาพเป็น Base64
-          sendData(); // เรียกฟังก์ชันส่งข้อมูลเมื่อแปลงเสร็จ
+          patientImageBase64 = reader.result;
+          sendData();
         };
         reader.readAsDataURL(profilePicture);
       } else {
-        sendData(); // ถ้าไม่มีรูปภาพก็ส่งข้อมูลเลย
+        sendData();
       }
 
       // ฟังก์ชันสำหรับส่งข้อมูล
       function sendData() {
-        // สร้างอ็อบเจกต์ข้อมูล
         const patientData = {
           rank,
           department,
@@ -325,15 +297,13 @@
           patientGroup,
           patientType,
           diseaseType: diseaseType.length > 0 ? diseaseType : ["-"], // ถ้าไม่ได้เลือกโรคใดๆ ให้ใส่ "-"
-          other_disease,
           currentStatus,
           note,
-          patientImageBase64 // เพิ่มข้อมูลรูปภาพที่เป็น Base64
+          patientImageBase64
         };
 
-        console.log("Patient Data: ", patientData);  // ตรวจสอบข้อมูลก่อนส่ง
+        console.log("Patient Data: ", patientData);
 
-        // ส่งข้อมูลไปยังเซิร์ฟเวอร์ด้วย Fetch API
         fetch("/chiracarehospital/backend/sql/patient_manage/add_patient.php", {
           method: "POST",
           headers: {
@@ -371,19 +341,6 @@
         }
       });
     }
-
-    // ใช้ JavaScript เพื่อดึงค่าที่เลือกมา
-    const checkboxes = document.querySelectorAll('input[name="disease-type[]"]');
-    const otherCheckbox = document.getElementById('other-disease-checkbox');
-    const otherDiseaseContainer = document.getElementById('other-disease-container');
-
-    otherCheckbox.addEventListener('change', function () {
-      if (this.checked) {
-        otherDiseaseContainer.style.display = 'block';
-      } else {
-        otherDiseaseContainer.style.display = 'none';
-      }
-    });
   </script>
 
   <style>
