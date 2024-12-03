@@ -35,7 +35,6 @@ try {
 
     // ข้อมูลจากตาราง patient_medical_information
     $diseaseType = isset($data['diseaseType']) ? implode(",", $data['diseaseType']) : '-';
-    $other_disease = !empty($data['otherDisease']) ? $data['otherDisease'] : '-';
     $note = !empty($data['note']) ? $data['note'] : '-';
     $patient_group = !empty($data['patientGroup']) ? $data['patientGroup'] : '-';
     $patient_type = !empty($data['patientType']) ? $data['patientType'] : '-';
