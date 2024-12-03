@@ -95,6 +95,12 @@
       </div>
     </section>
 
+    <select id="sortOption" onchange="sortData()">
+      <option value="name">เรียงตามชื่อ</option>
+      <option value="status">เรียงตามสถานะการติดตาม</option>
+      <option value="latest">เรียงตามวันที่ติดตามล่าสุด</option>
+    </select>
+
     <!-- Overlay สำหรับป๊อปอัป -->
     <div id="popup-overlay" style="display: none;"></div>
 
@@ -144,7 +150,6 @@
           <label for="filter-user-name">ผู้รับผิดชอบ:</label>
           <input type="text" id="filter-user-name" placeholder="กรอกชื่อผู้รับผิดชอบ" />
         </div>
-
       </div>
 
       <!-- ตาราง -->
@@ -769,7 +774,7 @@
 
         let currentPage = 1;
         const rowsPerPage = 10;
-        let patientData = [];  // เพิ่มตัวแปรเพื่อเก็บข้อมูลผู้ป่วย
+        let patientData = [];
 
         async function fetchPatientData() {
           const tbody = document.querySelector('.patient-table tbody');
@@ -777,21 +782,7 @@
             const response = await fetch('/chiracarehospital/backend/sql/monitoring/patient_list.php');
             if (!response.ok) throw new Error('Network response was not ok: ' + response.statusText);
 
-            patientData = await response.json();  // เก็บข้อมูลลงในตัวแปร patientData
-
-            // ลำดับการจัดเรียงสถานะตามที่กำหนด
-            const statusOrder = {
-              'ยังไม่ได้ติดตาม': 1,
-              'ติดตามล้มเหลว': 2,
-              'กำลังติดตาม': 3,
-              'ติดตามแล้ว': 4
-            };
-
-            patientData.sort((a, b) => {
-              const statusA = statusOrder[a.monitor_status] || 5;
-              const statusB = statusOrder[b.monitor_status] || 5;
-              return statusA - statusB;
-            });
+            patientData = await response.json();
 
             if (!Array.isArray(patientData) || patientData.length === 0) {
               tbody.innerHTML = `<tr><td colspan="10">ไม่มีข้อมูลผู้ป่วย</td></tr>`;
@@ -799,8 +790,8 @@
               return;
             }
 
-            renderTable(patientData);  // ส่งข้อมูลไปยังฟังก์ชัน renderTable
-            setupPagination(patientData);  // ส่งข้อมูลไปยังฟังก์ชัน setupPagination
+            // เรียงลำดับตามชื่อก่อนเสมอ
+            sortData('name');
 
           } catch (error) {
             console.error('Error:', error);
@@ -815,7 +806,7 @@
           const end = start + rowsPerPage;
           const pageData = data.slice(start, end);
 
-          tbody.innerHTML = '';  // ล้างข้อมูลเก่าก่อนแสดงผลใหม่
+          tbody.innerHTML = '';
 
           pageData.forEach(patient => {
             const isMonitoringPending = patient.monitor_status === 'ยังไม่ได้ติดตาม';
@@ -823,19 +814,19 @@
 
             const row = document.createElement('tr');
             row.innerHTML = `
-        <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}'>` : `<div class="unselectable-box"></div>`}</td>
-        <td>${patient.full_name || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-        <td>${patient.disease_type || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-        <td>${patient.patient_type || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-        <td>${patient.monitor_date || `<span class="no-data">ยังไม่มี</span>`}</td>
-        <td>${patient.monitor_deadline || `<span class="no-data">ยังไม่มี</span>`}</td>
-        <td>${patient.monitor_round || `<span class="no-data">ยังไม่มี</span>`}</td>
-        <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status || `<span class="no-data">ยังไม่มี</span>`}</span></td>
-        <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status || `<span class="no-data">ไม่ต้องติดตาม</span>`}</span></td>
-        <td>
-          <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html?patient_id=${patient.patient_id}';"><i class='bx bx-edit'></i></button>
-          <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html?patient_id=${patient.patient_id}';"><i class='bx bx-right-arrow-alt'></i></button>
-        </td>`;
+                <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}'>` : `<div class="unselectable-box"></div>`}</td>
+                <td>${patient.full_name || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td>${patient.disease_type || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td>${patient.patient_type || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+                <td>${patient.monitor_date || `<span class="no-data">ยังไม่มี</span>`}</td>
+                <td>${patient.monitor_deadline || `<span class="no-data">ยังไม่มี</span>`}</td>
+                <td>${patient.monitor_round || `<span class="no-data">ยังไม่มี</span>`}</td>
+                <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status || `<span class="no-data">ยังไม่มี</span>`}</span></td>
+                <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status || `<span class="no-data">ไม่ต้องติดตาม</span>`}</span></td>
+                <td>
+                    <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html?patient_id=${patient.patient_id}';"><i class='bx bx-edit'></i></button>
+                    <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html?patient_id=${patient.patient_id}';"><i class='bx bx-right-arrow-alt'></i></button>
+                </td>`;
             tbody.appendChild(row);
           });
 
@@ -844,15 +835,10 @@
 
         function setupPagination(data) {
           const totalPages = Math.ceil(data.length / rowsPerPage);
+          document.getElementById('prevPage').disabled = currentPage === 1;
+          document.getElementById('nextPage').disabled = currentPage === totalPages;
 
-          // ปิดการใช้งานปุ่ม prevPage และ nextPage ตามหน้า
-          document.getElementById('prevPage').disabled = currentPage === 1; // ปิดการใช้งานเมื่ออยู่หน้าแรก
-          document.getElementById('nextPage').disabled = currentPage === totalPages; // ปิดการใช้งานเมื่ออยู่หน้าสุดท้าย
-
-          // ปรับสถานะปุ่มย้อนกลับ
           document.getElementById('prevPage').onclick = () => changePage(-1);
-
-          // ปรับสถานะปุ่มไปข้างหน้า
           document.getElementById('nextPage').onclick = () => changePage(1);
         }
 
@@ -860,12 +846,38 @@
           const totalPages = Math.ceil(patientData.length / rowsPerPage);
 
           if (direction === -1 && currentPage > 1) {
-            currentPage--;  // ลดจำนวนหน้า
+            currentPage--;
           } else if (direction === 1 && currentPage < totalPages) {
-            currentPage++;  // เพิ่มจำนวนหน้า
+            currentPage++;
           }
 
-          renderTable(patientData);  // อัปเดตตาราง
+          renderTable(patientData);
+          setupPagination(patientData);
+        }
+
+        function sortData(sortOption = document.getElementById('sortOption').value) {
+          if (sortOption === 'status') {
+            const statusOrder = {
+              'ยังไม่ได้ติดตาม': 1,
+              'ติดตามล้มเหลว': 2,
+              'กำลังติดตาม': 3,
+              'ติดตามแล้ว': 4
+            };
+
+            patientData.sort((a, b) => {
+              const statusA = statusOrder[a.monitor_status] || 5;
+              const statusB = statusOrder[b.monitor_status] || 5;
+              return statusA - statusB;
+            });
+          } else if (sortOption === 'name') {
+            patientData.sort((a, b) => (a.full_name || '').localeCompare(b.full_name || '', 'th', { sensitivity: 'base' }));
+          } else if (sortOption === 'latest') {
+            patientData.sort((a, b) => new Date(b.monitor_date || 0) - new Date(a.monitor_date || 0));
+          }
+
+          currentPage = 1;
+          renderTable(patientData);
+          setupPagination(patientData);
         }
 
         function getStatusClass(status) {
@@ -895,6 +907,10 @@
           if (event.target.classList.contains('patient-checkbox')) {
             updateAssignButtonVisibility();
           }
+        });
+
+        document.getElementById('sortOption').addEventListener('change', function () {
+          sortData(this.value);
         });
       });
     </script>
