@@ -1,66 +1,264 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Profile</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>โรงพยาบาลค่ายจิรประวัติ</title>
+    <link rel="stylesheet" href="../../css/moreinfo.css">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/topbar.css">
+    <link rel="stylesheet" href="../../css/logo.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../method/logout.js"></script>
+    <script src="../method/user.js"></script>
+    <script src="../method/loadSidebarScript.js"></script>
+    <script src="../method/checkAuth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body>
+
+<body style="background-color: #edeff1;">
+    <div id="sidebar-container"></div>
+    <div id="topbar-container"></div>
     <div class="container">
         <!-- Patient Profile -->
         <div class="profile-section">
-            <img src="path-to-profile-image.jpg" alt="Patient Profile" class="profile-img">
-            <h2>นายอริสมันต์ จ่างทอง</h2>
-            <p>อายุ: 48</p>
-            <p>สถานะปัจจุบัน: ปกติ</p>
-            <p>ประเภทโรค: เบาหวาน</p>
-            <p>เลขบัตรประชาชน: 123-xxxxxxxxxx</p>
-            <p>วันเกิด: 20/03/1978</p>
-            <p>เบอร์โทรศัพท์: 088-9999-xxx</p>
-            <p>ที่อยู่: 98 ตำบลเมือง...</p>
+            <img src="../../assets/images/cat.jpg" alt="avatar" class="profile-img" id="profile-img">
+            <h2 id="fullName">ไม่มีข้อมูล</h2>
+            <p><strong>อายุ:</strong> <span id="age">ไม่มีข้อมูล</span></p>
+            <p><strong>สถานะปัจจุบัน:</strong> <span id="currentStatus">ไม่มีข้อมูล</span></p>
+            <p><strong>โรคประจำตัว:</strong> <span id="diseaseType">ไม่มีข้อมูล</span></p>
+            <p><strong>กลุ่มผู้ป่วย:</strong> <span id="patientGroup">ไม่มีข้อมูล</span></p>
+            <p><strong>ประเภทผู้ป่วย:</strong> <span id="patientType">ไม่มีข้อมูล</span></p>
+            <p><strong>เลขบัตรประจำตัวประชาชน:</strong> <span id="idCard">ไม่มีข้อมูล</span></p>
+            <p><strong>วันเกิด:</strong> <span id="birthDate"></span></p>
+            <p><strong>เบอร์โทรศัพท์:</strong> <span id="phoneNumber">ไม่มีข้อมูล</span></p>
+            <p><strong>เบอร์ฉุกเฉิน:</strong> <span id="emergencyPhone">ไม่มีข้อมูล</span></p>
+            <p><strong>ที่อยู่:</strong> <span id="address">ไม่มีข้อมูล</span></p>
+            <p><strong>เพิ่มเติม:</strong> <span id="additionalInfo">-</span></p>
         </div>
 
         <!-- Follow-up and Treatment Information -->
         <div class="info-section">
             <div class="follow-up-info">
                 <h3>ข้อมูลการติดตามล่าสุด</h3>
-                <p>โรงของผู้ป่วยที่ติดตาม: เบาหวาน</p>
-                <p>อาการทั่วไป: ปกติ</p>
-                <p>ค่าระดับน้ำตาลในเลือด: 70</p>
-                <p>วันที่เริ่มติดตาม: xx/xx/xxxx</p>
-                <p>สถานะการติดตาม: <span class="status-green">ติดตามแล้ว</span></p>
+                <p><strong>โรคประจำตัว:</strong> <span id="latestDiseaseType">ไม่มีข้อมูล</span></p>
+                <p><strong>สาเหตุการขาดนัด:</strong> <span id="missingAppointments">ไม่มีข้อมูล</span></p>
+                <p><strong>อาการทั่วไป:</strong> <span id="generalCondition">ไม่มีข้อมูล</span></p>
+                <p><strong>ค่าสัญญาณชีพ:</strong> <span id="vitalSigns">ไม่มีข้อมูล</span></p>
+                <p><strong>ค่าระดับน้ำตาลในเลือด:</strong> <span id="bloodSugarLevel">ไม่มีข้อมูล</span></p>
+                <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="staffFollowUp">ไม่มีข้อมูล</span></p>
             </div>
             <div class="treatment-info">
                 <h3>ข้อมูลการรักษาล่าสุด</h3>
-                <p>ประเด็นการรักษา: ความดันสูง</p>
-                <p>วันที่รักษา: 25/05/2022</p>
-                <p>สถานะการติดตาม: <span class="status-red">รักษาเสร็จสิ้น</span></p>
+                <p><strong>โรคประจำตัว:</strong> <span id="treatmentdiseaseType">ไม่มีข้อมูล</span></p>
+                <p><strong>วันที่นัดหมายครั้งถัดไป:</strong> <span id="treatmentDate">ไม่มีข้อมูล</span></p>
+                <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="staffTreatment">ไม่มีข้อมูล</span></p>
+                <p><strong>หมายเหตุ:</strong> <span id="treatmentNotes">ไม่มีข้อมูล</span></p>
             </div>
         </div>
 
-        <!-- Follow-up History -->
-        <div class="history-section">
-            <h3>ประวัติการติดตาม</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>เจ้าหน้าที่รับผิดชอบ</th>
-                        <th>วันที่เริ่มติดตาม</th>
-                        <th>วันที่สิ้นสุด</th>
-                        <th>ครั้งที่ติดตาม</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>นายปลาวาฬ ไม่เหมิน</td>
-                        <td>25/12/2022</td>
-                        <td>25/12/2022</td>
-                        <td>1</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="parent-container">
+            <div class="buttons">
+                <button type="button" class="btn-back" id="backBtn">ย้อนกลับ</button>
+                <button id="save-status" type="button">ดูเพิ่มเติม</button>
+            </div>
         </div>
+        
     </div>
+
+    <script>
+        function showMoreInfo() {
+            alert("แสดงข้อมูลเพิ่มเติม..."); // สามารถเปลี่ยนให้ลิงก์ไปยังหน้าที่ต้องการ
+        }
+    </script>
+
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    max-width: 80%; /* ตรวจสอบความกว้างของคอนเทนเนอร์ */
+}
+
+
+.profile-section {
+    flex: 1 1 30%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-img {
+    width: 100%;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.info-section {
+    flex: 1 1 65%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.follow-up-info,
+.treatment-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.history-section {
+    flex: 1 1 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f4f4f4;
+}
+
+.status-green {
+    color: green;
+    font-weight: bold;
+}
+
+.status-red {
+    color: red;
+    font-weight: bold;
+}
+
+
+/* .button-container {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 10px; 
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+    background-color: #003f7f;
+} */
+.buttons {
+    width: 100%; /* ทำให้ div นี้ขยายเต็มความกว้าง */
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+
+.btn-back {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-back:hover {
+    background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
+    color: white;
+}
+
+#save-status {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#save-status:hover {
+    background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
+}
+
+#save-status:focus {
+    outline: none; /* ลบเส้นขอบเมื่อกดปุ่ม */
+}
+
+    </style>
+
+<script>
+    // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token
+    checkAuth();
+  
+    // Load sidebar
+    fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('sidebar-container').innerHTML = data;
+            loadSidebarScript();
+        });
+  
+    // Load topbar and set the page title
+    fetch('topbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('topbar-container').innerHTML = data;
+            document.getElementById('page-title').textContent = 'สถานะการติดตามและการรักษาของผู้ป่วย';
+  
+            // Re-run user.js script after loading topbar
+            const script = document.createElement('script');
+            script.src = '../method/user.js';
+            document.body.appendChild(script);
+            // ฟังก์ชันสำหรับปุ่มย้อนกลับ
+          document.getElementById('backBtn').addEventListener('click', function() {
+              window.location.href = 'statustracking.html';
+          });
+        });
+  </script>
 </body>
 </html>
