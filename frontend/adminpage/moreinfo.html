@@ -36,7 +36,7 @@
       <div class="main-content">
           <div class="profile-section">
               <div class="patient-profile">
-                  <img src="../../assets/images/cat.jpg" alt="โปรไฟล์" class="profile-img">
+                <img src="../../assets/images/cat.jpg" alt="avatar" class="profile-img" id="profile-img">
                   <div>
                       <h2 id="fullName">ไม่มีข้อมูล</h2>
                       <p><strong>อายุ:</strong> <span id="age">ไม่มีข้อมูล</span></p>
@@ -134,7 +134,16 @@
                     document.getElementById('phoneNumber').textContent = patient.phone_number || '-';
                     document.getElementById('emergencyPhone').textContent = patient.emergency_phone || '-';
                     document.getElementById('additionalInfo').textContent = patient.additional_info || '-';
-    
+                    const profileImg = document.getElementById('profile-img');
+                if (profileImg) {
+                    if (patient.patient_image) {
+                        profileImg.src = 'data:image/jpeg;base64,' + patient.patient_image;
+                    } else {
+                    profileImg.src = '../../assets/images/profile-picture.png';
+                    }
+                    } else {
+                        console.error('ไม่พบองค์ประกอบ #profile-img');
+                    }
                     // Fetch address information
                     const addressResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_address.php?patient_id=${patientId}`);
                     const addresses = await addressResponse.json();
