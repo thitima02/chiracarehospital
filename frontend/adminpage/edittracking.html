@@ -102,8 +102,7 @@
             try {
                 const response = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
                 const data = await response.json();
-                console.log('Medical data:', data); // ตรวจสอบข้อมูลที่ได้จาก API
-
+                console.log('Medical data:', data);
                 if (data.patient_data && data.patient_data.length > 0) {
                     const patientMedicalInfo = data.patient_data[0];
                     document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
@@ -121,8 +120,7 @@
             try {
                 const response = await fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
                 const data = await response.json();
-                console.log('Patient information:', data); // ตรวจสอบข้อมูลที่ได้จาก API
-
+                console.log('Patient information:', data);
                 if (data.status === 'success' && data.data.length > 0) {
                     const patient = data.data[0];
                     displayPatientInformation(patient);
@@ -150,14 +148,13 @@
                 if (patient.patient_image) {
                     profileImg.src = 'data:image/jpeg;base64,' + patient.patient_image;
                 } else {
-                    profileImg.src = '../../assets/images/cat.jpg';
+                    profileImg.src = '../../assets/images/profile-picture.png';
                 }
             } else {
                 console.error('ไม่พบองค์ประกอบ #profile-img');
             }
         }
 
-        // ฟังก์ชันที่ใช้ดึงข้อมูลสถานะการติดตามและการรักษา
         async function loadStatusData(patientId) {
             try {
                 const [followUpData, treatmentData] = await Promise.all([
@@ -167,6 +164,9 @@
 
                 const followUpJson = await followUpData.json();
                 const treatmentJson = await treatmentData.json();
+
+                console.log('Follow-up data:', followUpJson); // ตรวจสอบข้อมูลสถานะการติดตาม
+                console.log('Treatment data:', treatmentJson); // ตรวจสอบข้อมูลสถานะการรักษา
 
                 if (Array.isArray(followUpJson) && Array.isArray(treatmentJson)) {
                     const followUp = followUpJson.find(item => item.patient_id === patientId);
@@ -197,7 +197,6 @@
             }
         }
 
-        // ฟังก์ชันที่ใช้เติมข้อมูลสถานะลงใน dropdown
         function populateStatusDropdown(selectId, selectedStatus = '', statuses) {
             const statusSelect = document.getElementById(selectId);
             statusSelect.innerHTML = '';
@@ -212,7 +211,6 @@
             });
         }
 
-        // ตั้งค่าปุ่มบันทึกข้อมูล
         function setupSaveButton(patientId) {
             const saveButton = document.getElementById('save-status');
             if (!saveButton) {
@@ -229,11 +227,23 @@
                 const monitorRound = document.getElementById('monitorround')?.value;
                 const appointmentDate = document.getElementById('appointmentdate')?.value;
 
+                console.log('Saving data:', {
+                    selectedFollowUpStatus,
+                    selectedTreatmentStatus,
+                    diseaseType,
+                    monitorDate,
+                    monitorDeadline,
+                    monitorRound,
+                    appointmentDate
+                });
+
+                // ตรวจสอบสถานะการติดตามและสถานะการรักษา
                 if (!selectedFollowUpStatus || !selectedTreatmentStatus) {
                     alert('กรุณาเลือกสถานะการติดตามและสถานะการรักษา');
                     return;
                 }
 
+                // ส่งข้อมูลไปยังเซิร์ฟเวอร์เพื่ออัปเดตข้อมูล
                 try {
                     const response = await fetch('/chiracarehospital/backend/sql/update_monitor_and_treatment.php', {
                         method: 'POST',
@@ -251,6 +261,7 @@
                     });
 
                     const result = await response.json();
+                    console.log('Save result:', result); // ตรวจสอบผลลัพธ์การบันทึก
                     if (result.status === 'success') {
                         alert('บันทึกข้อมูลสำเร็จ');
                         window.location.href = `statustracking.html?patient_id=${patientId}`;

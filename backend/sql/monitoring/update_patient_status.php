@@ -7,61 +7,43 @@ ini_set('display_errors', 1);
 $servername = "localhost";
 $username = "root"; 
 $password = ""; 
-$dbname = "chiracare_follow_up_db";
+$dbname = "chiracare_follow_up_db"; 
 
-try {
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo json_encode(["error" => "Connection failed: " . $e->getMessage()]);
-    exit;
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// ดึงข้อมูล JSON ที่ส่งมาจาก JavaScript
-$data = json_decode(file_get_contents("php://input"), true);
+// รับข้อมูลจาก request
+$data = json_decode(file_get_contents('php://input'), true);
+$patient_id = $data['patient_id'];
+$monitor_status = $data['monitor_status'];
+$treatment_status = $data['treatment_status'];
+$disease_type = $data['disease_type'];
+$monitor_date = $data['monitor_date'];
+$monitor_deadline = $data['monitor_deadline'];
+$monitor_round = $data['monitor_round'];
+$appointment_date = $data['appointment_date'];
 
-// แสดงข้อมูลที่ได้รับใน log
-error_log('Received data: ' . print_r($data, true));
+// อัปเดตข้อมูลในฐานข้อมูล
+$sql = "UPDATE monitor_information 
+        SET monitor_status='$monitor_status', monitor_date='$monitor_date', monitor_deadline='$monitor_deadline', monitor_round='$monitor_round' 
+        WHERE patient_id='$patient_id'";
 
-// ตรวจสอบว่าข้อมูลที่จำเป็นถูกส่งมา
-$monitorStatus = $data['monitorStatus'] ?? '';
-$patientIds = $data['patientIds'] ?? [];
-$monitorDeadline = $data['monitorDeadline'] ?? ''; 
-$monitorStartDate = $data['monitorStartDate'] ?? '';
+if ($conn->query($sql) === TRUE) {
+    // อัปเดตสถานะการรักษา
+    $sqlTreatment = "UPDATE treatment_information 
+                     SET treatment_status='$treatment_status', appointment_date='$appointment_date'
+                     WHERE patient_id='$patient_id'";
 
-if (empty($monitorStatus) || empty($monitorDeadline) || empty($monitorStartDate) || !is_array($patientIds) || empty($patientIds)) {
-    echo json_encode(['status' => 'error', 'message' => 'Missing required data']);
-    exit;
-}
-
-// ตรวจสอบก่อนการอัปเดตว่า ID มีอยู่ในฐานข้อมูลหรือไม่
-$placeholders = implode(',', array_fill(0, count($patientIds), '?'));
-$check_sql = "SELECT COUNT(*) as count FROM monitor_information WHERE patient_id IN ($placeholders)";
-$check_stmt = $pdo->prepare($check_sql);
-$check_stmt->execute($patientIds);
-$row = $check_stmt->fetch(PDO::FETCH_ASSOC);
-$matching_count = $row['count'];
-
-if ($matching_count > 0) {
-    // เตรียมคำสั่ง SQL เพื่ออัปเดตสถานะการติดตาม
-    $sql = "UPDATE monitor_information 
-            SET monitor_status = ?, monitor_deadline = ?, monitor_date = ?, monitor_round = monitor_round + 1
-            WHERE patient_id IN ($placeholders)";
-    
-    $stmt = $pdo->prepare($sql);
-    
-    // ผูกค่าให้กับ placeholders
-    $params = array_merge([$monitorStatus, $monitorDeadline, $monitorStartDate], $patientIds);
-    
-    if ($stmt->execute($params)) {
-        echo json_encode(['status' => 'success', 'updated_count' => $stmt->rowCount()]);
+    if ($conn->query($sqlTreatment) === TRUE) {
+        echo json_encode(['status' => 'success']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Error executing update: ' . $stmt->errorInfo()[2]]);
+        echo json_encode(['status' => 'error', 'message' => 'Error updating treatment status: ' . $conn->error]);
     }
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'No matching records found for update.']);
+    echo json_encode(['status' => 'error', 'message' => 'Error updating monitor status: ' . $conn->error]);
 }
 
-// ปิดการเชื่อมต่อฐานข้อมูล
-$pdo = null;
+$conn->close();
 ?>
