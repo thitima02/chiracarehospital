@@ -21,6 +21,7 @@ try {
         SELECT 
             mf.patient_id, 
             pi.full_name, 
+            pi.patient_image,
             pm.disease_type, 
             mf.blood_sugar_level, 
             mf.general_symptoms, 

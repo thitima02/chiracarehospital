@@ -123,7 +123,9 @@
             // กรองเฉพาะผู้ที่มีสถานะเป็น 'อาสาสมัครสาธารณสุข' หรือ 'เสนารักษ์'
             if (staff.department === 'อาสาสมัครสาธารณสุข' || staff.department === 'เสนารักษ์') {
               rows += '<tr>';
-              rows += '<td style="text-align: left; padding-left: 30px"><img src="../../assets/images/cat.jpg" alt="avatar"> ' + staff.full_name + '</td>';
+              rows += '<td style="text-align: left; padding-left: 30px">' +
+                '<img src="' + (staff.user_image ? 'data:image/jpeg;base64,' + staff.user_image : '../../assets/images/profile-picture.png') +
+                '" alt="avatar"> ' + staff.full_name + '</td>';
               rows += '<td>' + staff.department + '</td>';
               rows += '<td>' + staff.responsibility_area + '</td>';
               rows += '<td>' + (staff.id_card ? staff.id_card : '-') + '</td>';
