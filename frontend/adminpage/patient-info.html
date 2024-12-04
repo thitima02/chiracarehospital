@@ -298,7 +298,9 @@
       var rows = '';
       pageData.forEach(function (patient) {
         rows += '<tr>';
-        rows += '<td style="text-align: left; padding-left: 30px"><img src="data:image/jpeg;base64,' + patient.patient_image + '" alt="avatar"> ' + patient.full_name + '</td>';
+        rows += '<td style="text-align: left; padding-left: 30px"><img src="' +
+          (patient.patient_image ? 'data:image/jpeg;base64,' + patient.patient_image : '../../assets/images/profile-picture.png') +
+          '" alt="avatar"> ' + patient.full_name + '</td>';
         rows += '<td>' + formatDate(patient.birth_date) + '</td>';
         rows += '<td>' + patient.id_card + '</td>';
         rows += '<td>' + patient.phone_number + '</td>';
