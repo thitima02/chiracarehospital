@@ -17,10 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $data = json_decode(file_get_contents('php://input'), true);
 
 // ตรวจสอบว่าข้อมูลที่ส่งมาครบถ้วนหรือไม่
-if (!isset($data['patient_id']) || !isset($data['treatment_status'])) {
+if (!isset($data['patient_id']) || !isset($data['treatment_status']) || !isset($data['monitor_status'])) {
     echo json_encode([
         'status' => 'error',
-        'message' => 'Missing required fields: patient_id or treatment_status.'
+        'message' => 'Missing required fields: patient_id, treatment_status, or monitor_status.'
     ]);
     exit;
 }
@@ -28,6 +28,10 @@ if (!isset($data['patient_id']) || !isset($data['treatment_status'])) {
 // ดึงข้อมูลจาก JSON
 $patient_id = $data['patient_id'];
 $treatment_status = $data['treatment_status'];
+$monitor_status = isset($data['monitor_status']) ? $data['monitor_status'] : null;
+$monitor_date = isset($data['monitor_date']) && !empty($data['monitor_date']) ? $data['monitor_date'] : null;
+$monitor_deadline = isset($data['monitor_deadline']) && !empty($data['monitor_deadline']) ? $data['monitor_deadline'] : null;
+$monitor_round = isset($data['monitor_round']) && !empty($data['monitor_round']) ? $data['monitor_round'] : null;
 
 // ตรวจสอบว่า patient_id มีอยู่ในฐานข้อมูลหรือไม่
 try {
@@ -47,19 +51,21 @@ try {
 
     $check_stmt->close();
 
-    // อัปเดตสถานะการรักษาในฐานข้อมูล
-    $stmt = $conn->prepare("UPDATE treatment_information SET treatment_status = ?, last_update = NOW() WHERE patient_id = ?");
-    $stmt->bind_param('si', $treatment_status, $patient_id);
+    // อัปเดตสถานะการรักษาและการติดตามในฐานข้อมูล
+    $stmt = $conn->prepare("UPDATE treatment_information 
+                            SET treatment_status = ?, monitor_status = ?, monitor_date = ?, monitor_deadline = ?, monitor_round = ?, last_update = NOW() 
+                            WHERE patient_id = ?");
+    $stmt->bind_param('sssssi', $treatment_status, $monitor_status, $monitor_date, $monitor_deadline, $monitor_round, $patient_id);
 
     if ($stmt->execute()) {
         echo json_encode([
             'status' => 'success',
-            'message' => 'Treatment status updated successfully.'
+            'message' => 'Treatment and monitoring statuses updated successfully.'
         ]);
     } else {
         echo json_encode([
             'status' => 'error',
-            'message' => 'Failed to update treatment status.'
+            'message' => 'Failed to update treatment and monitoring statuses.'
         ]);
     }
     $stmt->close();

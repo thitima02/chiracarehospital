@@ -172,7 +172,12 @@
                     const followUp = followUpJson.find(item => item.patient_id === patientId);
                     const treatment = treatmentJson.find(item => item.patient_id === patientId);
 
-                    populateStatusDropdown('follow-up-status', followUp?.monitor_status || 'ไม่ต้องติดตาม', [
+                    // ตรวจสอบว่ามีค่า monitor_status หรือไม่ และใช้ค่านั้น
+                    const initialFollowUpStatus = followUp && followUp.monitor_status ? followUp.monitor_status : 'ยังไม่ได้ติดตาม';
+                    const initialTreatmentStatus = treatment && treatment.treatment_status ? treatment.treatment_status : 'ยังไม่มี';
+
+                    // ใช้ค่าเริ่มต้นที่ได้จากการตรวจสอบ
+                    populateStatusDropdown('follow-up-status', initialFollowUpStatus, [
                         { value: 'ไม่ต้องติดตาม', text: 'ไม่ต้องติดตาม' },
                         { value: 'ยังไม่ได้ติดตาม', text: 'ยังไม่ได้ติดตาม' },
                         { value: 'กำลังติดตาม', text: 'กำลังติดตาม' },
@@ -180,7 +185,7 @@
                         { value: 'ติดตามล้มเหลว', text: 'ติดตามล้มเหลว' },
                     ]);
 
-                    populateStatusDropdown('treatment-status', treatment?.treatment_status || 'ยังไม่มี', [
+                    populateStatusDropdown('treatment-status', initialTreatmentStatus, [
                         { value: 'ยังไม่มี', text: 'ยังไม่มี' },
                         { value: 'มาตามนัด', text: 'มาตามนัด' },
                         { value: 'ไม่มาตามนัด', text: 'ไม่มาตามนัด' },
@@ -211,7 +216,7 @@
             });
         }
 
-        function setupSaveButton(patientId) {
+        async function setupSaveButton(patientId) {
             const saveButton = document.getElementById('save-status');
             if (!saveButton) {
                 console.error('ไม่พบปุ่มบันทึกใน DOM');
@@ -222,9 +227,9 @@
                 const selectedFollowUpStatus = document.getElementById('follow-up-status')?.value;
                 const selectedTreatmentStatus = document.getElementById('treatment-status')?.value;
                 const diseaseType = document.getElementById('diseaseType')?.value;
-                const monitorDate = document.getElementById('monitordate')?.value;
-                const monitorDeadline = document.getElementById('monitordeadline')?.value;
-                const monitorRound = document.getElementById('monitorround')?.value;
+                const monitorDate = document.getElementById('monitordate')?.value || null; // ค่า default เป็น null ถ้าไม่มีการกรอก
+                const monitorDeadline = document.getElementById('monitordeadline')?.value || null; // ค่า default เป็น null ถ้าไม่มีการกรอก
+                const monitorRound = document.getElementById('monitorround')?.value || null; // ค่า default เป็น null ถ้าไม่มีการกรอก
                 const appointmentDate = document.getElementById('appointmentdate')?.value;
 
                 console.log('Saving data:', {
@@ -261,7 +266,7 @@
                     });
 
                     const result = await response.json();
-                    console.log('Save result:', result); // ตรวจสอบผลลัพธ์การบันทึก
+                    console.log('Save result:', result);
                     if (result.status === 'success') {
                         alert('บันทึกข้อมูลสำเร็จ');
                         window.location.href = `statustracking.html?patient_id=${patientId}`;

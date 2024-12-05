@@ -8,6 +8,7 @@ try {
         SELECT 
             patient_id,
             treatment_status,
+            appointment_date,
             SUM(treatment_round) AS total_treatment_round,
             MAX(last_update) AS last_update, 
             id_patient_information, 
