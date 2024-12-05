@@ -107,8 +107,8 @@
                             <div class="left">
                                <img src="${imageUrl}" alt="patient image" class="activity-icon" style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
                                 <div class="details">
-                                    <p class="title">เพิ่มนัดการรักษาของ คุณ "${history.full_name}" เสร็จสิ้น</p>
-                                    <p class="subtitle">ข้อมูลการนัดรักษาถูกบันทึกเรียบร้อย ท่านสามารถตรวจสอบย้อนหลังเพื่อเช็คความถูกต้องได้ (หากเกิดข้อผิดพลาดโปรดแจ้งกับทางแอดมินโดยตรง)</p>
+                                    <p class="title">เพิ่มนัดการรักษา ของคุณ ${history.full_name} เสร็จสิ้นเรียบร้อย</p>
+                                    <p class="subtitle">คลิกปุ่มเพิ่มเติมเพื่อดูรายละเอียดย้อนหลัง</p>
                                 </div>
                             </div>
                             <div class="right">
@@ -181,7 +181,15 @@
 
             function toggleDetails(button) {
                 const moreDetails = button.nextElementSibling;
-                moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
+
+                // ตรวจสอบสถานะการแสดงของรายละเอียด
+                if (moreDetails.style.display === "block") {
+                    moreDetails.style.display = "none"; // ซ่อนข้อมูล
+                    button.textContent = "เพิ่มเติม"; // เปลี่ยนข้อความปุ่มเป็น "เพิ่มเติม"
+                } else {
+                    moreDetails.style.display = "block"; // แสดงข้อมูล
+                    button.textContent = "ซ่อนข้อมูล"; // เปลี่ยนข้อความปุ่มเป็น "ซ่อนข้อมูล"
+                }
             }
         </script>
 

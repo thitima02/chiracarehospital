@@ -128,7 +128,7 @@
                 // แสดงวันที่ปัจจุบันในข้อความ
                 const formattedDate = formatDateThai(currentDate);
                 const totalAppointmentsText = document.querySelector("#totalAppointmentsBox p");
-                totalAppointmentsText.textContent = `ผู้ป่วยทั้งหมดที่มีนัดรักษา ${formattedDate}`;
+                totalAppointmentsText.textContent = `ผู้ป่วยทั้งหมดที่มีนัดรักษา ณ ${formattedDate}`;
 
                 // ดึงข้อมูลจำนวนผู้ป่วยทั้งหมด
                 fetch("/chiracarehospital/backend/sql/opd/fetch_appointments.php")
@@ -329,6 +329,11 @@
                         // กำหนดวันที่และเวลาปัจจุบันในเขตเวลา "Asia/Bangkok"
                         const now = new Date();
                         const bangkokTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // ชดเชยเวลา UTC+7
+
+                        // แปลงวันที่ให้อยู่ในรูปแบบไทย
+                        const thaiDateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                        const thaiDate = bangkokTime.toLocaleDateString("th-TH", thaiDateOptions);
+
                         const todayISO = bangkokTime.toISOString().split('T')[0];
 
                         // กรองข้อมูลตามวันที่ปัจจุบัน
@@ -378,7 +383,7 @@
                                 tbody.appendChild(row);
                             });
                         } else {
-                            tbody.innerHTML = `<tr><td colspan='7' style='text-align: center;'>ไม่มีผู้ป่วยที่ต้องเข้ารับการรักษา</td></tr>`;
+                            tbody.innerHTML = `<tr><td colspan='7' style='text-align: center;'>ไม่มีผู้ป่วยที่ต้องเข้ารับการรักษา ณ วันที่ ${thaiDate}</td></tr>`;
                         }
                     })
                     .catch(error => console.error("Error fetching data:", error));
