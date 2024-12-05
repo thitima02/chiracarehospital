@@ -102,8 +102,7 @@
             try {
                 const response = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
                 const data = await response.json();
-                console.log('Medical data:', data); // ตรวจสอบข้อมูลที่ได้จาก API
-
+                console.log('Medical data:', data);
                 if (data.patient_data && data.patient_data.length > 0) {
                     const patientMedicalInfo = data.patient_data[0];
                     document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
@@ -121,8 +120,7 @@
             try {
                 const response = await fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
                 const data = await response.json();
-                console.log('Patient information:', data); // ตรวจสอบข้อมูลที่ได้จาก API
-
+                console.log('Patient information:', data);
                 if (data.status === 'success' && data.data.length > 0) {
                     const patient = data.data[0];
                     displayPatientInformation(patient);
@@ -157,7 +155,6 @@
             }
         }
 
-        // ฟังก์ชันที่ใช้ดึงข้อมูลสถานะการติดตามและการรักษา
         async function loadStatusData(patientId) {
             try {
                 const [followUpData, treatmentData] = await Promise.all([
@@ -168,11 +165,19 @@
                 const followUpJson = await followUpData.json();
                 const treatmentJson = await treatmentData.json();
 
+                console.log('Follow-up data:', followUpJson); // ตรวจสอบข้อมูลสถานะการติดตาม
+                console.log('Treatment data:', treatmentJson); // ตรวจสอบข้อมูลสถานะการรักษา
+
                 if (Array.isArray(followUpJson) && Array.isArray(treatmentJson)) {
                     const followUp = followUpJson.find(item => item.patient_id === patientId);
                     const treatment = treatmentJson.find(item => item.patient_id === patientId);
 
-                    populateStatusDropdown('follow-up-status', followUp?.monitor_status || 'ไม่ต้องติดตาม', [
+                    // ตรวจสอบว่ามีค่า monitor_status หรือไม่ และใช้ค่านั้น
+                    const initialFollowUpStatus = followUp && followUp.monitor_status ? followUp.monitor_status : 'ยังไม่ได้ติดตาม';
+                    const initialTreatmentStatus = treatment && treatment.treatment_status ? treatment.treatment_status : 'ยังไม่มี';
+
+                    // ใช้ค่าเริ่มต้นที่ได้จากการตรวจสอบ
+                    populateStatusDropdown('follow-up-status', initialFollowUpStatus, [
                         { value: 'ไม่ต้องติดตาม', text: 'ไม่ต้องติดตาม' },
                         { value: 'ยังไม่ได้ติดตาม', text: 'ยังไม่ได้ติดตาม' },
                         { value: 'กำลังติดตาม', text: 'กำลังติดตาม' },
@@ -180,7 +185,7 @@
                         { value: 'ติดตามล้มเหลว', text: 'ติดตามล้มเหลว' },
                     ]);
 
-                    populateStatusDropdown('treatment-status', treatment?.treatment_status || 'ยังไม่มี', [
+                    populateStatusDropdown('treatment-status', initialTreatmentStatus, [
                         { value: 'ยังไม่มี', text: 'ยังไม่มี' },
                         { value: 'มาตามนัด', text: 'มาตามนัด' },
                         { value: 'ไม่มาตามนัด', text: 'ไม่มาตามนัด' },
@@ -197,7 +202,6 @@
             }
         }
 
-        // ฟังก์ชันที่ใช้เติมข้อมูลสถานะลงใน dropdown
         function populateStatusDropdown(selectId, selectedStatus = '', statuses) {
             const statusSelect = document.getElementById(selectId);
             statusSelect.innerHTML = '';
@@ -212,8 +216,7 @@
             });
         }
 
-        // ตั้งค่าปุ่มบันทึกข้อมูล
-        function setupSaveButton(patientId) {
+        async function setupSaveButton(patientId) {
             const saveButton = document.getElementById('save-status');
             if (!saveButton) {
                 console.error('ไม่พบปุ่มบันทึกใน DOM');
@@ -224,16 +227,28 @@
                 const selectedFollowUpStatus = document.getElementById('follow-up-status')?.value;
                 const selectedTreatmentStatus = document.getElementById('treatment-status')?.value;
                 const diseaseType = document.getElementById('diseaseType')?.value;
-                const monitorDate = document.getElementById('monitordate')?.value;
-                const monitorDeadline = document.getElementById('monitordeadline')?.value;
-                const monitorRound = document.getElementById('monitorround')?.value;
+                const monitorDate = document.getElementById('monitordate')?.value || null; // ค่า default เป็น null ถ้าไม่มีการกรอก
+                const monitorDeadline = document.getElementById('monitordeadline')?.value || null; // ค่า default เป็น null ถ้าไม่มีการกรอก
+                const monitorRound = document.getElementById('monitorround')?.value || null; // ค่า default เป็น null ถ้าไม่มีการกรอก
                 const appointmentDate = document.getElementById('appointmentdate')?.value;
 
+                console.log('Saving data:', {
+                    selectedFollowUpStatus,
+                    selectedTreatmentStatus,
+                    diseaseType,
+                    monitorDate,
+                    monitorDeadline,
+                    monitorRound,
+                    appointmentDate
+                });
+
+                // ตรวจสอบสถานะการติดตามและสถานะการรักษา
                 if (!selectedFollowUpStatus || !selectedTreatmentStatus) {
                     alert('กรุณาเลือกสถานะการติดตามและสถานะการรักษา');
                     return;
                 }
 
+                // ส่งข้อมูลไปยังเซิร์ฟเวอร์เพื่ออัปเดตข้อมูล
                 try {
                     const response = await fetch('/chiracarehospital/backend/sql/update_monitor_and_treatment.php', {
                         method: 'POST',
@@ -251,6 +266,7 @@
                     });
 
                     const result = await response.json();
+                    console.log('Save result:', result);
                     if (result.status === 'success') {
                         alert('บันทึกข้อมูลสำเร็จ');
                         window.location.href = `statustracking.html?patient_id=${patientId}`;

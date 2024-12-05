@@ -619,8 +619,14 @@
           });
 
           // ตรวจสอบว่าเขตที่อยู่อาศัยและผู้รับผิดชอบเป็น null หรือไม่
-          const invalidPatients = selectedPatients.filter(patient =>
-            !patient.area || !patient.responsiblePerson || patient.area === 'ไม่มีการกำหนด' || patient.responsiblePerson === 'ไม่มีการกำหนด');
+          const invalidPatients = selectedPatients.filter(patient => {
+            console.log('ตรวจสอบผู้ป่วย:', patient);  // ดูข้อมูลผู้ป่วยที่เลือก
+            console.log('เขตที่อยู่อาศัย:', patient.area); // ดูค่าของ area
+            console.log('ผู้รับผิดชอบ:', patient.responsiblePerson); // ดูค่าของ responsiblePerson
+
+            return !patient.area || !patient.responsiblePerson || patient.area === 'ไม่มีการกำหนด' || patient.responsiblePerson === 'ไม่มีการกำหนด';
+          });
+
           if (invalidPatients.length > 0) {
             alert('ไม่สามารถเลือกติดตามได้เนื่องจากยังไม่มีการกำหนดว่าใครคือผู้รับผิดชอบ');
             return;
@@ -640,12 +646,12 @@
             selectedPatients.forEach(patient => {
               const tr = document.createElement('tr');
               tr.innerHTML = `
-                <td>${patient.patientId}</td>
-                <td>${patient.fullName}</td>
-                <td>${patient.diseaseType}</td>
-                <td>${patient.area}</td> <!-- แสดงข้อมูลเขตที่อยู่อาศัย -->
-                <td>${patient.responsiblePerson}</td> <!-- แสดงข้อมูลผู้รับผิดชอบ -->
-            `;
+        <td>${patient.patientId}</td>
+        <td>${patient.fullName}</td>
+        <td>${patient.diseaseType}</td>
+        <td>${patient.area}</td> <!-- แสดงข้อมูลเขตที่อยู่อาศัย -->
+        <td>${patient.responsiblePerson}</td> <!-- แสดงข้อมูลผู้รับผิดชอบ -->
+        `;
               patientList.appendChild(tr);
             });
           }
@@ -711,7 +717,7 @@
         });
       });
 
-      //ฟิลเตอร์กรองข้อมูลในตาราง
+      // ฟิลเตอร์กรองข้อมูลในตาราง
       function filterData() {
         const searchName = document.getElementById('searchPatientInput').value.toLowerCase();
         const treatmentCount = document.getElementById('treatmentCountFilter').value;
@@ -723,12 +729,12 @@
         const rows = document.querySelectorAll('#patient-info-body tr');
 
         rows.forEach(row => {
-          const name = row.cells[1].textContent.toLowerCase(); // ชื่อผู้ป่วย 
-          const treatment = row.cells[2].textContent; // โรคประจำตัว 
+          const name = row.cells[1].textContent.toLowerCase(); // ชื่อผู้ป่วย
+          const treatment = row.cells[2].textContent; // โรคประจำตัว
           const appointment = row.cells[4].textContent; // วันที่เริ่มติดตาม (สมมติว่าช่องที่สาม)
-          const deadline = row.cells[5].textContent; // กำหนดส่งงาน 
-          const status = row.cells[7].textContent; // สถานะการรักษา 
-          const followup = row.cells[8].textContent; // สถานะการติดตาม 
+          const deadline = row.cells[5].textContent; // กำหนดส่งงาน
+          const status = row.cells[7].textContent; // สถานะการรักษา
+          const followup = row.cells[8].textContent; // สถานะการติดตาม
 
           let isVisible = true;
 
@@ -744,7 +750,7 @@
           if (appointmentDate && appointment !== appointmentDate) {
             isVisible = false;
           }
-          // กรองตามกำหนดส่งงาน
+          // กรองตามกำหนดส่งงาน 
           if (deadlineDate && deadline !== deadlineDate) {
             isVisible = false;
           }
@@ -814,19 +820,19 @@
 
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}'>` : `<div class="unselectable-box"></div>`}</td>
-                <td>${patient.full_name || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-                <td>${patient.disease_type || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-                <td>${patient.patient_type || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
-                <td>${patient.monitor_date || `<span class="no-data">ยังไม่มี</span>`}</td>
-                <td>${patient.monitor_deadline || `<span class="no-data">ยังไม่มี</span>`}</td>
-                <td>${patient.monitor_round || `<span class="no-data">ยังไม่มี</span>`}</td>
-                <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status || `<span class="no-data">ยังไม่มี</span>`}</span></td>
-                <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status || `<span class="no-data">ไม่ต้องติดตาม</span>`}</span></td>
-                <td>
-                    <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html?patient_id=${patient.patient_id}';"><i class='bx bx-edit'></i></button>
-                    <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html?patient_id=${patient.patient_id}';"><i class='bx bx-right-arrow-alt'></i></button>
-                </td>`;
+        <td>${isMonitoringPending || isMonitoringFailed ? `<input type='checkbox' class='patient-checkbox' value='${patient.patient_id}' data-full-name='${patient.full_name}' data-disease-type='${patient.disease_type}' data-patient_address_area='${patient.patient_address_area}' data-responsible='${patient.responsible_person_name}'>` : `<div class="unselectable-box"></div>`}</td>
+        <td>${patient.full_name || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+        <td>${patient.disease_type || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+        <td>${patient.patient_type || `<span class="no-data">ไม่มีข้อมูล</span>`}</td>
+        <td>${patient.monitor_date || `<span class="no-data">ยังไม่มี</span>`}</td>
+        <td>${patient.monitor_deadline || `<span class="no-data">ยังไม่มี</span>`}</td>
+        <td>${patient.monitor_round || `<span class="no-data">ยังไม่มี</span>`}</td>
+        <td><span class='status ${getStatusClass(patient.treatment_status)}'>${patient.treatment_status || `<span class="no-data">ยังไม่มี</span>`}</span></td>
+        <td><span class='status ${getStatusClass(patient.monitor_status)}'>${patient.monitor_status || `<span class="no-data">ไม่ต้องติดตาม</span>`}</span></td>
+        <td>
+          <button class='action-btn' title='แก้ไขข้อมูล' onclick="location.href='edittracking.html?patient_id=${patient.patient_id}';"><i class='bx bx-edit'></i></button>
+          <button class='action-btn' title='ดูเพิ่มเติม' onclick="location.href='moreinfo.html?patient_id=${patient.patient_id}';"><i class='bx bx-right-arrow-alt'></i></button>
+        </td>`;
             tbody.appendChild(row);
           });
 

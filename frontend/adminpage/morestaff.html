@@ -38,8 +38,8 @@
     <div id="main">
         <div class="stats-container">
             <div class="box">
-                <img style="width: 40px; height: 40px; border-radius: 50%;" src="../../assets/images/profile-picture.png"
-                    alt="avatar">
+                <img style="width: 40px; height: 40px; border-radius: 50%;"
+                    src="../../assets/images/profile-picture.png" alt="avatar">
                 <h2 id="staff-name"></h2>
                 <table>
                     <thead>
@@ -139,22 +139,22 @@
                 <input type="text" placeholder="ค้นหารายชื่อ" id="searchPatientInput" oninput="filterData()">
                 <select id="areaSelect" onchange="filterData()">
                     <option value="ทั้งหมด">ทั้งหมด</option>
-                        <option value="1">เขต 1</option>
-                        <option value="2">เขต 2</option>
-                        <option value="3">เขต 3</option>
-                        <option value="4">เขต 4</option>
-                        <option value="5">เขต 5</option>
-                        <option value="6">เขต 6</option>
-                        <option value="7">เขต 7</option>
-                        <option value="8">เขต 8</option>
-                        <option value="9">เขต 9</option>
-                        <option value="10">เขต 10</option>
-                        <option value="11">เขต 11</option>
-                        <option value="12">เขต 12</option>
-                        <option value="13">เขต 13</option>
-                        <option value="14">เขต 14</option>
-                        <option value="15">เขต 15</option>
-                        <option value="นอกเขต">นอกเขต</option>
+                    <option value="1">เขต 1</option>
+                    <option value="2">เขต 2</option>
+                    <option value="3">เขต 3</option>
+                    <option value="4">เขต 4</option>
+                    <option value="5">เขต 5</option>
+                    <option value="6">เขต 6</option>
+                    <option value="7">เขต 7</option>
+                    <option value="8">เขต 8</option>
+                    <option value="9">เขต 9</option>
+                    <option value="10">เขต 10</option>
+                    <option value="11">เขต 11</option>
+                    <option value="12">เขต 12</option>
+                    <option value="13">เขต 13</option>
+                    <option value="14">เขต 14</option>
+                    <option value="15">เขต 15</option>
+                    <option value="นอกเขต">นอกเขต</option>
                 </select>
             </div>
             <div class="patient-list">
@@ -181,7 +181,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- the datatable  -->
     <div class="table-container">
@@ -321,19 +320,23 @@
     <script>
         // Open Popup
         function openPopup() {
-
             document.getElementById("popupOverlay").style.display = "flex";
 
             const userId = getUserIdFromURL();
+
             // เรียกข้อมูลจาก API เมื่อเปิด Popup
             fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/view_patients_id.php?user_id=${userId}`)
                 .then(response => response.json())
-                .then(data => {
+                .then(async data => {
                     if (data.status === 'success') {
                         const patients = data.data;
                         let rows = "";
-                        patients.forEach(patient => {
-                            rows += `
+
+                        // Loop through each patient and check if assigned
+                        for (let patient of patients) {
+                            let isAssigned = await checkPatientAssigned(patient.patient_id);
+                            if (!isAssigned) {
+                                rows += `
                             <tr>
                                 <td>${patient.patient_id}</td>
                                 <td>${patient.full_name}</td>
@@ -344,14 +347,40 @@
                                 <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
                             </tr>
                         `;
-                        });
+                            }
+                        }
+
+                        // Insert the rows into the table body
                         document.getElementById("patient-info-body").innerHTML = rows;
                     } else {
                         alert(data.message);
                     }
                 })
                 .catch(error => console.error('Error fetching data:', error));
+        }
 
+        // ฟังก์ชันเช็คว่าผู้ป่วยถูกมอบหมายให้กับ user_id หรือยัง
+        function checkPatientAssigned(patientId) {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: '/chiracarehospital/backend/sql/patient_information/checkPatientAssigned.php',
+                    type: 'POST',
+                    data: {
+                        patient_id: patientId
+                    },
+                    success: function (response) {
+                        console.log(response);  // เพิ่มการแสดงผล response ที่ได้รับจาก PHP
+                        if (response === 'assigned') {
+                            resolve(true);  // ถ้าได้รับมอบหมาย
+                        } else {
+                            resolve(false);  // ถ้าไม่ได้รับมอบหมาย
+                        }
+                    },
+                    error: function () {
+                        reject('Error in AJAX request');
+                    }
+                });
+            });
         }
 
         function outsideClosePopup() {
@@ -484,20 +513,31 @@
     <script>
         $(document).ready(function () {
             // Fetch data from API when page loads
-            $.getJSON('/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', function (response) {
+            $.getJSON('/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php', async function (response) {
                 if (response.status === 'success') {
                     var patients = response.data;
                     var rows = '';
 
-                    // Loop through each patient data to create table rows
-                    patients.forEach(function (patient) {
-                        rows += '<tr>';
-                        rows += '<td>' + patient.patient_id + '</td>';  // Patient ID
-                        rows += '<td>' + patient.full_name + '</td>';  // Full name
-                        rows += '<td>' + patient.Area + '</td>';       // Address area
-                        rows += '<td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>';
-                        rows += '</tr>';
+                    // สร้าง array ของ promises ที่จะเช็คการมอบหมายผู้ป่วย
+                    const patientPromises = patients.map(async (patient) => {
+                        let isAssigned = await checkPatientAssigned(patient.patient_id);  // รอให้ผลลัพธ์จาก checkPatientAssigned ก่อน
+                        if (!isAssigned) {
+                            // ถ้าไม่ได้มอบหมายให้กับ user_id, แสดงผู้ป่วยในตาราง
+                            return `
+                    <tr>
+                        <td>${patient.patient_id}</td>  <!-- Patient ID -->
+                        <td>${patient.full_name}</td>  <!-- Full name -->
+                        <td>${patient.Area}</td>       <!-- Address area -->
+                        <td><input type="checkbox" class="patient-checkbox" onclick="updateSelectedCount()"></td>
+                    </tr>`;
+                        }
+                        return null; // ถ้ามอบหมายแล้วไม่ต้องแสดง
                     });
+
+                    // รอจนทุก promise เสร็จสิ้น
+                    const patientRows = await Promise.all(patientPromises);
+                    // กรอง null ออกเพื่อให้เหลือแค่แถวที่ยังไม่ได้มอบหมาย
+                    rows = patientRows.filter(row => row !== null).join('');
 
                     // Insert the rows into the table body
                     $('#patient-info-body').html(rows);
@@ -506,6 +546,31 @@
                 }
             });
         });
+
+        // ฟังก์ชันเช็คว่าผู้ป่วยถูกมอบหมายให้กับ user_id หรือยัง
+        function checkPatientAssigned(patientId) {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: '/chiracarehospital/backend/sql/patient_information/checkPatientAssigned.php',
+                    type: 'POST',
+                    data: {
+                        patient_id: patientId
+                    },
+                    success: function (response) {
+                        console.log(response);  // เพิ่มการแสดงผล response ที่ได้รับจาก PHP
+                        if (response.trim() === 'assigned') {
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    },
+                    error: function () {
+                        reject('Error in AJAX request');
+                    }
+                });
+            });
+        }
+
 
         // Update selected count based on checkbox clicks
         function updateSelectedCount() {
