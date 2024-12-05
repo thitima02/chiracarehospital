@@ -49,9 +49,7 @@
                             <th style="padding-right: 5px;">เบอร์โทรศัพท์</th>
                         </tr>
                     </thead>
-                    <tbody id="staff-details">
-
-                    </tbody>
+                    <tbody id="staff-details"></tbody>
                 </table>
             </div>
         </div>
@@ -303,7 +301,7 @@
             .then(data => {
                 document.getElementById('topbar-container').innerHTML = data;
                 // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-                document.getElementById('page-title').textContent = 'ผู้ป่วยที่รับผิดชอบ';
+                document.getElementById('page-title').textContent = 'ผู้ป่วยที่เจ้าหน้าที่รับผิดชอบ';
                 // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
                 // Re-run user.js script after loading topbar

@@ -6,39 +6,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โปรไฟล์ผู้ใช้</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Sans+Thai:wght@100..900&display=swap');
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: "Noto Sans Thai", sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: #333;
         }
 
         .profile-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            width: 400px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 380px;
             text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .profile-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
         }
 
         .profile-image {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
+            border: 5px solid #74ebd5;
             margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.1);
         }
 
         .profile-info {
             text-align: left;
+            margin-top: 15px;
         }
 
         .profile-info p {
-            margin: 8px 0;
+            margin: 10px 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-left: 4px solid #74ebd5;
+            padding-left: 10px;
+        }
+
+        .profile-info p span {
+            font-weight: bold;
+            color: #000000;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #74ebd5;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #acb6e5;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -83,8 +128,9 @@
                             document.getElementById('phone-number').textContent = userData.phone_number;
 
                             // แสดงรูปภาพจาก Base64
-                            if (userData.image_base64) {
-                                document.getElementById('profile-image').src = `data:image/jpeg;base64,${userData.image_base64}`;
+                            // แสดงรูปภาพจาก Base64
+                            if (userData.user_image) {
+                                document.getElementById('profile-image').src = `data:image/jpeg;base64,${userData.user_image}`;
                             }
                         } else {
                             console.error('ไม่พบข้อมูลผู้ใช้');
