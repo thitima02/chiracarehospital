@@ -36,23 +36,23 @@
       <div class="filter-container">
         <div class="filter-item search-bar">
           <h5>ค้นหารายชื่อ</h5>
-          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchPatientInput"
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search-input" id="searchNameInput"
             oninput="filterData()">
           <i class='bx bx-search search-icon'></i>
         </div>
         <div class="filter-item">
           <h5>หน้าที่ที่รับผิดชอบ</h5>
-          <select class="dropdown-filter" id="treatmentCountFilter" onchange="filterData()">
+          <select class="dropdown-filter" id="responsibilityFilter" onchange="filterData()">
             <option value="">ทั้งหมด</option>
-            <option value="โรคความดันโลหิตสูง">อาสาสมัครสาธารณสุข</option>
-            <option value="โรคอ้วน">เสนารักษ์</option>
+            <option value="อาสาสมัครสาธารณสุข">อาสาสมัครสาธารณสุข</option>
+            <option value="เสนารักษ์">เสนารักษ์</option>
           </select>
           <i class='bx bx-chevron-down down-icon'></i>
         </div>
 
         <div class="filter-item">
           <h5>เขตที่รับผิดชอบ</h5>
-          <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
+          <select class="dropdown-filter" id="districtFilter" onchange="filterData()">
             <option value="ทั้งหมด">ทั้งหมด</option>
             <option value="1">เขต 1</option>
             <option value="2">เขต 2</option>
@@ -76,14 +76,13 @@
 
         <div class="filter-item search-bar">
           <h5>เลขบัตรประชาชน</h5>
-          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchPatientInput"
-            style="color: aquamarine;" oninput="filterData()">
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchIdCardInput" oninput="filterData()">
           <i class='bx bx-search search-other-icon'></i>
         </div>
 
         <div class="filter-item search-bar">
           <h5>เบอร์โทรศัพท์</h5>
-          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchPatientInput" oninput="filterData()">
+          <input type="text" placeholder="ค้นหาที่นี่..." class="search" id="searchPhoneInput" oninput="filterData()">
           <i class='bx bx-search search-other-icon'></i>
         </div>
       </div>
@@ -106,46 +105,105 @@
           <!-- ข้อมูลจะแสดงที่นี่ -->
         </tbody>
       </table>
+      <div id="pagination-controls">
+        <button id="prevPage" onclick="changePage(-1)"><i class='bx bx-chevron-left'></i></button>
+        <button id="nextPage" onclick="changePage(1)"><i class='bx bx-chevron-right'></i></button>
+      </div>
     </div>
   </div>
+
+  <style>
+    #pagination-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    #pagination-controls button {
+      background-color: transparent;
+      /* ไม่มีพื้นหลัง */
+      color: #007bff;
+      /* สีตัวอักษร */
+      border: 2px solid #007bff;
+      /* ขอบปุ่มมีสีเขียว */
+      padding: 5px 5px;
+      margin: 0 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    #pagination-controls button:hover {
+      background-color: #007bff;
+      /* สีพื้นหลังเมื่อ hover */
+      color: white;
+      /* สีตัวอักษรเมื่อ hover */
+    }
+
+    #pagination-controls button:disabled {
+      color: #ccc;
+      /* สีของตัวอักษรเมื่อปุ่มถูกปิดการใช้งาน */
+      border-color: #ccc;
+      /* สีของขอบปุ่มเมื่อปิดการใช้งาน */
+      cursor: not-allowed;
+      /* เปลี่ยน cursor เมื่อปุ่มถูกปิดการใช้งาน */
+    }
+
+    #pagination-controls button:disabled:hover {
+      background-color: transparent;
+      /* ไม่มีพื้นหลังเมื่อ hover ปุ่มที่ถูกปิดการใช้งาน */
+      color: #ccc;
+      /* สีตัวอักษรเมื่อปุ่มถูกปิดการใช้งาน */
+    }
+  </style>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function () {
-      // เรียกข้อมูลจาก API เมื่อหน้าเว็บโหลดเสร็จ
-      $.getJSON('/chiracarehospital/backend/sql/users/getAlluser.php', function (response) {
-        if (response.status === 'success') {
-          var staffs = response.data;
-          var rows = '';
+      var currentPage = 1;
+      var pageLength = 10; // กำหนดจำนวนรายการที่จะโชว์ต่อหน้า (ปรับค่าได้ที่นี่)
 
-          // วนลูปข้อมูลผู้ใช้เพื่อแสดงในตาราง
-          staffs.forEach(function (staff) {
-            // กรองเฉพาะผู้ที่มีสถานะเป็น 'อาสาสมัครสาธารณสุข' หรือ 'เสนารักษ์'
-            if (staff.department === 'อาสาสมัครสาธารณสุข' || staff.department === 'เสนารักษ์') {
-              rows += '<tr>';
-              rows += '<td style="text-align: left; padding-left: 30px">' +
-                '<img src="' + (staff.user_image ? 'data:image/jpeg;base64,' + staff.user_image : '../../assets/images/profile-picture.png') +
-                '" alt="avatar"> ' + staff.full_name + '</td>';
-              rows += '<td>' + staff.department + '</td>';
-              rows += '<td>' + staff.responsibility_area + '</td>';
-              rows += '<td>' + (staff.id_card ? staff.id_card : '-') + '</td>';
-              rows += '<td>' + staff.phone_number + '</td>';
-              rows += '<td>' +
-                '<button class="action-btn" title="ดูผู้ป่วยที่รับผิดชอบ" onclick="moreStaff(\'' + staff.id + '\')" >' +
-                '<i class="bx bx-handicap"></i> <p>ดูผู้ป่วยที่รับผิดชอบ</p>' +
-                '</button>' +
-                '</td>';
-              rows += '</td>';
-              rows += '</tr>';
-            }
-          });
+      function loadData() {
+        $.getJSON('/chiracarehospital/backend/sql/users/getAlluser.php', { page: currentPage, length: pageLength }, function (response) {
+          if (response.status === 'success') {
+            var staffs = response.data;
+            var rows = '';
 
-          // แทรกข้อมูลในตาราง
-          $('#patient-info-body').html(rows);
-        } else {
-          alert(response.message);
-        }
-      });
+            staffs.forEach(function (staff) {
+              if (staff.department === 'อาสาสมัครสาธารณสุข' || staff.department === 'เสนารักษ์') {
+                rows += '<tr>';
+                rows += '<td style="text-align: left; padding-left: 30px">' +
+                  '<img src="' + (staff.user_image ? 'data:image/jpeg;base64,' + staff.user_image : '../../assets/images/profile-picture.png') +
+                  '" alt="avatar"> ' + staff.full_name + '</td>';
+                rows += '<td>' + staff.department + '</td>';
+                rows += '<td>' + staff.responsibility_area + '</td>';
+                rows += '<td>' + (staff.id_card ? staff.id_card : '-') + '</td>';
+                rows += '<td>' + staff.phone_number + '</td>';
+                rows += '<td>' +
+                  '<button class="action-btn" title="ดูผู้ป่วยที่รับผิดชอบ" onclick="moreStaff(\'' + staff.id + '\')" >' +
+                  '<i class="bx bx-handicap"></i> <p>ดูผู้ป่วยที่รับผิดชอบ</p>' +
+                  '</button>' +
+                  '</td>';
+                rows += '</tr>';
+              }
+            });
+
+            $('#patient-info-body').html(rows);
+          } else {
+            alert(response.message);
+          }
+        });
+      }
+
+      // เรียกใช้งานฟังก์ชันเพื่อโหลดข้อมูลเมื่อหน้าเว็บโหลดเสร็จ
+      loadData();
+
+      // ฟังก์ชันเปลี่ยนหน้า
+      window.changePage = function (direction) {
+        currentPage += direction;
+        loadData();
+      }
     });
 
     function moreStaff(id) {
@@ -159,20 +217,29 @@
 
     // filter data 
     function filterData() {
-      var searchValue = document.getElementById('searchPatientInput').value.toLowerCase();
+      var searchName = document.getElementById('searchNameInput').value.toLowerCase();
+      var searchIdCard = document.getElementById('searchIdCardInput').value.toLowerCase();
+      var searchPhone = document.getElementById('searchPhoneInput').value.toLowerCase();
+      var responsibility = document.getElementById('responsibilityFilter').value.toLowerCase();
+      var district = document.getElementById('districtFilter').value.toLowerCase();
+
       var rows = document.querySelectorAll('#patient-info-body tr');
 
       rows.forEach(function (row) {
         var staffName = row.cells[0].innerText.toLowerCase();
-        var staffstatus = row.cells[1].innerText.toLowerCase();
-        var staffarea = row.cells[2].innerText;
-        var staffphonenumber = row.cells[4].innerText;
+        var staffResponsibility = row.cells[1].innerText.toLowerCase();
+        var staffDistrict = row.cells[2].innerText.toLowerCase();
+        var staffIdCard = row.cells[3].innerText.toLowerCase();
+        var staffPhone = row.cells[4].innerText.toLowerCase();
 
-        var isNameMatch = staffName.includes(searchValue);
-        var isAreaMatch = staffarea.includes(searchValue);
-        var isPhoneMatch = staffphonenumber.includes(searchValue);
+        var isNameMatch = staffName.includes(searchName);
+        var isIdCardMatch = staffIdCard.includes(searchIdCard);
+        var isPhoneMatch = staffPhone.includes(searchPhone);
+        var isResponsibilityMatch = responsibility === "" || staffResponsibility.includes(responsibility);
+        var isDistrictMatch = district === "ทั้งหมด" || staffDistrict.includes(district);
 
-        if (isNameMatch || isAreaMatch || isPhoneMatch) {
+        // แสดงแถวที่ตรงกับเงื่อนไขทั้งหมด
+        if (isNameMatch && isIdCardMatch && isPhoneMatch && isResponsibilityMatch && isDistrictMatch) {
           row.style.display = '';
         } else {
           row.style.display = 'none';
