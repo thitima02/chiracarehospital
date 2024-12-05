@@ -9,14 +9,16 @@ try {
         // กรณีที่ได้รับ patient_id
         $patient_id = $_GET['patient_id'];
         
-        // คำสั่ง SQL สำหรับดึงข้อมูลเฉพาะ patient_id ที่ระบุ
+        // คำสั่ง SQL สำหรับดึงข้อมูลเฉพาะ patient_id ที่ระบุ พร้อม last_update จาก patient_medical_information
         $stmt = $conn->prepare("
             SELECT 
-                patient_id, full_name, birth_date, id_card, phone_number, 
-                emergency_phone, current_status, rank, department, 
-                patient_image, id_patient_address, id_patient_medical_information
-            FROM patient_information 
-            WHERE patient_id = :patient_id
+                pi.patient_id, pi.full_name, pi.birth_date, pi.id_card, pi.phone_number, 
+                pi.emergency_phone, pi.current_status, pi.rank, pi.department, 
+                pi.patient_image, pi.id_patient_address, pi.id_patient_medical_information,
+                pmi.last_update
+            FROM patient_information pi
+            LEFT JOIN patient_medical_information pmi ON pi.patient_id = pmi.patient_id
+            WHERE pi.patient_id = :patient_id
         ");
         $stmt->bindParam(':patient_id', $patient_id, PDO::PARAM_INT);
         $stmt->execute();
@@ -42,10 +44,12 @@ try {
         // กรณีที่ไม่ได้รับ patient_id (ดึงข้อมูลผู้ป่วยทั้งหมด)
         $stmt = $conn->prepare("
             SELECT 
-                patient_id, full_name, birth_date, id_card, phone_number, 
-                emergency_phone, current_status, rank, department, 
-                patient_image, id_patient_address, id_patient_medical_information
-            FROM patient_information
+                pi.patient_id, pi.full_name, pi.birth_date, pi.id_card, pi.phone_number, 
+                pi.emergency_phone, pi.current_status, pi.rank, pi.department, 
+                pi.patient_image, pi.id_patient_address, pi.id_patient_medical_information,
+                pmi.last_update
+            FROM patient_information pi
+            LEFT JOIN patient_medical_information pmi ON pi.patient_id = pmi.patient_id
         ");
         $stmt->execute();
 

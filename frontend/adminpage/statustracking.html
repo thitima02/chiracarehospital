@@ -677,6 +677,7 @@
           // ตรวจสอบข้อมูลเขตที่อยู่อาศัยและผู้รับผิดชอบก่อนการอัปเดตสถานะ
           const invalidPatients = selectedPatients.filter(patient =>
             !patient.area || !patient.responsiblePerson || patient.area === 'ไม่มีการกำหนด' || patient.responsiblePerson === 'ไม่มีการกำหนด');
+
           if (invalidPatients.length > 0) {
             alert('ไม่สามารถอัปเดตสถานะการติดตามสำหรับผู้ป่วยที่ยังไม่มีข้อมูลเขตที่อยู่อาศัยหรือผู้รับผิดชอบ');
             return;
@@ -686,6 +687,12 @@
           const monitorDeadline = document.getElementById('monitor-deadline').value; // วันหมดอายุ
           const monitorStartDate = document.getElementById('monitor-start-date').value; // วันเริ่มติดตาม
 
+          // ตรวจสอบค่าก่อนส่งไปยังเซิร์ฟเวอร์
+          if (!monitorStatus || !monitorDeadline || !monitorStartDate || selectedPatients.length === 0) {
+            alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            return;
+          }
+
           try {
             const response = await fetch('/chiracarehospital/backend/sql/monitoring/update_patient_status.php', {
               method: 'POST',
@@ -693,10 +700,10 @@
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                monitorStatus: monitorStatus,
+                monitorStatus: monitorStatus, // ส่งเฉพาะสถานะการติดตาม
                 patientIds: selectedPatients.map(patient => patient.patientId),
                 monitorDeadline: monitorDeadline,
-                monitorStartDate: monitorStartDate // ส่งวันที่เริ่มติดตาม
+                monitorStartDate: monitorStartDate
               })
             });
 
@@ -715,6 +722,9 @@
             alert('เกิดข้อผิดพลาดในการอัปเดตสถานะการติดตาม: ' + error.message);
           }
         });
+
+
+
       });
 
       // ฟิลเตอร์กรองข้อมูลในตาราง

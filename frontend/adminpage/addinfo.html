@@ -68,10 +68,10 @@
         <label for="marital">สถานภาพสมรส</label>
         <select id="marital" required>
           <option value="">กรุณาเลือกสถานภาพสมรส</option>
-          <option value="single">โสด</option>
-          <option value="married">สมรส</option>
-          <option value="divorced">หย่าร้าง</option>
-          <option value="widowed">หม้าย</option>
+          <option value="โสด">โสด</option>
+          <option value="สมรส (อยู่ด้วยกัน)">สมรส (อยู่ด้วยกัน)</option>
+          <option value="หย่าร้าง">หย่าร้าง</option>
+          <option value="หม้าย">หม้าย</option>
         </select>
 
         <label for="birthdate">วันเกิด</label>
@@ -156,7 +156,7 @@
           style="display: flex; flex-wrap: wrap; gap: 95px; justify-content: flex-start; margin-bottom: 15px;">
           <label style="display: flex; align-items: center; margin-bottom: 10px;">
             <input type="checkbox" name="disease-type[]" value="ความดันโลหิตสูง">
-            ความดันโลหิตสูง
+            โรคความดันโลหิตสูง
           </label>
           <label style="display: flex; align-items: center; margin-bottom: 10px;">
             <input type="checkbox" name="disease-type[]" value="โรคอ้วน"> โรคอ้วน
@@ -169,7 +169,7 @@
             <input type="checkbox" name="disease-type[]" value="โรคเบาหวาน"> โรคเบาหวาน
           </label>
           <label style="display: flex; align-items: center; margin-bottom: 10px;">
-            <input type="checkbox" name="disease-type[]" value="CVS Risk"> CVS Risk
+            <input type="checkbox" name="disease-type[]" value="CVD Risk"> CVD Risk
           </label>
           <label style="display: flex; align-items: center; margin-bottom: 10px;">
             <input type="checkbox" name="disease-type[]" value="โรคไต"> โรคไต
@@ -180,7 +180,7 @@
         <select id="current" name="current" required>
           <option value="ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)">ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)</option>
           <option value="เสียชีวิต">เสียชีวิต</option>
-          <option value="ไม่ได้เป็นผู้ป่วยแล้ว">รักษาต่อที่รพบ.อื่น</option>
+          <option value="รักษาต่อที่รพบ.อื่น">รักษาต่อที่รพบ.อื่น</option>
           <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยของรพบ.แล้ว</option>
         </select>
 

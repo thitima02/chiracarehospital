@@ -66,10 +66,10 @@
         <div class="filter-item">
           <h5>สถานะปัจจุบัน</h5>
           <select class="dropdown-filter" id="treatmentStatusFilter" onchange="filterData()">
-            <option value="">ทั้งหมด</option>
             <option value="ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)">ปกติ (มีชีวิต,เป็นผู้ป่วยของรพบ)</option>
             <option value="เสียชีวิต">เสียชีวิต</option>
-            <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยแล้ว</option>
+            <option value="รักษาต่อที่รพบ.อื่น">รักษาต่อที่รพบ.อื่น</option>
+            <option value="ไม่ได้เป็นผู้ป่วยแล้ว">ไม่ได้เป็นผู้ป่วยของรพบ.แล้ว</option>
           </select>
           <i class='bx bx-chevron-down down-icon'></i>
         </div>
@@ -422,8 +422,8 @@
       } else if (sortOption === 'latest') {
         // เรียงจากวันที่อัปเดตล่าสุดไปเก่าสุด
         filteredData.sort((a, b) => {
-          const lastUpdateA = new Date(a.last_update || 0); // ใช้ค่า 0 หากไม่มีวันที่อัปเดต
-          const lastUpdateB = new Date(b.last_update || 0);
+          const lastUpdateA = a.last_update ? new Date(a.last_update) : new Date(0); // ใช้วันที่เริ่มต้นหากไม่มี last_update
+          const lastUpdateB = b.last_update ? new Date(b.last_update) : new Date(0);
           return lastUpdateB - lastUpdateA; // เรียงจากวันที่อัปเดตล่าสุดไปเก่าสุด
         });
       }
