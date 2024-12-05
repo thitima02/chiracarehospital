@@ -213,7 +213,7 @@
             const userId = getUserIdFromURL();
             if (userId) {
 
-                fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser_vhv.php?id=${userId}`)
+                fetch(`/chiracarehospital/backend/sql/users/getOneUser_vhv.php?id=${userId}`)
 
                 fetch(`/chiracarehospital/backend/sql/users/getOneUser.php?id=${userId}`)
 
@@ -239,7 +239,7 @@
                     })
                     .catch(error => console.error('เกิดข้อผิดพลาด:', error));
 
-                fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/viewAll_patients_id.php?user_id=${userId}`)
+                fetch(`/chiracarehospital/backend/sql/patient_information/viewAll_patients_id.php?user_id=${userId}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
@@ -323,7 +323,7 @@
             const userId = getUserIdFromURL();
 
             // เรียกข้อมูลจาก API เมื่อเปิด Popup
-            fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/view_patients_id.php?user_id=${userId}`)
+            fetch(`/chiracarehospital/backend/sql/patient_information/view_patients_id.php?user_id=${userId}`)
                 .then(response => response.json())
                 .then(async data => {
                     if (data.status === 'success') {
@@ -401,7 +401,7 @@
                 const patientArea = row.cells[5].textContent; // เขตที่รับผิดชอบ
 
                 const userId = getUserIdFromURL();
-                fetch(`http://localhost/chiracarehospital/backend/sql/users/addAssign_vhv.php?user_id=${userId}&patient_id=${patientID}&user_department=${departmentname}&user_responsibility_area=${responsibility_vhv}&patient_address_area=${patientArea}`)
+                fetch(`/chiracarehospital/backend/sql/users/addAssign_vhv.php?user_id=${userId}&patient_id=${patientID}&user_department=${departmentname}&user_responsibility_area=${responsibility_vhv}&patient_address_area=${patientArea}`)
                     .then(response => response.json())
                     .then(data => {
                         const patient = data.data.find(p => p.patient_id === patientID);
@@ -436,7 +436,7 @@
 
         // Function to fetch patient data based on patient ID
         function fetchPatientData(patientID) {
-            fetch('http://localhost/chiracarehospital/backend/sql/users/addAssign_vhv.php')
+            fetch('/chiracarehospital/backend/sql/users/addAssign_vhv.php')
                 .then(response => response.json())
                 .then(data => {
                     const patient = data.data.find(p => p.patient_id === patientID);
@@ -451,7 +451,7 @@
 
                 // ส่งคำขอลบไปยัง API
                 $.ajax({
-                    url: 'http://localhost/chiracarehospital/backend/sql/users/deleteAssign_vhv.php',
+                    url: '/chiracarehospital/backend/sql/users/deleteAssign_vhv.php',
                     method: 'GET',
                     data: {
                         patient_id: patientID,
