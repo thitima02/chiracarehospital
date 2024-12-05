@@ -128,8 +128,8 @@
                 <div class="left">
                     <img src="${imageUrl}" alt="patient image" class="activity-icon" style="width: 45px; height: 45px; border-radius: 50%; margin-right: 10px;">
                   <div class="details">
-                    <p class="title">เพิ่มนัดการรักษาของ ${history.full_name} แล้ว</p>
-                    <p class="subtitle">กรอกฟอร์มเพื่อเพิ่มนัดการรักษาของคุณสำเร็จแล้ว</p>
+                    <p class="title">ข้อมูลทั้งหมดที่เคยกรอกในรายงานผลการติดตาม ของคุณ ${history.full_name}</p>
+                    <p class="subtitle">คลิกปุ่มเพิ่มเติมเพื่อดูรายละเอียดย้อนหลัง</p>
                   </div>
                 </div>
                 <div class="right">
@@ -191,7 +191,7 @@
         document.getElementById('topbar-container').innerHTML = data;
         const pageTitle = document.getElementById('page-title');
         if (pageTitle) {
-          pageTitle.textContent = 'ประวัติการติดตาม';
+          pageTitle.textContent = 'ประวัติผลการติดตาม';
         }
 
         const script = document.createElement('script');
