@@ -422,8 +422,8 @@
       } else if (sortOption === 'latest') {
         // เรียงจากวันที่อัปเดตล่าสุดไปเก่าสุด
         filteredData.sort((a, b) => {
-          const lastUpdateA = new Date(a.last_update || 0); // ใช้ค่า 0 หากไม่มีวันที่อัปเดต
-          const lastUpdateB = new Date(b.last_update || 0);
+          const lastUpdateA = a.last_update ? new Date(a.last_update) : new Date(0); // ใช้วันที่เริ่มต้นหากไม่มี last_update
+          const lastUpdateB = b.last_update ? new Date(b.last_update) : new Date(0);
           return lastUpdateB - lastUpdateA; // เรียงจากวันที่อัปเดตล่าสุดไปเก่าสุด
         });
       }
