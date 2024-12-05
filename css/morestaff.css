@@ -100,7 +100,6 @@ table th,
 table td {
     padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
 }
 
 table th {
@@ -286,10 +285,8 @@ img {
     display: flex;
     justify-content: center;
     padding-top: 20px;
-    /* margin-left: 80px;  */
     width: 93%;
     align-items: center;
-    /* margin-left: 50px; อันเดิมคืออันนี้  */
     margin-left: 6%;
 }
 
@@ -318,9 +315,16 @@ img {
     background-color: #ffffff;
 }
 
-.stats-container table{
+.stats-container table {
     background-color: aliceblue;
     width: 70%;
     text-align: right;
     vertical-align: middle;
+    margin-left: auto; /* ดันตารางไปทางขวา */
+    margin-right: 0; /* ชิดขวา */
+}
+
+.staff-details td{
+    padding: 15px;
+    text-align: left;
 }

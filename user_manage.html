@@ -33,6 +33,131 @@
             </a>
         </div>
 
+        <!-- ฟิลเตอร์ในการกรองข้อมูล -->
+        <div class="filter-container">
+            <div class="filter-item search-bar">
+                <h5>ค้นหารายชื่อ</h5>
+                <input type="text" id="searchInput" placeholder="ค้นหาที่นี่..." class="search-input">
+                <i class='bx bx-search search-icon'></i>
+            </div>
+
+            <div class="filter-item">
+                <h5>เขตที่รับผิดชอบ</h5>
+                <select class="dropdown-filter" id="responsibility-area">
+                    <option value="ทั้งหมด">ทั้งหมด</option>
+                    <option value="1">เขต 1</option>
+                    <option value="2">เขต 2</option>
+                    <option value="3">เขต 3</option>
+                    <option value="4">เขต 4</option>
+                    <option value="5">เขต 5</option>
+                    <option value="6">เขต 6</option>
+                    <option value="7">เขต 7</option>
+                    <option value="8">เขต 8</option>
+                    <option value="9">เขต 9</option>
+                    <option value="10">เขต 10</option>
+                    <option value="11">เขต 11</option>
+                    <option value="12">เขต 12</option>
+                    <option value="13">เขต 13</option>
+                    <option value="14">เขต 14</option>
+                    <option value="15">เขต 15</option>
+                    <!-- เพิ่มตัวเลือกตามที่ต้องการ -->
+                </select>
+                <i class='bx bx-chevron-down dropdown-icon' style="right: 20px;"></i>
+            </div>
+
+            <div class="filter-item">
+                <h5>สถานะ</h5>
+                <select class="dropdown-filter" id="status">
+                    <option value="ทั้งหมด">ทั้งหมด</option>
+                    <option value="1">แอดมิน</option>
+                    <option value="2">อาสาสมัครสาธารณสุข</option>
+                    <option value="3">เสนารักษ์</option>
+                    <option value="4">เจ้าหน้าที่โรงพยาบาล</option>
+                    <option value="5">ผู้ดูแลระบบ</option>
+                    <!-- เพิ่มตัวเลือกตามที่ต้องการ -->
+                </select>
+                <i class='bx bx-chevron-down dropdown-icon' style="right: 20px;"></i>
+            </div>
+        </div>
+
+        <style>
+            .filter-container {
+                display: flex;
+                justify-content: center;
+                /* จัดตำแหน่งในแนวนอน */
+                align-items: center;
+                /* จัดตำแหน่งในแนวตั้ง */
+                padding: 20px;
+                border-radius: 8px;
+                width: 100%;
+                box-sizing: border-box;
+                flex-wrap: wrap;
+                /* ทำให้ฟิลเตอร์ไม่เกินขนาด */
+                gap: 5px;
+                /* เพิ่มระยะห่างระหว่างฟิลเตอร์ */
+            }
+
+            .filter-item {
+                flex: 1 1 300px;
+                /* ฟิลเตอร์แต่ละรายการจะมีขนาดยืดหยุ่น (กำหนดขนาดขั้นต่ำเป็น 300px) */
+                position: relative;
+                margin: 10px;
+            }
+
+            .filter-item h5 {
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .search-bar .search-input {
+                padding-left: 40px;
+            }
+
+            .search-input {
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                background-color: #E8F1FF;
+            }
+
+            .date-filter,
+            .dropdown-filter {
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                background-color: #fff;
+            }
+
+            .dropdown-filter {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background: url('data:image/svg+xml;base64,<svg ... >') no-repeat right center;
+                background-size: 12px 12px;
+            }
+
+            .search-icon {
+                position: absolute;
+                left: 12px;
+                top: 67%;
+                transform: translateY(-50%);
+                font-size: 15px;
+                color: #5D97EF;
+            }
+
+            .dropdown-icon {
+                position: absolute;
+                right: 30px;
+                top: 67%;
+                transform: translateY(-50%);
+                font-size: 20px;
+                color: #464646;
+                pointer-events: none;
+            }
+        </style>
+
         <div class="table-responsive">
             <table class="table">
                 <thead class="table-success">
@@ -56,7 +181,86 @@
                 </tbody>
             </table>
         </div>
+        <button href="javascript:void(0);" onclick="handleLogout()">
+            <i class='bx bx-log-out'></i>
+            <span class="links_name">ออกจากระบบ</span>
+        </button>
     </div>
+
+    <style>
+        /* สไตล์ปุ่ม */
+        button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            /* ระยะห่างระหว่างไอคอนกับข้อความ */
+            text-decoration: none;
+            color: #fff;
+            /* สีข้อความ */
+            padding: 10px 20px;
+            /* ระยะห่างด้านใน */
+            background-color: #ff0000;
+            /* สีพื้นหลังของปุ่ม */
+            border: none;
+            border-radius: 5px;
+            /* ขอบโค้งมน */
+            font-size: 1rem;
+            /* ขนาดข้อความ */
+            font-weight: 500;
+            /* น้ำหนักตัวอักษร */
+            cursor: pointer;
+            /* เปลี่ยนเคอร์เซอร์เป็นมือ */
+            transition: all 0.3s ease;
+            /* เอฟเฟกต์การเปลี่ยน */
+            margin-top: 25px;
+        }
+
+        /* สไตล์เมื่อเมาส์วาง */
+        button:hover {
+            background-color: #a50000;
+            /* เปลี่ยนสีพื้นหลังเมื่อ hover */
+            color: #fff;
+            /* สีข้อความเมื่อ hover */
+        }
+
+        /* เปลี่ยนสีไอคอนเมื่อ hover */
+        button:hover i {
+            color: #fff;
+            /* สีไอคอนเมื่อ hover */
+        }
+
+        /* สไตล์ข้อความ */
+        button .links_name {
+            font-size: 1rem;
+            /* ขนาดข้อความ */
+            font-weight: 500;
+            /* น้ำหนักตัวอักษร */
+        }
+    </style>
+
+    <script>
+        function handleLogout() {
+            fetch('./backend/sql/logout.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+
+                        window.location.href = './frontend/login.html';
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -74,7 +278,7 @@
 
                     // วนลูปข้อมูลผู้ใช้เพื่อแสดงในตาราง
                     staffs.forEach(function (staff) {
-                        rows += `<tr>
+                        rows += `<tr data-area="${staff.responsibility_area}" data-status="${staff.department}">
                     <td style="text-align: left; padding-left: 30px">
                         <img src="${staff.user_image ? 'data:image/jpeg;base64,' + staff.user_image : 'assets/images/cat.jpg'}" 
                              alt="รูปภาพผู้ใช้งาน" 
@@ -82,7 +286,7 @@
                         ${staff.full_name}
                     </td>
                     <td>${staff.username}</td>
-                    <td>${staff.responsibility_area}</td>
+                    <td>${staff.responsibility_area ? staff.responsibility_area : '-'}</td>
                     <td>${staff.phone_number}</td>
                     <td>${staff.department}</td>
                     <td>
@@ -103,6 +307,34 @@
                     alert(response.message);
                 }
             });
+
+            // ฟังก์ชันสำหรับกรองข้อมูล
+            $('#searchInput, #responsibility-area, #status').on('input change', function () {
+                filterData();
+            });
+
+            function filterData() {
+                const searchValue = $('#searchInput').val().toLowerCase();
+                const areaValue = $('#responsibility-area').val();
+                const statusValue = $('#status').val();
+
+                $('#userTable tr').each(function () {
+                    const name = $(this).find('td:first').text().toLowerCase();
+                    const area = $(this).data('area');
+                    const status = $(this).data('status');
+
+                    // กรองข้อมูลตามที่กรอก
+                    const matchesSearch = name.includes(searchValue);
+                    const matchesArea = areaValue === 'ทั้งหมด' || area === areaValue;
+                    const matchesStatus = statusValue === 'ทั้งหมด' || status === statusValue;
+
+                    if (matchesSearch && matchesArea && matchesStatus) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
         });
 
         function confirmDelete(userId) {
@@ -206,7 +438,6 @@
         background-color: #ffffff;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin: 20px auto;
         overflow: auto;
     }
 

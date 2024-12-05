@@ -113,8 +113,3 @@
 .patient-list input[type="checkbox"] {
   cursor: pointer;
 }
-
-#staff-details td {
-  padding-right: 5px;
-  text-align: center;
-}

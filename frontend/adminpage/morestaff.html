@@ -38,7 +38,7 @@
     <div id="main">
         <div class="stats-container">
             <div class="box">
-                <img style="width: 40px; height: 40px; border-radius: 50%;"
+                <img style="width: 40px; height: 40px; border-radius: 50%; margin-left: 4%;"
                     src="../../assets/images/profile-picture.png" alt="avatar">
                 <h2 id="staff-name"></h2>
                 <table>
@@ -49,9 +49,7 @@
                             <th style="padding-right: 5px;">เบอร์โทรศัพท์</th>
                         </tr>
                     </thead>
-                    <tbody id="staff-details">
-
-                    </tbody>
+                    <tbody id="staff-details"></tbody>
                 </table>
             </div>
         </div>
@@ -215,7 +213,7 @@
             const userId = getUserIdFromURL();
             if (userId) {
 
-                fetch(`http://localhost/chiracarehospital/backend/sql/users/getOneUser_vhv.php?id=${userId}`)
+                fetch(`/chiracarehospital/backend/sql/users/getOneUser_vhv.php?id=${userId}`)
 
                 fetch(`/chiracarehospital/backend/sql/users/getOneUser.php?id=${userId}`)
 
@@ -241,7 +239,7 @@
                     })
                     .catch(error => console.error('เกิดข้อผิดพลาด:', error));
 
-                fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/viewAll_patients_id.php?user_id=${userId}`)
+                fetch(`/chiracarehospital/backend/sql/patient_information/viewAll_patients_id.php?user_id=${userId}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
@@ -303,7 +301,7 @@
             .then(data => {
                 document.getElementById('topbar-container').innerHTML = data;
                 // นำข้อมูลที่ดึงมาแสดงใน topbar-container
-                document.getElementById('page-title').textContent = 'ผู้ป่วยที่รับผิดชอบ';
+                document.getElementById('page-title').textContent = 'ผู้ป่วยที่เจ้าหน้าที่รับผิดชอบ';
                 // กำหนดชื่อเรื่องของหน้าเป็น 'หน้าหลัก'
 
                 // Re-run user.js script after loading topbar
@@ -325,7 +323,7 @@
             const userId = getUserIdFromURL();
 
             // เรียกข้อมูลจาก API เมื่อเปิด Popup
-            fetch(`http://localhost/chiracarehospital/backend/sql/patient_information/view_patients_id.php?user_id=${userId}`)
+            fetch(`/chiracarehospital/backend/sql/patient_information/view_patients_id.php?user_id=${userId}`)
                 .then(response => response.json())
                 .then(async data => {
                     if (data.status === 'success') {
@@ -403,7 +401,7 @@
                 const patientArea = row.cells[5].textContent; // เขตที่รับผิดชอบ
 
                 const userId = getUserIdFromURL();
-                fetch(`http://localhost/chiracarehospital/backend/sql/users/addAssign_vhv.php?user_id=${userId}&patient_id=${patientID}&user_department=${departmentname}&user_responsibility_area=${responsibility_vhv}&patient_address_area=${patientArea}`)
+                fetch(`/chiracarehospital/backend/sql/users/addAssign_vhv.php?user_id=${userId}&patient_id=${patientID}&user_department=${departmentname}&user_responsibility_area=${responsibility_vhv}&patient_address_area=${patientArea}`)
                     .then(response => response.json())
                     .then(data => {
                         const patient = data.data.find(p => p.patient_id === patientID);
@@ -438,7 +436,7 @@
 
         // Function to fetch patient data based on patient ID
         function fetchPatientData(patientID) {
-            fetch('http://localhost/chiracarehospital/backend/sql/users/addAssign_vhv.php')
+            fetch('/chiracarehospital/backend/sql/users/addAssign_vhv.php')
                 .then(response => response.json())
                 .then(data => {
                     const patient = data.data.find(p => p.patient_id === patientID);
@@ -453,7 +451,7 @@
 
                 // ส่งคำขอลบไปยัง API
                 $.ajax({
-                    url: 'http://localhost/chiracarehospital/backend/sql/users/deleteAssign_vhv.php',
+                    url: '/chiracarehospital/backend/sql/users/deleteAssign_vhv.php',
                     method: 'GET',
                     data: {
                         patient_id: patientID,
