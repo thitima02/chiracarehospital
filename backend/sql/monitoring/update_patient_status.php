@@ -32,10 +32,9 @@ $monitorStatus = $data['monitorStatus'] ?? null;
 $patientIds = $data['patientIds'] ?? null;
 $monitorDeadline = $data['monitorDeadline'] ?? null;
 $monitorStartDate = $data['monitorStartDate'] ?? null;
-$treatmentStatus = $data['treatmentStatus'] ?? null;
 
 // ตรวจสอบค่าของตัวแปรสำคัญว่ามีค่าหรือไม่
-if (!$monitorStatus || !$patientIds || !$monitorDeadline || !$monitorStartDate || !$treatmentStatus) {
+if (!$monitorStatus || !$patientIds || !$monitorDeadline || !$monitorStartDate) {
     echo json_encode(['status' => 'error', 'message' => 'Missing required fields']);
     exit;
 }
@@ -48,14 +47,7 @@ foreach ($patientIds as $patientId) {
             WHERE patient_id='$patientId'";
 
     if ($conn->query($sql) === TRUE) {
-        // อัปเดตสถานะการรักษา
-        $sqlTreatment = "UPDATE treatment_information 
-                         SET treatment_status='$treatmentStatus' 
-                         WHERE patient_id='$patientId'";
-
-        if ($conn->query($sqlTreatment) === TRUE) {
-            $updatedCount++;
-        }
+        $updatedCount++;
     }
 }
 

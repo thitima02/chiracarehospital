@@ -666,64 +666,63 @@
 
         // ปุ่มยืนยันมอบหมายงาน
         document.getElementById('confirm-assign').addEventListener('click', async function () {
-  const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
-    return {
-      patientId: parseInt(checkbox.value),
-      area: checkbox.getAttribute('data-patient_address_area'),
-      responsiblePerson: checkbox.getAttribute('data-responsible')
-    };
-  });
+          const selectedPatients = Array.from(document.querySelectorAll('.patient-checkbox:checked')).map(checkbox => {
+            return {
+              patientId: parseInt(checkbox.value),
+              area: checkbox.getAttribute('data-patient_address_area'),
+              responsiblePerson: checkbox.getAttribute('data-responsible')
+            };
+          });
 
-  // ตรวจสอบข้อมูลเขตที่อยู่อาศัยและผู้รับผิดชอบก่อนการอัปเดตสถานะ
-  const invalidPatients = selectedPatients.filter(patient =>
-    !patient.area || !patient.responsiblePerson || patient.area === 'ไม่มีการกำหนด' || patient.responsiblePerson === 'ไม่มีการกำหนด');
-  
-  if (invalidPatients.length > 0) {
-    alert('ไม่สามารถอัปเดตสถานะการติดตามสำหรับผู้ป่วยที่ยังไม่มีข้อมูลเขตที่อยู่อาศัยหรือผู้รับผิดชอบ');
-    return;
-  }
+          // ตรวจสอบข้อมูลเขตที่อยู่อาศัยและผู้รับผิดชอบก่อนการอัปเดตสถานะ
+          const invalidPatients = selectedPatients.filter(patient =>
+            !patient.area || !patient.responsiblePerson || patient.area === 'ไม่มีการกำหนด' || patient.responsiblePerson === 'ไม่มีการกำหนด');
 
-  const monitorStatus = 'กำลังติดตาม'; // สถานะการติดตามที่เราต้องการ
-  const monitorDeadline = document.getElementById('monitor-deadline').value; // วันหมดอายุ
-  const monitorStartDate = document.getElementById('monitor-start-date').value; // วันเริ่มติดตาม
-  const treatmentStatus = 'กำลังรักษา'; // สถานะการรักษาที่เราต้องการ
+          if (invalidPatients.length > 0) {
+            alert('ไม่สามารถอัปเดตสถานะการติดตามสำหรับผู้ป่วยที่ยังไม่มีข้อมูลเขตที่อยู่อาศัยหรือผู้รับผิดชอบ');
+            return;
+          }
 
-  // ตรวจสอบค่าก่อนส่งไปยังเซิร์ฟเวอร์
-  if (!monitorStatus || !monitorDeadline || !monitorStartDate || selectedPatients.length === 0) {
-    alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-    return;
-  }
+          const monitorStatus = 'กำลังติดตาม'; // สถานะการติดตามที่เราต้องการ
+          const monitorDeadline = document.getElementById('monitor-deadline').value; // วันหมดอายุ
+          const monitorStartDate = document.getElementById('monitor-start-date').value; // วันเริ่มติดตาม
 
-  try {
-    const response = await fetch('/chiracarehospital/backend/sql/monitoring/update_patient_status.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        monitorStatus: monitorStatus,
-        patientIds: selectedPatients.map(patient => patient.patientId),
-        monitorDeadline: monitorDeadline,
-        monitorStartDate: monitorStartDate,
-        treatmentStatus: treatmentStatus
-      })
-    });
+          // ตรวจสอบค่าก่อนส่งไปยังเซิร์ฟเวอร์
+          if (!monitorStatus || !monitorDeadline || !monitorStartDate || selectedPatients.length === 0) {
+            alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            return;
+          }
 
-    const responseData = await response.json();
+          try {
+            const response = await fetch('/chiracarehospital/backend/sql/monitoring/update_patient_status.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                monitorStatus: monitorStatus, // ส่งเฉพาะสถานะการติดตาม
+                patientIds: selectedPatients.map(patient => patient.patientId),
+                monitorDeadline: monitorDeadline,
+                monitorStartDate: monitorStartDate
+              })
+            });
 
-    if (responseData.status === 'success') {
-      alert(`อัปเดตสถานะสำเร็จ: ${responseData.updated_count} รายการ`);
-      document.getElementById('confirmation-popup').style.display = 'none';
-      document.getElementById('overlay').style.display = 'none';
-      window.location.reload(); // รีเฟรชหน้าเว็บ
-    } else {
-      alert(`เกิดข้อผิดพลาด: ${responseData.message}`);
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    alert('เกิดข้อผิดพลาดในการอัปเดตสถานะการติดตาม: ' + error.message);
-  }
-});
+            const responseData = await response.json();
+
+            if (responseData.status === 'success') {
+              alert(`อัปเดตสถานะสำเร็จ: ${responseData.updated_count} รายการ`);
+              document.getElementById('confirmation-popup').style.display = 'none';
+              document.getElementById('overlay').style.display = 'none';
+              window.location.reload(); // รีเฟรชหน้าเว็บ
+            } else {
+              alert(`เกิดข้อผิดพลาด: ${responseData.message}`);
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('เกิดข้อผิดพลาดในการอัปเดตสถานะการติดตาม: ' + error.message);
+          }
+        });
+
 
 
       });

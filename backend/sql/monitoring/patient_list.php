@@ -60,7 +60,7 @@ if ($result->num_rows > 0) {
             $stmt_update_treatment->execute();
         }
         // เงื่อนไขที่ 2: ถ้ากำหนดส่งงานเลยวันไปแล้ว และ appointment_date ไม่เป็น null
-        elseif ($monitor_deadline && $monitor_deadline < $current_date && $appointment_date) {
+        elseif ($monitor_deadline < $current_date && $monitor_deadline) {
             $row['monitor_status'] = 'ติดตามล้มเหลว';
         }
         // เงื่อนไขที่ 3: ถ้าวันนัดหมายเป็น null และ monitor_date เป็น null
