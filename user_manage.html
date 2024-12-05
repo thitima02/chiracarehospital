@@ -72,8 +72,8 @@
                     <option value="1">แอดมิน</option>
                     <option value="2">อาสาสมัครสาธารณสุข</option>
                     <option value="3">เสนารักษ์</option>
-                    <option value="3">เจ้าหน้าที่โรงพยาบาล</option>
-                    <option value="3">ผู้ดูแลระบบ</option>
+                    <option value="4">เจ้าหน้าที่โรงพยาบาล</option>
+                    <option value="5">ผู้ดูแลระบบ</option>
                     <!-- เพิ่มตัวเลือกตามที่ต้องการ -->
                 </select>
                 <i class='bx bx-chevron-down dropdown-icon' style="right: 20px;"></i>
@@ -278,7 +278,7 @@
 
                     // วนลูปข้อมูลผู้ใช้เพื่อแสดงในตาราง
                     staffs.forEach(function (staff) {
-                        rows += `<tr>
+                        rows += `<tr data-area="${staff.responsibility_area}" data-status="${staff.department}">
                     <td style="text-align: left; padding-left: 30px">
                         <img src="${staff.user_image ? 'data:image/jpeg;base64,' + staff.user_image : 'assets/images/cat.jpg'}" 
                              alt="รูปภาพผู้ใช้งาน" 
@@ -307,6 +307,34 @@
                     alert(response.message);
                 }
             });
+
+            // ฟังก์ชันสำหรับกรองข้อมูล
+            $('#searchInput, #responsibility-area, #status').on('input change', function () {
+                filterData();
+            });
+
+            function filterData() {
+                const searchValue = $('#searchInput').val().toLowerCase();
+                const areaValue = $('#responsibility-area').val();
+                const statusValue = $('#status').val();
+
+                $('#userTable tr').each(function () {
+                    const name = $(this).find('td:first').text().toLowerCase();
+                    const area = $(this).data('area');
+                    const status = $(this).data('status');
+
+                    // กรองข้อมูลตามที่กรอก
+                    const matchesSearch = name.includes(searchValue);
+                    const matchesArea = areaValue === 'ทั้งหมด' || area === areaValue;
+                    const matchesStatus = statusValue === 'ทั้งหมด' || status === statusValue;
+
+                    if (matchesSearch && matchesArea && matchesStatus) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
         });
 
         function confirmDelete(userId) {
