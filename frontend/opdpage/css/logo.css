@@ -9,6 +9,7 @@
   width: 30px; /* Adjust width and height as needed */
   height: 40px;
   margin-bottom: 5px; /* Space between the logo and the text */
+  margin-right: 15px;
   opacity: 0;
   transition: all 0.5s ease;
 }
