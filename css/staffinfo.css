@@ -4,7 +4,7 @@
     align-items: center;
     padding: 10px;
     border-radius: 8px;
-    width: 100%;
+    width: 101%;
 }
 
 .filter-item {
@@ -144,7 +144,7 @@ table th {
     width: 93.5%;
     margin: auto;
     padding: 20px;
-    margin-left: 89px;
+    margin-left: 100px;
 }
 
 /* ตารางผู้ป่วย */
