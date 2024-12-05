@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โรงพยาบาลค่ายจิรประวัติ</title>
-    <link rel="stylesheet" href="../../css/moreinfo.css">
+    <link rel="stylesheet" href="../../css/test2.css">
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="../../css/sidebar.css">
     <link rel="stylesheet" href="../../css/topbar.css">
@@ -30,19 +30,23 @@
     <div class="container">
         <!-- Patient Profile -->
         <div class="profile-section">
-            <img src="../../assets/images/cat.jpg" alt="avatar" class="profile-img" id="profile-img">
-            <h2 id="fullName">ไม่มีข้อมูล</h2>
-            <p><strong>อายุ:</strong> <span id="age">ไม่มีข้อมูล</span></p>
-            <p><strong>สถานะปัจจุบัน:</strong> <span id="currentStatus">ไม่มีข้อมูล</span></p>
-            <p><strong>โรคประจำตัว:</strong> <span id="diseaseType">ไม่มีข้อมูล</span></p>
-            <p><strong>กลุ่มผู้ป่วย:</strong> <span id="patientGroup">ไม่มีข้อมูล</span></p>
-            <p><strong>ประเภทผู้ป่วย:</strong> <span id="patientType">ไม่มีข้อมูล</span></p>
-            <p><strong>เลขบัตรประจำตัวประชาชน:</strong> <span id="idCard">ไม่มีข้อมูล</span></p>
-            <p><strong>วันเกิด:</strong> <span id="birthDate"></span></p>
-            <p><strong>เบอร์โทรศัพท์:</strong> <span id="phoneNumber">ไม่มีข้อมูล</span></p>
-            <p><strong>เบอร์ฉุกเฉิน:</strong> <span id="emergencyPhone">ไม่มีข้อมูล</span></p>
-            <p><strong>ที่อยู่:</strong> <span id="address">ไม่มีข้อมูล</span></p>
-            <p><strong>เพิ่มเติม:</strong> <span id="additionalInfo">-</span></p>
+            <div class="patient-profile">
+              <img src="../../assets/images/profile-picture.png" alt="avatar" class="profile-img" id="profile-img">
+                <div>
+                    <h2 id="fullName">ไม่มีข้อมูล</h2>
+                    <p><strong>อายุ:</strong> <span id="age">ไม่มีข้อมูล</span></p>
+                    <p><strong>สถานะปัจจุบัน:</strong> <span id="currentStatus">ไม่มีข้อมูล</span></p>
+                    <p><strong>โรคประจำตัว:</strong> <span id="diseaseType">ไม่มีข้อมูล</span></p>
+                    <p><strong>กลุ่มผู้ป่วย:</strong> <span id="patientGroup">ไม่มีข้อมูล</span></p>
+                    <p><strong>ประเภทผู้ป่วย:</strong> <span id="patientType">ไม่มีข้อมูล</span></p>
+                    <p><strong>เลขบัตรประจำตัวประชาชน:</strong> <span id="idCard">ไม่มีข้อมูล</span></p>
+                    <p><strong>วันเกิด:</strong> <span id="birthDate"></span></p>
+                    <p><strong>เบอร์โทรศัพท์:</strong> <span id="phoneNumber">ไม่มีข้อมูล</span></p>
+                    <p><strong>เบอร์ฉุกเฉิน:</strong> <span id="emergencyPhone">ไม่มีข้อมูล</span></p>
+                    <p><strong>ที่อยู่:</strong> <span id="address">ไม่มีข้อมูล</span></p>
+                    <p><strong>เพิ่มเติม:</strong> <span id="additionalInfo">-</span></p>
+                </div>
+            </div>
         </div>
 
         <!-- Follow-up and Treatment Information -->
@@ -63,173 +67,407 @@
                 <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="staffTreatment">ไม่มีข้อมูล</span></p>
                 <p><strong>หมายเหตุ:</strong> <span id="treatmentNotes">ไม่มีข้อมูล</span></p>
             </div>
+            <div class="buttons">
+                <button type="button" class="btn-back" id="backBtn">ย้อนกลับ</button>
+                <button class="action-btn" title="ดูเพิ่มเติม" onclick="location.href='test1.html?patient_id=${patient.patient_id}';">ดูเพิ่มเติม</button>
+            </div>
+            
         </div>
 
-        <div class="parent-container">
+        <!-- <div class="parent-container">
             <div class="buttons">
                 <button type="button" class="btn-back" id="backBtn">ย้อนกลับ</button>
                 <button id="save-status" type="button">ดูเพิ่มเติม</button>
             </div>
-        </div>
+        </div> -->
         
     </div>
 
-    <script>
+    <!-- <script>
         function showMoreInfo() {
             alert("แสดงข้อมูลเพิ่มเติม..."); // สามารถเปลี่ยนให้ลิงก์ไปยังหน้าที่ต้องการ
         }
+    </script> -->
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // URL ของ API
+    const apiUrl = "/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php"
+
+    // ดึงข้อมูลจาก API
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === "success" && data.data.length > 0) {
+                // ดึงข้อมูลผู้ป่วยคนแรกมาแสดง
+                const patient = data.data[0];
+
+                // อัปเดตข้อมูลใน HTML
+                document.getElementById("fullName").textContent = patient.full_name || "ไม่มีข้อมูล";
+                document.getElementById("age").textContent = calculateAge(patient.birth_date) || "ไม่มีข้อมูล";
+                document.getElementById("currentStatus").textContent = patient.current_status || "ไม่มีข้อมูล";
+                document.getElementById("idCard").textContent = patient.id_card || "ไม่มีข้อมูล";
+                document.getElementById("birthDate").textContent = patient.birth_date || "ไม่มีข้อมูล";
+                document.getElementById("phoneNumber").textContent = patient.phone_number || "ไม่มีข้อมูล";
+                document.getElementById("emergencyPhone").textContent = patient.emergency_phone || "ไม่มีข้อมูล";
+                // document.getElementById("address").textContent = `ID ที่อยู่: ${patient.id_patient_address}` || "ไม่มีข้อมูล";
+                // document.getElementById("diseaseType").textContent = `ข้อมูลทางการแพทย์: ${patient.id_patient_medical_information}` || "ไม่มีข้อมูล";
+
+                // แสดงรูปภาพโปรไฟล์
+                const profileImg = document.getElementById('profile-img');
+                if (profileImg) {
+                    if (patient.patient_image) {
+                        // ใช้ base64 สำหรับแสดงรูปภาพ
+                        profileImg.src = 'data:image/jpeg;base64,' + patient.patient_image;
+                    } else {
+                        // รูปภาพเริ่มต้น
+                        profileImg.src = '../../assets/images/profile-picture.png';
+                    }
+                } else {
+                    console.error('ไม่พบองค์ประกอบ #profile-img');
+                }
+            } else {
+                console.error("No patient data found");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+        });
+});
+
+// ฟังก์ชันคำนวณอายุจากวันเกิด
+function calculateAge(birthDate) {
+    if (!birthDate) return null;
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDifference = today.getMonth() - birth.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+    return age;
+}
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // URL ของ API
+    const apiUrl = "/chiracarehospital/backend/sql/get_patient_data.php";
+
+    // ดึงข้อมูลจาก API
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.patient_data && data.patient_data.length > 0) {
+                // เลือกข้อมูลผู้ป่วยคนแรก (หรือปรับตามความต้องการ)
+                const patient = data.patient_data[0];
+
+                // อัปเดตข้อมูลใน HTML
+                document.getElementById("diseaseType").textContent = patient.disease_type || "ไม่มีข้อมูล";
+                document.getElementById("patientGroup").textContent = patient.patient_group || "ไม่มีข้อมูล";
+                document.getElementById("patientType").textContent = patient.patient_type || "ไม่มีข้อมูล";
+                document.getElementById("latestDiseaseType").textContent = patient.disease_type || "ไม่มีข้อมูล";
+                document.getElementById("treatmentdiseaseType").textContent = patient.disease_type || "ไม่มีข้อมูล";
+            } else {
+                console.error("No patient data found");
+                document.getElementById("diseaseType").textContent = "ไม่มีข้อมูล";
+                document.getElementById("patientGroup").textContent = "ไม่มีข้อมูล";
+                document.getElementById("patientType").textContent = "ไม่มีข้อมูล";
+                document.getElementById("latestDiseaseType").textContent = "ไม่มีข้อมูล";
+                document.getElementById("latestDiseaseType").textContent = "ไม่มีข้อมูล";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+        });
+});
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // URL ของ API
+    const apiUrl = "/chiracarehospital/backend/sql/get_patient_address.php";
+
+    // ดึงข้อมูลจาก API
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (Array.isArray(data) && data.length > 0) {
+                // เลือกข้อมูลที่อยู่ของผู้ป่วยคนแรก
+                const addressData = data[0];
+
+                // สร้างที่อยู่แบบครบถ้วน
+                const fullAddress = `
+                    ${addressData.number || '-'} 
+                    หมู่ ${addressData.moo || '-'} 
+                    ซอย ${addressData.soi || '-'} 
+                    ตำบล${addressData.tambon || '-'} 
+                    อำเภอ${addressData.amphur || '-'} 
+                    จังหวัด${addressData.province || '-'} 
+                    ${addressData.postal_code || '-'} 
+                `;
+
+                // แสดงผลใน HTML
+                document.getElementById("address").textContent = fullAddress.trim();
+            } else {
+                // ถ้าไม่มีข้อมูล
+                document.getElementById("address").textContent = "ไม่มีข้อมูล";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            document.getElementById("address").textContent = "เกิดข้อผิดพลาดในการดึงข้อมูล";
+        });
+});
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // URL ของ API
+    const apiUrl = "/chiracarehospital/backend/sql/get_monitor_form.php";
+
+    // ดึงข้อมูลจาก API
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === "success" && Array.isArray(data.data) && data.data.length > 0) {
+                // เลือกข้อมูลที่ต้องการ (ตัวอย่างคือรายการแรก)
+                const monitorData = data.data[0];
+
+                // แสดงข้อมูลใน HTML
+                document.getElementById("missingAppointments").textContent =  monitorData.reason_for_missed_treatment || "ไม่มีข้อมูล";
+                document.getElementById("generalCondition").textContent = monitorData.general_symptoms || "ไม่มีข้อมูล";
+                document.getElementById("vitalSigns").textContent = monitorData.vital_signs || "ไม่มีข้อมูล";
+                document.getElementById("bloodSugarLevel").textContent = monitorData.blood_sugar_level || "ไม่มีข้อมูล";
+                document.getElementById("staffFollowUp").textContent = monitorData.user_fullname || "ไม่มีข้อมูล";
+            } else {
+                // แสดงข้อความหากไม่มีข้อมูล
+                displayNoData();
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            displayNoData();
+        });
+
+    // ฟังก์ชันสำหรับแสดงข้อความ "ไม่มีข้อมูล" ในทุกฟิลด์
+    function displayNoData() {
+        document.getElementById("missingAppointments").textContent = "ไม่มีข้อมูล";
+        document.getElementById("generalCondition").textContent = "ไม่มีข้อมูล";
+        document.getElementById("vitalSigns").textContent = "ไม่มีข้อมูล";
+        document.getElementById("bloodSugarLevel").textContent = "ไม่มีข้อมูล";
+        document.getElementById("staffFollowUp").textContent = "ไม่มีข้อมูล";
+    }
+});
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // URL ของ API
+    const apiUrl = "/chiracarehospital/backend/sql/get_treatment_form.php";
+
+    // ดึงข้อมูลจาก API
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (Array.isArray(data) && data.length > 0) {
+                // เลือกข้อมูลรายการแรก
+                const treatmentData = data[0];
+
+                // แสดงข้อมูลใน HTML
+                document.getElementById("treatmentDate").textContent = 
+                    treatmentData.next_appointment_date || "ไม่มีข้อมูล";
+                document.getElementById("staffTreatment").textContent = 
+                    treatmentData.responsible_staff || "ไม่มีข้อมูล";
+                document.getElementById("treatmentNotes").textContent = 
+                    treatmentData.notes || "ไม่มีข้อมูล";
+            } else {
+                // แสดงข้อความเมื่อไม่มีข้อมูล
+                displayNoData();
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            displayNoData();
+        });
+
+    // ฟังก์ชันสำหรับแสดงข้อความ "ไม่มีข้อมูล" ในทุกฟิลด์
+    function displayNoData() {
+        document.getElementById("treatmentDate").textContent = "ไม่มีข้อมูล";
+        document.getElementById("staffTreatment").textContent = "ไม่มีข้อมูล";
+        document.getElementById("treatmentNotes").textContent = "ไม่มีข้อมูล";
+    }
+});
+
+</script> -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Function to get patient_id from URL
+    const patientId = getPatientIdFromURL(); // Retrieve patient_id from URL
+    if (patientId) {
+        // API URLs
+        const apiUrls = {
+            patientInfo: `/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`,
+            patientData: `/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`,
+            patientAddress: `/chiracarehospital/backend/sql/get_patient_address.php?patient_id=${patientId}`,
+            monitorForm: `/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`,
+            treatmentForm: `/chiracarehospital/backend/sql/get_treatment_form.php?patient_id=${patientId}`
+        };
+
+        // Fetch and update Patient Information
+        fetch(apiUrls.patientInfo)
+            .then(response => response.ok ? response.json() : Promise.reject("Network response was not ok"))
+            .then(data => {
+                if (data.status === "success" && data.data.length > 0) {
+                    const patient = data.data[0];
+                    document.getElementById("fullName").textContent = patient.full_name || "ไม่มีข้อมูล";
+                    document.getElementById("age").textContent = calculateAge(patient.birth_date) || "ไม่มีข้อมูล";
+                    document.getElementById("currentStatus").textContent = patient.current_status || "ไม่มีข้อมูล";
+                    document.getElementById("idCard").textContent = patient.id_card || "ไม่มีข้อมูล";
+                    document.getElementById("birthDate").textContent = patient.birth_date || "ไม่มีข้อมูล";
+                    document.getElementById("phoneNumber").textContent = patient.phone_number || "ไม่มีข้อมูล";
+                    document.getElementById("emergencyPhone").textContent = patient.emergency_phone || "ไม่มีข้อมูล";
+
+                    const profileImg = document.getElementById('profile-img');
+                    profileImg.src = patient.patient_image ? 'data:image/jpeg;base64,' + patient.patient_image : '../../assets/images/profile-picture.png';
+                } else {
+                    console.error("No patient data found");
+                }
+            })
+            .catch(error => console.error("Error fetching patient info:", error));
+
+        // Fetch and update Patient Data
+        fetch(apiUrls.patientData)
+            .then(response => response.ok ? response.json() : Promise.reject("Network response was not ok"))
+            .then(data => {
+                if (data.patient_data && data.patient_data.length > 0) {
+                    const patient = data.patient_data[0];
+                    document.getElementById("diseaseType").textContent = patient.disease_type || "ไม่มีข้อมูล";
+                    document.getElementById("patientGroup").textContent = patient.patient_group || "ไม่มีข้อมูล";
+                    document.getElementById("patientType").textContent = patient.patient_type || "ไม่มีข้อมูล";
+                    document.getElementById("latestDiseaseType").textContent = patient.disease_type || "ไม่มีข้อมูล";
+                    document.getElementById("treatmentdiseaseType").textContent = patient.disease_type || "ไม่มีข้อมูล";
+                } else {
+                    console.error("No patient data found");
+                    displayNoData("diseaseType", "patientGroup", "patientType");
+                }
+            })
+            .catch(error => console.error("Error fetching patient data:", error));
+
+        // Fetch and update Patient Address
+        fetch(apiUrls.patientAddress)
+            .then(response => response.ok ? response.json() : Promise.reject("Network response was not ok"))
+            .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                    const addressData = data[0];
+                    const fullAddress = `${addressData.number || '-'} หมู่ ${addressData.moo || '-'} ซอย ${addressData.soi || '-'} ตำบล ${addressData.tambon || '-'} อำเภอ ${addressData.amphur || '-'} จังหวัด ${addressData.province || '-'} ${addressData.postal_code || '-'}`;
+                    document.getElementById("address").textContent = fullAddress.trim();
+                } else {
+                    document.getElementById("address").textContent = "ไม่มีข้อมูล";
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching address data:", error);
+                document.getElementById("address").textContent = "เกิดข้อผิดพลาดในการดึงข้อมูล";
+            });
+
+        // Fetch and update Monitor Form
+        fetch(apiUrls.monitorForm)
+            .then(response => response.ok ? response.json() : Promise.reject("Network response was not ok"))
+            .then(data => {
+                if (data.status === "success" && Array.isArray(data.data) && data.data.length > 0) {
+                    const monitorData = data.data[0];
+                    document.getElementById("missingAppointments").textContent = monitorData.reason_for_missed_treatment || "ไม่มีข้อมูล";
+                    document.getElementById("generalCondition").textContent = monitorData.general_symptoms || "ไม่มีข้อมูล";
+                    document.getElementById("vitalSigns").textContent = monitorData.vital_signs || "ไม่มีข้อมูล";
+                    document.getElementById("bloodSugarLevel").textContent = monitorData.blood_sugar_level || "ไม่มีข้อมูล";
+                    document.getElementById("staffFollowUp").textContent = monitorData.user_fullname || "ไม่มีข้อมูล";
+                } else {
+                    displayNoData("missingAppointments", "generalCondition", "vitalSigns", "bloodSugarLevel", "staffFollowUp");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching monitor form data:", error);
+                displayNoData("missingAppointments", "generalCondition", "vitalSigns", "bloodSugarLevel", "staffFollowUp");
+            });
+
+        // Fetch and update Treatment Form
+        fetch(apiUrls.treatmentForm)
+            .then(response => response.ok ? response.json() : Promise.reject("Network response was not ok"))
+            .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                    const treatmentData = data[0];
+                    document.getElementById("treatmentDate").textContent = treatmentData.next_appointment_date || "ไม่มีข้อมูล";
+                    document.getElementById("staffTreatment").textContent = treatmentData.responsible_staff || "ไม่มีข้อมูล";
+                    document.getElementById("treatmentNotes").textContent = treatmentData.notes || "ไม่มีข้อมูล";
+                } else {
+                    displayNoData("treatmentDate", "staffTreatment", "treatmentNotes");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching treatment form data:", error);
+                displayNoData("treatmentDate", "staffTreatment", "treatmentNotes");
+            });
+
+    } else {
+        alert('ไม่พบข้อมูลผู้ป่วย');
+    }
+
+    // Function to display "No Data" for multiple fields
+    function displayNoData(...fields) {
+        fields.forEach(field => {
+            document.getElementById(field).textContent = "ไม่มีข้อมูล";
+        });
+    }
+
+    // Function to calculate age from birth date
+    function calculateAge(birthDate) {
+        if (!birthDate) return null;
+        const today = new Date();
+        const birth = new Date(birthDate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDifference = today.getMonth() - birth.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
+    // Function to get patient_id from URL
+    function getPatientIdFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('patient_id');
+    }
+});
+
     </script>
+    
 
-
-    <style>
-        body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
-    max-width: 80%; /* ตรวจสอบความกว้างของคอนเทนเนอร์ */
-}
-
-
-.profile-section {
-    flex: 1 1 30%;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.profile-img {
-    width: 100%;
-    border-radius: 50%;
-    margin-bottom: 15px;
-}
-
-.info-section {
-    flex: 1 1 65%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.follow-up-info,
-.treatment-info {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.history-section {
-    flex: 1 1 100%;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-table th,
-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-table th {
-    background-color: #f4f4f4;
-}
-
-.status-green {
-    color: green;
-    font-weight: bold;
-}
-
-.status-red {
-    color: red;
-    font-weight: bold;
-}
-
-
-/* .button-container {
-    display: flex;
-    justify-content: flex-end; 
-    gap: 10px; 
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-button:active {
-    background-color: #003f7f;
-} */
-.buttons {
-    width: 100%; /* ทำให้ div นี้ขยายเต็มความกว้าง */
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-
-.btn-back {
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.btn-back:hover {
-    background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
-    color: white;
-}
-
-#save-status {
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-#save-status:hover {
-    background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
-}
-
-#save-status:focus {
-    outline: none; /* ลบเส้นขอบเมื่อกดปุ่ม */
-}
-
-    </style>
 
 <script>
     // เรียกฟังก์ชัน checkAuth() เพื่อตรวจสอบ token

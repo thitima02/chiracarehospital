@@ -43,11 +43,11 @@
             <img id="profile-img" src="../../assets/images/default_profile.jpg" alt="โปรไฟล์" class="profile-img">
             <h2 id="fullName">กำลังโหลด...</h2>
         </div>
-        <div class="more-button">
+        <!-- <div class="more-button">
             <button onclick="window.location.href='moreinfo3.html'">
                 <i class=""></i>แก้ไขข้อมูลทั้งหมด
             </button>
-        </div>
+        </div> -->
     </div>
     
     </div>
@@ -58,7 +58,7 @@
     <!-- ข้อมูลการติดตาม -->
     <div class="follow-up-info">
         <h3>ข้อมูลการติดตามล่าสุด <span id="newUpdateDate">ไม่มีข้อมูล</span></h3>
-        <p><strong>โรคประจำตัว:</strong> <span id="diseaseType">ไม่มีข้อมูล</span></p>
+        <p><strong>โรคประจำตัว:</strong> <span id="latestDiseaseType">ไม่มีข้อมูล</span></p>
         <p><strong>สาเหตุการขาดนัด:</strong> <span id="missingAppointments">ไม่มีข้อมูล</span></p>
         <p><strong>อาการทั่วไป:</strong> <span id="generalCondition">ไม่มีข้อมูล</span></p>
         <p><strong>ค่าสัญญาณชีพ:</strong> <span id="vitalSigns">ไม่มีข้อมูล</span></p>
@@ -69,7 +69,7 @@
     <!-- ข้อมูลการรักษา -->
     <div class="treatment-info">
         <h3>ข้อมูลการรักษาล่าสุด <span id="NewUpdateDate">ไม่มีข้อมูล</span></h3>
-        <p><strong>โรคประจำตัว:</strong> <span id="treatmentDiseaseType">ไม่มีข้อมูล</span></p>
+        <p><strong>โรคประจำตัว:</strong> <span id="treatmentdiseaseType">ไม่มีข้อมูล</span></p>
         <p><strong>วันที่นัดหมายครั้งถัดไป:</strong> <span id="treatmentDate">ไม่มีข้อมูล</span></p>
         <p><strong>เจ้าหน้าที่ที่รับผิดชอบ:</strong> <span id="staffTreatment">ไม่มีข้อมูล</span></p>
         <p><strong>หมายเหตุ:</strong> <span id="treatmentNotes">ไม่มีข้อมูล</span></p>
@@ -77,7 +77,7 @@
 </div>
 
 
-  <script>
+  <!-- <script>
     // ฟังก์ชันเพื่อดึงค่าพารามิเตอร์จาก URL
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -255,6 +255,268 @@ async function fetchMonitorFormData() {
 
     // เรียกใช้ฟังก์ชันเมื่อโหลดหน้า
     initializePage();
+</script> -->
+
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const patientId = getPatientIdFromURL(); // ฟังก์ชันเพื่อดึง patient_id จาก URL
+
+    fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' && data.data.length > 0) {
+                const patient = data.data[0]; // ใช้ข้อมูลผู้ป่วยตัวแรก
+                
+                // แสดงข้อมูลผู้ป่วย
+                document.getElementById("fullName").textContent = patient.full_name;
+
+                // แสดงรูปภาพโปรไฟล์
+                const profileImg = document.getElementById('profile-img');
+                if (profileImg) {
+                    if (patient.patient_image) {
+                        profileImg.src = 'data:image/jpeg;base64,' + patient.patient_image;
+                    } else {
+                        profileImg.src = '../../assets/images/profile-picture.png';
+                    }
+                }
+            } else {
+                console.error("ไม่พบข้อมูลผู้ป่วย");
+            }
+        })
+        .catch(error => {
+            console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
+        });
+});
+
+function getPatientIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('patient_id');
+}
+
+</script> 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const patientId = getPatientIdFromURL();
+
+    fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.patient_data && data.patient_data.length > 0) {
+                const patient = data.patient_data[0]; // ใช้ข้อมูลผู้ป่วยตัวแรก
+
+                // แสดงโรคประจำตัวล่าสุด
+                document.getElementById("latestDiseaseType").textContent = patient.disease_type || "ไม่มีข้อมูล";
+
+                // แสดงโรคที่ได้รับการรักษา
+                document.getElementById("treatmentdiseaseType").textContent = patient.disease_type || "ไม่มีข้อมูล";
+            } else {
+                console.error("ไม่พบข้อมูลผู้ป่วย");
+            }
+        })
+        .catch(error => {
+            console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
+        });
+});
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const patientId = getPatientIdFromURL();
+
+    fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success" && data.data.length > 0) {
+                const monitorData = data.data[0]; // ใช้ข้อมูลตัวแรกจากที่ได้มา
+
+                // แสดงสาเหตุการขาดนัด
+                document.getElementById("missingAppointments").textContent = monitorData.reason_for_missed_treatment || "ไม่มีข้อมูล";
+
+                // แสดงอาการทั่วไป
+                document.getElementById("generalCondition").textContent = monitorData.general_symptoms || "ไม่มีข้อมูล";
+
+                // แสดงค่าสัญญาณชีพ
+                document.getElementById("vitalSigns").textContent = monitorData.vital_signs || "ไม่มีข้อมูล";
+
+                // แสดงค่าระดับน้ำตาลในเลือด
+                document.getElementById("bloodSugarLevel").textContent = monitorData.blood_sugar_level || "ไม่มีข้อมูล";
+
+                // แสดงเจ้าหน้าที่ที่รับผิดชอบ
+                document.getElementById("staffFollowUp").textContent = monitorData.user_fullname || "ไม่มีข้อมูล";
+            } else {
+                console.error("ไม่พบข้อมูลในฐานข้อมูล");
+                // ถ้าไม่มีข้อมูล
+                document.getElementById("missingAppointments").textContent = "ไม่มีข้อมูล";
+                document.getElementById("generalCondition").textContent = "ไม่มีข้อมูล";
+                document.getElementById("vitalSigns").textContent = "ไม่มีข้อมูล";
+                document.getElementById("bloodSugarLevel").textContent = "ไม่มีข้อมูล";
+                document.getElementById("staffFollowUp").textContent = "ไม่มีข้อมูล";
+            }
+        })
+        .catch(error => {
+            console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
+            // ถ้าเกิดข้อผิดพลาดในการดึงข้อมูล
+            document.getElementById("missingAppointments").textContent = "เกิดข้อผิดพลาด";
+            document.getElementById("generalCondition").textContent = "เกิดข้อผิดพลาด";
+            document.getElementById("vitalSigns").textContent = "เกิดข้อผิดพลาด";
+            document.getElementById("bloodSugarLevel").textContent = "เกิดข้อผิดพลาด";
+            document.getElementById("staffFollowUp").textContent = "เกิดข้อผิดพลาด";
+        });
+});
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const patientId = getPatientIdFromURL();
+
+    fetch(`/chiracarehospital/backend/sql/get_treatment_form.php?patient_id=${patientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.length > 0) {
+                const treatmentData = data[0]; // ใช้ข้อมูลตัวแรกจากที่ได้มา
+
+                // แสดงวันที่นัดหมายครั้งถัดไป
+                document.getElementById("treatmentDate").textContent = treatmentData.next_appointment_date || "ไม่มีข้อมูล";
+
+                // แสดงเจ้าหน้าที่ที่รับผิดชอบ
+                document.getElementById("staffTreatment").textContent = treatmentData.responsible_staff || "ไม่มีข้อมูล";
+
+                // แสดงหมายเหตุ
+                document.getElementById("treatmentNotes").textContent = treatmentData.notes || "ไม่มีข้อมูล";
+            } else {
+                console.error("ไม่พบข้อมูลในฐานข้อมูล");
+                // ถ้าไม่มีข้อมูล
+                document.getElementById("treatmentDate").textContent = "ไม่มีข้อมูล";
+                document.getElementById("staffTreatment").textContent = "ไม่มีข้อมูล";
+                document.getElementById("treatmentNotes").textContent = "ไม่มีข้อมูล";
+            }
+        })
+        .catch(error => {
+            console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
+            // ถ้าเกิดข้อผิดพลาดในการดึงข้อมูล
+            document.getElementById("treatmentDate").textContent = "เกิดข้อผิดพลาด";
+            document.getElementById("staffTreatment").textContent = "เกิดข้อผิดพลาด";
+            document.getElementById("treatmentNotes").textContent = "เกิดข้อผิดพลาด";
+        });
+});
+</script> -->
+<script>
+    // ฟังก์ชันเพื่อดึง patient_id จาก URL
+    function getPatientIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('patient_id');
+}
+
+
+    // เมื่อโหลดหน้าเสร็จแล้ว
+    document.addEventListener("DOMContentLoaded", function() {
+        const patientId = getPatientIdFromURL(); // ดึง patient_id จาก URL
+
+        // ฟังก์ชันในการดึงข้อมูลผู้ป่วยจากหลายๆ แหล่ง
+        const fetchPatientData = async () => {
+            try {
+                // ดึงข้อมูลจาก getAll_patient_information.php
+                const patientResponse = await fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
+                const patientData = await patientResponse.json();
+
+                if (patientData.status === 'success' && patientData.data.length > 0) {
+                    const patient = patientData.data[0];
+
+                    // แสดงข้อมูลผู้ป่วย
+                    document.getElementById("fullName").textContent = patient.full_name;
+
+                    // แสดงรูปภาพโปรไฟล์
+                    const profileImg = document.getElementById('profile-img');
+                    if (profileImg) {
+                        profileImg.src = patient.patient_image ? `data:image/jpeg;base64,${patient.patient_image}` : '../../assets/images/profile-picture.png';
+                    }
+                } else {
+                    console.error("ไม่พบข้อมูลผู้ป่วย");
+                }
+
+                // ดึงข้อมูลจาก get_patient_data.php
+                const patientDetailsResponse = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
+                const patientDetailsData = await patientDetailsResponse.json();
+
+                if (patientDetailsData.patient_data && patientDetailsData.patient_data.length > 0) {
+                    const patientDetails = patientDetailsData.patient_data[0];
+
+                    // แสดงโรคประจำตัวล่าสุด
+                    document.getElementById("latestDiseaseType").textContent = patientDetails.disease_type || "ไม่มีข้อมูล";
+
+                    // แสดงโรคที่ได้รับการรักษา
+                    document.getElementById("treatmentdiseaseType").textContent = patientDetails.disease_type || "ไม่มีข้อมูล";
+                } else {
+                    console.error("ไม่พบข้อมูลโรคประจำตัว");
+                }
+
+                // ดึงข้อมูลจาก get_monitor_form.php
+                const monitorFormResponse = await fetch(`/chiracarehospital/backend/sql/get_monitor_form.php?patient_id=${patientId}`);
+                const monitorFormData = await monitorFormResponse.json();
+
+                if (monitorFormData.status === "success" && monitorFormData.data.length > 0) {
+                    const monitorData = monitorFormData.data[0];
+
+                    // แสดงสาเหตุการขาดนัด
+                    document.getElementById("missingAppointments").textContent = monitorData.reason_for_missed_treatment || "ไม่มีข้อมูล";
+
+                    // แสดงอาการทั่วไป
+                    document.getElementById("generalCondition").textContent = monitorData.general_symptoms || "ไม่มีข้อมูล";
+
+                    // แสดงค่าสัญญาณชีพ
+                    document.getElementById("vitalSigns").textContent = monitorData.vital_signs || "ไม่มีข้อมูล";
+
+                    // แสดงค่าระดับน้ำตาลในเลือด
+                    document.getElementById("bloodSugarLevel").textContent = monitorData.blood_sugar_level || "ไม่มีข้อมูล";
+
+                    // แสดงเจ้าหน้าที่ที่รับผิดชอบ
+                    document.getElementById("staffFollowUp").textContent = monitorData.user_fullname || "ไม่มีข้อมูล";
+                } else {
+                    console.error("ไม่พบข้อมูลในฐานข้อมูลการติดตาม");
+                    document.getElementById("missingAppointments").textContent = "ไม่มีข้อมูล";
+                    document.getElementById("generalCondition").textContent = "ไม่มีข้อมูล";
+                    document.getElementById("vitalSigns").textContent = "ไม่มีข้อมูล";
+                    document.getElementById("bloodSugarLevel").textContent = "ไม่มีข้อมูล";
+                    document.getElementById("staffFollowUp").textContent = "ไม่มีข้อมูล";
+                }
+
+                // ดึงข้อมูลจาก get_treatment_form.php
+                const treatmentFormResponse = await fetch(`/chiracarehospital/backend/sql/get_treatment_form.php?patient_id=${patientId}`);
+                const treatmentFormData = await treatmentFormResponse.json();
+
+                if (treatmentFormData && treatmentFormData.length > 0) {
+                    const treatmentData = treatmentFormData[0];
+
+                    // แสดงวันที่นัดหมายครั้งถัดไป
+                    document.getElementById("treatmentDate").textContent = treatmentData.next_appointment_date || "ไม่มีข้อมูล";
+
+                    // แสดงเจ้าหน้าที่ที่รับผิดชอบ
+                    document.getElementById("staffTreatment").textContent = treatmentData.responsible_staff || "ไม่มีข้อมูล";
+
+                    // แสดงหมายเหตุ
+                    document.getElementById("treatmentNotes").textContent = treatmentData.notes || "ไม่มีข้อมูล";
+                } else {
+                    console.error("ไม่พบข้อมูลในฐานข้อมูลการรักษา");
+                    document.getElementById("treatmentDate").textContent = "ไม่มีข้อมูล";
+                    document.getElementById("staffTreatment").textContent = "ไม่มีข้อมูล";
+                    document.getElementById("treatmentNotes").textContent = "ไม่มีข้อมูล";
+                }
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาดในการดึงข้อมูลทั้งหมด:", error);
+                // ถ้าเกิดข้อผิดพลาดในการดึงข้อมูลทั้งหมด
+                document.getElementById("missingAppointments").textContent = "เกิดข้อผิดพลาด";
+                document.getElementById("generalCondition").textContent = "เกิดข้อผิดพลาด";
+                document.getElementById("vitalSigns").textContent = "เกิดข้อผิดพลาด";
+                document.getElementById("bloodSugarLevel").textContent = "เกิดข้อผิดพลาด";
+                document.getElementById("staffFollowUp").textContent = "เกิดข้อผิดพลาด";
+                document.getElementById("treatmentDate").textContent = "เกิดข้อผิดพลาด";
+                document.getElementById("staffTreatment").textContent = "เกิดข้อผิดพลาด";
+                document.getElementById("treatmentNotes").textContent = "เกิดข้อผิดพลาด";
+            }
+        };
+
+        // เรียกใช้ฟังก์ชัน
+        fetchPatientData();
+    });
 </script>
 
   <script>
