@@ -2,11 +2,16 @@
 
 header('Content-Type: application/json');
 
-// เชื่อมต่อกับฐานข้อมูลจากไฟล์ db_connection.php
-include('../db_connection.php');
+// เชื่อมต่อกับฐานข้อมูล
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "chiracare_follow_up_db"; // ชื่อฐานข้อมูลที่ใช้
 
-// ตรวจสอบการเชื่อมต่อฐานข้อมูลที่ใช้ PDO
-if (!$conn) {
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// ตรวจสอบการเชื่อมต่อ
+if ($conn->connect_error) {
     echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
     exit;
 }
@@ -30,9 +35,15 @@ if (isset($_FILES['csvFile']) && $_FILES['csvFile']['error'] == 0) {
                 $department = mysqli_real_escape_string($conn, $data[2]);
                 $full_name = mysqli_real_escape_string($conn, $data[3]);
                 $id_card = mysqli_real_escape_string($conn, $data[4]);
-                $birth_date = mysqli_real_escape_string($conn, $data[5]);
-                $birth_date = DateTime::createFromFormat('d/m/y', $birth_date)->format('Y-m-d');
-
+                $birth_date_original = $data[5]; // วันที่จาก CSV เช่น "29/4/2016"
+                $date_obj = DateTime::createFromFormat('d/m/Y', $birth_date_original);
+                $birth_date = $date_obj ? $date_obj->format('Y-m-d') : null;
+                
+                // ตรวจสอบว่า `$birth_date` มีค่าหรือไม่
+                if (!$birth_date) {
+                    echo json_encode(["error" => "รูปแบบวันที่ไม่ถูกต้องสำหรับ patient_id: $patient_id"]);
+                    exit;
+                }                
                 $marital_status = mysqli_real_escape_string($conn, $data[6]);
                 $phone_number = mysqli_real_escape_string($conn, $data[7]);
                 $emergency_phone = mysqli_real_escape_string($conn, $data[8]);
