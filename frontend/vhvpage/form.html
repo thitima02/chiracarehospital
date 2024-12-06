@@ -95,40 +95,9 @@
     // เมื่อโหลดหน้าฟอร์ม
     window.onload = function () {
       const patientId = new URLSearchParams(window.location.search).get("patient_id") || '';
-      const generalSymptoms = localStorage.getItem("general_symptoms") || '';
-      const bloodSugarLevel = localStorage.getItem("blood_sugar_level") || '';
-      const vitalSigns = localStorage.getItem("vital_signs") || '';
-      const reasonForMissedTreatment = localStorage.getItem("reason_for_missed_treatment") || '';
-      const formSubmissionDate = localStorage.getItem("form_submission_date") || '';
-
-      document.getElementById("symptoms").value = generalSymptoms;
-      document.getElementById("Blood-sugar").value = bloodSugarLevel;
-      document.getElementById("vital-signs").value = vitalSigns;
-      document.getElementById("not-receiving-treatment").value = reasonForMissedTreatment;
-      document.getElementById("date").value = formSubmissionDate;
-
-      // แสดง patient_id ในฟอร์ม
+      // ไม่ดึงข้อมูลจาก localStorage อีกต่อไป
       document.getElementById("patient-id").value = patientId; // ตั้งค่าค่า patient_id
     }
-
-    // ฟังก์ชันสำหรับเก็บข้อมูลเมื่อกรอกฟอร์ม
-    function storeFormData() {
-      localStorage.setItem("patient_id", new URLSearchParams(window.location.search).get("patient_id"));
-      localStorage.setItem("general_symptoms", document.getElementById("symptoms").value.trim());
-      localStorage.setItem("blood_sugar_level", document.getElementById("Blood-sugar").value.trim());
-      localStorage.setItem("vital_signs", document.getElementById("vital-signs").value.trim());
-      localStorage.setItem("reason_for_missed_treatment", document.getElementById("not-receiving-treatment").value.trim());
-      localStorage.setItem("form_submission_date", document.getElementById("date").value.trim());
-    }
-
-    // เพิ่ม event listener เพื่อเก็บข้อมูลเมื่อมีการกรอก
-    document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("symptoms").addEventListener("input", storeFormData);
-      document.getElementById("Blood-sugar").addEventListener("input", storeFormData);
-      document.getElementById("vital-signs").addEventListener("input", storeFormData);
-      document.getElementById("not-receiving-treatment").addEventListener("input", storeFormData);
-      document.getElementById("date").addEventListener("input", storeFormData);
-    });
 
     // ไม่ให้เลือกวันที่ย้อนหลัง
     document.getElementById('date').min = new Date().toISOString().split('T')[0];

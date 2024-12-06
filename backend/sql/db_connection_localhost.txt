@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$dbname = 'ChiraCare_follow_up_db';
-$username = 'ChiraCare_db';  // ค่าเริ่มต้นสำหรับ XAMPP
-$password = 'ChiraCareDataBase1234';      // ค่าเริ่มต้นสำหรับ XAMPP
+$dbname = 'chiracare_follow_up_db';
+$username = 'root';  // ค่าเริ่มต้นสำหรับ XAMPP
+$password = '';      // ค่าเริ่มต้นสำหรับ XAMPP
 
 try {
     // สร้างการเชื่อมต่อกับฐานข้อมูล

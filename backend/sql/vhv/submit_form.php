@@ -3,16 +3,14 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// เชื่อมต่อกับฐานข้อมูล
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "chiracare_follow_up_db";
+require_once '../db_connection.php'; // เชื่อมต่อฐานข้อมูล
 
 try {
-    // เชื่อมต่อกับฐานข้อมูล
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Check if the connection is successful
+    if (!$conn) {
+        echo json_encode(["error" => "การเชื่อมต่อฐานข้อมูลล้มเหลว"]);
+        exit;
+    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // อ่านข้อมูล JSON ที่ส่งเข้ามา
@@ -45,7 +43,7 @@ try {
         // เพิ่มข้อมูลใน monitor_form
         $sqlInsert = "INSERT INTO monitor_form (patient_id, general_symptoms, blood_sugar_level, vital_signs, reason_for_missed_treatment, user_fullname, form_submission_date) 
                       VALUES (:patient_id, :general_symptoms, :blood_sugar_level, :vital_signs, :reason_for_missed_treatment, :user_fullname, :form_submission_date)";
-        $stmtInsert = $pdo->prepare($sqlInsert);
+        $stmtInsert = $conn->prepare($sqlInsert);
         try {
             $stmtInsert->execute([
                 ':patient_id' => $patient_id,
@@ -64,7 +62,7 @@ try {
 
         // อัปเดตสถานะใน monitor_information
         $sqlUpdate = "UPDATE monitor_information SET monitor_status = 'ติดตามแล้ว' WHERE patient_id = :patient_id";
-        $stmtUpdate = $pdo->prepare($sqlUpdate);
+        $stmtUpdate = $conn->prepare($sqlUpdate);
         try {
             $stmtUpdate->execute([ ':patient_id' => $patient_id ]);
         } catch (PDOException $e) {
