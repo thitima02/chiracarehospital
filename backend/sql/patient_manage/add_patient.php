@@ -3,11 +3,7 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// เชื่อมต่อกับฐานข้อมูล
-$host = "localhost";
-$dbname = "chiracare_follow_up_db";
-$username = "root";
-$password = "";
+require_once '../db_connection.php';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

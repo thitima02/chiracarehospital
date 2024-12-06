@@ -1,14 +1,6 @@
-<?php
-// เชื่อมต่อกับฐานข้อมูล
-$conn = new mysqli('localhost', 'root', '', 'chiracare_follow_up_db');
-
-// ตั้งค่าให้ใช้ UTF-8
-$conn->set_charset("utf8");
-
-// ตรวจสอบการเชื่อมต่อ
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+<?php 
+// รวมไฟล์การเชื่อมต่อฐานข้อมูล
+include('../db_connection.php');
 
 // ดึงข้อมูลประวัติการรักษา
 $sql = "SELECT p.full_name, p.patient_image, pm.disease_type , tf.general_symptoms, tf.treatment_issue, tf.next_appointment_date, tf.user_fullname, tf.notes, tf.newupdate
@@ -22,18 +14,16 @@ $result = $conn->query($sql);
 $historyData = []; 
 
 if ($result) {
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
+    // ใช้ rowCount() แทน num_rows
+    if ($result->rowCount() > 0) {
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $historyData[] = $row;
         }
     }
 } else {
-    die("Query failed: " . $conn->error); // แสดงข้อผิดพลาดจาก SQL
+    die("Query failed: " . $conn->errorInfo()); // แสดงข้อผิดพลาดจาก SQL
 }
 
 // ส่งผลลัพธ์กลับในรูปแบบ JSON โดยไม่เข้ารหัส Unicode
 echo json_encode($historyData, JSON_UNESCAPED_UNICODE);
-
-$conn->close();
-
 ?>

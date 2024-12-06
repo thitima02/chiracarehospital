@@ -3,16 +3,8 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// เชื่อมต่อกับฐานข้อมูล
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "chiracare_follow_up_db"; 
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// รวมไฟล์การเชื่อมต่อฐานข้อมูล
+require_once('../db_connection.php');
 
 // รับข้อมูลจาก request
 $data = json_decode(file_get_contents('php://input'), true);

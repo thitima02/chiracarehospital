@@ -1,11 +1,6 @@
 <?php
-// เชื่อมต่อกับฐานข้อมูล
-$conn = new mysqli('localhost', 'root', '', 'chiracare_follow_up_db');
-
-// ตรวจสอบการเชื่อมต่อ
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// รวมไฟล์การเชื่อมต่อฐานข้อมูล
+include('../db_connection.php');
 
 // สร้าง SQL Query เพื่อนับจำนวนผู้ป่วยที่รักษาเสร็จสิ้นและยังไม่ได้รักษา
 $sql = "SELECT 
@@ -14,14 +9,17 @@ $sql = "SELECT
         FROM patient_information p
         JOIN treatment_information t ON t.id_patient_information = p.id";  // เปลี่ยน m เป็น t ที่นี่
 
+// Execute the query
 $result = $conn->query($sql);
 
 if (!$result) {
-    die("Query failed: " . $conn->error); // แสดงข้อผิดพลาดจาก SQL
+    die("Query failed: " . $conn->errorInfo()); // แสดงข้อผิดพลาดจาก SQL
 }
 
-$row = $result->fetch_assoc();
+// ใช้ fetch(PDO::FETCH_ASSOC) แทน fetch_assoc()
+$row = $result->fetch(PDO::FETCH_ASSOC);
 
+// ตรวจสอบผลลัพธ์และเตรียมข้อมูลส่งกลับ
 $data = [
     'totalTreated' => $row['totalTreated'] ?? 0,
     'totalUntreated' => $row['totalUntreated'] ?? 0
@@ -29,5 +27,6 @@ $data = [
 
 echo json_encode($data); // ส่งผลลัพธ์กลับในรูปแบบ JSON
 
-$conn->close();
+// ปิดการเชื่อมต่อ (ไม่จำเป็นใน PDO แต่ใช้ได้กับ mysqli)
+$conn = null;
 ?>

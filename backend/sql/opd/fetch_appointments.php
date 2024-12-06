@@ -1,27 +1,27 @@
 <?php
-// เชื่อมต่อกับฐานข้อมูล
-$conn = new mysqli('localhost', 'root', '', 'chiracare_follow_up_db'); // ปรับค่าตามฐานข้อมูลของคุณ
-
-// ตรวจสอบการเชื่อมต่อ
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// รวมไฟล์การเชื่อมต่อฐานข้อมูล
+require_once('../db_connection.php'); // รวมไฟล์ที่เชื่อมต่อฐานข้อมูล
 
 // วันที่ปัจจุบัน
 $currentDate = date('Y-m-d');
 
 // สร้าง SQL Query เพื่อนับจำนวนผู้ป่วยที่มีนัดหมายวันนี้
-$sql = "SELECT COUNT(*) AS totalAppointments FROM treatment_information WHERE appointment_date = ?";
+$sql = "SELECT COUNT(*) AS totalAppointments FROM treatment_information WHERE appointment_date = :appointment_date";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $currentDate);
-$stmt->execute();
-$result = $stmt->get_result();
 
-$row = $result->fetch_assoc();
+// ผูกค่าพารามิเตอร์กับตัวแปร
+$stmt->bindParam(':appointment_date', $currentDate, PDO::PARAM_STR);
+
+// เรียกใช้คำสั่ง
+$stmt->execute();
+
+// ดึงผลลัพธ์
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 $totalAppointments = $row['totalAppointments'] ?? 0;
 
 echo json_encode(['totalAppointments' => $totalAppointments]); // ส่งผลลัพธ์กลับในรูปแบบ JSON
 
-$stmt->close();
-$conn->close();
+// ปิดการเชื่อมต่อ
+$stmt = null;
+$conn = null;
 ?>

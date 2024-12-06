@@ -1,17 +1,7 @@
 <?php
-// Database connection details
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "chiracare_follow_up_db"; 
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+header('Content-Type: application/json'); // กำหนดให้ response เป็น JSON
+// รวมไฟล์การเชื่อมต่อฐานข้อมูล
+include('../db_connection.php');
 
 // SQL query to fetch treated patients
 $sql = "SELECT 
@@ -34,13 +24,14 @@ LEFT JOIN
     monitor_information m ON t.patient_id = m.patient_id
 WHERE t.treatment_status = 'มาตามนัด'"; // Treated patients status
 
+// Execute query using PDO
 $result = $conn->query($sql);
 
-// Prepare response data
-$patients = array();
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $patients[] = $row; 
+// ตรวจสอบจำนวนแถวที่คืนกลับจากการค้นหาด้วย rowCount()
+if ($result->rowCount() > 0) {
+    $patients = array();
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        $patients[] = $row;
     }
     // Return the data as a JSON response
     echo json_encode(['patients' => $patients]); 
@@ -49,5 +40,6 @@ if ($result->num_rows > 0) {
     echo json_encode(['error' => 'No patients found with the treatment status "มาตามนัด".', 'sql' => $sql]); 
 }
 
-$conn->close();
+// ปิดการเชื่อมต่อ
+$conn = null;
 ?>

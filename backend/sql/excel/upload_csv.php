@@ -2,16 +2,11 @@
 
 header('Content-Type: application/json');
 
-// เชื่อมต่อกับฐานข้อมูล
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "chiracare_follow_up_db"; // ชื่อฐานข้อมูลที่ใช้
+// เชื่อมต่อกับฐานข้อมูลจากไฟล์ db_connection.php
+include('../db_connection.php');
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// ตรวจสอบการเชื่อมต่อ
-if ($conn->connect_error) {
+// ตรวจสอบการเชื่อมต่อฐานข้อมูลที่ใช้ PDO
+if (!$conn) {
     echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
     exit;
 }
@@ -36,6 +31,8 @@ if (isset($_FILES['csvFile']) && $_FILES['csvFile']['error'] == 0) {
                 $full_name = mysqli_real_escape_string($conn, $data[3]);
                 $id_card = mysqli_real_escape_string($conn, $data[4]);
                 $birth_date = mysqli_real_escape_string($conn, $data[5]);
+                $birth_date = DateTime::createFromFormat('d/m/y', $birth_date)->format('Y-m-d');
+
                 $marital_status = mysqli_real_escape_string($conn, $data[6]);
                 $phone_number = mysqli_real_escape_string($conn, $data[7]);
                 $emergency_phone = mysqli_real_escape_string($conn, $data[8]);

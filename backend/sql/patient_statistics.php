@@ -1,9 +1,6 @@
 <?php
-// Database configuration
-$host = 'localhost';
-$dbname = 'chiracare_follow_up_db'; // Use the actual database name
-$username = 'root'; // Default XAMPP username, change if needed
-$password = ''; // Default XAMPP password, change if needed
+// Include the database connection file
+include 'db_connection.php';
 
 try {
     // Create a new PDO instance
