@@ -82,6 +82,42 @@
         .back-button:active {
             transform: translateY(0);
         }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 15px;
+            }
+
+            .profile-info p {
+                font-size: 14px;
+            }
+
+            .back-button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                padding: 10px;
+            }
+
+            .profile-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .profile-info p {
+                font-size: 14px;
+            }
+
+            .back-button {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 
