@@ -14,10 +14,11 @@
     background-color: #b4b4b4;
   }
 
-  .sidebar.open ~ .top {
+  .sidebar.open~.top {
     left: 250px;
     width: calc(100% - 250px);
   }
+
   .top .text {
     display: inline-block;
     color: #151d48;
@@ -26,6 +27,7 @@
     margin: 10px;
     margin-left: 30px;
   }
+
   .top nav {
     display: flex;
     justify-content: space-between;
@@ -70,10 +72,11 @@
     background-color: #b4b4b4;
   }
 
-  .sidebar.open ~ .top {
+  .sidebar.open~.top {
     left: 250px;
     width: calc(100% - 250px);
   }
+
   .top .text {
     display: inline-block;
     color: #151d48;
@@ -115,20 +118,90 @@
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
-  .top nav .profile-details {
-    min-width: 150px;
-    height: 45px;
-    padding: 0 10px 0 5px;
-    flex-grow: 1; /* ให้ยืดหดได้เมื่อพื้นที่จำกัด */
+  .right-section .profile-details {
+    max-width: 100px;
+    /* จำกัดความกว้าง */
+    height: 35px;
+    /* ลดความสูง */
+    padding: 5px 10px;
+    /* ปรับ padding */
+    font-size: 14px;
+    /* ลดขนาดฟอนต์ */
+    display: flex;
+    align-items: center;
+    /* จัดแนวตัวอักษรในแนวนอน */
+    overflow: hidden;
+    /* ซ่อนเนื้อหาที่เกิน */
+    white-space: nowrap;
+    /* ห้ามข้อความขึ้นบรรทัดใหม่ */
+    margin-right: 10px;
+  }
+
+  .right-section .profile-details img {
+    width: 30px;
+    /* ปรับขนาดรูปโปรไฟล์ */
+    height: 30px;
+    /* ปรับขนาดรูปโปรไฟล์ */
+    margin-right: 10px;
+    /* ช่องว่างระหว่างรูปและข้อความ */
+  }
+
+  .right-section .profile-details .admin_name {
+    display: block;
+    /* แสดงชื่อและตำแหน่ง */
+    margin-left: 3px;
+    /* เพิ่มช่องว่างระหว่างรูปและข้อความ */
+    text-overflow: ellipsis;
+    /* ถ้าชื่อยาวเกินไปจะแสดง ... */
+  }
+
+  .sidebar-button {
+    display: flex;
+    justify-content: flex-start;
+    /* จัดตำแหน่งไปทางซ้าย */
+  }
+
+  span#page-title.text {
+    margin-right: 40px;
+    /* กำหนดช่องว่างขวา */
+    text-align: left;
+    /* ให้ข้อความชิดซ้าย */
+    flex-grow: 0;
+    /* ให้ไม่ยืดขยายตัว */
+    font-size: 16px;
   }
 }
 
 @media (max-width: 480px) {
-  .top nav .profile-details {
-    min-width: 120px;
-    height: 40px;
-    padding: 0 8px 0 5px;
-    font-size: 14px;
-    flex-grow: 1; /* ยืดตัวให้เหมาะกับพื้นที่ */
+  .right-section .profile-details {
+    max-width: 100px;
+    /* จำกัดความกว้าง */
+    height: 30px;
+    /* ลดความสูง */
+    padding: 5px;
+    /* ปรับ padding */
+    font-size: 10px;
+    /* ลดขนาดฟอนต์ */
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+
+  .right-section .profile-details img {
+    width: 25px;
+    /* ลดขนาดรูปโปรไฟล์ */
+    height: 25px;
+    /* ลดขนาดรูปโปรไฟล์ */
+    margin-right: 8px;
+    /* ลดช่องว่างระหว่างรูปและข้อความ */
+  }
+
+  .right-section .profile-details .admin_name {
+    display: block;
+    /* แสดงชื่อและตำแหน่ง */
+    font-size: 9px;
+    /* ลดขนาดฟอนต์ให้เหมาะสมกับหน้าจอเล็ก */
+    text-overflow: ellipsis;
+    /* ถ้าชื่อยาวเกินไปจะมีเครื่องหมาย ... */
   }
 }
