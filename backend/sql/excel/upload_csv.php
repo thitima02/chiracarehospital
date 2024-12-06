@@ -2,11 +2,10 @@
 
 header('Content-Type: application/json');
 
-// เชื่อมต่อกับฐานข้อมูล
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "chiracare_follow_up_db"; // ชื่อฐานข้อมูลที่ใช้
+$host = 'localhost';
+$dbname = 'ChiraCare_follow_up_db';
+$username = 'ChiraCare_db';  // ค่าเริ่มต้นสำหรับ XAMPP
+$password = 'ChiraCareDataBase1234';      // ค่าเริ่มต้นสำหรับ XAMPP
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
