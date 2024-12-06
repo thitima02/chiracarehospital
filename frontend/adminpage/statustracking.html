@@ -315,7 +315,6 @@
 
           // ตรวจสอบว่าไม่มีแถวที่ถูกเลือก
           if (selectedRows.length === 0) {
-            console.log("ไม่มีแถวที่ถูกเลือก");
             return;
           }
 
@@ -323,7 +322,6 @@
           selectedRows.forEach(checkbox => {
             const row = checkbox.closest('tr');
             if (!row) {
-              console.log("ไม่พบแถวที่มี checkbox นี้");
               return;
             }
 
@@ -380,7 +378,6 @@
           });
 
           // Log the table data to the console
-          console.log("Table Data (as Objects):", tableData);
 
           // สร้างตารางใน PDF
           if (typeof doc.autoTable === "function") {
@@ -393,7 +390,6 @@
               row['กำหนดส่งงาน'],
               row['ผู้รับผิดชอบ']
             ]);
-            console.log("Table Data (as Array of Values):", tableValues);
 
             // สร้างตารางใน PDF ด้วยการตั้งค่าเพิ่มเติม
             doc.autoTable({
@@ -620,10 +616,6 @@
 
           // ตรวจสอบว่าเขตที่อยู่อาศัยและผู้รับผิดชอบเป็น null หรือไม่
           const invalidPatients = selectedPatients.filter(patient => {
-            console.log('ตรวจสอบผู้ป่วย:', patient);  // ดูข้อมูลผู้ป่วยที่เลือก
-            console.log('เขตที่อยู่อาศัย:', patient.area); // ดูค่าของ area
-            console.log('ผู้รับผิดชอบ:', patient.responsiblePerson); // ดูค่าของ responsiblePerson
-
             return !patient.area || !patient.responsiblePerson || patient.area === 'ไม่มีการกำหนด' || patient.responsiblePerson === 'ไม่มีการกำหนด';
           });
 

@@ -367,7 +367,6 @@
                         patient_id: patientId
                     },
                     success: function (response) {
-                        console.log(response);  // เพิ่มการแสดงผล response ที่ได้รับจาก PHP
                         if (response === 'assigned') {
                             resolve(true);  // ถ้าได้รับมอบหมาย
                         } else {
@@ -555,7 +554,6 @@
                         patient_id: patientId
                     },
                     success: function (response) {
-                        console.log(response);  // เพิ่มการแสดงผล response ที่ได้รับจาก PHP
                         if (response.trim() === 'assigned') {
                             resolve(true);
                         } else {

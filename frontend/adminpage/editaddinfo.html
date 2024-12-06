@@ -200,7 +200,6 @@
         fetch(`/chiracarehospital/backend/sql/patient_manage/get_patient.php?patient_id=${patient_id}`)
           .then(response => response.json())
           .then(data => {
-            console.log('Fetched Patient Data:', data); // ตรวจสอบข้อมูลที่ดึงมา
   
             if (data.error) {
               alert(data.error);
@@ -341,8 +340,6 @@
             patientImageBase64
           };
   
-          console.log('Sending Update Data:', updatedPatientData); // ตรวจสอบข้อมูลที่ส่ง
-  
           fetch("/chiracarehospital/backend/sql/patient_manage/update_patient.php", {
             method: "POST",
             headers: {
@@ -352,7 +349,6 @@
           })
             .then(response => response.json())
             .then(data => {
-              console.log('Response from Server:', data); // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
               if (data.success) {
                 alert("แก้ไขข้อมูลผู้ป่วยสำเร็จ!");
                 window.location.href = "patient-info.html"; // กลับไปหน้าก่อนหน้า
