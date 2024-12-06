@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php'; // เชื่อมต่อฐานข้อมูล
+include '../db_connection.php'; // เชื่อมต่อฐานข้อมูล
 
 // ตรวจสอบว่า 'id' ถูกส่งมาหรือไม่
 if (!isset($_GET['id'])) {

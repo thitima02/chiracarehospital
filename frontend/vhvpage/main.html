@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../../frontend/vhvpage/css/button.css">
     <link rel="stylesheet" href="../../frontend/vhvpage/css/result.css">
     <link rel="stylesheet" href="../../frontend/vhvpage/css/datatable.css">
+    <link rel="stylesheet" href="../../frontend/vhvpage/css/responsive.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Import icon -->
@@ -59,45 +60,45 @@
         </div>
     </div>
 
-    <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่ติดตามแล้ว -->
-    <div id="completedModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>ผู้ป่วยที่ติดตามแล้ว</h2>
-            <table id="completedPatientList">
-                <thead>
-                    <tr>
-                        <th>ชื่อผู้ป่วย</th>
-                        <th>ประเภทโรค</th>
-                        <th>สถานะการติดตาม</th>
-                    </tr>
-                </thead>
-                <tbody id="completedPatientListBody">
-                    <!-- รายชื่อผู้ป่วยที่ติดตามแล้วจะถูกแสดงที่นี่ -->
-                </tbody>
-            </table>
+        <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่ติดตามแล้ว -->
+        <div id="completedModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>ผู้ป่วยที่ติดตามแล้ว</h2>
+                <table id="completedPatientList">
+                    <thead>
+                        <tr>
+                            <th>ชื่อผู้ป่วย</th>
+                            <th>ประเภทโรค</th>
+                            <th>สถานะการติดตาม</th>
+                        </tr>
+                    </thead>
+                    <tbody id="completedPatientListBody">
+                        <!-- รายชื่อผู้ป่วยที่ติดตามแล้วจะถูกแสดงที่นี่ -->
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่ยังไม่ได้ติดตาม -->
-    <div id="notMonitoredModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>ผู้ป่วยที่ยังไม่ได้ติดตาม</h2>
-            <table id="notMonitoredPatientList">
-                <thead>
-                    <tr>
-                        <th>ชื่อผู้ป่วย</th>
-                        <th>ประเภทโรค</th>
-                        <th>สถานะการติดตาม</th>
-                    </tr>
-                </thead>
-                <tbody id="notMonitoredPatientListBody">
-                    <!-- รายชื่อผู้ป่วยที่ยังไม่ได้ติดตามจะถูกแสดงที่นี่ -->
-                </tbody>
-            </table>
+        <!-- Modal สำหรับแสดงรายชื่อผู้ป่วยที่ยังไม่ได้ติดตาม -->
+        <div id="notMonitoredModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>ผู้ป่วยที่ยังไม่ได้ติดตาม</h2>
+                <table id="notMonitoredPatientList">
+                    <thead>
+                        <tr>
+                            <th>ชื่อผู้ป่วย</th>
+                            <th>ประเภทโรค</th>
+                            <th>สถานะการติดตาม</th>
+                        </tr>
+                    </thead>
+                    <tbody id="notMonitoredPatientListBody">
+                        <!-- รายชื่อผู้ป่วยที่ยังไม่ได้ติดตามจะถูกแสดงที่นี่ -->
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
     <style>
         /* Style สำหรับ Modal */

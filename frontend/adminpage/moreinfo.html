@@ -203,7 +203,7 @@
                     document.getElementById('staffFollowUp').textContent = latestData.user_fullname || 'ไม่มีข้อมูล';
                 } else {
                     // If no data is found or there is an error, display a default message
-                    console.log('Error fetching data:', data.message);
+                    // console.log('Error fetching data:', data.message);
                 }
             })
             .catch(error => {
@@ -229,7 +229,7 @@
                         document.getElementById('treatmentNotes').textContent = latestData.notes || 'ไม่มีข้อมูล';
                     } else {
                         // กรณีไม่พบข้อมูล
-                        console.log('No treatment data found');
+                        // console.log('No treatment data found');
                     }
                 })
                 .catch(error => {

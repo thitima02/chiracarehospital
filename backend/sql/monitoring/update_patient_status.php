@@ -3,15 +3,12 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// เชื่อมต่อกับฐานข้อมูล
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "chiracare_follow_up_db"; 
+include('../db_connection.php');
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// ตรวจสอบการเชื่อมต่อฐานข้อมูล
+if (!$conn) {
+    echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
+    exit;
 }
 
 // รับข้อมูลจาก request
@@ -43,10 +40,16 @@ if (!$monitorStatus || !$patientIds || !$monitorDeadline || !$monitorStartDate) 
 $updatedCount = 0;
 foreach ($patientIds as $patientId) {
     $sql = "UPDATE monitor_information 
-            SET monitor_status='$monitorStatus', monitor_date='$monitorStartDate', monitor_deadline='$monitorDeadline' 
-            WHERE patient_id='$patientId'";
+            SET monitor_status=:monitorStatus, monitor_date=:monitorStartDate, monitor_deadline=:monitorDeadline 
+            WHERE patient_id=:patientId";
 
-    if ($conn->query($sql) === TRUE) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':monitorStatus', $monitorStatus);
+    $stmt->bindParam(':monitorStartDate', $monitorStartDate);
+    $stmt->bindParam(':monitorDeadline', $monitorDeadline);
+    $stmt->bindParam(':patientId', $patientId);
+
+    if ($stmt->execute()) {
         $updatedCount++;
     }
 }
@@ -58,5 +61,6 @@ if ($updatedCount > 0) {
     echo json_encode(['status' => 'error', 'message' => 'No records updated']);
 }
 
-$conn->close();
+// ปิดการเชื่อมต่อ PDO
+$conn = null;
 ?>

@@ -1,0 +1,210 @@
+/* ปรับการแสดงผลสำหรับหน้าจอมือถือ */
+@media (max-width: 768px) {
+    #main .stats-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .box {
+        width: 95%;
+        margin-bottom: 10px;
+    }
+
+    .box i {
+        font-size: 2.5rem;
+    }
+
+    .box h2 {
+        font-size: 1.25rem;
+    }
+
+    .box p {
+        font-size: 0.9rem;
+    }
+}
+
+/* ปรับการแสดงผลสำหรับหน้าจอที่มีขนาดเล็กกว่า 480px (มือถือทั่วไป) */
+@media (max-width: 480px) {
+    #main .stats-container {
+        margin: 10px;
+        margin-left: 4px;
+    }
+
+    .box {
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .box i {
+        font-size: 2rem;
+        align-self: flex-start; /* ทำให้ไอคอนอยู่ทางซ้าย */
+    }
+
+    .box h2 {
+        font-size: 1.1rem;
+        text-align: left; /* จัดข้อความให้อยู่ทางซ้าย */
+    }
+
+    .box p {
+        font-size: 0.8rem;
+    }
+}
+
+/* ปรับการแสดงผลสำหรับหน้าจอมือถือ */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 2% auto;
+        width: 90%; /* ลดขนาดความกว้างของ modal เมื่อหน้าจอเล็กลง */
+    }
+
+    .close {
+        font-size: 25px; /* ปรับขนาดปุ่มปิด */
+    }
+
+    table {
+        font-size: 14px; /* ลดขนาดตัวอักษรในตาราง */
+    }
+
+    th, td {
+        padding: 10px; /* ลดช่องว่างในเซลล์ */
+    }
+}
+
+/* ปรับการแสดงผลสำหรับหน้าจอที่มีขนาดเล็กกว่า 480px (มือถือทั่วไป) */
+@media (max-width: 480px) {
+    .modal-content {
+        width: 90%; /* ลดขนาดความกว้างของ modal ให้เล็กลง */
+        margin: 2% auto;
+    }
+
+    .close {
+        font-size: 20px; /* ลดขนาดปุ่มปิด */
+    }
+
+    table {
+        font-size: 14px; /* ลดขนาดตัวอักษรในตารางให้เล็กลง */
+    }
+
+    th, td {
+        padding: 8px; /* ลดช่องว่างในเซลล์ */
+    }
+}
+
+/* Media Queries สำหรับหน้าจอมือถือ */
+@media (max-width: 768px) {
+    .filter-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* แสดงฟิลเตอร์ 2 คอลัมน์ในแต่ละแถว */
+        gap: 15px; /* ระยะห่างระหว่างฟิลเตอร์ */
+        margin-left: 10px;
+    }
+
+    .filter-item {
+        width: 100%; /* ฟิลเตอร์จะใช้ความกว้างเต็มที่ในคอลัมน์ */
+        margin-bottom: 15px;
+    }
+
+    .filter-item i {
+        right: 10px;
+    }
+
+    .search-input, .dropdown-filter, .date-filter{
+        width: 100%; /* กำหนดให้ฟิลเตอร์มีความกว้างเต็มที่ */
+        padding: 10px; /* ขนาด padding เหมาะสม */
+        font-size: 14px; /* ขนาดฟอนต์ */
+        box-sizing: border-box; /* เพื่อให้ padding รวมในขนาด */
+    }
+
+    .bx-bx-search .search-icon {
+        right: 30px;
+    }
+}
+
+/* สำหรับหน้าจอที่เล็กลง (480px หรือเล็กกว่า) */
+@media (max-width: 480px) {
+    .filter-container {
+        gap: 10px; /* ลดระยะห่างระหว่างฟิลเตอร์ */
+        margin-left: 10px;
+    }
+
+    .filter-item {
+        width: 100%; /* ฟิลเตอร์แต่ละตัวจะใช้ความกว้างเต็มที่ */
+    }
+
+    .filter-item i {
+        right: 10px;
+    }
+
+    .search-input, .dropdown-filter, .date-filter{
+        padding: 8px; /* ลดขนาด padding */
+        font-size: 14px; /* ขนาดฟอนต์เล็กลง */
+    }
+}
+
+/* Media Query สำหรับหน้าจอขนาดเล็ก */
+@media (max-width: 768px) {
+    .patient-table th:nth-child(3),
+    .patient-table th:nth-child(5),
+    .patient-table td:nth-child(3),
+    .patient-table td:nth-child(5) {
+        display: none; /* ซ่อนคอลัมน์ที่ไม่จำเป็น */
+    }
+}
+
+/* Media Query สำหรับหน้าจอขนาดเล็กมาก */
+@media (max-width: 480px) {
+    .patient-table th:nth-child(4),
+    .patient-table th:nth-child(7),
+    .patient-table td:nth-child(4),
+    .patient-table td:nth-child(7) {
+        display: none; /* ซ่อนข้อมูลเพิ่มเติมในหน้าจอที่เล็กที่สุด */
+    }
+
+    .patient-table th,
+    .patient-table td {
+        font-size: 14px; /* ลดขนาดฟอนต์ */
+        padding: 8px; /* ลด padding */
+    }
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 767px) {
+    .patient-table {
+      font-size: 12px; /* ลดขนาดตัวอักษร */
+    }
+  
+    .table-container {
+      width: 100%; /* ขยายให้เต็มหน้าจอ */
+      padding: 10px;
+    }
+  
+    .patient-table th,
+    .patient-table td {
+      padding: 10px;
+    }
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .table-container {
+      padding: 5px;
+    }
+  
+    .patient-table {
+      font-size: 10px;
+    }
+  
+    .patient-table th,
+    .patient-table td {
+      padding: 8px;
+    }
+  
+    /* แสดงตารางแบบแนวนอนพร้อม Scroll */
+    .table-container {
+      overflow-x: auto; /* เปิด Scroll */
+    }
+  
+    .patient-table {
+      min-width: 700px; /* กำหนดความกว้างขั้นต่ำของตาราง */
+    }
+  }
+

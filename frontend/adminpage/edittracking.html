@@ -70,7 +70,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const patientId = getPatientIdFromURL();
-            console.log('Patient ID from URL:', patientId); // ตรวจสอบว่า patient_id ถูกต้องไหม
             if (patientId) {
                 try {
                     await fetchPatientMedicalData(patientId); // ดึงข้อมูลโรคประจำตัว
@@ -102,7 +101,6 @@
             try {
                 const response = await fetch(`/chiracarehospital/backend/sql/get_patient_data.php?patient_id=${patientId}`);
                 const data = await response.json();
-                console.log('Medical data:', data);
                 if (data.patient_data && data.patient_data.length > 0) {
                     const patientMedicalInfo = data.patient_data[0];
                     document.getElementById('diseaseType').value = patientMedicalInfo.disease_type || 'ไม่มีข้อมูลโรค';
@@ -120,7 +118,6 @@
             try {
                 const response = await fetch(`/chiracarehospital/backend/sql/patient_information/getAll_patient_information.php?patient_id=${patientId}`);
                 const data = await response.json();
-                console.log('Patient information:', data);
                 if (data.status === 'success' && data.data.length > 0) {
                     const patient = data.data[0];
                     displayPatientInformation(patient);
@@ -164,10 +161,6 @@
 
                 const followUpJson = await followUpData.json();
                 const treatmentJson = await treatmentData.json();
-
-                console.log('Follow-up data:', followUpJson); // ตรวจสอบข้อมูลสถานะการติดตาม
-                console.log('Treatment data:', treatmentJson); // ตรวจสอบข้อมูลสถานะการรักษา
-
                 if (Array.isArray(followUpJson) && Array.isArray(treatmentJson)) {
                     const followUp = followUpJson.find(item => item.patient_id === patientId);
                     const treatment = treatmentJson.find(item => item.patient_id === patientId);
@@ -232,16 +225,6 @@
                 const monitorRound = document.getElementById('monitorround')?.value || null; // ค่า default เป็น null ถ้าไม่มีการกรอก
                 const appointmentDate = document.getElementById('appointmentdate')?.value;
 
-                console.log('Saving data:', {
-                    selectedFollowUpStatus,
-                    selectedTreatmentStatus,
-                    diseaseType,
-                    monitorDate,
-                    monitorDeadline,
-                    monitorRound,
-                    appointmentDate
-                });
-
                 // ตรวจสอบสถานะการติดตามและสถานะการรักษา
                 if (!selectedFollowUpStatus || !selectedTreatmentStatus) {
                     alert('กรุณาเลือกสถานะการติดตามและสถานะการรักษา');
@@ -266,7 +249,6 @@
                     });
 
                     const result = await response.json();
-                    console.log('Save result:', result);
                     if (result.status === 'success') {
                         alert('บันทึกข้อมูลสำเร็จ');
                         window.location.href = `statustracking.html?patient_id=${patientId}`;

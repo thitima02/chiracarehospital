@@ -5,15 +5,6 @@
     /* margin-left: 89px; */
 }
 
-@media only screen and (max-width: 580px) {
-    /* .history-container {
-        width: 80%;
-        padding: 20px;
-        margin-left: 89px;
-    } */
-
-  }
-
 .history {
     display: flex;
     flex-direction: column;
@@ -67,13 +58,6 @@
     top: 20px; /* Position at the top */
     right: 25px; /* Align to the right */
     text-align: right; /* Align text to the right */
-}
-
-@media(max-width: 767px) {
-    .right {
-        position: unset;
-        text-align: left; /* Align text to the right */
-  }
 }
 
 .date, .time {

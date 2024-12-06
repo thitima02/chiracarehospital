@@ -122,7 +122,7 @@
             const formattedDate = updateDate.toLocaleDateString('th-TH');
             const formattedTime = updateDate.toLocaleTimeString('th-TH');
             const imageUrl = history.patient_image ? `data:image/jpeg;base64,${history.patient_image}` : '../../assets/images/profile-picture.png';
-            
+
             historyElement.innerHTML += `
               <div class="activity">
                 <div class="left">
@@ -200,5 +200,60 @@
       });
   </script>
 </body>
+
+<style>
+  /* Media Query สำหรับหน้าจอขนาดกลาง (แท็บเล็ต) */
+  @media (max-width: 768px) {
+    .filter-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      /* แสดง 3 ฟิลเตอร์ต่อแถว */
+      gap: 10px;
+      /* ระยะห่างระหว่างฟิลเตอร์ */
+    }
+
+    .right {
+      position: unset;
+      text-align: right;
+      font-size: 14px;
+    }
+
+    .titile {
+      font-size: 14px;
+    }
+  }
+
+  /* Media Query สำหรับหน้าจอขนาดเล็ก (มือถือ) */
+  @media (max-width: 480px) {
+    .filter-container {
+      grid-template-columns: 1fr;
+      /* แสดง 1 ฟิลเตอร์ต่อแถว */
+      width: 100%;
+      /* ฟิลเตอร์เต็มความกว้าง */
+      height: auto;
+      /* ปรับความสูงอัตโนมัติ */
+    }
+
+    .filter-item h5 {
+      font-size: 14px;
+    }
+
+    .search-input,
+    .date-filter   {
+      font-size: 14px;
+      padding: 8px;
+    }
+
+    .right {
+      position: unset;
+      text-align: right;
+      font-size: 14px;
+    }
+
+    .titile {
+      font-size: 14px;
+    }
+  }
+</style>
 
 </html>

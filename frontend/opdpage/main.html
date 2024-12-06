@@ -405,7 +405,7 @@
                         return response.json();
                     })
                     .then(result => {
-                        console.log(`Treatment status reset for patient ID: ${patientId}`);
+                        // console.log(`Treatment status reset for patient ID: ${patientId}`);
                     })
                     .catch(error => console.error("Error resetting treatment status:", error));
             }
@@ -424,7 +424,7 @@
 
             // action add 
             function confirmAction(patientId) {
-                console.log(patientId); // ตรวจสอบว่ามี patientId หรือไม่
+                // console.log(patientId);
                 fetch(`/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
                     .then(response => response.json())
                     .then(patient => {

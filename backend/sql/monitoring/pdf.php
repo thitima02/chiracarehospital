@@ -5,18 +5,8 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// เชื่อมต่อกับฐานข้อมูล
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "chiracare_follow_up_db"; // ชื่อฐานข้อมูลที่ใช้
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// ตรวจสอบการเชื่อมต่อ
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
-}
+// เชื่อมต่อกับฐานข้อมูลจากไฟล์ db_connection.php
+include('../db_connection.php');
 
 // SQL query ดึงข้อมูลจากหลายตาราง
 $sql = "SELECT pi.patient_id, pi.full_name, pi.current_status, 
@@ -31,12 +21,14 @@ $sql = "SELECT pi.patient_id, pi.full_name, pi.current_status,
         LEFT JOIN assign_patients_to_vhv apv ON pi.patient_id = apv.patient_id
         LEFT JOIN user_info ui ON apv.user_id = ui.user_id";
 
-$result = $conn->query($sql);
+// ใช้ PDO เพื่อเตรียมและดำเนินการ SQL query
+$stmt = $conn->prepare($sql);
+$stmt->execute();
 
 $data = [];
 
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
+if ($stmt->rowCount() > 0) {
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         // ตรวจสอบและจัดการค่าที่อาจเป็น NULL หรือค่าว่าง
         $row['full_name'] = !empty($row['full_name']) ? $row['full_name'] : "ข้อมูลไม่มี";
         $row['disease_type'] = !empty($row['disease_type']) ? $row['disease_type'] : "ข้อมูลไม่มี";
@@ -53,6 +45,4 @@ if ($result->num_rows > 0) {
 
 // ส่งข้อมูลเป็น JSON
 echo json_encode($data);
-
-$conn->close(); // ปิดการเชื่อมต่อฐานข้อมูล
 ?>

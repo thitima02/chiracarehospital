@@ -5,17 +5,13 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// เชื่อมต่อกับฐานข้อมูล
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "chiracare_follow_up_db"; // ชื่อฐานข้อมูลที่ใช้
+// เชื่อมต่อกับฐานข้อมูลจากไฟล์ db_connection.php
+include('../db_connection.php');
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// ตรวจสอบการเชื่อมต่อ
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
+// ตรวจสอบการเชื่อมต่อฐานข้อมูลที่ใช้ PDO
+if (!$conn) {
+    echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
+    exit;
 }
 
 // SQL query ดึงข้อมูลจากหลายตาราง
@@ -36,8 +32,8 @@ $result = $conn->query($sql);
 
 $data = [];
 
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
+if ($result->rowCount() > 0) { // ใช้ rowCount() แทน num_rows
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         // ตรวจสอบว่า responsible_person_name เป็น NULL หรือไม่
         $row['responsible_person_name'] = $row['responsible_person_name'] ?? 'ไม่มีการกำหนด'; // กำหนดค่า default
 
@@ -56,7 +52,7 @@ if ($result->num_rows > 0) {
             // อัพเดตสถานะการรักษาเป็น "ไม่มาตามนัด"
             $update_treatment_status = "UPDATE treatment_information SET treatment_status = 'ไม่มาตามนัด' WHERE patient_id = ?";
             $stmt_update_treatment = $conn->prepare($update_treatment_status);
-            $stmt_update_treatment->bind_param("i", $row['patient_id']);
+            $stmt_update_treatment->bindParam(1, $row['patient_id']);
             $stmt_update_treatment->execute();
         }
         // เงื่อนไขที่ 2: ถ้ากำหนดส่งงานเลยวันไปแล้ว และ appointment_date ไม่เป็น null
@@ -75,7 +71,8 @@ if ($result->num_rows > 0) {
         // อัพเดตสถานะในฐานข้อมูล
         $update_sql = "UPDATE monitor_information SET monitor_status = ? WHERE patient_id = ?";
         $stmt = $conn->prepare($update_sql);
-        $stmt->bind_param("si", $row['monitor_status'], $row['patient_id']);
+        $stmt->bindParam(1, $row['monitor_status']);
+        $stmt->bindParam(2, $row['patient_id']);
         $stmt->execute();
 
         $data[] = $row; // เก็บแต่ละแถวเป็น array
@@ -87,5 +84,6 @@ if ($result->num_rows > 0) {
 // ส่งข้อมูลเป็น JSON
 echo json_encode($data);
 
-$conn->close(); // ปิดการเชื่อมต่อฐานข้อมูล
+// ปิดการเชื่อมต่อฐานข้อมูล
+$conn = null; // ปิดการเชื่อมต่อ PDO
 ?>

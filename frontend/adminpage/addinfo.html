@@ -204,8 +204,6 @@
           let base64Image = e.target.result;
           base64Image = base64Image.replace(/^data:image\/(?:jpeg|png);base64,/, '');
 
-          console.log("Base64 (ไม่มี header):", base64Image);
-
           const mimeType = file.type;
           const previewImage = document.getElementById('preview-image');
           if (previewImage) {
@@ -301,8 +299,6 @@
           note,
           patientImageBase64
         };
-
-        console.log("Patient Data: ", patientData);
 
         fetch("/chiracarehospital/backend/sql/patient_manage/add_patient.php", {
           method: "POST",
