@@ -3,8 +3,13 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// รวมไฟล์การเชื่อมต่อฐานข้อมูล
-require_once('../db_connection.php');
+include('../db_connection.php');
+
+// ตรวจสอบการเชื่อมต่อฐานข้อมูล
+if (!$conn) {
+    echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
+    exit;
+}
 
 // รับข้อมูลจาก request
 $data = json_decode(file_get_contents('php://input'), true);
@@ -35,10 +40,16 @@ if (!$monitorStatus || !$patientIds || !$monitorDeadline || !$monitorStartDate) 
 $updatedCount = 0;
 foreach ($patientIds as $patientId) {
     $sql = "UPDATE monitor_information 
-            SET monitor_status='$monitorStatus', monitor_date='$monitorStartDate', monitor_deadline='$monitorDeadline' 
-            WHERE patient_id='$patientId'";
+            SET monitor_status=:monitorStatus, monitor_date=:monitorStartDate, monitor_deadline=:monitorDeadline 
+            WHERE patient_id=:patientId";
 
-    if ($conn->query($sql) === TRUE) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':monitorStatus', $monitorStatus);
+    $stmt->bindParam(':monitorStartDate', $monitorStartDate);
+    $stmt->bindParam(':monitorDeadline', $monitorDeadline);
+    $stmt->bindParam(':patientId', $patientId);
+
+    if ($stmt->execute()) {
         $updatedCount++;
     }
 }
@@ -50,5 +61,6 @@ if ($updatedCount > 0) {
     echo json_encode(['status' => 'error', 'message' => 'No records updated']);
 }
 
-$conn->close();
+// ปิดการเชื่อมต่อ PDO
+$conn = null;
 ?>
